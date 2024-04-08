@@ -38,7 +38,8 @@ Route::get('/departamento/edit/{id}',DepartamentoCotroller::class.'@edit')->name
 Route::put('/departamento/update/{id}',DepartamentoCotroller::class.'@update')->name('departamento.update');
 Route::delete('/bloque/delete/{id}',DepartamentoCotroller::class.'@delete')->name('departamento.delete');
 */
-Route::controller(DepartamentoCotroller::class)->group(function(){
+
+/* Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::get('/departamentos','index')->name;
     Route::post('/departamento','store');
     Route::get('/departamento/{id}','show');
@@ -68,4 +69,4 @@ Route::controller(PisoController::class)->group(function(){
     Route::get('/piso/{id}','show');
     Route::put('/piso/{id}','update');
     Route::put('/piso/{id}','destroy');
-});
+}); */

@@ -4,61 +4,46 @@ namespace App\Http\Controllers\Departamento;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\edificio;
 
 class EdificioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $edificios = edificio::all();
+        return $edificios;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $edificio = new edificio();
+        $edificio-> nombre_edificio = $request -> nombre_edificio;
+        $edificio-> descripcion_edificio = $request -> descripcion_edificio;
+        $edificio-> bloque_id = $request -> bloque_id;
+
+        $edificio->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $edificio = edificio::find($id);
+        return $edificio;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $edificio = edificio::findOrFail($request->$id);
+        $edificio-> nombre_edificio = $request -> nombre_edificio;
+        $edificio-> descripcion_edificio = $request -> descripcion_edificio;
+        $edificio-> bloque_id = $request -> bloque_id;
+
+        $edificio->save();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $edificio = edificio::destroy($id);
+        return $edificio;
     }
 }

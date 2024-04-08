@@ -4,61 +4,44 @@ namespace App\Http\Controllers\Departamento;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\piso;
 
 class PisoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $pisos = piso::all();
+        return $pisos;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $piso = new piso();
+        $piso-> numero_piso = $request -> numero_piso;
+        $piso-> edificio_id = $request -> edificio_id;
+
+        $piso->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $piso = piso::find($id);
+        return $piso;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $piso = piso::findOrFail($request->$id);
+        $piso-> numero_piso = $request -> numero_piso;
+        $piso-> edificio_id = $request -> edificio_id;
+
+        $piso->save();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $piso = piso::destroy($id);
+        return $piso;
     }
 }

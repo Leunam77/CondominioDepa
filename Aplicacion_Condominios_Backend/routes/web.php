@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
+use App\Http\Controllers\Departamento\EdificioCotroller;
+use App\Http\Controllers\Departamento\PisoCotroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+/*
 //path para bloque
 Route::get('/bloque/all',BloqueController::class.'@index')->name('bloque.index');
 Route::get('/bloque/create',BloqueController::class.'@create')->name('bloque.create');
@@ -35,3 +37,35 @@ Route::post('/departamento/store',DepartamentoCotroller::class.'@store')->name('
 Route::get('/departamento/edit/{id}',DepartamentoCotroller::class.'@edit')->name('departamento.edit');
 Route::put('/departamento/update/{id}',DepartamentoCotroller::class.'@update')->name('departamento.update');
 Route::delete('/bloque/delete/{id}',DepartamentoCotroller::class.'@delete')->name('departamento.delete');
+*/
+Route::controller(DepartamentoCotroller::class)->group(function(){
+    Route::get('/departamentos','index');
+    Route::post('/departamento','store');
+    Route::get('/departamento/{id}','show');
+    Route::put('/departamento/{id}','update');
+    Route::put('/departamento/{id}','destroy');
+});
+
+Route::controller(BloqueController::class)->group(function(){
+    Route::get('/bloques','index');
+    Route::post('/bloque','store');
+    Route::get('/bloque/{id}','show');
+    Route::put('/bloque/{id}','update');
+    Route::put('/bloque/{id}','destroy');
+});
+
+Route::controller(EdificioController::class)->group(function(){
+    Route::get('/edificios','index');
+    Route::post('/edificio','store');
+    Route::get('/edificio/{id}','show');
+    Route::put('/edificio/{id}','update');
+    Route::put('/edificio/{id}','destroy');
+});
+
+Route::controller(PisoController::class)->group(function(){
+    Route::get('/pisos','index');
+    Route::post('/piso','store');
+    Route::get('/piso/{id}','show');
+    Route::put('/piso/{id}','update');
+    Route::put('/piso/{id}','destroy');
+});

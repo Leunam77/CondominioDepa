@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
-use App\Http\Controllers\Departamento\EdificioCotroller;
-use App\Http\Controllers\Departamento\PisoCotroller;
+use App\Http\Controllers\Departamento\EdificioController;
+use App\Http\Controllers\Departamento\PisoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +39,7 @@ Route::put('/departamento/update/{id}',DepartamentoCotroller::class.'@update')->
 Route::delete('/bloque/delete/{id}',DepartamentoCotroller::class.'@delete')->name('departamento.delete');
 */
 Route::controller(DepartamentoCotroller::class)->group(function(){
-    Route::get('/departamentos','index');
+    Route::get('/departamentos','index')->name;
     Route::post('/departamento','store');
     Route::get('/departamento/{id}','show');
     Route::put('/departamento/{id}','update');

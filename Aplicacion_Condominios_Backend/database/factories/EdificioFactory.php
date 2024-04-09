@@ -19,6 +19,8 @@ class EdificioFactory extends Factory
             //
             'nombre_edificio' => $this->faker->name,
             'descripcion_edificio' => $this->faker->text(200),
+            'imagen_edificio' => $this->faker->imageUrl($width = 640, $height = 480),
+            'cantidad_pisos' => $this->faker->numberBetween(1, 10),
             'bloque_id' => Bloque::factory()->create()->id
         ];
     }

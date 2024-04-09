@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Piso;
+use App\Models\edificio;
 class DepartamentoFactory extends Factory
 {
     /**
@@ -22,10 +22,9 @@ class DepartamentoFactory extends Factory
             'disponibilidad' => $this->faker->boolean(),
             'amoblado' => $this->faker->boolean(),
             'descripcion_departamento' => $this->faker->sentence(),
-            'piso_id' => function () {
-                return Piso::factory()->create()->id;
-            },
-
+            'piso' => $this->faker->numberBetween(1,10),
+            'imagen_departamento' => $this->faker->imageUrl($width = 640, $height = 480),
+            'edificio_id' => edificio::factory()->create()->id
         ];
     }
     public function withoutTimestamps(){

@@ -19,7 +19,8 @@ class BloqueFactory extends Factory
             //
             'nombre_bloque' => $this->faker->randomElement($nombres),
             'direccion_bloque' => $this->faker->address,
-            'descripcion_bloque' => $this->faker->text(200)
+            'descripcion_bloque' => $this->faker->text(200),
+            'imagen_bloque' => $this->faker->imageUrl(640, 480, 'animals', true)
         ];
     }
 

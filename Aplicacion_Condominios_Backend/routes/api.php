@@ -45,12 +45,3 @@ Route::controller(EdificioController::class)->group(function(){
     Route::put('/edificio/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
 });
-
-
-Route::controller(PisoController::class)->group(function(){
-    Route::get('/pisos','index')->name('piso.index');
-    Route::post('/piso','store')->name('piso.store');
-    Route::get('/piso/{id}','show')->name('piso.show');
-    Route::put('/piso/{id}','update')->name('piso.update');
-    Route::delete('/piso/{id}','destroy')->name('piso.destroy');
-});

@@ -12,13 +12,15 @@ class edificio extends Model
     protected $fillable = [
         'nombre_edificio',
         'descripcion_edificio',
+        'imagen_edificio',
+        'cantidad_pisos',
         'bloque_id'
     ];
-    public function pisos()
+    public function departamentos()
     {
-        return $this->hasMany(piso::class);
+        return $this->hasMany(departamento::class);
     }
-    public function bloque()
+    public function bloques()
     {
         return $this->belongsTo(bloque::class);
     }

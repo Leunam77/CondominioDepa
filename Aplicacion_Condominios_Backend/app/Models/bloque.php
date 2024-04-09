@@ -12,7 +12,8 @@ class bloque extends Model
     protected $fillable = [
         'nombre_bloque',
         'direccion_bloque',
-        'descripcion_bloque'
+        'descripcion_bloque',
+        'imagen_bloque',
     ];
     public function bloques()
     {

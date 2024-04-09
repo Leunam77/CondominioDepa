@@ -20,6 +20,7 @@ class BloqueController extends Controller
         $bloque-> nombre_bloque = $request -> nombre_bloque;
         $bloque-> direccion_bloque = $request -> direccion_bloque;
         $bloque-> descripcion_bloque = $request -> descripcion_bloque;
+        $bloque-> imagen_bloque = $request -> imagen_bloque;
 
         $bloque->save();
     }
@@ -36,6 +37,7 @@ class BloqueController extends Controller
         $bloque-> nombre_bloque = $request -> nombre_bloque;
         $bloque-> direccion_bloque = $request -> direccion_bloque;
         $bloque-> descripcion_bloque = $request -> descripcion_bloque;
+        $bloque-> imagen_bloque = $request -> imagen_bloque;
 
         $bloque->save();
     }

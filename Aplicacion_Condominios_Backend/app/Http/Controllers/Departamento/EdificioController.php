@@ -20,6 +20,8 @@ class EdificioController extends Controller
         $edificio = new edificio();
         $edificio-> nombre_edificio = $request -> nombre_edificio;
         $edificio-> descripcion_edificio = $request -> descripcion_edificio;
+        $edificio-> imagen_edificio = $request -> imagen_edificio;
+        $edificio-> cantidad_pisos = $request -> cantidad_pisos;
         $edificio-> bloque_id = $request -> bloque_id;
 
         $edificio->save();

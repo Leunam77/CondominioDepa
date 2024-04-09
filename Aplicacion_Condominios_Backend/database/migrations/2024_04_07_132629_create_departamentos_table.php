@@ -18,12 +18,15 @@ class CreateDepartamentosTable extends Migration
             $table->string('nombre_departamento');
             $table->integer('numero_habitaciones');
             $table->integer('numero_personas');
-            $table->double('superficie', 6, 2);
+            $table->integer('superficie');
             $table->boolean('disponibilidad');
             $table->boolean('amoblado');
             $table->string('descripcion_departamento');
-            $table->foreignId('piso_id')
-                ->constrained('pisos')
+            $table->integer('piso');
+            $table->string('imagen_departamento');
+
+            $table->foreignId('edificio_id')
+                ->constrained('edificios')
                 ->onDelete('cascade');
         });
     }

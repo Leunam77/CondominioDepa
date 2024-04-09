@@ -17,10 +17,12 @@ class departamento extends Model
         'disponibilidad',
         'amoblado',
         'descripcion_departamento',
-        'piso_id'
+        'piso',
+        'imagen_departamento',
+        'edificio_id'
     ];
-    public function piso()
+    public function edificio()
     {
-        return $this->belongsTo(piso::class);
+        return $this->belongsTo(edificio::class);
     }
 }

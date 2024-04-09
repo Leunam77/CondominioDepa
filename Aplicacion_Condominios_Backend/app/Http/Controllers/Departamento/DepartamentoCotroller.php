@@ -54,6 +54,8 @@ class DepartamentoCotroller extends Controller
     public function destroy($id)
     {
         $departamento = departamento::destroy($id);
-        return $departamento;
+        return response()->json([
+            'message' => 'Departameto eliminado'
+            ]);        
     }
 }

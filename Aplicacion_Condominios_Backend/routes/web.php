@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
-use App\Http\Controllers\Departamento\EdificioCotroller;
-use App\Http\Controllers\Departamento\PisoCotroller;
+use App\Http\Controllers\Departamento\EdificioController;
+use App\Http\Controllers\Departamento\PisoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/*
+/* 
 //path para bloque
 Route::get('/bloque/all',BloqueController::class.'@index')->name('bloque.index');
 Route::get('/bloque/create',BloqueController::class.'@create')->name('bloque.create');
@@ -37,13 +37,14 @@ Route::post('/departamento/store',DepartamentoCotroller::class.'@store')->name('
 Route::get('/departamento/edit/{id}',DepartamentoCotroller::class.'@edit')->name('departamento.edit');
 Route::put('/departamento/update/{id}',DepartamentoCotroller::class.'@update')->name('departamento.update');
 Route::delete('/bloque/delete/{id}',DepartamentoCotroller::class.'@delete')->name('departamento.delete');
+ */
 
-Route::controller(DepartamentoCotroller::class)->group(function(){
-    Route::get('/departamentos','index');
-    Route::post('/departamento','store');
-    Route::get('/departamento/{id}','show');
-    Route::put('/departamento/{id}','update');
-    Route::delete('/departamento/{id}','destroy');
+/* Route::controller(DepartamentoCotroller::class)->group(function(){
+    Route::get('/departamentos','index')->name('departamento.index');
+    Route::post('/departamento','store')->name('departamento.store');
+    Route::get('/departamento/{id}','show')->name('departamento.show');
+    Route::put('/departamento/{id}','update')->name('departamento.update');
+    Route::delete('/departamento/{id}','destroy')->name('departamento.destroy');
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -67,5 +68,5 @@ Route::controller(PisoController::class)->group(function(){
     Route::post('/piso','store');
     Route::get('/piso/{id}','show');
     Route::put('/piso/{id}','update');
-    Route::delete('/piso/{id}','destroy');
-});*/
+    Route::put('/piso/{id}','destroy');
+}); */

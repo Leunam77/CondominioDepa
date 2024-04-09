@@ -43,6 +43,8 @@ class BloqueController extends Controller
     public function destroy($id)
     {
         $bloque = bloque::destroy($id);
-        return $bloque;
+        return response()->json([
+            'message' => 'Bloque eliminado'
+        ]);
     }
 }

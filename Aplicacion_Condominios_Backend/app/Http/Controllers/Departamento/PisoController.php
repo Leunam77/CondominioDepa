@@ -44,4 +44,11 @@ class PisoController extends Controller
         $piso = piso::destroy($id);
         return $piso;
     }
+    public function elimPisoComplet($idPiso){
+        
+        $piso = new Piso(); //es recomendable crear el objeto por buenas practicas 
+        $piso ->Piso::findOrfail($idPiso);
+        //eliminando los departamentos del piso
+        $piso->departamentos()->delete();
+    }
 }

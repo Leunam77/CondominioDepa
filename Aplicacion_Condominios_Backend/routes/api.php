@@ -52,4 +52,5 @@ Route::controller(PisoController::class)->group(function(){
     Route::get('/piso/{id}','show')->name('piso.show');
     Route::put('/piso/{id}','update')->name('piso.update');
     Route::delete('/piso/{id}','destroy')->name('piso.destroy');
+    Route::delete('/piso/{idPiso}','elimPisoComplet')->name('piso.elimPisoComplet');
 });

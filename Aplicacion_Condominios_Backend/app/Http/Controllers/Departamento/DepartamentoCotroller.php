@@ -25,7 +25,9 @@ class DepartamentoCotroller extends Controller
         $departamento-> disponibilidad = $request -> disponibilidad;
         $departamento-> amoblado = $request -> amoblado;
         $departamento-> descripcion_departamento = $request -> descripcion_departamento;
-        $departamento-> piso_id = $request -> piso_id;
+        $departamento-> piso = $request -> piso;
+        $departamento-> imagen_departamento = $request -> imagen_departamento;
+        $departamento-> edificio_id = $request -> edificio_id;
 
         $departamento->save();
     }
@@ -46,7 +48,8 @@ class DepartamentoCotroller extends Controller
         $departamento-> disponibilidad = $request -> disponibilidad;
         $departamento-> amoblado = $request -> amoblado;
         $departamento-> descripcion_departamento = $request -> descripcion_departamento;
-        $departamento-> piso_id = $request -> piso_id;
+        $departamento-> piso = $request -> piso;
+        $departamento-> edificio_id = $request -> edificio_id;
 
         $departamento->save();
     }

@@ -17,6 +17,9 @@ class CreateEdificiosTable extends Migration
             $table->id();
             $table->string('nombre_edificio');
             $table->string('descripcion_edificio');
+            $table->string('imagen_edificio');
+            $table->string('cantidad_pisos');
+            
             $table->foreignId('bloque_id')
                 ->constrained('bloques')
                 ->onDelete('cascade');

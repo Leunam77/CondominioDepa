@@ -4,8 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
-use App\Http\Controllers\Departamento\EdificioController;
-use App\Http\Controllers\Departamento\PisoController;
+use App\Http\Controllers\Departamento\EdificioConntroller;
+use App\Http\Controllers\Departamento\PisoConntroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,13 +44,4 @@ Route::controller(EdificioController::class)->group(function(){
     Route::get('/edificio/{id}','show')->name('edificio.show');
     Route::put('/edificio/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
-});
-
-Route::controller(PisoController::class)->group(function(){
-    Route::get('/pisos','index')->name('piso.index');
-    Route::post('/piso','store')->name('piso.store');
-    Route::get('/piso/{id}','show')->name('piso.show');
-    Route::put('/piso/{id}','update')->name('piso.update');
-    Route::delete('/piso/{id}','destroy')->name('piso.destroy');
-    Route::delete('/piso/{idPiso}','elimPisoComplet')->name('piso.elimPisoComplet');
 });

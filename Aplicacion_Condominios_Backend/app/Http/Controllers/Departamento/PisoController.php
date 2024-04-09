@@ -44,4 +44,17 @@ class PisoController extends Controller
         $piso = piso::destroy($id);
         return $piso;
     }
+
+    public function getPisosByEdificios(Request $request)
+    {
+        $edificioId = $request->query('edificio_id');
+
+        // Si el bloque_id no se proporciona, retorna un mensaje de error
+        if (!$edificioId) {
+            return response()->json(['error' => 'El parámetro edificio_id es requerido.'], 400);
+        }
+
+        $pisos = piso::where('edificio_id', $edificioId)->get();
+        return response()->json(['pisos' => $pisos]);
+    }
 }

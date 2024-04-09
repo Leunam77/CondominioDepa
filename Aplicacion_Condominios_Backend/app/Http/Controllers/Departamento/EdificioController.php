@@ -46,4 +46,17 @@ class EdificioController extends Controller
         $edificio = edificio::destroy($id);
         return $edificio;
     }
+
+    public function getEdificiosByBloques(Request $request)
+    {
+        $bloqueId = $request->query('bloque_id');
+
+        // Si el bloque_id no se proporciona, retorna un mensaje de error
+        if (!$bloqueId) {
+            return response()->json(['error' => 'El parámetro bloque_id es requerido.'], 400);
+        }
+
+        $edificios = Edificio::where('id_bloque', $bloqueId)->get();
+        return response()->json(['edificios' => $edificios]);
+    }
 }

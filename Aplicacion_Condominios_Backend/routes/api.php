@@ -4,8 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
-use App\Http\Controllers\Departamento\EdificioCotroller;
-use App\Http\Controllers\Departamento\PisoCotroller;
+use App\Http\Controllers\Departamento\EdificioController;
+use App\Http\Controllers\Departamento\PisoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +22,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(DepartamentoController::class)->group(function(){
+Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::get('/departamentos','index');
     Route::post('/departamento','store');
     Route::get('/departamento/{id}','show');
     Route::put('/departamento/{id}','update');
-    Route::put('/departamento/{id}','destroy');
+    Route::delete('/departamento/{id}','destroy');
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -35,7 +35,7 @@ Route::controller(BloqueController::class)->group(function(){
     Route::post('/bloque','store');
     Route::get('/bloque/{id}','show');
     Route::put('/bloque/{id}','update');
-    Route::put('/bloque/{id}','destroy');
+    Route::delete('/bloque/{id}','destroy');
 });
 
 Route::controller(EdificioController::class)->group(function(){
@@ -43,13 +43,16 @@ Route::controller(EdificioController::class)->group(function(){
     Route::post('/edificio','store');
     Route::get('/edificio/{id}','show');
     Route::put('/edificio/{id}','update');
-    Route::put('/edificio/{id}','destroy');
+    Route::delete('/edificio/{id}','destroy');
+    Route::get('/edificiosBus', 'getEdificiosByBloques');
 });
+
 
 Route::controller(PisoController::class)->group(function(){
     Route::get('/pisos','index');
     Route::post('/piso','store');
     Route::get('/piso/{id}','show');
     Route::put('/piso/{id}','update');
-    Route::put('/piso/{id}','destroy');
+    Route::delete('/piso/{id}','destroy');
+    Route::get('/pisosBus', 'getPisosByEdificios');
 });

@@ -11,49 +11,17 @@ class CrearDepartamento extends Component {
     departamentos = [];
     pisosAr = [];
 
-    componentDidMount() {
-        this.getPisos(3);
+
+    async componentDidMount() {
+        try {
+         const url = `${endpoint}/bloques`;
+          const response = await axios.get(url);
+
+          this.setState({ bloques: response.data });
+        } catch (error) {
+          console.error('Error al obtener los bloques:', error);
+        }
     }
-
-    getBloques = async () => {
-        const url = `${endpoint}/bloques`;
-        this.setState({ loader: true });
-        try {
-            const response = await axios.get(url);
-            const bloques = response.data.bloques;
-            this.setState({ loader: false });
-        } catch (error) {
-            console.error("Error al obtener bloques", error);
-            this.setState({ loader: false });
-        }
-    };
-
-    getEdificios = async (bloqueId) => {
-        const url = `${endpoint}/edificiosBus?bloque_id=${bloqueId}`;
-        this.setState({ loader: true });
-        try {
-            const response = await axios.get(url);
-            const edificios = response.data.edificios;
-            this.setState({ loader: false });
-        } catch (error) {
-            console.error("Error al obtener edificios", error);
-            this.setState({ loader: false });
-        }
-    };
-
-    getPisos = async (edificioId) => {
-        const url = `${endpoint}/pisosBus?edificio_id=${edificioId}`;
-        this.setState({ loader: true });
-        try {
-            const response = await axios.get(url);
-            const pisos = response.data.pisos;
-            this.pisosAr = Array.from(pisos);
-            this.setState({ loader: false });
-        } catch (error) {
-            console.error("Error al obtener pisos", error);
-            this.setState({ loader: false });
-        }
-    };
 
     constructor(props) {
         super(props);
@@ -65,9 +33,14 @@ class CrearDepartamento extends Component {
             disponibilidad: false,
             amoblado: false,
             descripcion_departamento: "",
-            piso_id: "",
-            errors: {},
-            contador: 0,
+            errors:{},
+            bloques: [],
+            bloqueSeleccionado:'',
+            edificioSeleccionado: '',
+            edificios:[],
+            numeroPisos: 0,
+            pisoSeleccionado: '',
+            imagenDep: "https://picsum.photos/318/180"
         };
     }
 
@@ -77,8 +50,49 @@ class CrearDepartamento extends Component {
         });
     };
 
+    handleBloqueSeleccionado = (event) => {
+        const idBloque = event.target.value;
+        this.setState({ bloqueSeleccionado: idBloque });
+        
+        this.cargarOpcionesDependientes(idBloque);
+    };
+
+    handleEdificioSeleccionado = (e) => {
+        const edificio = e.target.value; // Obtener el número de pisos del edificio seleccionado
+        this.setState({ edificioSeleccionado: edificio});
+        this.cargarPisos(edificio);
+    };
+
+    cargarPisos = async (idEdificio) => {
+        try{
+            const response = await axios.get(`${endpoint}/edificio/${idEdificio}`);
+            console.log('id del edificio:', idEdificio);
+            const pisos = response.data;
+            const numPisos = pisos.cantidad_pisos;
+            console.log('numero de pisos:', numPisos);
+            this.setState({ numeroPisos: numPisos});
+        }catch (error) {
+            console.error('Error al obtener los pisos:', error);
+        }
+    }
+
+    cargarOpcionesDependientes = async (idBloque) => {
+        try {
+            const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
+            
+            const data = response.data;
+            
+            this.setState({ edificios: response.data });
+        } catch (error) {
+            console.error('Error al obtener las opciones dependientes:', error);
+        }
+    };
+
+    changeChecked = (name) => {
+        this.setState({ [name]: !this.state[name] }); // Cambiar el estado del atributo específico
+    };
+
     storeDepartment = async (e) => {
-        let piso = document.getElementById("piso_id").value;
         e.preventDefault();
         const validationErrors = {};
 
@@ -121,13 +135,14 @@ class CrearDepartamento extends Component {
                 "Ingrese una descripcion válida";
         }
 
-        if (!this.state.piso_id) {
-            validationErrors.piso_id = "Debe seleccionar un piso";
+        if (!this.state.pisoSeleccionado) {
+            validationErrors.pisoSeleccionado = "Debe seleccionar un piso";
         }
 
         this.setState({ errors: validationErrors });
 
         if (Object.keys(validationErrors).length === 0) {
+            
             const url = `${endpoint}/departamento`;
             const data = new FormData();
 
@@ -135,50 +150,42 @@ class CrearDepartamento extends Component {
             data.append("numero_habitaciones", this.state.numero_habitaciones);
             data.append("numero_personas", this.state.numero_personas);
             data.append("superficie", this.state.superficie);
-            data.append("disponibilidad", this.state.disponibilidad);
-            data.append("amoblado", this.state.amoblado);
-            data.append(
-                "descripcion_departamento",
-                this.state.descripcion_departamento
-            );
-
-            data.append("piso_id", piso);
-
+            data.append("disponibilidad", this.state.disponibilidad ? '1' : '0');
+            data.append("amoblado", this.state.amoblado ? '1' : '0');
+            data.append("descripcion_departamento",this.state.descripcion_departamento);
+            data.append("piso", this.state.pisoSeleccionado);
+            data.append("imagen_departamento", this.state.imagenDep);
+            data.append("edificio_id", this.state.edificioSeleccionado)
+            console.log(this.state.nombre_departamento);
+            console.log(this.state.numero_habitaciones);
+            console.log(this.state.numero_personas);
+            console.log(this.state.superficie);
+            console.log(this.state.disponibilidad);
+            console.log(this.state.amoblado);
+            console.log(this.state.descripcion_departamento);
+            console.log(this.state.pisoSeleccionado);
+            console.log(this.state.imagenDep);
+            console.log(this.state.edificioSeleccionado);
+            
             axios.post(url, data).then((res) => {
                 console.log(res);
-                window.location.href = "./departamentos";
-            });
+                window.location.href = "./depas";
+              });
+            
         }
     };
 
-    myFunction = async (e) => {
-        let id_piso = [];
-        let nombre_piso = [];
-        var x = document.getElementById("desplegable");
-        var i;
-
-        if (this.state.contador === 0) {
-            x.remove(0);
-            this.setState({ contador: 1 });
-        }
-
-        for (i = 0; i < x.length; i++) {
-            nombre_piso.push(x.options[i].value);
-            id_piso.push(i + 1);
-        }
-
-        var y = document.getElementById("desplegable").value;
-        var indice;
-        for (indice = 0; indice < x.length; indice++) {
-            if (y === nombre_piso[indice]) {
-                document.getElementById("piso_id").value = id_piso[indice];
-                let valor = document.getElementById("piso_id").value;
-                this.setState({ piso_id: valor });
-                break;
-            }
-        }
-    };
     render() {
+        const { bloques } = this.state;
+        const { edificios } = this.state;
+        const { numeroPisos, pisoSeleccionado } = this.state;
+        const pisosOptions = [];
+
+        for (let i = 1; i <= numeroPisos; i++) {
+            pisosOptions.push(
+                <option key={i} value={i}>{i}</option>
+            );
+        }
         return (
             <>
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'rgb(233,242,249)' }}>
@@ -263,7 +270,7 @@ class CrearDepartamento extends Component {
                                                 <Input
                                                     type="checkbox"
                                                     id="checkBoxdisponibilidad"
-                                                    onChange={this.changeChecked}
+                                                    onChange={() => this.changeChecked('disponibilidad')}
                                                 />
                                                 {' '}
                                                 Disponible
@@ -279,7 +286,7 @@ class CrearDepartamento extends Component {
                                                 <Input
                                                     type="checkbox"
                                                     id="checkBoxAmoblado"
-                                                    onChange={this.changeChecked}
+                                                    onChange={() => this.changeChecked('amoblado')}
                                                 />
                                                 {' '}
                                                 Amoblado
@@ -294,25 +301,60 @@ class CrearDepartamento extends Component {
                                                 style={{ fontWeight: 'bold' }}
 
                                             >
+                                                Selecciona un bloque
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="mb-3 w-100"
+                                                name="bloque_id"
+                                                id="bloque_id"
+                                                onChange={this.handleBloqueSeleccionado}
+                                            >
+                                                <option value="">Seleccionar Bloque</option>
+                                                {this.state.bloques.map(bloque => (
+                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                                ))}
+                                            </Input>
+                                            
+                                            <Label
+                                                size="sm"
+                                                style={{ fontWeight: 'bold' }}
+
+                                            >
+                                                Selecciona un edificio
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="mb-3 w-100"
+                                                name="edificio_id"
+                                                id="edificio_id"
+                                                onChange={this.handleEdificioSeleccionado}
+                                            >
+                                                <option value="">Seleccionar Edificio</option>
+                                                {this.state.edificios.map(edificio => (
+                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
+                                                ))}
+                                            </Input>
+                                            
+                                            <Label
+                                                size="sm"
+                                                style={{ fontWeight: 'bold' }}
+
+                                            >
                                                 Selecciona un piso
                                             </Label>
                                             <Input
                                                 type="select"
                                                 className="mb-3 w-100"
-                                                name="piso_id"
-                                                id="piso_id"
-                                                onChange={this.handleInput}
-
+                                                name="piso"
+                                                id="piso"
+                                                value={pisoSeleccionado}
+                                                onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
                                             >
-
+                                                <option value="">Seleccionar piso</option>
+                                                {pisosOptions}
                                             </Input>
-                                            {/* <option disabled selected>
-                                                {" "}
-                                                Seleccione un piso
-                                            </option> */}
-                                            {this.pisosAr.map((piso, id) => {
-                                                return <option key={id} value={piso.id}>{piso.nombre_piso}</option>;
-                                            })}
+
                                         </FormGroup>
                                         <Col sm={15}>
                                             <Label
@@ -329,9 +371,9 @@ class CrearDepartamento extends Component {
                                                 placeholder="Ingrese descripcion"
                                                 onChange={this.handleInput}
                                             />
-                                            {this.state.errors.descripcion_departamento && (
-                                                <span>{this.state.errors.descripcion_departamento}</span>
-                                            )}
+                                            {this.state.bloques.map(bloque => (
+                                                <option key={bloque.id} value={bloque.id}>{bloque.nombre}</option>
+                                            ))}
                                         </Col>
                                         <div className="mt-3">
                                             <Button type="submit" className="custom-button mx-auto d-block"

@@ -10,18 +10,15 @@ class CrearDep extends Component{
         this.getPisos(3);
     }
 
-    getBloques = async () => {
-        const url = `${endpoint}/bloques`;
-        this.setState ({loader: true})
-        try{
-            const response = await axios.get(url);
-            const bloques = response.data.bloques;
-            this.setState({ loader: false });
-        }catch(error){
-            console.error('Error al obtener bloques', error)
-            this.setState({ loader: false });
+    async componentDidMount() {
+        try {
+         const url = `${endpoint}/bloques`;
+          const response = await axios.get(url)
+          this.setState({ bloques: response.data });
+        } catch (error) {
+          console.error('Error al obtener los bloques:', error);
         }
-    };
+    }
 
     getEdificios = async (bloqueId) => {
         const url = `${endpoint}/edificiosBus?bloque_id=${bloqueId}`;
@@ -60,9 +57,8 @@ class CrearDep extends Component{
           disponibilidad: false,
           amoblado: false,
           descripcion_departamento: "",
-          piso_id: "",
           errors:{},
-          contador: 0,
+          bloques: []
         };
       };
 
@@ -131,8 +127,6 @@ class CrearDep extends Component{
             data.append("descripcion_departamento", this.state.descripcion_departamento);
             
       
-            data.append("piso_id", piso);
-      
             axios.post(url, data).then((res) => {
               console.log(res);
               window.location.href = "./departamentos";
@@ -141,34 +135,11 @@ class CrearDep extends Component{
     };
 
     myFunction = async (e) => {
-        let id_piso = [];
-        let nombre_piso = [];
-        var x = document.getElementById("desplegable");
-        var i;
-
-        if (this.state.contador === 0) {
-            x.remove(0);
-            this.setState({ contador: 1 });
-        }
-
-        for (i = 0; i < x.length; i++) {
-            nombre_piso.push(x.options[i].value);
-            id_piso.push(i + 1);
-        }
-
-        var y = document.getElementById("desplegable").value;
-        var indice;
-        for (indice = 0; indice < x.length; indice++) {
-            if (y === nombre_piso[indice]) {
-            document.getElementById("piso_id").value =
-                id_piso[indice];
-            let valor = document.getElementById("piso_id").value;
-            this.setState({ piso_id: valor });
-            break;
-            }
-        }
+        
     };
     render(){
+        const { bloques } = this.state;
+
         return(
             <>
             <div>
@@ -251,21 +222,15 @@ class CrearDep extends Component{
                         </span>
                     )}
 
-                    <select id="desplegable" onChange={this.myFunction}>
-                        <option disabled selected>
-                            {" "}
-                            Seleccione un edificio
-                        </option>
-                        {this.pisosAr.map((piso, id) => {
-                            return <option>{piso.nombre_piso}</option>;
-                        })}
+                    
+                    <select>
+                        {bloques.map(bloque =>(
+                            <option key={bloque.id} value={bloque.id}>
+                                {bloque.nombre}
+                            </option>
+                        ))}
                     </select>
-                    <input
-                    type="hidden"
-                    name="piso_id"
-                    id="piso_id"
-                    onChange={this.handleInput}
-                    />
+                    
 
                     <button type="submit">
                     {" "}

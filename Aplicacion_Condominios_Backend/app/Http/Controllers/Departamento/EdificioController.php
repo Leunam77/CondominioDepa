@@ -38,8 +38,8 @@ class EdificioController extends Controller
         $edificio = edificio::findOrFail($request->$id);
         $edificio-> nombre_edificio = $request -> nombre_edificio;
         $edificio-> descripcion_edificio = $request -> descripcion_edificio;
+        $edificio-> cantidad_pisos = $request -> cantidad_pisos;
         $edificio-> bloque_id = $request -> bloque_id;
-
         $edificio->save();
     }
 
@@ -49,16 +49,9 @@ class EdificioController extends Controller
         return $edificio;
     }
 
-    public function getEdificiosByBloques(Request $request)
+    public function getEdificiosByBloques($id)
     {
-        $bloqueId = $request->query('bloque_id');
-
-        // Si el bloque_id no se proporciona, retorna un mensaje de error
-        if (!$bloqueId) {
-            return response()->json(['error' => 'El parámetro bloque_id es requerido.'], 400);
-        }
-
-        $edificios = Edificio::where('id_bloque', $bloqueId)->get();
-        return response()->json(['edificios' => $edificios]);
-    }
+        $edificios = edificio::where('bloque_id', $id)->get();
+        return $edificios;
+    }  
 }

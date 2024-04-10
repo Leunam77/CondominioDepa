@@ -4,8 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
-use App\Http\Controllers\Departamento\EdificioConntroller;
-use App\Http\Controllers\Departamento\PisoConntroller;
+use App\Http\Controllers\Departamento\EdificioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +43,5 @@ Route::controller(EdificioController::class)->group(function(){
     Route::get('/edificio/{id}','show')->name('edificio.show');
     Route::put('/edificio/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
+    Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificios.bybloques');
 });

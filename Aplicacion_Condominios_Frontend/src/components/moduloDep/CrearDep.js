@@ -84,30 +84,30 @@ class CrearDep extends Component{
           }
 
         if (!this.state.numero_habitaciones.trim()) {
-        validationErrors.numero_habitaciones = "Este campo es obligatorio"
+            validationErrors.numero_habitaciones = "Este campo es obligatorio"
         } else {
-        if (
-            (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_habitaciones))
-        ) {
-            validationErrors.numero_habitaciones =
-            "Ingrese un número de habitaciones válido";
-        }
+            if (
+                (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_habitaciones))
+            ) {
+                validationErrors.numero_habitaciones =
+                "Ingrese un número de habitaciones válido";
+            }
         }
 
         if (!this.state.numero_personas.trim()) {
-        validationErrors.numero_personas = "Este campo es obligatorio"
+            validationErrors.numero_personas = "Este campo es obligatorio"
         } else {
-        if (
-            (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_personas))
-        ) {
-            validationErrors.numero_personas =
-            "Ingrese un número de personas válido";
-        }
+            if (
+                (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_personas))
+            ) {
+                validationErrors.numero_personas =
+                "Ingrese un número de personas válido";
+            }
         }
 
         if (!this.state.descripcion_departamento.trim()) {
             validationErrors.descripcion_departamento = "Este campo es obligatorio";
-          } else if (!/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(this.state.descripcion_departamento)) {
+        } else if (!/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(this.state.descripcion_departamento)) {
             validationErrors.descripcion_departamento = "Ingrese una descripcion válida";
           }
 

@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>{routes}</Route>
         <Route path="/depas" element={<MostrarDep/>}/>
         <Route path="/crearDepartamento" element={<CrearDep/>}/>
-        <Route path="/editDepartamento" element={<EditarDep/>}/>
+        <Route path="/editDepartamento/:idDep" element={<EditarDep/>}/>
       </Routes>
     </BrowserRouter>
   );

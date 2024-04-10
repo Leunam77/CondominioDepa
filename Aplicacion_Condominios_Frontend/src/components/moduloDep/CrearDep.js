@@ -37,7 +37,7 @@ class CrearDep extends Component{
     };
 
     getPisos = async (edificioId) => {
-        const url = `${endpoint}/pisosBus?edificio_id=${edificioId}`;
+        const url = `${endpoint}/edificio/${edificioId}`;
         this.setState ({loader: true})
         try{
             const response = await axios.get(url);
@@ -254,7 +254,7 @@ class CrearDep extends Component{
                     <select id="desplegable" onChange={this.myFunction}>
                         <option disabled selected>
                             {" "}
-                            Seleccione un piso
+                            Seleccione un edificio
                         </option>
                         {this.pisosAr.map((piso, id) => {
                             return <option>{piso.nombre_piso}</option>;

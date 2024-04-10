@@ -33,6 +33,9 @@ const MostrarDep = () => {
                         <th>Disponibilidad</th>
                         <th>Amoblado</th>
                         <th>Descripcion</th>
+                        <th>Piso</th>
+                        <th>Imagen</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +48,8 @@ const MostrarDep = () => {
                             <td> {departamento.disponibilidad} </td>
                             <td> {departamento.amoblado} </td>
                             <td> {departamento.descripcion_departamento} </td>
+                            <td> {departamento.piso} </td>
+                            <td> {departamento.imagen_departamento} </td>
                             <td>
                                 <Link to={`/edit/${departamento.id}`} className="btn btn-warning">Edit</Link>
                                 <button onClick={()=>deleteDepartment(departamento.id)} className="btn btn-da">Delete</button>

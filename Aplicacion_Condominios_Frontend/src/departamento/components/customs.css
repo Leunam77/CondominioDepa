@@ -1,0 +1,13 @@
+.custom-button {
+	background-color: rgb(242,108, 79);
+	border-color: rgb(242,108,79);
+}
+.custom-form {
+	background-color: #FFFEF6;
+	border: none;
+	border-radius: 12px;
+	padding: 40px;
+	box-shadow: 2px 2px 5px rgba(73, 73, 73, 0.3);
+	min-width: 600px;
+	min-height: 700px;
+}

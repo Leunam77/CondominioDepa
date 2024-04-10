@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import { routes } from "./routes";
 import MostrarDep from "./components/moduloDep/MostrarDep.js";
-import CrearDep from "./components/moduloDep/CrearDep";
+import CrearDep from "./departamento/components/CrearDepartamento.js";
 
 function App() {
   return (

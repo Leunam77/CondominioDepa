@@ -5,6 +5,7 @@ import {
     Input, FormGroup, Label, Col, Row, Button
 } from "reactstrap";
 import "./customs.css";
+import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 class CrearDepartamento extends Component {
@@ -134,7 +135,7 @@ class CrearDepartamento extends Component {
         if (!this.state.descripcion_departamento.trim()) {
             validationErrors.descripcion_departamento = "Este campo es obligatorio";
         } else if (
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú0-9,"":;.() ]{1,120}$/.test(
                 this.state.descripcion_departamento
             )
         ) {
@@ -216,111 +217,114 @@ class CrearDepartamento extends Component {
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'rgb(233,242,249)' }}>
                     <div className="custom-form">
                         <FormGroup col>
-                            <Col sm={15}>
-                                <h2 className="text-center mb-5">Crear departamento</h2>
-                                <form onSubmit={this.storeDepartment}>
-                                    <Label
-                                        size="sm"
-                                        style={{ fontWeight: 'bold' }}
-                                    >
-                                        Nombre departamento
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="text"
-                                        name="nombre_departamento"
-                                        placeholder="Ingrese nombre"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.nombre_departamento && (
-                                        <span>{this.state.errors.nombre_departamento}</span>
-                                    )}
-                                    <Label
-                                        size="sm"
-                                        style={{ fontWeight: 'bold' }}
-                                    >
-                                        Número de habitaciones
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_habitaciones"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_habitaciones && (
-                                        <span>{this.state.errors.numero_habitaciones}</span>
-                                    )}
-                                    <Label
-                                        size="sm"
-                                        style={{ fontWeight: 'bold' }}
-                                    >
-                                        Número de personas
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_personas"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_personas && (
-                                        <span>{this.state.errors.numero_personas}</span>
-                                    )}
-                                    <Label
-                                        size="sm"
-                                        style={{ fontWeight: 'bold' }}
-                                    >
-                                        Superficie
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="superficie"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.superficie && (
-                                        <span>{this.state.errors.superficie}</span>
-                                    )}
-
-                                    <Row>
-                                        <Col sm={6}>
-
+                            <Row>
+                                <Col sm={12}>
+                                    <h2 className="text-center mb-5">Crear departamento</h2>
+                                    <form onSubmit={this.storeDepartment}>
+                                        <FormGroup className="mb-4">
                                             <Label
-                                                check
-                                                size="sm"
-                                                style={{ fontWeight: 'bold' }}
+                                                className="label-custom"
                                             >
-                                                <Input
-                                                    type="checkbox"
-                                                    id="checkBoxdisponibilidad"
-                                                    onChange={() => this.changeChecked('disponibilidad')}
-                                                />
-                                                {' '}
-                                                Disponible
+                                                Nombre departamento
                                             </Label>
-                                        </Col>
-                                        <Col sm={6}>
-
+                                            <Input
+                                                id="inputRegistro"
+                                                type="text"
+                                                name="nombre_departamento"
+                                                placeholder="Ingrese nombre"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.nombre_departamento && (
+                                                <span>{this.state.errors.nombre_departamento}</span>
+                                            )}
+                                        </FormGroup >
+                                        <FormGroup className="mb-4">
                                             <Label
-                                                check
-                                                size="sm"
-                                                style={{ fontWeight: 'bold' }}
+                                                className="label-custom"
                                             >
-                                                <Input
-                                                    type="checkbox"
-                                                    id="checkBoxAmoblado"
-                                                    onChange={() => this.changeChecked('amoblado')}
-                                                />
-                                                {' '}
-                                                Amoblado
+                                                Número de habitaciones
                                             </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_habitaciones"
+                                                placeholder="4"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.numero_habitaciones && (
+                                                <span>{this.state.errors.numero_habitaciones}</span>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Número de personas
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_personas"
+                                                placeholder="4"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.numero_personas && (
+                                                <span>{this.state.errors.numero_personas}</span>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Superficie
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="superficie"
+                                                placeholder="4"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.superficie && (
+                                                <span>{this.state.errors.superficie}</span>
+                                            )}
+                                        </FormGroup>
+                                        <Row>
+                                            <Col sm={6}>
+
+                                                <Label
+                                                    check
+                                                    className="label-custom"
+                                                >
+                                                    <Input
+                                                        type="checkbox"
+                                                        id="checkBoxdisponibilidad"
+                                                        onChange={() => this.changeChecked('disponibilidad')}
+                                                    />
+                                                    {' '}
+                                                    Disponible
+                                                </Label>
+                                            </Col>
+                                            <Col sm={6}>
+
+                                                <Label
+                                                    check
+                                                    className="label-custom"
+                                                >
+                                                    <Input
+                                                        type="checkbox"
+                                                        id="checkBoxAmoblado"
+                                                        onChange={() => this.changeChecked('amoblado')}
+                                                    />
+                                                    {' '}
+                                                    Amoblado
+                                                </Label>
 
 
-                                        </Col>
+                                            </Col>
+                                        </Row>
 
-                                        <FormGroup>
+                                        <FormGroup className="mb-4 mt-4">
                                             <Label
                                                 size="sm"
                                                 style={{ fontWeight: 'bold' }}
@@ -396,11 +400,9 @@ class CrearDepartamento extends Component {
                                             onChange={this.handleChange}
                                         >
                                         </Input>
-                                        <Col sm={15}>
+                                        <FormGroup className="mb-5">
                                             <Label
-                                                size="sm"
-                                                style={{ fontWeight: 'bold' }}
-
+                                                className="label-custom"
                                             >
                                                 Descripción
                                             </Label>
@@ -425,9 +427,9 @@ class CrearDepartamento extends Component {
                                     </Row>
 
 
-                                </form>
-                            </Col>
-
+                                    </form>
+                                </Col>
+                            </Row>
                         </FormGroup>
                     </div>
 

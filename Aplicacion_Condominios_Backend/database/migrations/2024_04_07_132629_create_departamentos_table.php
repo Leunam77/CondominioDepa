@@ -23,7 +23,7 @@ class CreateDepartamentosTable extends Migration
             $table->boolean('amoblado');
             $table->string('descripcion_departamento');
             $table->integer('piso');
-            $table->string('imagen_departamento');
+            $table->string('imagen_departamento')->nullable();;
 
             $table->foreignId('edificio_id')
                 ->constrained('edificios')

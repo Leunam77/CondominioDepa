@@ -1,0 +1,47 @@
+.Deps {
+    max-width: 66%; 
+    margin: 0 auto; 
+    padding: 0 1rem; 
+  }
+
+.title {
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    margin: 1.5em 0;
+}
+
+.lista {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+  
+.card {
+    width: calc(33.33% - 1.4rem); 
+    margin-bottom: 2.7rem; 
+    border:none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.botones{
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 1rem; 
+}
+.botoncard {
+    border-radius: 50%; 
+    width: 40px; 
+    height: 40px; 
+    background-color: rgba(242, 108, 79, 1); 
+    border: none; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    color: white;
+}
+
+.masInf {
+    color: white;
+    font-size: 20px;
+}

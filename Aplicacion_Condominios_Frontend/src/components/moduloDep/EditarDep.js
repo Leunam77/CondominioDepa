@@ -1,6 +1,9 @@
 import React, {Component, useState} from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import {
+    Input, FormGroup, Label, Col, Row, Button
+} from "reactstrap";
 const endpoint = 'http://localhost:8000/api'
 function EditarDep (){
     //obtener un departamento por su id
@@ -17,7 +20,14 @@ function EditarDep (){
         amoblado: false,
         descripcion_departamento: '',
         piso_id: '',
-        errors: {}
+        errors: {},
+        bloques: [],
+        bloqueSeleccionado: '',
+        edificioSeleccionado: '',
+        edificios: [],
+        numeroPisos: 0,
+        pisoSeleccionado: '',
+        imagenDep: ""
     });
 
     const getBloques = async () => {
@@ -191,236 +201,229 @@ function EditarDep (){
           [e.target.name]: e.target.checked,
         });
       };
+
+    const handleBloqueSeleccionado = (event) => {
+        const idBloque = event.target.value;
+        setState({ bloqueSeleccionado: idBloque });
+
+        this.cargarOpcionesDependientes(idBloque);
+    };
+
     const pisosOptions = [];
     for (let i = 1; i <= numeroPisos; i++) {
         pisosOptions.push(<option key={i} value={i}>{i}</option>);
     }
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'rgb(233,242,249)' }}>
-                <div className="custom-form">
-                    <FormGroup >
-                        <Row>
-                            <Col sm={12}>
-                                <h2 className="text-center mb-5">Crear departamento</h2>
-                                <form onSubmit={this.storeDepartment}>
-                                
-                                    <FormGroup className="mb-4">
-                                        <Label
-                                            className="label-custom"
-                                        >
-                                            Nombre departamento
-                                        </Label>
-                                        <Input
-                                            id="inputRegistro"
-                                            type="text"
-                                            name="nombre_departamento"
-                                            placeholder="Ingrese nombre"
-                                            onChange={this.handleInput}
-                                        />
-                                        {this.state.errors.nombre_departamento && (
-                                            <span>{this.state.errors.nombre_departamento}</span>
-                                        )}
-                                    </FormGroup >
-                                    <FormGroup className="mb-4">
-                                        <Label
-                                            className="label-custom"
-                                        >
-                                            Número de habitaciones
-                                        </Label>
-                                        <Input
-                                            id="inputRegistro"
-                                            type="number"
-                                            name="numero_habitaciones"
-                                            placeholder="4"
-                                            onChange={this.handleInput}
-                                        />
-                                        {this.state.errors.numero_habitaciones && (
-                                            <span>{this.state.errors.numero_habitaciones}</span>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup className="mb-4">
-                                        <Label
-                                            className="label-custom"
-                                        >
-                                            Número de personas
-                                        </Label>
-                                        <Input
-                                            id="inputRegistro"
-                                            type="number"
-                                            name="numero_personas"
-                                            placeholder="4"
-                                            onChange={this.handleInput}
-                                        />
-                                        {this.state.errors.numero_personas && (
-                                            <span>{this.state.errors.numero_personas}</span>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup className="mb-4">
-                                        <Label
-                                            className="label-custom"
-                                        >
-                                            Superficie
-                                        </Label>
-                                        <Input
-                                            id="inputRegistro"
-                                            type="number"
-                                            name="superficie"
-                                            placeholder="4"
-                                            onChange={this.handleInput}
-                                        />
-                                        {this.state.errors.superficie && (
-                                            <span>{this.state.errors.superficie}</span>
-                                        )}
-                                    </FormGroup>
-                                    <Row>
-                                        <Col sm={6}>
-
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'rgb(233,242,249)' }}>
+                    <div className="custom-form">
+                        <FormGroup col>
+                            <Row>
+                                <Col sm={12}>
+                                    <h2 className="text-center mb-5">Crear departamento</h2>
+                                    <form onSubmit={handleSubmit}>
+                                        <FormGroup className="mb-4">
                                             <Label
-                                                check
                                                 className="label-custom"
                                             >
-                                                <Input
-                                                    type="checkbox"
-                                                    id="checkBoxdisponibilidad"
-                                                    onChange={() => this.changeChecked('disponibilidad')}
-                                                />
-                                                {' '}
-                                                Disponible
+                                                Nombre departamento
                                             </Label>
-                                        </Col>
-                                        <Col sm={6}>
-
+                                            <Input
+                                                id="inputRegistro"
+                                                type="text"
+                                                name="nombre_departamento"
+                                                placeholder="Ingrese nombre"
+                                                onChange={handleInput}
+                                            />
+                                            {errors.nombre_departamento && (
+                                                <span>{errors.nombre_departamento}</span>
+                                            )}
+                                        </FormGroup >
+                                        <FormGroup className="mb-4">
                                             <Label
-                                                check
                                                 className="label-custom"
                                             >
-                                                <Input
-                                                    type="checkbox"
-                                                    id="checkBoxAmoblado"
-                                                    onChange={() => this.changeChecked('amoblado')}
-                                                />
-                                                {' '}
-                                                Amoblado
+                                                Número de habitaciones
                                             </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_habitaciones"
+                                                placeholder="4"
+                                                onChange={handleInput}
+                                            />
+                                            {errors.numero_habitaciones && (
+                                                <span>{errors.numero_habitaciones}</span>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Número de personas
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_personas"
+                                                placeholder="4"
+                                                onChange={handleInput}
+                                            />
+                                            {errors.numero_personas && (
+                                                <span>{errors.numero_personas}</span>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Superficie
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="superficie"
+                                                placeholder="4"
+                                                onChange={handleInput}
+                                            />
+                                            {errors.superficie && (
+                                                <span>{errors.superficie}</span>
+                                            )}
+                                        </FormGroup>
+                                        <Row className="mb-4">
+                                            <Col sm={6}>
+
+                                                <Label
+                                                    check
+                                                    className="label-custom"
+                                                >
+                                                    <Input
+                                                        type="checkbox"
+                                                        id="checkBoxdisponibilidad"
+                                                        onChange={() => this.changeChecked('disponibilidad')}
+                                                    />
+                                                    {' '}
+                                                    Disponible
+                                                </Label>
+                                            </Col>
+                                            <Col sm={6}>
+
+                                                <Label
+                                                    check
+                                                    className="label-custom"
+                                                >
+                                                    <Input
+                                                        type="checkbox"
+                                                        id="checkBoxAmoblado"
+                                                        onChange={() => changeChecked('amoblado')}
+                                                    />
+                                                    {' '}
+                                                    Amoblado
+                                                </Label>
 
 
-                                        </Col>
-                                    </Row>
+                                            </Col>
+                                        </Row>
 
-                                    <FormGroup className="mb-4 mt-4">
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Selecciona un bloque
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                name="bloque_id"
+                                                id="bloque_id"
+                                                onChange={handleBloqueSeleccionado}
+                                            >
+                                                <option value="">Seleccionar Bloque</option>
+                                                {this.state.bloques.map(bloque => (
+                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                                ))}
+                                            </Input>
+                                        </FormGroup>
+
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Selecciona un edificio
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="mb-3 w-100"
+                                                name="edificio_id"
+                                                id="edificio_id"
+                                                onChange={this.handleEdificioSeleccionado}
+                                            >
+                                                <option value="">Seleccionar Edificio</option>
+                                                {this.state.edificios.map(edificio => (
+                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
+                                                ))}
+                                            </Input>
+                                        </FormGroup>
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Selecciona un piso
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                name="piso"
+                                                id="piso"
+                                                value={pisoSeleccionado}
+                                                onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
+                                            >
+                                                <option value="">Seleccionar piso</option>
+                                                {pisosOptions}
+                                            </Input>
+                                        </FormGroup>
                                         <Label
                                             size="sm"
                                             style={{ fontWeight: 'bold' }}
 
                                         >
-                                            Selecciona un bloque
+                                            Subir una imagen
                                         </Label>
                                         <Input
-                                            type="select"
+                                            type="file"
                                             className="mb-3 w-100"
-                                            name="bloque_id"
-                                            id="bloque_id"
-                                            onChange={this.handleBloqueSeleccionado}
+                                            name="imagen_departamento"
+                                            id="imagen_departamento"
+                                            onChange={this.handleChange}
                                         >
-                                            <option value="">Seleccionar Bloque</option>
-                                            {this.state.bloques.map(bloque => (
-                                                <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
-                                            ))}
                                         </Input>
-                                        
-                                        <Label
-                                            size="sm"
-                                            style={{ fontWeight: 'bold' }}
-
-                                        >
-                                            Selecciona un edificio
-                                        </Label>
-                                        <Input
-                                            type="select"
-                                            className="mb-3 w-100"
-                                            name="edificio_id"
-                                            id="edificio_id"
-                                            onChange={this.handleEdificioSeleccionado}
-                                        >
-                                            <option value="">Seleccionar Edificio</option>
-                                            {this.state.edificios.map(edificio => (
-                                                <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
-                                            ))}
-                                        </Input>
-                                        
-                                        <Label
-                                            size="sm"
-                                            style={{ fontWeight: 'bold' }}
-
-                                        >
-                                            Selecciona un piso
-                                        </Label>
-                                        <Input
-                                            type="select"
-                                            className="mb-3 w-100"
-                                            name="piso"
-                                            id="piso"
-                                            value={pisoSeleccionado}
-                                            onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
-                                        >
-                                            <option value="">Seleccionar piso</option>
-                                            {pisosOptions}
-                                        </Input>
-
-                                    </FormGroup>
-                                    <Label
-                                        size="sm"
-                                        style={{ fontWeight: 'bold' }}
-
-                                    >
-                                        Subir una imagen
-                                    </Label>
-                                    <Input
-                                        type="file"
-                                        className="mb-3 w-100"
-                                        name="imagen_departamento"
-                                        id="imagen_departamento"
-                                        onChange={this.handleChange}
-                                    >
-                                    </Input>
-                                    <FormGroup className="mb-5">
-                                        <Label
-                                            className="label-custom"
-                                        >
-                                            Descripción
-                                        </Label>
-                                        <Input
-                                            id="inputRegistro"
-                                            type="textarea"
-                                            name="descripcion_departamento"
-                                            placeholder="Ingrese descripcion"
-                                            onChange={this.handleInput}
-                                        />
-                                        {this.state.bloques.map(bloque => (
-                                            <option key={bloque.id} value={bloque.id}>{bloque.nombre}</option>
-                                        ))}
-                                    </FormGroup>
-                                    <div className="mt-3">
-                                        <Button type="submit" className="custom-button mx-auto d-block"
+                                        <FormGroup className="mb-5">
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Descripción
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="textarea"
+                                                name="descripcion_departamento"
+                                                placeholder="Ingrese descripcion"
+                                                onChange={this.handleInput}
+                                            />
+                                        </FormGroup>
+                                        <Button size="lg" type="submit" className="custom-button mx-auto d-block"
                                             style={{ fontWeight: 'bold' }}
                                         >
                                             Continuar
                                         </Button>
-                                    </div>
-                                </Row>
+                                    </form>
+                                </Col>
+                            </Row>
+                        </FormGroup>
+                    </div>
 
-
-                                </form>
-                            </Col>
-                        </Row>
-                    </FormGroup>
                 </div>
 
-            </div>
 
-
-        </>
+            </>
     );
     
 }

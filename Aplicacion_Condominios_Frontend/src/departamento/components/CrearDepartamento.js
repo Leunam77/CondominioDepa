@@ -15,12 +15,12 @@ class CrearDepartamento extends Component {
 
     async componentDidMount() {
         try {
-         const url = `${endpoint}/bloques`;
-          const response = await axios.get(url);
+            const url = `${endpoint}/bloques`;
+            const response = await axios.get(url);
 
-          this.setState({ bloques: response.data });
+            this.setState({ bloques: response.data });
         } catch (error) {
-          console.error('Error al obtener los bloques:', error);
+            console.error('Error al obtener los bloques:', error);
         }
     }
 
@@ -34,11 +34,11 @@ class CrearDepartamento extends Component {
             disponibilidad: false,
             amoblado: false,
             descripcion_departamento: "",
-            errors:{},
+            errors: {},
             bloques: [],
-            bloqueSeleccionado:'',
+            bloqueSeleccionado: '',
             edificioSeleccionado: '',
-            edificios:[],
+            edificios: [],
             numeroPisos: 0,
             pisoSeleccionado: '',
             imagenDep: "https://picsum.photos/318/180"
@@ -54,25 +54,25 @@ class CrearDepartamento extends Component {
     handleBloqueSeleccionado = (event) => {
         const idBloque = event.target.value;
         this.setState({ bloqueSeleccionado: idBloque });
-        
+
         this.cargarOpcionesDependientes(idBloque);
     };
 
     handleEdificioSeleccionado = (e) => {
         const edificio = e.target.value; // Obtener el número de pisos del edificio seleccionado
-        this.setState({ edificioSeleccionado: edificio});
+        this.setState({ edificioSeleccionado: edificio });
         this.cargarPisos(edificio);
     };
 
     cargarPisos = async (idEdificio) => {
-        try{
+        try {
             const response = await axios.get(`${endpoint}/edificio/${idEdificio}`);
             console.log('id del edificio:', idEdificio);
             const pisos = response.data;
             const numPisos = pisos.cantidad_pisos;
             console.log('numero de pisos:', numPisos);
-            this.setState({ numeroPisos: numPisos});
-        }catch (error) {
+            this.setState({ numeroPisos: numPisos });
+        } catch (error) {
             console.error('Error al obtener los pisos:', error);
         }
     }
@@ -80,9 +80,9 @@ class CrearDepartamento extends Component {
     cargarOpcionesDependientes = async (idBloque) => {
         try {
             const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
-            
+
             const data = response.data;
-            
+
             this.setState({ edificios: response.data });
         } catch (error) {
             console.error('Error al obtener las opciones dependientes:', error);
@@ -143,7 +143,7 @@ class CrearDepartamento extends Component {
         this.setState({ errors: validationErrors });
 
         if (Object.keys(validationErrors).length === 0) {
-            
+
             const url = `${endpoint}/departamento`;
             const data = new FormData();
 
@@ -153,7 +153,7 @@ class CrearDepartamento extends Component {
             data.append("superficie", this.state.superficie);
             data.append("disponibilidad", this.state.disponibilidad ? '1' : '0');
             data.append("amoblado", this.state.amoblado ? '1' : '0');
-            data.append("descripcion_departamento",this.state.descripcion_departamento);
+            data.append("descripcion_departamento", this.state.descripcion_departamento);
             data.append("piso", this.state.pisoSeleccionado);
             data.append("imagen_departamento", this.state.imagenDep);
             data.append("edificio_id", this.state.edificioSeleccionado)
@@ -167,12 +167,12 @@ class CrearDepartamento extends Component {
             console.log(this.state.pisoSeleccionado);
             console.log(this.state.imagenDep);
             console.log(this.state.edificioSeleccionado);
-            
+
             axios.post(url, data).then((res) => {
                 console.log(res);
                 window.location.href = "./depas";
-              });
-            
+            });
+
         }
     };
 
@@ -264,7 +264,7 @@ class CrearDepartamento extends Component {
                                                 <span>{this.state.errors.superficie}</span>
                                             )}
                                         </FormGroup>
-                                        <Row>
+                                        <Row className="mb-4">
                                             <Col sm={6}>
 
                                                 <Label
@@ -299,17 +299,14 @@ class CrearDepartamento extends Component {
                                             </Col>
                                         </Row>
 
-                                        <FormGroup className="mb-4 mt-4">
+                                        <FormGroup className="mb-4">
                                             <Label
-                                                size="sm"
-                                                style={{ fontWeight: 'bold' }}
-
+                                                className="label-custom"
                                             >
                                                 Selecciona un bloque
                                             </Label>
                                             <Input
                                                 type="select"
-                                                className="mb-3 w-100"
                                                 name="bloque_id"
                                                 id="bloque_id"
                                                 onChange={this.handleBloqueSeleccionado}
@@ -319,11 +316,11 @@ class CrearDepartamento extends Component {
                                                     <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
                                                 ))}
                                             </Input>
-                                            
-                                            <Label
-                                                size="sm"
-                                                style={{ fontWeight: 'bold' }}
+                                        </FormGroup>
 
+                                        <FormGroup className="mb-4">
+                                            <Label
+                                                className="label-custom"
                                             >
                                                 Selecciona un edificio
                                             </Label>
@@ -339,17 +336,15 @@ class CrearDepartamento extends Component {
                                                     <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
                                                 ))}
                                             </Input>
-                                            
+                                        </FormGroup>
+                                        <FormGroup className="mb-4">
                                             <Label
-                                                size="sm"
-                                                style={{ fontWeight: 'bold' }}
-
+                                                className="label-custom"
                                             >
                                                 Selecciona un piso
                                             </Label>
                                             <Input
                                                 type="select"
-                                                className="mb-3 w-100"
                                                 name="piso"
                                                 id="piso"
                                                 value={pisoSeleccionado}
@@ -358,8 +353,8 @@ class CrearDepartamento extends Component {
                                                 <option value="">Seleccionar piso</option>
                                                 {pisosOptions}
                                             </Input>
-
                                         </FormGroup>
+
                                         <FormGroup className="mb-5">
                                             <Label
                                                 className="label-custom"
@@ -373,20 +368,12 @@ class CrearDepartamento extends Component {
                                                 placeholder="Ingrese descripcion"
                                                 onChange={this.handleInput}
                                             />
-                                            {this.state.bloques.map(bloque => (
-                                                <option key={bloque.id} value={bloque.id}>{bloque.nombre}</option>
-                                            ))}
-                                        </Col>
-                                        <div className="mt-3">
-                                            <Button type="submit" className="custom-button mx-auto d-block"
-                                                style={{ fontWeight: 'bold' }}
-                                            >
-                                                Continuar
-                                            </Button>
-                                        </div>
-                                    </Row>
-
-
+                                        </FormGroup>
+                                        <Button size="lg" type="submit" className="custom-button mx-auto d-block"
+                                            style={{ fontWeight: 'bold' }}
+                                        >
+                                            Continuar
+                                        </Button>
                                     </form>
                                 </Col>
                             </Row>

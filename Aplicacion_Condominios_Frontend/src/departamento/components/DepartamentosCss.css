@@ -17,7 +17,7 @@
     justify-content: space-between;
 }
   
-.card {
+#Otro {
     width: calc(33.33% - 1.4rem); 
     margin-bottom: 2.7rem; 
     border:none;

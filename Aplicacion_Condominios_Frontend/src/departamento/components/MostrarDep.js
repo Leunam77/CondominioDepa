@@ -32,9 +32,7 @@ const MostrarDep = () => {
     return(
         <div className="Deps">
             <h1 className="title">Departamentos</h1>
-            <div className="d-grip gap-2">
-            <Link to="/CrearDepartamento" className="btn btn-success btn-lg mt-2 mb-2 text-white -creat"style={{ backgroundColor: 'rgba(242, 108, 79, 1)', border: 'none'}}>Create</Link>
-            </div>
+        
             <div className= "lista">
                 {departamentos.map((departamento) => (
                     <Card key={departamento.id}>

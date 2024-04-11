@@ -199,11 +199,12 @@ function EditarDep (){
         <>
             <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'rgb(233,242,249)' }}>
                 <div className="custom-form">
-                    <FormGroup col>
+                    <FormGroup >
                         <Row>
                             <Col sm={12}>
                                 <h2 className="text-center mb-5">Crear departamento</h2>
                                 <form onSubmit={this.storeDepartment}>
+                                <Row
                                     <FormGroup className="mb-4">
                                         <Label
                                             className="label-custom"
@@ -399,7 +400,7 @@ function EditarDep (){
                                         {this.state.bloques.map(bloque => (
                                             <option key={bloque.id} value={bloque.id}>{bloque.nombre}</option>
                                         ))}
-                                    </Col>
+                                    </FormGroup>
                                     <div className="mt-3">
                                         <Button type="submit" className="custom-button mx-auto d-block"
                                             style={{ fontWeight: 'bold' }}

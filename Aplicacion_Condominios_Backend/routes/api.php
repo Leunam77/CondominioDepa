@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
-
+use App\Http\Controllers\Empleados\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,3 +45,9 @@ Route::controller(EdificioController::class)->group(function(){
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
     Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificios.bybloques');
 });
+
+Route::post('/add_employee', [EmployeeController::class, 'store']);
+Route::get('/get_all_employees', [EmployeeController::class, 'getAll']);
+Route::delete('/delete_employee/{id}', [EmployeeController::class, 'delete']);
+Route::get('/get_employee/{id}', [EmployeeController::class, 'getById']);
+Route::post('/update_employee/{id}', [EmployeeController::class, 'update']);

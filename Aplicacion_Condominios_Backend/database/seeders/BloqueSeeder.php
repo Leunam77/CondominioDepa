@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\bloque;
+use App\Models\GestDepartamento\bloque;
 class BloqueSeeder extends Seeder
 {
     /**

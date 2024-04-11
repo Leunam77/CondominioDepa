@@ -19,7 +19,9 @@ class CrearDepartamento extends Component {
             const response = await axios.get(url);
 
             this.setState({ bloques: response.data });
-            const { idDep } = this.props.match.params;
+            const { idDep } = this.props.match.params; //no se esta obteniendo el id de departamento de la 
+            //ruta, por lo que no se puede obtener los datos del departamento
+            console.log('idDep:', idDep);
             this.obtenerDatosDepartamento(idDep);
         } catch (error) {
             console.error('Error al obtener los bloques:', error);
@@ -50,7 +52,7 @@ class CrearDepartamento extends Component {
         try {
             const response = await axios.get(`${endpoint}/departamento/${idDepartamento}`);
             const departamento = response.data;
-
+            console.log('departamento:', departamento);
             // Actualizar el estado del componente con los datos del departamento
             this.setState({
                 nombre_departamento: departamento.nombre_departamento,
@@ -265,6 +267,7 @@ class CrearDepartamento extends Component {
                                                 type="text"
                                                 name="nombre_departamento"
                                                 placeholder="Ingrese nombre"
+                                                value={this.state.nombre_departamento}
                                                 onChange={this.handleInput}
                                             />
                                             {this.state.errors.nombre_departamento && (
@@ -281,7 +284,7 @@ class CrearDepartamento extends Component {
                                                 id="inputRegistro"
                                                 type="number"
                                                 name="numero_habitaciones"
-                                                placeholder="4"
+                                                value={this.state.numero_habitaciones}
                                                 onChange={this.handleInput}
                                             />
                                             {this.state.errors.numero_habitaciones && (
@@ -298,7 +301,7 @@ class CrearDepartamento extends Component {
                                                 id="inputRegistro"
                                                 type="number"
                                                 name="numero_personas"
-                                                placeholder="4"
+                                                value={this.state.numero_personas}
                                                 onChange={this.handleInput}
                                             />
                                             {this.state.errors.numero_personas && (
@@ -315,7 +318,7 @@ class CrearDepartamento extends Component {
                                                 id="inputRegistro"
                                                 type="number"
                                                 name="superficie"
-                                                placeholder="4"
+                                                value={this.state.superficie}
                                                 onChange={this.handleInput}
                                             />
                                             {this.state.errors.superficie && (
@@ -332,6 +335,7 @@ class CrearDepartamento extends Component {
                                                     <Input
                                                         type="checkbox"
                                                         id="checkBoxdisponibilidad"
+                                                        value={this.state.disponibilidad}
                                                         onChange={() => this.changeChecked('disponibilidad')}
                                                     />
                                                     {' '}
@@ -347,6 +351,7 @@ class CrearDepartamento extends Component {
                                                     <Input
                                                         type="checkbox"
                                                         id="checkBoxAmoblado"
+                                                        value={this.state.amoblado}
                                                         onChange={() => this.changeChecked('amoblado')}
                                                     />
                                                     {' '}
@@ -367,6 +372,7 @@ class CrearDepartamento extends Component {
                                                 type="select"
                                                 name="bloque_id"
                                                 id="bloque_id"
+                                                value={this.state.bloqueSeleccionado}
                                                 onChange={this.handleBloqueSeleccionado}
                                             >
                                                 <option value="">Seleccionar Bloque</option>
@@ -387,6 +393,7 @@ class CrearDepartamento extends Component {
                                                 className="mb-3 w-100"
                                                 name="edificio_id"
                                                 id="edificio_id"
+                                                value={this.state.edificioSeleccionado}
                                                 onChange={this.handleEdificioSeleccionado}
                                             >
                                                 <option value="">Seleccionar Edificio</option>
@@ -408,7 +415,7 @@ class CrearDepartamento extends Component {
                                                 value={pisoSeleccionado}
                                                 onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
                                             >
-                                                <option value="">Seleccionar piso</option>
+                                                <option value="">{pisoSeleccionado}</option>
                                                 {pisosOptions}
                                             </Input>
                                         </FormGroup>
@@ -424,6 +431,7 @@ class CrearDepartamento extends Component {
                                             className="mb-3 w-100"
                                             name="imagen_departamento"
                                             id="imagen_departamento"
+                                            value={this.state.imagenDep}
                                             onChange={this.handleChange}
                                         >
                                         </Input>
@@ -437,7 +445,7 @@ class CrearDepartamento extends Component {
                                                 id="inputRegistro"
                                                 type="textarea"
                                                 name="descripcion_departamento"
-                                                placeholder="Ingrese descripcion"
+                                                value={this.state.descripcion_departamento}
                                                 onChange={this.handleInput}
                                             />
                                         </FormGroup>

@@ -53,7 +53,7 @@ const MostrarDep = () => {
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Amoblado: {departamento.amoblado}</CardSubtitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Descripcion: {departamento.descripcion_departamento}</CardSubtitle>
                             <div className="botones">
-                                <Button className="botoncard"><FontAwesomeIcon icon={faArrowRight} className="masInf" /></Button>
+                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faArrowRight} className="masInf" /></Button>
                             </div>
                         </CardBody>
                     </Card>

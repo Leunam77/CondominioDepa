@@ -204,7 +204,7 @@ function EditarDep (){
                             <Col sm={12}>
                                 <h2 className="text-center mb-5">Crear departamento</h2>
                                 <form onSubmit={this.storeDepartment}>
-                                <Row
+                                
                                     <FormGroup className="mb-4">
                                         <Label
                                             className="label-custom"

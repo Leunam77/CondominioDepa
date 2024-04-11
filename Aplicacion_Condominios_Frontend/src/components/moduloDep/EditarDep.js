@@ -1,173 +1,188 @@
-import React, {Component, useState} from "react";
+import React, { Component, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button
 } from "reactstrap";
-const endpoint = 'http://localhost:8000/api'
-function EditarDep (){
-    //obtener un departamento por su id
-    const [departamento, setDepartamento] = useState(null);
-    const [loader, setLoader] = useState(false);
-    const [errors, setErrors] = useState({});
-    const [formValues, setFormValues] = useState({
-        nombre_departamento: '',
-        numero_habitaciones: 0,
-        numero_personas: 0,
-        numero_pisos: 0,
-        superficie: 0,
-        disponibilidad: false,
-        amoblado: false,
-        descripcion_departamento: '',
-        piso_id: '',
-        errors: {},
-        bloques: [],
-        bloqueSeleccionado: '',
-        edificioSeleccionado: '',
-        edificios: [],
-        numeroPisos: 0,
-        pisoSeleccionado: '',
-        imagenDep: ""
-    });
+import "./customs.css";
+import { Form } from "react-router-dom";
 
-    const getBloques = async () => {
-        const url = `${endpoint}/bloques`;
-        this.setState ({loader: true})
-        try{
+const endpoint = "http://localhost:8000/api";
+class CrearDepartamento extends Component {
+    departamentos = [];
+    pisosAr = [];
+
+
+    async componentDidMount() {
+        try {
+            const url = `${endpoint}/bloques`;
             const response = await axios.get(url);
-            const bloques = response.data.bloques;
-            this.setState({ loader: false });
-        }catch(error){
-            console.error('Error al obtener bloques', error)
-            this.setState({ loader: false });
+
+            this.setState({ bloques: response.data });
+            const { idDep } = this.props.match.params;
+            this.obtenerDatosDepartamento(idDep);
+        } catch (error) {
+            console.error('Error al obtener los bloques:', error);
+        }
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            nombre_departamento: "",
+            numero_habitaciones: 0,
+            numero_personas: 0,
+            superficie: 0,
+            disponibilidad: false,
+            amoblado: false,
+            descripcion_departamento: "",
+            errors: {},
+            bloques: [],
+            bloqueSeleccionado: '',
+            edificioSeleccionado: '',
+            edificios: [],
+            numeroPisos: 0,
+            pisoSeleccionado: '',
+            imagenDep: ""
+        };
+    }
+    obtenerDatosDepartamento = async (idDepartamento) => {
+        try {
+            const response = await axios.get(`${endpoint}/departamento/${idDepartamento}`);
+            const departamento = response.data;
+
+            // Actualizar el estado del componente con los datos del departamento
+            this.setState({
+                nombre_departamento: departamento.nombre_departamento,
+                numero_habitaciones: departamento.numero_habitaciones,
+                numero_personas: departamento.numero_personas,
+                superficie: departamento.superficie,
+                disponibilidad: departamento.disponibilidad,
+                amoblado: departamento.amoblado,
+                descripcion_departamento: departamento.descripcion_departamento,
+                bloqueSeleccionado: departamento.bloque_id,
+                edificioSeleccionado: departamento.edificio_id,
+                pisoSeleccionado: departamento.piso,
+                // Si tienes una imagen asociada al departamento, debes manejarla aquí también
+            });
+        } catch (error) {
+            console.error('Error al obtener datos del departamento:', error);
         }
     };
-    const getEdificios = async () => {
-        const url = `${endpoint}/edificios`;
-        this.setState ({loader: true})
-        try{
-            const response = await axios.get(url);
-            const edificios = response.data.edificios;
-            this.setState({ loader: false });
-        }catch(error){
-            console.error('Error al obtener edificios', error)
-            this.setState({ loader: false });
+    handleInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    handleBloqueSeleccionado = (event) => {
+        const idBloque = event.target.value;
+        this.setState({ bloqueSeleccionado: idBloque });
+
+        this.cargarOpcionesDependientes(idBloque);
+    };
+
+    handleEdificioSeleccionado = (e) => {
+        const edificio = e.target.value; // Obtener el número de pisos del edificio seleccionado
+        this.setState({ edificioSeleccionado: edificio });
+        this.cargarPisos(edificio);
+    };
+
+    handleChange = (e) => {
+        this.setState({
+            imagenDep: e.target.files[0],
+        });
+        console.log('imagen:', this.state.imagenDep.name);
+      };
+
+    cargarPisos = async (idEdificio) => {
+        try {
+            const response = await axios.get(`${endpoint}/edificio/${idEdificio}`);
+            console.log('id del edificio:', idEdificio);
+            const pisos = response.data;
+            const numPisos = pisos.cantidad_pisos;
+            console.log('numero de pisos:', numPisos);
+            this.setState({ numeroPisos: numPisos });
+        } catch (error) {
+            console.error('Error al obtener los pisos:', error);
+        }
+    }
+
+    cargarOpcionesDependientes = async (idBloque) => {
+        try {
+            const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
+
+            const data = response.data;
+
+            this.setState({ edificios: response.data });
+        } catch (error) {
+            console.error('Error al obtener las opciones dependientes:', error);
         }
     };
-    const getDepartamento = async (id) => {
-        const url = `${endpoint}/departamento/${id}`;
-        this.setState ({loader: true})
-        try{
-            const response = await axios.get(url);
-            const departamento = response.data.departamento;
-            setDepartamento(departamento);
-            document.getElementById('nombre_departamento').value = departamento.nombre_departamento;
-            document.getElementById('numero_habitaciones').value = departamento.numero_habitaciones;
-            document.getElementById('numero_personas').value = departamento.numero_personas;
-            document.getElementById('superficie').value = departamento.superficie;
-            document.getElementById('disponibilidad').value = departamento.disponibilidad;
-            document.getElementById('bloque_id').value = departamento.bloque_id;
 
-            this.setState({ loader: false });
-        }catch(error){
-            console.error('Error al obtener departamento', error)
-            this.setState({ loader: false });
-        }
+    changeChecked = (name) => {
+        this.setState({ [name]: !this.state[name] }); // Cambiar el estado del atributo específico
     };
-    //definir el estado del departamento con los datos que reciba de getDepartamento
 
-    const numeroPisos = formValues.numero_pisos;
-    const handleSubmit = (e) => {
+    storeDepartment = async (e) => {
         e.preventDefault();
-        // Aquí puedes implementar la lógica para enviar los datos del formulario
-        const form = e.target;
-        //setFormValues(form);
-        if(formValido(form)){
-            const url = `${endpoint}/departamento`;
-            const data = new FormData();
+        const validationErrors = {};
 
-            data.append("nombre_departamento", form.state.nombre_departamento);
-            data.append("numero_habitaciones", form.state.numero_habitaciones);
-            data.append("numero_personas", form.state.numero_personas);
-            data.append("superficie", form.state.superficie);
-            data.append("disponibilidad", form.state.disponibilidad ? '1' : '0');
-            data.append("amoblado", form.state.amoblado ? '1' : '0');
-            data.append("descripcion_departamento",form.state.descripcion_departamento);
-            data.append("piso", form.state.pisoSeleccionado);
-            if (form.state.imagenDep) {
-                data.append("imagen_departamento", form.state.imagenDep);
-            }
-            data.append("edificio_id", form.state.edificioSeleccionado)
-
-            
-            axios.post(url, data).then((res) => {
-                console.log(res);
-                window.location.href = "./depas";
-              });
-            
-        }else{
-            console.log('Formulario inválido, revisar errores');
-        }
-    };
-    function formValido(form){
-         let valido = true;
-        let validationErrors = {};
-        //const { nombre_departamento, numero_habitaciones, numero_personas, descripcion_departamento, pisoSeleccionado, bloqueSeleccionado, edificioSeleccionado, imagenDep } = formValues;
-        if (!formValues.nombre_departamento.trim()) {
+        if (!this.state.nombre_departamento.trim()) {
             validationErrors.nombre_departamento = "Este campo es obligatorio";
         } else if (
             !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(
-                formValues.state.nombre_departamento
+                this.state.nombre_departamento
             )
         ) {
             validationErrors.nombre_departamento = "Ingrese un nombre válido";
         }
 
-        if (!formValues.state.numero_habitaciones.trim()) {
+        if (!this.state.numero_habitaciones.trim()) {
             validationErrors.numero_habitaciones = "Este campo es obligatorio";
         } else {
-            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(formValues.state.numero_habitaciones)) {
+            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_habitaciones)) {
                 validationErrors.numero_habitaciones =
                     "Ingrese un número de habitaciones válido";
             }
         }
 
-        if (!formValues.state.numero_personas.trim()) {
+        if (!this.state.numero_personas.trim()) {
             validationErrors.numero_personas = "Este campo es obligatorio";
         } else {
-            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(formValues.state.numero_personas)) {
+            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_personas)) {
                 validationErrors.numero_personas =
                     "Ingrese un número de personas válido";
             }
         }
 
-        if (!formValues.state.descripcion_departamento.trim()) {
+        if (!this.state.descripcion_departamento.trim()) {
             validationErrors.descripcion_departamento = "Este campo es obligatorio";
         } else if (
             !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú0-9,"":;.() ]{1,120}$/.test(
-                formValues.state.descripcion_departamento
+                this.state.descripcion_departamento
             )
         ) {
             validationErrors.descripcion_departamento =
                 "Ingrese una descripcion válida";
         }
 
-        if (!formValues.state.pisoSeleccionado) {
+        if (!this.state.pisoSeleccionado) {
             validationErrors.pisoSeleccionado = "Debe seleccionar un piso";
         }
 
-        if (!formValues.state.bloqueSeleccionado) {
+        if (!this.state.bloqueSeleccionado) {
             validationErrors.bloqueSeleccionado = "Debe seleccionar un bloque";
         }
 
-        if (!formValues.state.edificioSeleccionado) {
+        if (!this.state.edificioSeleccionado) {
             validationErrors.edificioSeleccionado = "Debe seleccionar un edificio";
         }
 
-        if (formValues.state.imagenDep.name) {
+        if (this.state.imagenDep.name) {
             const extensiones = ["png", "PNG", "jpg", "jpeg"];
       
-            var nombreArchivo = formValues.state.imagenDep.name;
+            var nombreArchivo = this.state.imagenDep.name;
             const extension = nombreArchivo.substring(
               nombreArchivo.lastIndexOf(".") + 1,
               nombreArchivo.length
@@ -175,53 +190,70 @@ function EditarDep (){
             if (!extensiones.includes(extension)) {
               document.getElementsByClassName("imagen_input").value = "";
       
-              formValues.setState({ imagenDep: "" });
+              this.setState({ imagenDep: "" });
               validationErrors.imagenDep =
                 "La imagen tiene que tener una extension .png, .jpg, .PNG o .jpeg";
             }
         }
 
-        setErrors({ errors: validationErrors });
-        if (Object.keys(errors).length === 0) {
-            // Realizar alguna acción si no hay errores de validación
-            console.log('Formulario válido, enviar datos');
-        }else{
-            valido = false;
+        this.setState({ errors: validationErrors });
+
+        if (Object.keys(validationErrors).length === 0) {
+
+            const url = `${endpoint}/departamento`;
+            const data = new FormData();
+
+            data.append("nombre_departamento", this.state.nombre_departamento);
+            data.append("numero_habitaciones", this.state.numero_habitaciones);
+            data.append("numero_personas", this.state.numero_personas);
+            data.append("superficie", this.state.superficie);
+            data.append("disponibilidad", this.state.disponibilidad ? '1' : '0');
+            data.append("amoblado", this.state.amoblado ? '1' : '0');
+            data.append("descripcion_departamento", this.state.descripcion_departamento);
+            data.append("piso", this.state.pisoSeleccionado);
+            if (this.state.imagenDep) {
+                data.append("imagen_departamento", this.state.imagenDep);
+            }
+            data.append("edificio_id", this.state.edificioSeleccionado)
+            console.log(this.state.nombre_departamento);
+            console.log(this.state.numero_habitaciones);
+            console.log(this.state.numero_personas);
+            console.log(this.state.superficie);
+            console.log(this.state.disponibilidad);
+            console.log(this.state.amoblado);
+            console.log(this.state.descripcion_departamento);
+            console.log(this.state.pisoSeleccionado);
+            console.log(this.state.imagenDep);
+            console.log(this.state.edificioSeleccionado);
+
+            axios.post(url, data).then((res) => {
+                console.log(res);
+                window.location.href = "./depas";
+            });
+
         }
-        return valido;
-    }
-    const handleInput = (e) => {
-        this.setState({
-          [e.target.name]: e.target.value,
-        });
-      };
-
-    const changeChecked = (e) => {
-        this.setState({
-          [e.target.name]: e.target.checked,
-        });
-      };
-
-    const handleBloqueSeleccionado = (event) => {
-        const idBloque = event.target.value;
-        setState({ bloqueSeleccionado: idBloque });
-
-        this.cargarOpcionesDependientes(idBloque);
     };
 
-    const pisosOptions = [];
-    for (let i = 1; i <= numeroPisos; i++) {
-        pisosOptions.push(<option key={i} value={i}>{i}</option>);
-    }
-    return (
-        <>
+    render() {
+        const { bloques } = this.state;
+        const { edificios } = this.state;
+        const { numeroPisos, pisoSeleccionado } = this.state;
+        const pisosOptions = [];
+
+        for (let i = 1; i <= numeroPisos; i++) {
+            pisosOptions.push(
+                <option key={i} value={i}>{i}</option>
+            );
+        }
+        return (
+            <>
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'rgb(233,242,249)' }}>
                     <div className="custom-form">
                         <FormGroup col>
                             <Row>
                                 <Col sm={12}>
                                     <h2 className="text-center mb-5">Crear departamento</h2>
-                                    <form onSubmit={handleSubmit}>
+                                    <form onSubmit={this.storeDepartment}>
                                         <FormGroup className="mb-4">
                                             <Label
                                                 className="label-custom"
@@ -233,10 +265,10 @@ function EditarDep (){
                                                 type="text"
                                                 name="nombre_departamento"
                                                 placeholder="Ingrese nombre"
-                                                onChange={handleInput}
+                                                onChange={this.handleInput}
                                             />
-                                            {errors.nombre_departamento && (
-                                                <span>{errors.nombre_departamento}</span>
+                                            {this.state.errors.nombre_departamento && (
+                                                <span>{this.state.errors.nombre_departamento}</span>
                                             )}
                                         </FormGroup >
                                         <FormGroup className="mb-4">
@@ -250,10 +282,10 @@ function EditarDep (){
                                                 type="number"
                                                 name="numero_habitaciones"
                                                 placeholder="4"
-                                                onChange={handleInput}
+                                                onChange={this.handleInput}
                                             />
-                                            {errors.numero_habitaciones && (
-                                                <span>{errors.numero_habitaciones}</span>
+                                            {this.state.errors.numero_habitaciones && (
+                                                <span>{this.state.errors.numero_habitaciones}</span>
                                             )}
                                         </FormGroup>
                                         <FormGroup className="mb-4">
@@ -267,10 +299,10 @@ function EditarDep (){
                                                 type="number"
                                                 name="numero_personas"
                                                 placeholder="4"
-                                                onChange={handleInput}
+                                                onChange={this.handleInput}
                                             />
-                                            {errors.numero_personas && (
-                                                <span>{errors.numero_personas}</span>
+                                            {this.state.errors.numero_personas && (
+                                                <span>{this.state.errors.numero_personas}</span>
                                             )}
                                         </FormGroup>
                                         <FormGroup className="mb-4">
@@ -284,10 +316,10 @@ function EditarDep (){
                                                 type="number"
                                                 name="superficie"
                                                 placeholder="4"
-                                                onChange={handleInput}
+                                                onChange={this.handleInput}
                                             />
-                                            {errors.superficie && (
-                                                <span>{errors.superficie}</span>
+                                            {this.state.errors.superficie && (
+                                                <span>{this.state.errors.superficie}</span>
                                             )}
                                         </FormGroup>
                                         <Row className="mb-4">
@@ -315,7 +347,7 @@ function EditarDep (){
                                                     <Input
                                                         type="checkbox"
                                                         id="checkBoxAmoblado"
-                                                        onChange={() => changeChecked('amoblado')}
+                                                        onChange={() => this.changeChecked('amoblado')}
                                                     />
                                                     {' '}
                                                     Amoblado
@@ -335,7 +367,7 @@ function EditarDep (){
                                                 type="select"
                                                 name="bloque_id"
                                                 id="bloque_id"
-                                                onChange={handleBloqueSeleccionado}
+                                                onChange={this.handleBloqueSeleccionado}
                                             >
                                                 <option value="">Seleccionar Bloque</option>
                                                 {this.state.bloques.map(bloque => (
@@ -424,7 +456,7 @@ function EditarDep (){
 
 
             </>
-    );
-    
+        );
+    }
 }
-export default EditarDep
+export default CrearDepartamento;

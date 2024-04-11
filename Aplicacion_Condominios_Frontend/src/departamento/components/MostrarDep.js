@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 const endpoint = 'http://localhost:8000/api';
 const endpointImg = 'http://localhost:8000';
@@ -53,7 +53,7 @@ const MostrarDep = () => {
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Amoblado: {departamento.amoblado}</CardSubtitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Descripcion: {departamento.descripcion_departamento}</CardSubtitle>
                             <div className="botones">
-                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faArrowRight} className="masInf" /></Button>
+                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faX} className="masInf" /></Button>
                             </div>
                         </CardBody>
                     </Card>

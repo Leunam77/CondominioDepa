@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Departamento;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\edificio;
+use App\Models\GestDepartamento\edificio;
 
 class EdificioController extends Controller
 {

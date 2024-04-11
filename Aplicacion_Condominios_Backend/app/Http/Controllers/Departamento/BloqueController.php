@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Departamento;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\bloque;
+use App\Models\GestDepartamento\bloque;
 
 class BloqueController extends Controller
 {

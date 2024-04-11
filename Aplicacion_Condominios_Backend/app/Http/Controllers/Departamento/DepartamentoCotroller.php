@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Departamento;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\departamento;
+use App\Models\GestDepartamento\departamento;
 
 class DepartamentoCotroller extends Controller
 {

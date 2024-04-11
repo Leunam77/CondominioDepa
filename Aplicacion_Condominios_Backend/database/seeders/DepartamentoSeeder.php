@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Departamento;
+use App\Models\GestDepartamento\Departamento;
 class DepartamentoSeeder extends Seeder
 {
     /**

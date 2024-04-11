@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\edificio;
+use App\Models\GestDepartamento\edificio;
 class EdificioSeeder extends Seeder
 {
     /**

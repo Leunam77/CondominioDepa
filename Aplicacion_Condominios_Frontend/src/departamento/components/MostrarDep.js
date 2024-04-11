@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const endpoint = 'http://localhost:8000/api';
+const endpointImg = 'http://localhost:8000';
 const MostrarDep = () => {
     const [departamentos, setDepartamentos] = useState ([]);
 
@@ -27,6 +28,7 @@ const MostrarDep = () => {
         getAllDepartments();
     }
 
+
     return(
         <div className="Deps">
             <h1 className="title">Departamentos</h1>
@@ -38,7 +40,7 @@ const MostrarDep = () => {
                     <Card key={departamento.id}>
                         <CardImg
                             alt="Card image cap"
-                            src="https://picsum.photos/318/180"
+                            src={`${endpointImg}/${departamento.imagen_departamento}`}
                             top
                             width="100%"
                         />

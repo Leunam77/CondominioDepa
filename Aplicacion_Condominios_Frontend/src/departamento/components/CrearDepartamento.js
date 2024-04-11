@@ -41,7 +41,7 @@ class CrearDepartamento extends Component {
             edificios: [],
             numeroPisos: 0,
             pisoSeleccionado: '',
-            imagenDep: "https://picsum.photos/318/180"
+            imagenDep: ""
         };
     }
 
@@ -63,6 +63,13 @@ class CrearDepartamento extends Component {
         this.setState({ edificioSeleccionado: edificio });
         this.cargarPisos(edificio);
     };
+
+    handleChange = (e) => {
+        this.setState({
+            imagenDep: e.target.files[0],
+        });
+        console.log('imagen:', this.state.imagenDep.name);
+      };
 
     cargarPisos = async (idEdificio) => {
         try {
@@ -140,6 +147,31 @@ class CrearDepartamento extends Component {
             validationErrors.pisoSeleccionado = "Debe seleccionar un piso";
         }
 
+        if (!this.state.bloqueSeleccionado) {
+            validationErrors.bloqueSeleccionado = "Debe seleccionar un bloque";
+        }
+
+        if (!this.state.edificioSeleccionado) {
+            validationErrors.edificioSeleccionado = "Debe seleccionar un edificio";
+        }
+
+        if (this.state.imagenDep.name) {
+            const extensiones = ["png", "PNG", "jpg", "jpeg"];
+      
+            var nombreArchivo = this.state.imagenDep.name;
+            const extension = nombreArchivo.substring(
+              nombreArchivo.lastIndexOf(".") + 1,
+              nombreArchivo.length
+            );
+            if (!extensiones.includes(extension)) {
+              document.getElementsByClassName("imagen_input").value = "";
+      
+              this.setState({ imagenDep: "" });
+              validationErrors.imagenDep =
+                "La imagen tiene que tener una extension .png, .jpg, .PNG o .jpeg";
+            }
+        }
+
         this.setState({ errors: validationErrors });
 
         if (Object.keys(validationErrors).length === 0) {
@@ -155,7 +187,9 @@ class CrearDepartamento extends Component {
             data.append("amoblado", this.state.amoblado ? '1' : '0');
             data.append("descripcion_departamento", this.state.descripcion_departamento);
             data.append("piso", this.state.pisoSeleccionado);
-            data.append("imagen_departamento", this.state.imagenDep);
+            if (this.state.imagenDep) {
+                data.append("imagen_departamento", this.state.imagenDep);
+            }
             data.append("edificio_id", this.state.edificioSeleccionado)
             console.log(this.state.nombre_departamento);
             console.log(this.state.numero_habitaciones);
@@ -354,7 +388,21 @@ class CrearDepartamento extends Component {
                                                 {pisosOptions}
                                             </Input>
                                         </FormGroup>
+                                        <Label
+                                            size="sm"
+                                            style={{ fontWeight: 'bold' }}
 
+                                        >
+                                            Subir una imagen
+                                        </Label>
+                                        <Input
+                                            type="file"
+                                            className="mb-3 w-100"
+                                            name="imagen_departamento"
+                                            id="imagen_departamento"
+                                            onChange={this.handleChange}
+                                        >
+                                        </Input>
                                         <FormGroup className="mb-5">
                                             <Label
                                                 className="label-custom"

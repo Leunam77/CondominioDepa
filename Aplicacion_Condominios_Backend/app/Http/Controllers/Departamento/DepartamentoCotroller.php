@@ -17,6 +17,7 @@ class DepartamentoCotroller extends Controller
    
     public function store(Request $request)
     {
+
         $departamento = new departamento();
         $departamento-> nombre_departamento = $request -> nombre_departamento;
         $departamento-> numero_habitaciones = $request -> numero_habitaciones;
@@ -26,8 +27,28 @@ class DepartamentoCotroller extends Controller
         $departamento-> amoblado = $request -> amoblado;
         $departamento-> descripcion_departamento = $request -> descripcion_departamento;
         $departamento-> piso = $request -> piso;
-        $departamento-> imagen_departamento = $request -> imagen_departamento;
+
         $departamento-> edificio_id = $request -> edificio_id;
+
+        if($request -> hasFile ('imagen_departamento')){
+            $image = $request->file('imagen_departamento');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move('departamento/images/', $name);
+
+            $departamento-> imagen_departamento = $name;
+            $departamento-> save();
+
+            return response()->json([
+                'status' => 200,
+                'message' =>'Evento añadido exitosamente',
+            ]);
+
+        }
+        if (!$request->hasFile('imagen_departamento') || !$departamento->imagen_departamento) {
+            // Ruta de la imagen predeterminada
+            $imagenPredeterminada = 'departamento/images/departamento_pred.jpeg';
+            $departamento->imagen_departamento = $imagenPredeterminada;
+        }
 
         $departamento->save();
     }

@@ -6,7 +6,19 @@ function EditarDep (){
     //obtener un departamento por su id
     const [departamento, setDepartamento] = useState(null);
     const [loader, setLoader] = useState(false);
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState({});
+    const [formValues, setFormValues] = useState({
+        nombre_departamento: '',
+        numero_habitaciones: 0,
+        numero_personas: 0,
+        numero_pisos: 0,
+        superficie: 0,
+        disponibilidad: false,
+        amoblado: false,
+        descripcion_departamento: '',
+        piso_id: '',
+        errors: {}
+    });
 
     const getBloques = async () => {
         const url = `${endpoint}/bloques`;
@@ -54,30 +66,118 @@ function EditarDep (){
     };
     //definir el estado del departamento con los datos que reciba de getDepartamento
 
-    const [formValues, setFormValues] = useState({
-        nombre_departamento: '',
-        numero_habitaciones: 0,
-        numero_personas: 0,
-        numero_pisos: 0,
-        superficie: 0,
-        disponibilidad: false,
-        amoblado: false,
-        descripcion_departamento: '',
-        piso_id: '',
-        errors: {}
-    });
     const numeroPisos = formValues.numero_pisos;
     const handleSubmit = (e) => {
         e.preventDefault();
         // Aquí puedes implementar la lógica para enviar los datos del formulario
         const form = e.target;
-        setFormValues(form);
-        if(!formValido(form)){
-            return;
+        //setFormValues(form);
+        if(formValido(form)){
+            const url = `${endpoint}/departamento`;
+            const data = new FormData();
+
+            data.append("nombre_departamento", form.state.nombre_departamento);
+            data.append("numero_habitaciones", form.state.numero_habitaciones);
+            data.append("numero_personas", form.state.numero_personas);
+            data.append("superficie", form.state.superficie);
+            data.append("disponibilidad", form.state.disponibilidad ? '1' : '0');
+            data.append("amoblado", form.state.amoblado ? '1' : '0');
+            data.append("descripcion_departamento",form.state.descripcion_departamento);
+            data.append("piso", form.state.pisoSeleccionado);
+            if (form.state.imagenDep) {
+                data.append("imagen_departamento", form.state.imagenDep);
+            }
+            data.append("edificio_id", form.state.edificioSeleccionado)
+
+            
+            axios.post(url, data).then((res) => {
+                console.log(res);
+                window.location.href = "./depas";
+              });
+            
+        }else{
+            console.log('Formulario inválido, revisar errores');
         }
     };
     function formValido(form){
-        let valido=true;
+         let valido = true;
+        let validationErrors = {};
+        //const { nombre_departamento, numero_habitaciones, numero_personas, descripcion_departamento, pisoSeleccionado, bloqueSeleccionado, edificioSeleccionado, imagenDep } = formValues;
+        if (!formValues.nombre_departamento.trim()) {
+            validationErrors.nombre_departamento = "Este campo es obligatorio";
+        } else if (
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(
+                formValues.state.nombre_departamento
+            )
+        ) {
+            validationErrors.nombre_departamento = "Ingrese un nombre válido";
+        }
+
+        if (!formValues.state.numero_habitaciones.trim()) {
+            validationErrors.numero_habitaciones = "Este campo es obligatorio";
+        } else {
+            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(formValues.state.numero_habitaciones)) {
+                validationErrors.numero_habitaciones =
+                    "Ingrese un número de habitaciones válido";
+            }
+        }
+
+        if (!formValues.state.numero_personas.trim()) {
+            validationErrors.numero_personas = "Este campo es obligatorio";
+        } else {
+            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(formValues.state.numero_personas)) {
+                validationErrors.numero_personas =
+                    "Ingrese un número de personas válido";
+            }
+        }
+
+        if (!formValues.state.descripcion_departamento.trim()) {
+            validationErrors.descripcion_departamento = "Este campo es obligatorio";
+        } else if (
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú0-9,"":;.() ]{1,120}$/.test(
+                formValues.state.descripcion_departamento
+            )
+        ) {
+            validationErrors.descripcion_departamento =
+                "Ingrese una descripcion válida";
+        }
+
+        if (!formValues.state.pisoSeleccionado) {
+            validationErrors.pisoSeleccionado = "Debe seleccionar un piso";
+        }
+
+        if (!formValues.state.bloqueSeleccionado) {
+            validationErrors.bloqueSeleccionado = "Debe seleccionar un bloque";
+        }
+
+        if (!formValues.state.edificioSeleccionado) {
+            validationErrors.edificioSeleccionado = "Debe seleccionar un edificio";
+        }
+
+        if (formValues.state.imagenDep.name) {
+            const extensiones = ["png", "PNG", "jpg", "jpeg"];
+      
+            var nombreArchivo = formValues.state.imagenDep.name;
+            const extension = nombreArchivo.substring(
+              nombreArchivo.lastIndexOf(".") + 1,
+              nombreArchivo.length
+            );
+            if (!extensiones.includes(extension)) {
+              document.getElementsByClassName("imagen_input").value = "";
+      
+              formValues.setState({ imagenDep: "" });
+              validationErrors.imagenDep =
+                "La imagen tiene que tener una extension .png, .jpg, .PNG o .jpeg";
+            }
+        }
+
+        setErrors({ errors: validationErrors });
+        if (Object.keys(errors).length === 0) {
+            // Realizar alguna acción si no hay errores de validación
+            console.log('Formulario válido, enviar datos');
+        }else{
+            valido = false;
+        }
         return valido;
     }
     const handleInput = (e) => {
@@ -91,6 +191,10 @@ function EditarDep (){
           [e.target.name]: e.target.checked,
         });
       };
+    const pisosOptions = [];
+    for (let i = 1; i <= numeroPisos; i++) {
+        pisosOptions.push(<option key={i} value={i}>{i}</option>);
+    }
     return(
             <>
                 <h1>Editar Departamento</h1>
@@ -130,7 +234,7 @@ function EditarDep (){
                         />
                     {/* {this.state.errors.numero_personas && (
                         <span>
-                        {this.state.errors.numero_personas}
+                        {errors.numero_personas}
                         </span>
                     )} */}
 

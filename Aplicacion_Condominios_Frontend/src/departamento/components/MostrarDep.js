@@ -28,6 +28,12 @@ const MostrarDep = () => {
         getAllDepartments();
     }
 
+    const mostrarAmoblado = (amoblado) => {
+        return amoblado ? "Si" : "No";
+    }
+    const mostrarDisponibilidad = (disponibilidad) => {
+        return disponibilidad ? "Ocupado" : "Libre";
+    }
 
     return(
         <div className="Deps">
@@ -47,8 +53,8 @@ const MostrarDep = () => {
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Numero de habitaciones: {departamento.numero_habitaciones}</CardSubtitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Numero de personas: {departamento.numero_personas}</CardSubtitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Superficie: {departamento.superficie}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Disponibilidad: {departamento.disponibilidad}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Amoblado: {departamento.amoblado}</CardSubtitle>
+                            <CardSubtitle className="mb-2 text-muted" tag="h6">Disponibilidad: {mostrarDisponibilidad(departamento.disponibilidad)}</CardSubtitle>
+                            <CardSubtitle className="mb-2 text-muted" tag="h6">Amoblado: {mostrarAmoblado(departamento.amoblado)}</CardSubtitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">Descripcion: {departamento.descripcion_departamento}</CardSubtitle>
                             <div className="botones">
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faX} className="masInf" /></Button>

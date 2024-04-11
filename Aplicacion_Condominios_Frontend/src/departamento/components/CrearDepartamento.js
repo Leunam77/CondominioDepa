@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-    Input, FormGroup, Label, Col, Row, Button
+    Input, FormGroup, Label, Col, Row, Button, Container
 } from "reactstrap";
 import "./customs.css";
 import { Form } from "react-router-dom";
@@ -223,7 +223,7 @@ class CrearDepartamento extends Component {
         }
         return (
             <>
-                <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: 'rgb(233,242,249)' }}>
+                <Container fluid className="d-flex vh-100 justify-content-center align-items-center" style={{overflow: 'auto', backgroundColor: 'rgb(233,242,249)' }}>
                     <div className="custom-form">
                         <FormGroup col>
                             <Row>
@@ -428,7 +428,7 @@ class CrearDepartamento extends Component {
                         </FormGroup>
                     </div>
 
-                </div>
+                </Container>
 
 
             </>

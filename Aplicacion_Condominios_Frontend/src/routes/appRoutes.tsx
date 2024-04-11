@@ -19,6 +19,9 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import EmployePage from "../pages/employes/EmployePage";
 import EngineeringIcon from '@mui/icons-material/Engineering';
 
+import CrearDepa from "../departamento/components/CrearDepartamento.js";
+import Depa from "../departamento/components/MostrarDep.js"
+
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -39,6 +42,22 @@ const appRoutes: RouteType[] = [
         index: true,
         element: <DashboardIndex />,
         state: "dashboard.index"
+      },
+      {
+        path: "/dashboard/crearDepa",
+        element: <CrearDepa />,
+        state: "dashboard.crearDepa",
+        sidebarProps: {
+          displayText: "Crear Departamento"
+        },
+      },
+      {
+        path: "/dashboard/depa",
+        element: <Depa />,
+        state: "dashboard.depa",
+        sidebarProps: {
+          displayText: "Gestionar Departamento"
+        },
       },
       {
         path: "/dashboard/default",

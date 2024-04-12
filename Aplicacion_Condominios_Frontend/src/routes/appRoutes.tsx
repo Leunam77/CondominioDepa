@@ -23,6 +23,7 @@ import CrearDepa from "../departamento/components/CrearDepartamento.js";
 
 import Depa from "../departamento/components/MostrarDep.js";
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
+import Cobros from "../cobro_servicios/components/gestionCobros.js";
 
 import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
@@ -102,7 +103,7 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/component/alert",
-        element: <Depa/>,
+        element: <Cobros/>,
         state: "component.alert",
         sidebarProps: {
           displayText: "Generar pre-aviso"

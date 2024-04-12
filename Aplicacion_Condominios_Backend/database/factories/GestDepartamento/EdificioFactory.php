@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\edificio;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Bloque;
+use App\Models\GestDepartamento\bloque;
 class EdificioFactory extends Factory
 {
     /**

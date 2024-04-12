@@ -8,8 +8,8 @@
 }
 
 .name-capacity-container {
-  display: "flex";
-  gap: "1rem";
+  display: flex;
+  gap: 1rem;
 }
 
 .form-group {
@@ -88,9 +88,18 @@ textarea {
   background-color: rgba(255, 0, 0, 0.1);
   padding: 1rem;
   border-radius: 10px;
+  gap: 1rem;
 }
 
-.loading-container {
+.errors-container ul {
+  list-style: disc;
+}
+
+.errors-container h3 {
+  font-size: 1.3rem;
+}
+
+.loader-container {
   display: flex;
   justify-content: center;
   margin-top: 0;

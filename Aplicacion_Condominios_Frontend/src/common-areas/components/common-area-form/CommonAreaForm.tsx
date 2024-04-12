@@ -148,10 +148,6 @@ export default function CommonAreaForm() {
         </ul>
       </div>
 
-      <button className="btn-submit" type="submit">
-        Registrar Área
-      </button>
-
       {submitting && (
         <div className="loader-container">
           <Loader />
@@ -177,6 +173,10 @@ export default function CommonAreaForm() {
           </ul>
         </div>
       )}
+
+      <button className="btn-submit" type="submit">
+        Registrar Área
+      </button>
     </form>
   );
 }

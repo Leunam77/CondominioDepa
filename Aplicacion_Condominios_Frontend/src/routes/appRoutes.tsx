@@ -20,7 +20,10 @@ import EmployePage from "../pages/employes/EmployePage";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
+
 import Depa from "../departamento/components/MostrarDep.js";
+import Equipos from "../cobro_servicios/components/gestionEquipos.js";
+import Cobros from "../cobro_servicios/components/gestionCobros.js";
 
 import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
@@ -104,10 +107,26 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/component/alert",
-        element: <AlertPage />,
+        element: <Cobros />,
         state: "component.alert",
         sidebarProps: {
-          displayText: "Agua (Ejemplo)",
+          displayText: "Generar pre-aviso",
+        },
+      },
+      {
+        path: "/component/button",
+        element: <Equipos />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Gestionar Equipos",
+        },
+      },
+      {
+        path: "/component/button",
+        element: <Equipos />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Gestionar Equipos",
         },
       },
       {
@@ -115,7 +134,7 @@ const appRoutes: RouteType[] = [
         element: <ButtonPage />,
         state: "component.button",
         sidebarProps: {
-          displayText: "Electricidad",
+          displayText: "Enviar Cobro",
         },
       },
     ],

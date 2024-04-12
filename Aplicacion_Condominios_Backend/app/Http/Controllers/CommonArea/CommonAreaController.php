@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\CommonArea;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CommonAreaRequest;
-use App\Http\Resources\CommonAreaCollection;
-use App\Http\Resources\CommonAreaResource;
+use App\Http\Requests\CommonArea\CommonAreaRequest;
+use App\Http\Requests\CommonArea\UpdateCommonAreaRequest;
+use App\Http\Resources\CommonArea\CommonAreaCollection;
+use App\Http\Resources\CommonArea\CommonAreaResource;
 use App\Models\CommonArea\CommonArea;
 use App\Models\CommonArea\Policy;
 use App\Models\CommonArea\Schedule;
@@ -79,9 +80,53 @@ class CommonAreaController extends Controller
         ]], 200);
     }
 
-    public function update(Request $request, CommonArea $commonArea)
+    public function update(UpdateCommonAreaRequest $request, $idCommonArea)
     {
-        //
+        $policies = $request->get('policies');
+        $schedule = $request->get('schedule');
+        $name = $request->get('name');
+        $description = $request->get('description');
+        $capacity = $request->get('capacity');
+
+        $commonArea = CommonArea::find($idCommonArea);
+
+        $oldName = $commonArea->common_area_name;
+        $oldDescription = $commonArea->description;
+        $oldCapacity = $commonArea->capacity;
+
+        $commonArea->common_area_name = isset($name) ? $name : $oldName;
+        $commonArea->description = isset($description) ? $description : $oldDescription;
+        $commonArea->capacity = isset($capacity) ? $capacity : $oldCapacity;
+
+        if($schedule) {
+            $commonArea->schedules()->delete();
+            $values = collect($schedule)->map(function ($item) use ($commonArea) {
+                return [
+                    "schedule_day" => $item['day'],
+                    "start_hour" => $item['startHour'],
+                    "end_hour" => $item['endHour'],
+                    "id_common_area" => $commonArea->id_common_area
+                ];
+            })->toArray();
+            Schedule::insert($values);
+        }
+
+        if($policies) {
+            $commonArea->policies()->delete();
+            $values = collect($policies)->map(function ($item) use ($commonArea) {
+                return [
+                    "description" => $item,
+                    "id_common_area" => $commonArea->id_common_area
+                ];
+            })->toArray();
+            Policy::insert($values);
+        }
+
+        $commonArea->save();
+        return response()->json(['data' => [
+            'message' => 'Area comun actualizada correctamente',
+            'commonArea' => new CommonAreaResource($commonArea)
+        ]], 200);
     }
 
     public function destroy($idCommonArea)

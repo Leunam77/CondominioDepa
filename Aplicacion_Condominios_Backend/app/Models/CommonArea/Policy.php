@@ -11,6 +11,11 @@ class Policy extends Model
 
     protected $primaryKey = 'id_policy';
 
+    protected $fillable = [
+        'description',
+        'id_common_area'
+    ];
+
     public function commonArea()
     {
         return $this->belongsTo(CommonArea::class, 'id_common_area');

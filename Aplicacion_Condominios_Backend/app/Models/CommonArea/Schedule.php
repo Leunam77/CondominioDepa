@@ -11,6 +11,13 @@ class Schedule extends Model
 
     protected $primaryKey = 'id_schedule';
 
+    protected $fillable = [
+        'schedule_day',
+        'start_hour',
+        'end_hour',
+        'id_common_area'
+    ];
+
     public function commonArea()
     {
         return $this->belongsTo(CommonArea::class, 'id_common_area');

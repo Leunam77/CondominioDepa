@@ -22,7 +22,7 @@
   font-weight: bold;
 }
 
-.form input,
+.form input:not([type="submit"]),
 textarea {
   border: 1px solid #ced4da;
   outline: none;
@@ -37,6 +37,27 @@ textarea {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.policies {
+  display: flex;
+  flex-direction: column;
+  list-style: disc;
+  padding-left: 0;
+  gap: 1rem;
+}
+
+.policy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c6d4e8;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.delete-policy {
+  color: red;
 }
 
 .btn-add-policy {

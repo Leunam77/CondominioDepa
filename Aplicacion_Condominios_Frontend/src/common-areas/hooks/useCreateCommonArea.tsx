@@ -1,7 +1,19 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { CommonArea } from "../interfaces/common-areas";
 
-export default function useCreateCommonArea() {
+interface Props {
+  isEditing?: boolean;
+  id?: number;
+}
+
+export default function useCreateCommonArea(
+  { isEditing, id }: Props = {
+    isEditing: false,
+    id: undefined,
+  }
+) {
+  console.log(isEditing, id);
   const [error, setError] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
   const [name, setName] = useState<string>("");
@@ -21,6 +33,47 @@ export default function useCreateCommonArea() {
   const [policy, setPolicy] = useState<string>("");
   const [policies, setPolicies] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [oldData, setOldData] = useState<CommonArea | null>(null);
+  const [enableEdit, setEnableEdit] = useState<boolean>(false);
+
+  useEffect(() => {
+    verifyChanges();
+  }, [name, description, capacity, schedule, policies, policy, oldData]);
+
+  const verifyChanges = () => {
+    if (oldData) {
+      const {
+        name: oldName,
+        description: oldDescription,
+        capacity: oldCapacity,
+        schedule: oldSchedule,
+        policies: oldPolicies,
+      } = oldData;
+
+      let change =
+        name !== oldName ||
+        description !== oldDescription ||
+        capacity !== oldCapacity;
+
+      oldSchedule.forEach((element) => {
+        const found = schedule.find((item) => item.day === element.day);
+        if (found) {
+          change =
+            change ||
+            found.startHour !== element.startHour ||
+            found.endHour !== element.endHour;
+        }
+      });
+
+      change = change || policies.length !== oldPolicies.length;
+
+      policies.forEach((element, index) => {
+        change = change || element !== oldPolicies[index];
+      });
+
+      setEnableEdit(change);
+    }
+  };
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -69,6 +122,11 @@ export default function useCreateCommonArea() {
     }
   };
 
+  const deletePolicy = (index: number) => {
+    const newPolicies = policies.filter((_, i) => i !== index);
+    setPolicies(newPolicies);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const selectedSchedule = schedule.filter((horario) => horario.isChecked);
@@ -84,40 +142,49 @@ export default function useCreateCommonArea() {
       schedule: scheduleForm,
       policies: policies,
     };
-    const URL = "http://localhost:8000/api/areas-comunes";
+    const URL = `http://localhost:8000/api/areas-comunes/${id ? id : ""}`;
+    const method = isEditing ? "PATCH" : "POST";
     try {
       setError("");
       setErrors([]);
       setSubmitting(true);
+
       const response = await fetch(URL, {
-        method: "POST",
+        method,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify(formData),
       });
-      if (response.status !== 201) {
+
+      const statusCode = response.status;
+
+      if (statusCode !== 201 && statusCode !== 200) {
         throw await response.json();
       }
 
-      setName("");
-      setDescription("");
-      setCapacity(0);
-      setSchedule(
-        schedule.map((horario) => ({
-          ...horario,
-          startHour: "",
-          endHour: "",
-          isChecked: false,
-        }))
-      );
-      setPolicy("");
-      setPolicies([]);
+      if (!isEditing) {
+        setName("");
+        setDescription("");
+        setCapacity(0);
+        setSchedule(
+          schedule.map((horario) => ({
+            ...horario,
+            startHour: "",
+            endHour: "",
+            isChecked: false,
+          }))
+        );
+        setPolicy("");
+        setPolicies([]);
+      }
 
       Swal.fire({
-        title: "Área común registrada",
-        text: "Área común registrada exitosamente",
+        title: ` ${isEditing ? "Actualización" : "Registro"} exitoso`,
+        text: `El área común ha sido ${
+          isEditing ? "actualizada" : "registrada"
+        } correctamente`,
         icon: "success",
       });
     } catch (error: any) {
@@ -131,6 +198,28 @@ export default function useCreateCommonArea() {
     }
   };
 
+  const setData = (commonArea: CommonArea) => {
+    const { name, description, capacity, schedule, policies } = commonArea;
+    setName(name);
+    setDescription(description);
+    setCapacity(capacity);
+    setSchedule((prev) => {
+      return prev.map((horario) => {
+        const found = schedule.find((item) => item.day === horario.day);
+        if (found) {
+          return {
+            ...horario,
+            startHour: found.startHour,
+            endHour: found.endHour,
+            isChecked: true,
+          };
+        }
+        return horario;
+      });
+    });
+    setPolicies(policies);
+  };
+
   return {
     error,
     errors,
@@ -141,6 +230,7 @@ export default function useCreateCommonArea() {
     policy,
     policies,
     submitting,
+    enableEdit,
     setName: handleNameChange,
     setDescription: handleDescriptionChange,
     setCapacity: handleCapacityChange,
@@ -150,5 +240,8 @@ export default function useCreateCommonArea() {
     setPolicy: handlePolicyChange,
     addPolicy: handleAddPolicy,
     handleSubmit,
+    setData,
+    setOldData,
+    deletePolicy,
   };
 }

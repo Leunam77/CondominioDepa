@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import Loader from "../Loader/Loader";
 import useCreateCommonArea from "../../hooks/useCreateCommonArea";
 
@@ -14,7 +16,15 @@ const DAYS = [
   "Domingo",
 ];
 
-export default function CommonAreaForm() {
+interface CommonAreaFormProps {
+  id?: number;
+  isEditing?: boolean;
+}
+
+export default function CommonAreaForm({
+  id,
+  isEditing = false,
+}: CommonAreaFormProps) {
   const {
     addPolicy,
     capacity,
@@ -34,7 +44,28 @@ export default function CommonAreaForm() {
     setPolicy,
     setStartHour,
     submitting,
-  } = useCreateCommonArea();
+    setData,
+    setOldData,
+    enableEdit,
+    deletePolicy,
+  } = useCreateCommonArea({ isEditing, id });
+
+  useEffect(() => {
+    if (isEditing) {
+      const fetchCommonArea = async () => {
+        const response = await fetch(
+          `http://localhost:8000/api/areas-comunes/${id}`
+        );
+        const {
+          data: { commonArea },
+        } = await response.json();
+        setData(commonArea);
+        setOldData(commonArea);
+      };
+
+      fetchCommonArea();
+    }
+  }, [id, isEditing]);
 
   return (
     <form onSubmit={handleSubmit} className="form">
@@ -141,9 +172,18 @@ export default function CommonAreaForm() {
             Agregar
           </button>
         </div>
-        <ul>
+        <ul className="policies">
           {policies.map((policy, index) => (
-            <li key={index}>{policy}</li>
+            <li className="policy" key={index}>
+              <span>{policy}</span>
+              <button
+                type="button"
+                className="delete-policy"
+                onClick={() => deletePolicy(index)}
+              >
+                X
+              </button>
+            </li>
           ))}
         </ul>
       </div>
@@ -174,9 +214,16 @@ export default function CommonAreaForm() {
         </div>
       )}
 
-      <button className="btn-submit" type="submit">
-        Registrar Área
-      </button>
+      <input
+        type="submit"
+        value={isEditing ? "Actualizar" : "Registrar"}
+        className="btn-submit"
+        style={{
+          opacity: isEditing && !enableEdit ? 0.5 : 1,
+          cursor: isEditing && !enableEdit ? "not-allowed" : "pointer",
+        }}
+        disabled={isEditing && !enableEdit}
+      />
     </form>
   );
 }

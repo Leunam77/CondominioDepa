@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\CommonArea;
 
-use App\Rules\UniqueNameCommonArea;
+use App\Rules\CommonArea\UniqueNameCommonArea;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Http\FormRequest;
@@ -16,7 +16,7 @@ class CommonAreaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255', new UniqueNameCommonArea()],
+            'name' => ['required', 'string', 'min:5' ,'max:255', new UniqueNameCommonArea()],
             'description' => 'string',
             'capacity' => 'required|integer|min:10',
             'schedule' => 'required|array',
@@ -32,6 +32,7 @@ class CommonAreaRequest extends FormRequest
         return [
             'name.required' => 'El nombre es requerido',
             'name.string' => 'El nombre debe ser una cadena de texto',
+            'name.min' => 'El nombre debe tener al menos 5 caracteres',
             'name.max' => 'El nombre no debe exceder los 255 caracteres',
             'description.string' => 'La descripción debe ser una cadena de texto',
             'capacity.required' => 'La capacidad es requerida',

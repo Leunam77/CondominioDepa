@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\CommonArea;
 
 use App\Models\CommonArea\CommonArea;
 use Illuminate\Contracts\Validation\Rule;

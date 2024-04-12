@@ -29,6 +29,7 @@ import DashboardEmployee from "../pages/dashboard/DashboardEmployee";
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
+import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -143,6 +144,11 @@ const appRoutes: RouteType[] = [
         sidebarProps: {
           displayText: "Listar Areas Comunes",
         },
+      },
+      {
+        path: "/areas-comunes/:id",
+        element: <UpdatePage />,
+        state: "areas-comunes.actualizar",
       },
     ],
   },

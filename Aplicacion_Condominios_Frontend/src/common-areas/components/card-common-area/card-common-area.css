@@ -8,3 +8,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: rgb(227, 205, 124);
 }
+
+.card-common-area-link {
+  text-decoration: none;
+  color: black;
+}

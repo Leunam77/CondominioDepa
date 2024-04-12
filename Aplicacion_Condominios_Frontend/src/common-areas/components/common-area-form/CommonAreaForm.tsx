@@ -137,7 +137,7 @@ export default function CommonAreaForm() {
             placeholder="Escribe una política/regla"
           />
 
-          <button className="btn-add-policy" onClick={addPolicy}>
+          <button type="button" className="btn-add-policy" onClick={addPolicy}>
             Agregar
           </button>
         </div>

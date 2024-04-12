@@ -2,6 +2,14 @@ import { Link } from "react-router-dom";
 import { CommonArea } from "../../interfaces/common-areas";
 
 import "./card-common-area.css";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardSubtitle,
+  CardText,
+  CardTitle,
+} from "reactstrap";
 
 interface CardCommonAreaProps {
   commonArea: CommonArea;
@@ -9,15 +17,27 @@ interface CardCommonAreaProps {
 
 export default function CardCommonArea({ commonArea }: CardCommonAreaProps) {
   return (
-    <Link
-      to={`/areas-comunes/${commonArea.id}`}
-      className="card-common-area-link"
+    <Card
+      style={{
+        width: "18rem",
+      }}
     >
-      <article key={commonArea.id} className="card-common-area">
-        <h3>{commonArea.name}</h3>
-        <p>Capacidad: {commonArea.capacity}</p>
-        <p>{commonArea.description}</p>
-      </article>
-    </Link>
+      <img alt="Sample" src="https://picsum.photos/300/200" />
+      <CardBody>
+        <CardTitle tag="h5">{commonArea.name}</CardTitle>
+        <CardSubtitle className="mb-2 text-muted" tag="h6">
+          Capacidad: {commonArea.capacity}
+        </CardSubtitle>
+        <CardText>{commonArea.description}</CardText>
+        <Button color="info">
+          <Link
+            className="card-common-area-link"
+            to={`/areas-comunes/${commonArea.id}`}
+          >
+            Ver detalles
+          </Link>
+        </Button>
+      </CardBody>
+    </Card>
   );
 }

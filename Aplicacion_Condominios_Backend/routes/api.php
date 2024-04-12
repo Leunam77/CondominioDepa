@@ -6,6 +6,8 @@ use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
+use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
+use App\Models\Mantenimiento\CategoriaServicio;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -51,3 +53,10 @@ Route::get('/get_all_employees', [EmployeeController::class, 'getAll']);
 Route::delete('/delete_employee/{id}', [EmployeeController::class, 'delete']);
 Route::get('/get_employee/{id}', [EmployeeController::class, 'getById']);
 Route::post('/update_employee/{id}', [EmployeeController::class, 'update']);
+
+// MANTENIMIENTO
+Route::get('/CategoriaServicio', [CategoriaServicioController::class,'getCategoriaServicio']);
+Route::get('/CategoriaServicio/{id}', [CategoriaServicioController::class,'getCategoriaId']);
+Route::post('/CategoriaServicio/insert', [CategoriaServicioController::class,'insertarCategoria']);
+Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class,'updateCategoria']);
+Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);

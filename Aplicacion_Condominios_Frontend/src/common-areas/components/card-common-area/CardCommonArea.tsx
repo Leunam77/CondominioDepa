@@ -11,6 +11,8 @@ import {
   CardTitle,
 } from "reactstrap";
 
+const baseImageUrl = "http://localhost:8000";
+
 interface CardCommonAreaProps {
   commonArea: CommonArea;
 }
@@ -22,11 +24,16 @@ export default function CardCommonArea({ commonArea }: CardCommonAreaProps) {
         width: "18rem",
       }}
     >
-      <img alt="Sample" src="https://picsum.photos/300/200" />
+      <img
+        className="image-common-area"
+        alt="Sample"
+        src={`${baseImageUrl}/${commonArea.urlImage}`}
+      />
+
       <CardBody>
         <CardTitle tag="h5">{commonArea.name}</CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
-          Capacidad: {commonArea.capacity}
+          Capacidad: {commonArea.capacity} personas
         </CardSubtitle>
         <CardText>{commonArea.description}</CardText>
         <Button color="info">

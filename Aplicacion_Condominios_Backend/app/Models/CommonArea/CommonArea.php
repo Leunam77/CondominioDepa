@@ -15,6 +15,7 @@ class CommonArea extends Model
         'common_area_name',
         'description',
         'capacity',
+        'url_image'
     ];
 
     public function equipments()

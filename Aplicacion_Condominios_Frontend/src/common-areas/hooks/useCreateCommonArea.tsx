@@ -7,13 +7,14 @@ interface Props {
   id?: number;
 }
 
+const BASE_URL = "http://localhost:8000";
+
 export default function useCreateCommonArea(
   { isEditing, id }: Props = {
     isEditing: false,
     id: undefined,
   }
 ) {
-  console.log(isEditing, id);
   const [error, setError] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
   const [name, setName] = useState<string>("");
@@ -32,6 +33,9 @@ export default function useCreateCommonArea(
   ]);
   const [policy, setPolicy] = useState<string>("");
   const [policies, setPolicies] = useState<string[]>([]);
+  const [file, setFile] = useState<File | null>(null);
+  const [urlImage, setUrlImage] = useState<string>("");
+
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [oldData, setOldData] = useState<CommonArea | null>(null);
   const [enableEdit, setEnableEdit] = useState<boolean>(false);
@@ -127,6 +131,16 @@ export default function useCreateCommonArea(
     setPolicies(newPolicies);
   };
 
+  const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setFile(files[0]);
+      console.log(files[0]);
+      const url = URL.createObjectURL(files[0]);
+      setUrlImage(url);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const selectedSchedule = schedule.filter((horario) => horario.isChecked);
@@ -135,66 +149,81 @@ export default function useCreateCommonArea(
       startHour: horario.startHour,
       endHour: horario.endHour,
     }));
-    const formData = {
-      name: name,
-      description: description,
-      capacity: capacity,
-      schedule: scheduleForm,
-      policies: policies,
+
+    const reader = new FileReader();
+
+    reader.onload = async () => {
+      const base64File = reader.result;
+      const formData = {
+        name: name,
+        description: description,
+        capacity: capacity,
+        schedule: scheduleForm,
+        policies: policies,
+        file: base64File,
+      };
+      const URL = `${BASE_URL}/api/areas-comunes/${id ? id : ""}`;
+      const method = isEditing ? "PATCH" : "POST";
+      try {
+        setError("");
+        setErrors([]);
+        setSubmitting(true);
+
+        const response = await fetch(URL, {
+          method,
+          headers: {
+            "Content-Type": "application/json, multipart/form-data",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const statusCode = response.status;
+
+        if (statusCode !== 201 && statusCode !== 200) {
+          throw await response.json();
+        }
+
+        if (!isEditing) {
+          setName("");
+          setDescription("");
+          setCapacity(0);
+          setSchedule(
+            schedule.map((horario) => ({
+              ...horario,
+              startHour: "",
+              endHour: "",
+              isChecked: false,
+            }))
+          );
+          setPolicy("");
+          setPolicies([]);
+          setFile(null);
+          setUrlImage("");
+        }
+
+        Swal.fire({
+          title: ` ${isEditing ? "Actualización" : "Registro"} exitoso`,
+          text: `El área común ha sido ${
+            isEditing ? "actualizada" : "registrada"
+          } correctamente`,
+          icon: "success",
+        });
+      } catch (error: any) {
+        const { message, errors } = error;
+        if (errors) {
+          setErrors(errors);
+        }
+        setError(message);
+      } finally {
+        setSubmitting(false);
+      }
     };
-    const URL = `http://localhost:8000/api/areas-comunes/${id ? id : ""}`;
-    const method = isEditing ? "PATCH" : "POST";
-    try {
-      setError("");
-      setErrors([]);
-      setSubmitting(true);
 
-      const response = await fetch(URL, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const statusCode = response.status;
-
-      if (statusCode !== 201 && statusCode !== 200) {
-        throw await response.json();
-      }
-
-      if (!isEditing) {
-        setName("");
-        setDescription("");
-        setCapacity(0);
-        setSchedule(
-          schedule.map((horario) => ({
-            ...horario,
-            startHour: "",
-            endHour: "",
-            isChecked: false,
-          }))
-        );
-        setPolicy("");
-        setPolicies([]);
-      }
-
-      Swal.fire({
-        title: ` ${isEditing ? "Actualización" : "Registro"} exitoso`,
-        text: `El área común ha sido ${
-          isEditing ? "actualizada" : "registrada"
-        } correctamente`,
-        icon: "success",
-      });
-    } catch (error: any) {
-      const { message, errors } = error;
-      if (errors) {
-        setErrors(errors);
-      }
-      setError(message);
-    } finally {
-      setSubmitting(false);
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setError("Debe seleccionar una imagen");
     }
   };
 
@@ -218,6 +247,10 @@ export default function useCreateCommonArea(
       });
     });
     setPolicies(policies);
+    const { urlImage } = commonArea;
+    setUrlImage(`${BASE_URL}/${urlImage}`);
+    const image = new File([urlImage], "image.jpg", { type: "image/jpg" });
+    setFile(image);
   };
 
   return {
@@ -231,6 +264,8 @@ export default function useCreateCommonArea(
     policies,
     submitting,
     enableEdit,
+    file,
+    urlImage,
     setName: handleNameChange,
     setDescription: handleDescriptionChange,
     setCapacity: handleCapacityChange,
@@ -243,5 +278,6 @@ export default function useCreateCommonArea(
     setData,
     setOldData,
     deletePolicy,
+    setFile: handleUploadFile,
   };
 }

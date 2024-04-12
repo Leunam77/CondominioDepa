@@ -3,6 +3,7 @@ export interface CommonArea {
   name: string;
   description: string;
   capacity: number;
+  urlImage: string;
   schedule: Schedule[];
   policies: string[];
   created_at: Date;

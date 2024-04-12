@@ -20,6 +20,7 @@ class CommonAreaCollection extends ResourceCollection
                 'name' => $commonArea->common_area_name,
                 'description' => $commonArea->description,
                 'capacity' => $commonArea->capacity,
+                'urlImage' => $commonArea->url_image,
                 'created_at' => $commonArea->created_at,
                 'updated_at' => $commonArea->updated_at,
             ];

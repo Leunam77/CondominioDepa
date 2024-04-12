@@ -10,7 +10,6 @@ use App\Http\Resources\CommonArea\CommonAreaResource;
 use App\Models\CommonArea\CommonArea;
 use App\Models\CommonArea\Policy;
 use App\Models\CommonArea\Schedule;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CommonAreaController extends Controller
@@ -33,6 +32,15 @@ class CommonAreaController extends Controller
             'description' => $request->get('description'),
             'capacity' => $request->get('capacity')
         ];
+
+        $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->get('file')));
+        $name = time() . '.jpg';
+        $path = public_path('CommonAreas/images/' . $name);
+        file_put_contents($path, $file);
+
+        $dataCommonArea['url_image'] = 'CommonAreas/images/' . $name;
+
+        
 
         try{
             $commonArea = null;
@@ -64,7 +72,7 @@ class CommonAreaController extends Controller
             ]], 201);
         }catch(\Exception $e){
             return response()->json(['message' => 'Error al crear el area comun',
-            'detail' => $e->getMessage()
+            'errors' => [$e->getMessage()]
         ], 500);
         }
     }
@@ -135,6 +143,12 @@ class CommonAreaController extends Controller
         if(!$commonArea){
             return response()->json(['message' => 'Area comun no encontrada'], 404);
         }
+        // delete file image
+        $path = public_path($commonArea->url_image);
+        if(file_exists($path)){
+            unlink($path);
+        }
+        
         $commonArea->delete();
         return response()->json(['message' => 'Area comun eliminada correctamente'], 200);
     }

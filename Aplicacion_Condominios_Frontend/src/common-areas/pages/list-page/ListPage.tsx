@@ -37,6 +37,7 @@ export default function ListPage() {
         {commonAreas === null ? (
           <div
             style={{
+              gridColumn: "1 / -1",
               display: "flex",
               justifyContent: "center",
             }}
@@ -46,6 +47,7 @@ export default function ListPage() {
         ) : commonAreas.length === 0 ? (
           <p
             style={{
+              gridColumn: "1 / -1",
               textAlign: "center",
             }}
           >

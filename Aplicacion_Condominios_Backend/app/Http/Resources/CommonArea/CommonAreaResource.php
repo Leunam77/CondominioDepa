@@ -19,6 +19,7 @@ class CommonAreaResource extends JsonResource
             'name' => $this->common_area_name,
             'description' => $this->description,
             'capacity' => $this->capacity,
+            'urlImage' => $this->url_image,
             'schedule' => $this->schedules->map(function ($schedule) {
                 return [
                     'day' => $schedule->schedule_day,

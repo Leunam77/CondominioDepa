@@ -36,6 +36,10 @@ export default function CommonAreaForm({
     name,
     policies,
     policy,
+    enableEdit,
+    submitting,
+    urlImage,
+    setFile,
     setCapacity,
     setDescription,
     setCheckbox,
@@ -43,10 +47,8 @@ export default function CommonAreaForm({
     setName,
     setPolicy,
     setStartHour,
-    submitting,
     setData,
     setOldData,
-    enableEdit,
     deletePolicy,
   } = useCreateCommonArea({ isEditing, id });
 
@@ -68,7 +70,11 @@ export default function CommonAreaForm({
   }, [id, isEditing]);
 
   return (
-    <form onSubmit={handleSubmit} className="form">
+    <form
+      onSubmit={handleSubmit}
+      encType="multipart/form-data"
+      className="form"
+    >
       <div className="name-capacity-container">
         <div
           className="form-group"
@@ -110,6 +116,16 @@ export default function CommonAreaForm({
           onChange={setDescription}
           required
         />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="image">Imagen</label>
+
+        {urlImage && (
+          <img className="image-common-area" src={urlImage} alt="" />
+        )}
+
+        <input type="file" id="image" onChange={setFile} />
       </div>
 
       <div className="form-group">
@@ -157,6 +173,21 @@ export default function CommonAreaForm({
       <div className="form-group">
         <h3>Políticas/Reglas</h3>
 
+        <ul className="policies">
+          {policies.map((policy, index) => (
+            <li className="policy" key={index}>
+              <span>{policy}</span>
+              <button
+                type="button"
+                className="delete-policy"
+                onClick={() => deletePolicy(index)}
+              >
+                X
+              </button>
+            </li>
+          ))}
+        </ul>
+
         <div className="policy-container">
           <textarea
             style={{
@@ -172,20 +203,6 @@ export default function CommonAreaForm({
             Agregar
           </button>
         </div>
-        <ul className="policies">
-          {policies.map((policy, index) => (
-            <li className="policy" key={index}>
-              <span>{policy}</span>
-              <button
-                type="button"
-                className="delete-policy"
-                onClick={() => deletePolicy(index)}
-              >
-                X
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
 
       {submitting && (

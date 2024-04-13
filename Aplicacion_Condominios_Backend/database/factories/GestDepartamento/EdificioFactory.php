@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\GestDepartamento;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\GestDepartamento\bloque;
+use App\Models\GestDepartamento\Bloque;
 class EdificioFactory extends Factory
 {
     /**

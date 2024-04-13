@@ -35,7 +35,7 @@ class DepartamentoCotroller extends Controller
             $name = time().'.'.$image->getClientOriginalExtension();
             $image->move('departamento/images/', $name);
 
-            $departamento-> imagen_departamento = $name;
+            $departamento-> imagen_departamento = "departamento/images/${name}";
             $departamento-> save();
 
             return response()->json([
@@ -72,7 +72,21 @@ class DepartamentoCotroller extends Controller
         $departamento-> piso = $request -> piso;
         $departamento-> edificio_id = $request -> edificio_id;
 
-        $departamento->save();
+        if($request -> hasFile ('imagen_departamento')){
+            $image = $request->file('imagen_departamento');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move('departamento/images/', $name);
+
+            $departamento-> imagen_departamento = "departamento/images/${name}";
+
+            return response()->json([
+                'status' => 200,
+                'message' =>'Evento añadido exitosamente',
+            ]);
+
+        }
+
+        $departamento->update();
     }
 
     public function destroy($id)

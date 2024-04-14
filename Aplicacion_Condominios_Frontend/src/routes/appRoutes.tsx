@@ -28,6 +28,9 @@ import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
 
 
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
+import CobrosLayout from "../pages/dashboard/CobrosLayout";
+
+
 
 import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
@@ -101,8 +104,8 @@ const appRoutes: RouteType[] = [
     ],
   },
   {
-    path: "/component",
-    element: <ComponentPageLayout />,
+    path: "/cobros",
+    element: <CobrosLayout />,
     state: "component",
     sidebarProps: {
       displayText: "Cobro por Servicios",
@@ -110,29 +113,22 @@ const appRoutes: RouteType[] = [
     },
     child: [
       {
-        path: "/component/alert",
+        path: "/cobros/pre-aviso",
         element: <Cobros />,
-        state: "component.alert",
+        state: "cobros.alert",
         sidebarProps: {
           displayText: "Generar pre-aviso",
         },
       },
       {
-        path: "/component/button",
+        path: "/cobros/agregar-equipo",
         element: <AgregarEquipo />,
         state: "component.button",
         sidebarProps: {
           displayText: "Agregar Equipo",
         },
       },
-      {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
-        sidebarProps: {
-          displayText: "Enviar Cobro",
-        },
-      },
+      
     ],
   },
   {

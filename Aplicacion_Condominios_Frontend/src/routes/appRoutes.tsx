@@ -23,6 +23,10 @@ import CrearDepa from "../departamento/components/CrearDepartamento.js";
 
 import Depa from "../departamento/components/MostrarDep.js";
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
+import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
+
+
+
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
 
 import EmployeHomePage from "../empleados/pages/homePageEmpleados";
@@ -115,18 +119,10 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/component/button",
-        element: <Equipos />,
+        element: <AgregarEquipo />,
         state: "component.button",
         sidebarProps: {
-          displayText: "Gestionar Equipos",
-        },
-      },
-      {
-        path: "/component/button",
-        element: <Equipos />,
-        state: "component.button",
-        sidebarProps: {
-          displayText: "Gestionar Equipos",
+          displayText: "Agregar Equipo",
         },
       },
       {

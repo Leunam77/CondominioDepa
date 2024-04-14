@@ -8,6 +8,7 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
+use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
 use App\Models\Mantenimiento\CategoriaServicio;
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +64,10 @@ Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
 
 Route::apiResource('/areas-comunes', CommonAreaController::class);
+
+
+//Cobro_Servicios
+Route::controller(EquipamientosController::class)->group(function(){
+    Route::post('/agregarEquipo', [EquipamientosController::class, 'store']);
+});
+

@@ -11,7 +11,7 @@ import {
   Button,
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+/// prueba para subir al segundo repo
 const endpoint = "http://localhost:8000/api";
 
 class AgregarEquipo extends Component {

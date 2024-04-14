@@ -61,7 +61,7 @@ class DepartamentoCotroller extends Controller
 
     public function update(Request $request, $id)
     {
-        $departamento = departamento::findOrFail($request->$id);
+        $departamento = departamento::findOrFail($id);
         $departamento-> nombre_departamento = $request -> nombre_departamento;
         $departamento-> numero_habitaciones = $request -> numero_habitaciones;
         $departamento-> numero_personas = $request -> numero_personas;
@@ -70,7 +70,7 @@ class DepartamentoCotroller extends Controller
         $departamento-> amoblado = $request -> amoblado;
         $departamento-> descripcion_departamento = $request -> descripcion_departamento;
         $departamento-> piso = $request -> piso;
-        $departamento-> edificio_id = $request -> edificio_id;
+        /* $departamento-> edificio_id = $request -> edificio_id; */
 
         if($request -> hasFile ('imagen_departamento')){
             $image = $request->file('imagen_departamento');

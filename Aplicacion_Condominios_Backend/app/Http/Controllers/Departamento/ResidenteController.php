@@ -110,7 +110,7 @@ class ResidenteController extends Controller
                 'genero_residente' => 'required',
                 'estado_civil_residente' => 'required',
                 'imagen_residente' => 'required',
-                'contrato_id' => 'required'
+                'contrato_id' => 'nullable'
             ]);
 
             //verificar si la validación falla

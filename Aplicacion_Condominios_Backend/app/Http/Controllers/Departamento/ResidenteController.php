@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Departamento;
 use App\Http\Controllers\Controller;
 use App\Models\GestDepartamento\Residente;
 use Illuminate\Http\Request;
+use League\Csv\Reader;
+use Illuminate\Support\Facades\Validator;
 
 class ResidenteController extends Controller
 {
@@ -85,5 +87,68 @@ class ResidenteController extends Controller
     public function destroy(Residente $residente)
     {
         //
+    }
+    public function import(Request $request){
+        $file = $request->file('file');
+        //leer el archivo csv
+        $csv = Reader::createrFromPath($file->getRealPath(), 'r');
+        $csv->setHeaderOffset(0); //ignora la primera fila asumiendo que son los encabezados
+
+        $records = $csv->getRecords(); //obtiene todos los registros
+
+        foreach($records as $record){
+            //validar si el registro ya existe
+            $validator = Validator::make($record,[
+                'nombre_residente' => 'required|string|max:100',
+                'apellido_residente' => 'required|string|max:150',
+                'cedula_residente' => 'required',
+                'telefono_residente' => 'required',
+                'fecha_nacimiento_residente' => 'required',
+                'tipo_residente' => 'required',
+                'nacionalidad_residente' => 'required',
+                'email_residente' => 'required|email|unique:email_residente',
+                'genero_residente' => 'required',
+                'estado_civil_residente' => 'required',
+                'imagen_residente' => 'required',
+                'contrato_id' => 'required'
+            ]);
+
+            //verificar si la validación falla
+            if($validator->fails()){
+                //retornar respuesta con errores
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Error de validación',
+                    'errors' => $validator->errors()
+                ]);
+                continue; //continuar con el siguiente registro
+            }
+            //crear un nuevo residente
+            /* $residente = new Residente();
+            $residente->nombre_residente = $record['nombre_residente'];
+            $residente->apellido_residente = $record['apellido_residente'];
+            $residente->cedula_residente = $record['cedula_residente']; */
+            //si la validación es exitosa, crear un nuevo residente
+            $residente = Residente::create([
+                'nombre_residente' => $record['nombre_residente'],
+                'apellido_residente' => $record['apellido_residente'],
+                'cedula_residente' => $record['cedula_residente'],
+                'telefono_residente' => $record['telefono_residente'],
+                'fecha_nacimiento_residente' => $record['fecha_nacimiento_residente'],
+                'tipo_residente' => $record['tipo_residente'],
+                'nacionalidad_residente' => $record['nacionalidad_residente'],
+                'email_residente' => $record['email_residente'],
+                'genero_residente' => $record['genero_residente'],
+                'estado_civil_residente' => $record['estado_civil_residente'],
+                'imagen_residente' => $record['imagen_residente'],
+                'contrato_id' => $record['contrato_id']
+            ]);
+            //guardar el residente
+            $residente->save(); //guardar el residente
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'Residentes importados exitosamente'
+        ]);
     }
 }

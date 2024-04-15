@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
+use App\Http\Controllers\Departamento\ResidenteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +45,12 @@ Route::controller(EdificioController::class)->group(function(){
     Route::post('/edificioupd/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
     Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificios.bybloques');
+});
+Route::controller(ResidenteController::class)->group(function(){
+    Route::get('/residentes','index')->name('residente.index');
+    Route::post('/residente','store')->name('residente.store');
+    Route::get('/residente/{id}','show')->name('residente.show');
+    Route::put('/residenteupd/{id}','update')->name('residente.update');
+    Route::delete('/residente/{id}','destroy')->name('residente.destroy');
+    Route::post('/residente-csv','import')->name('residente.import');
 });

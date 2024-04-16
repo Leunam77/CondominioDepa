@@ -9,6 +9,9 @@ use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Models\Mantenimiento\CategoriaServicio;
+use App\Http\Controllers\Mantenimiento\PersonalExternoController;
+use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -61,5 +64,17 @@ Route::get('/CategoriaServicio/{id}', [CategoriaServicioController::class,'getCa
 Route::post('/CategoriaServicio/insert', [CategoriaServicioController::class,'insertarCategoria']);
 Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class,'updateCategoria']);
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
+
+Route::get('/personal-externo', [PersonalExternoController::class,'getPersonalExterno']);
+Route::get('/personal-externo/{id}', [PersonalExternoController::class,'getPersonalExternoId']);
+Route::post('/personal-externo/insert', [PersonalExternoController::class,'insertPersonalExterno']);
+Route::put('/personal-externo/update/{id}', [PersonalExternoController::class,'updatePersonalExterno']);
+Route::delete('/personal-externo/delete/{id}', [PersonalExternoController::class,'deletePersonalExterno']);
+
+Route::get('/registro-solicitud', [RegistroSolicitudController::class,'getRegistroSolicitud']);
+Route::get('/registro-solicitud/{id}', [RegistroSolicitudController::class,'getRegistroSolicitudId']);
+Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'insertRegistroSolicitud']);
+Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
+Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
 
 Route::apiResource('/areas-comunes', CommonAreaController::class);

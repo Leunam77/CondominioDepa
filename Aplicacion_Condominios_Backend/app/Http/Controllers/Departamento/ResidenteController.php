@@ -31,6 +31,7 @@ class ResidenteController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
@@ -41,7 +42,26 @@ class ResidenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validacion de datos
+        $validate = $request->validate([
+            'nombre_residente' => 'required|string|max:50',
+            'apellidos_residente' => 'required|string|max:150',
+            'cedula_residente' => 'required',
+            'telefono_residente' => 'required',
+            'fecha_nacimiento_residente' => 'required|date',
+            'tipo_residente' => 'required',
+            'nacionalidad_residente' => 'required',
+            'email_residente' => 'nullable|email|unique:residentes,email_residente',
+            'genero_residente' => 'required',
+            'estado_civil_residente' => 'required',
+            'imagen_residente' => 'required',
+            'contrato_id' => 'nullable',
+        ]);
+        Residente::create($validate);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Residente creado exitosamente'
+        ]);
     }
 
     /**

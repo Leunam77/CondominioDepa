@@ -54,14 +54,34 @@ class ResidenteController extends Controller
             'email_residente' => 'nullable|email|unique:residentes,email_residente',
             'genero_residente' => 'required',
             'estado_civil_residente' => 'required',
-            'imagen_residente' => 'required',
+            'imagen_residente' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
             'contrato_id' => 'nullable',
         ]);
-        Residente::create($validate);
-        return response()->json([
-            'status' => 200,
-            'message' => 'Residente creado exitosamente'
-        ]);
+        //Residente::create($validate);
+        $residente = new Residente($validate);
+        if($request->hasFile('imagen_residente')){
+            $image = $request->file('imagen_residente');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move('residentes/images/', $name);
+            $residente->imagen_residente = "residente/images/${name}";
+            $residente->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Residente creado exitosamente'
+            ]);
+        }
+        
+        if(!$request->hasFile('imagen_residente') || !$residente->imagen_residente){
+            //añade una imagen predeterminada si no se sube una imagen
+            $imagenPredeterminada = 'residentes/images/residente_pred.jpeg';
+            $residente->imagen_residente = $imagenPredeterminada;
+            $residente->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Residente creado exitosamente'
+            ]);
+        }
+        
     }
 
     /**

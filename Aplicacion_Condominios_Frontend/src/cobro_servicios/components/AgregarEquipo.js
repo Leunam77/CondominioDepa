@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+//import { Redirect } from "react-router-dom"; 
+
 import {
   Container,
   Row,
@@ -59,7 +61,8 @@ class AgregarEquipo extends Component {
 
       try {
         const response = await axios.post(url, data);
-        console.log(response.data);
+        window.location.href = "./pre-aviso";
+        
       } catch (error) {
         console.error("Error al guardar el equipo:", error);
       }
@@ -71,7 +74,7 @@ class AgregarEquipo extends Component {
       <Container className="custom-form">
         <Row>
           <Col sm={12}>
-            <h2 className="text-center mb-5">Agregar equipo</h2>
+            <h2 className="text-center mb-5">Agregar equipo dañado</h2>
             <Form onSubmit={this.handleSubmit}>
               <FormGroup className="mb-4">
                 <Label className="label-custom">Nombre del equipo dañado</Label>
@@ -98,7 +101,7 @@ class AgregarEquipo extends Component {
                 )}
               </FormGroup>
               <FormGroup className="mb-4">
-                <Label className="label-custom">Costo del arreglo</Label>
+                <Label className="label-custom">Costo del arreglo (Bs)</Label>
                 <Input
                   type="number"
                   name="costo_equipo"

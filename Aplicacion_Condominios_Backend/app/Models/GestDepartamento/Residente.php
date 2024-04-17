@@ -22,4 +22,7 @@ class Residente extends Model
         'imagen_residente',
         'contrato_id'
     ];
+    public function contrato(){
+        return $this->belongsTo(Contrato::class);
+    }
 }

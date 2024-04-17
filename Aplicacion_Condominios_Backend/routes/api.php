@@ -6,6 +6,7 @@ use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Departamento\ResidenteController;
+use App\Http\Controllers\Departamento\ContratoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,4 +54,11 @@ Route::controller(ResidenteController::class)->group(function(){
     Route::put('/residenteupd/{id}','update')->name('residente.update');
     Route::delete('/residente/{id}','destroy')->name('residente.destroy');
     Route::post('/residente-csv','import')->name('residente.import');
+});
+Route::controller(ContratoController::class)->group(function(){
+    Route::get('/contratos','index')->name('contrato.index');
+    Route::post('/contrato','store')->name('contrato.store');
+    Route::get('/contrato/{id}','show')->name('contrato.show');
+    Route::put('/contratoupd/{id}','update')->name('contrato.update');
+    Route::delete('/contrato/{id}','destroy')->name('contrato.destroy');
 });

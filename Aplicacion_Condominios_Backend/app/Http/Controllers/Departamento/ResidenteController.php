@@ -69,9 +69,20 @@ class ResidenteController extends Controller
                 'status' => 200,
                 'message' => 'Residente creado exitosamente'
             ]);
+        }else{
+            $errors = $request->file('imagen_residente') ? $request->file('imagen_residente')->getErrorMessage() : 'No file or file has errors';
+            \Log::info('Error with image upload: ' . $errors);  // Utiliza Log para verificar qué está pasando
+
+
+            $residente->imagen_residente = 'residente/images/residentes/residente_pred.jpg';
+            $residente->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Residente creado por defecto'
+            ]);
         }
         
-        if(!$request->hasFile('imagen_residente') || !$residente->imagen_residente){
+        /* if(!$request->hasFile('imagen_residente') || !$residente->imagen_residente){
             //añade una imagen predeterminada si no se sube una imagen
             $imagenPredeterminada = 'departamento/images/residentes/residente_default.png';
             $residente->imagen_residente = $imagenPredeterminada;
@@ -80,7 +91,7 @@ class ResidenteController extends Controller
                 'status' => 200,
                 'message' => 'Residente creado exitosamente'
             ]);
-        }
+        } */
         
     }
 

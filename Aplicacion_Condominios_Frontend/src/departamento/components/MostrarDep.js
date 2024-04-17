@@ -5,15 +5,16 @@ import './DepartamentosCss.css';
 import { Link } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle, CardSubtitle , Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowAltCircleRight, faX } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const endpoint = 'http://localhost:8000/api';
 const endpointImg = 'http://localhost:8000';
 const cookies = new Cookies();
 const MostrarDep = () => {
     const [departamentos, setDepartamentos] = useState ([]);
+    const [switchState, setSwitchState] = useState(false);
 
     useEffect(() => {
         getAllDepartments();
@@ -29,18 +30,20 @@ const MostrarDep = () => {
         getAllDepartments();
     }
 
-    const mostrarAmoblado = (amoblado) => {
-        return amoblado ? "Si" : "No";
-    }
-    const mostrarDisponibilidad = (disponibilidad) => {
-        return disponibilidad ? "Libre" : "Ocupado";
-    }
-
     const handleClickEditar = (idDepa) => {
         cookies.set('idDepa', idDepa); // Guarda el ID del departamento en una cookie llamada 'idDepa'
         // Lógica para redirigir a la página de edición
         window.location.href = '/dashboard/editarDepa'; // Redirige a la página de edición
       };
+    
+      const handleBotonSwitch = () => {
+        if (switchState) {
+            // Ocupado (redirige al formulario de contrato?)
+        } else {
+            // Libre
+        }
+    }
+    <input type="checkbox" checked={switchState} onChange={() => { setSwitchState(!switchState); handleBotonSwitch(); }} />
 
     return(
         <div className="Deps">
@@ -57,19 +60,16 @@ const MostrarDep = () => {
                         />
                         <CardBody>
                             <CardTitle tag="h5">{departamento.nombre_departamento}</CardTitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Numero de habitaciones: {departamento.numero_habitaciones}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Numero de personas: {departamento.numero_personas}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Superficie: {departamento.superficie}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Disponibilidad: {mostrarDisponibilidad(departamento.disponibilidad)}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Amoblado: {mostrarAmoblado(departamento.amoblado)}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Descripcion: {departamento.descripcion_departamento}</CardSubtitle>
                             <div className="botones">
-                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faX} className="masInf" /></Button>
+                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
+                                <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
+                                <label className="switch">
+                                    <input type="checkbox" />
+                                    <span className="slider"></span>
+                                </label>
                             </div>
                             
-                            <div className="botones">
-                                <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faArrowAltCircleRight} className="masInf" /></Button>
-                            </div>
+                            
 
                         </CardBody>
                     </Card>

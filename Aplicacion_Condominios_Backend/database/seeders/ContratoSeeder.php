@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\GestDepartamento\departamento;
-class DepartamentoSeeder extends Seeder
+use App\Models\GestDepartamento\Contrato;
+class ContratoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class DepartamentoSeeder extends Seeder
     public function run()
     {
         //
-        Departamento::factory()->withoutTimestamps()->count(5)->create();
+        Contrato::factory()->count(7)->create();
     }
 }

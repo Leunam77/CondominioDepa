@@ -1,11 +1,10 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button, Container
 } from "reactstrap";
 import "./customs.css";
-import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 class CrearDepartamento extends Component {
@@ -31,7 +30,7 @@ class CrearDepartamento extends Component {
             numero_habitaciones: 0,
             numero_personas: 0,
             superficie: 0,
-            disponibilidad: false,
+            disponibilidad: true,
             amoblado: false,
             descripcion_departamento: "",
             errors: {},
@@ -88,8 +87,6 @@ class CrearDepartamento extends Component {
         try {
             const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
 
-            const data = response.data;
-
             this.setState({ edificios: response.data });
         } catch (error) {
             console.error('Error al obtener las opciones dependientes:', error);
@@ -114,7 +111,7 @@ class CrearDepartamento extends Component {
             validationErrors.nombre_departamento = "Ingrese un nombre válido";
         }
 
-        if (!this.state.numero_habitaciones.trim()) {
+        if (!this.state.numero_habitaciones) {
             validationErrors.numero_habitaciones = "Este campo es obligatorio";
         } else {
             if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_habitaciones)) {
@@ -123,7 +120,7 @@ class CrearDepartamento extends Component {
             }
         }
 
-        if (!this.state.numero_personas.trim()) {
+        if (!this.state.numero_personas) {
             validationErrors.numero_personas = "Este campo es obligatorio";
         } else {
             if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_personas)) {
@@ -211,8 +208,6 @@ class CrearDepartamento extends Component {
     };
 
     render() {
-        const { bloques } = this.state;
-        const { edificios } = this.state;
         const { numeroPisos, pisoSeleccionado } = this.state;
         const pisosOptions = [];
 
@@ -298,21 +293,7 @@ class CrearDepartamento extends Component {
                                     )}
                                 </FormGroup>
                                 <Row className="mb-4">
-                                    <Col sm={6}>
-
-                                        <Label
-                                            check
-                                            className="label-custom"
-                                        >
-                                            <Input
-                                                type="checkbox"
-                                                id="checkBoxdisponibilidad"
-                                                onChange={() => this.changeChecked('disponibilidad')}
-                                            />
-                                            {' '}
-                                            Disponible
-                                        </Label>
-                                    </Col>
+                                    
                                     <Col sm={6}>
 
                                         <Label
@@ -344,7 +325,8 @@ class CrearDepartamento extends Component {
                                         id="bloque_id"
                                         onChange={this.handleBloqueSeleccionado}
                                     >
-                                        <option value="">Seleccionar Bloque</option>
+                                        <option disabled selected>
+                                        {" "}Seleccionar Bloque</option>
                                         {this.state.bloques.map(bloque => (
                                             <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
                                         ))}
@@ -364,7 +346,8 @@ class CrearDepartamento extends Component {
                                         id="edificio_id"
                                         onChange={this.handleEdificioSeleccionado}
                                     >
-                                        <option value="">Seleccionar Edificio</option>
+                                        <option disabled selected>
+                                        {" "}Seleccionar Edificio</option>
                                         {this.state.edificios.map(edificio => (
                                             <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
                                         ))}
@@ -383,7 +366,8 @@ class CrearDepartamento extends Component {
                                         value={pisoSeleccionado}
                                         onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
                                     >
-                                        <option value="">Seleccionar piso</option>
+                                        <option disabled selected>
+                                        {" "}Seleccionar piso</option>
                                         {pisosOptions}
                                     </Input>
                                 </FormGroup>

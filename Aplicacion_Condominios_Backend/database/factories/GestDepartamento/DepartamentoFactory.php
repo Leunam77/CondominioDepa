@@ -19,7 +19,7 @@ class DepartamentoFactory extends Factory
             'numero_habitaciones' => $this->faker->numberBetween(1,5),
             'numero_personas'  => $this->faker->numberBetween(1,7),
             'superficie' => $this->faker->randomFloat($nbMaxDecimals = 2, $min =0, $max=100),
-            'disponibilidad' => $this->faker->boolean(),
+            'disponibilidad' => true,
             'amoblado' => $this->faker->boolean(),
             'descripcion_departamento' => $this->faker->sentence(),
             'piso' => $this->faker->numberBetween(1,10),

@@ -1,14 +1,16 @@
-import React, { Component, useState } from "react";
+import React, { Component} from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button
 } from "reactstrap";
 import "./customs.css";
-import { Form } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 const endpoint = "http://localhost:8000/api";
-class CrearDepartamento extends Component {
+const endpointImg = "http://localhost:8000";
+const cookies = new Cookies();
+class EditarDep extends Component {
     departamentos = [];
     pisosAr = [];
 
@@ -17,16 +19,18 @@ class CrearDepartamento extends Component {
         try {
             const url = `${endpoint}/bloques`;
             const response = await axios.get(url);
-
             this.setState({ bloques: response.data });
-            const { idDep } = this.props.match.params; //no se esta obteniendo el id de departamento de la 
+            console.log('bloques:', response);
+            const idDep = cookies.get('idDepa'); //no se esta obteniendo el id de departamento de la 
             //ruta, por lo que no se puede obtener los datos del departamento
             console.log('idDep:', idDep);
             this.obtenerDatosDepartamento(idDep);
+
         } catch (error) {
             console.error('Error al obtener los bloques:', error);
         }
     }
+
 
     constructor(props) {
         super(props);
@@ -45,57 +49,75 @@ class CrearDepartamento extends Component {
             edificios: [],
             numeroPisos: 0,
             pisoSeleccionado: '',
-            imagenDep: ""
+            imagenDep: "",
+            nuevaImagen: "",
         };
     }
     obtenerDatosDepartamento = async (idDepartamento) => {
         try {
             const response = await axios.get(`${endpoint}/departamento/${idDepartamento}`);
             const departamento = response.data;
-            console.log('departamento:', departamento);
+
+            const edificio = departamento.edificio_id;
+            const edificioBus = await axios.get(`${endpoint}/edificio/${edificio}`);
+            const edif = edificioBus.data;
+            this.setState({edificioSeleccionado: edif});
+
+            const bloque = edif.bloque_id;
+            const bloqueBus = await axios.get(`${endpoint}/bloque/${bloque}`);
+            const blo = bloqueBus.data;
+            this.setState({bloqueSeleccionado: blo});
+
+            const imagenPath = `${endpointImg}/${departamento.imagen_departamento}`
             // Actualizar el estado del componente con los datos del departamento
             this.setState({
                 nombre_departamento: departamento.nombre_departamento,
                 numero_habitaciones: departamento.numero_habitaciones,
                 numero_personas: departamento.numero_personas,
                 superficie: departamento.superficie,
-                disponibilidad: departamento.disponibilidad,
-                amoblado: departamento.amoblado,
+                disponibilidad: departamento.disponibilidad === 1 ? true : false,
+                amoblado: departamento.amoblado === 1 ? true : false,
                 descripcion_departamento: departamento.descripcion_departamento,
-                bloqueSeleccionado: departamento.bloque_id,
-                edificioSeleccionado: departamento.edificio_id,
                 pisoSeleccionado: departamento.piso,
+                edificioSeleccionado: departamento.edificio_id,
+                imagenDep: imagenPath,
+                
                 // Si tienes una imagen asociada al departamento, debes manejarla aquí también
             });
         } catch (error) {
             console.error('Error al obtener datos del departamento:', error);
         }
     };
+
+    setStateAsync(state) {
+        return new Promise(resolve => {
+            this.setState(state, resolve);
+        });
+    }
+
     handleInput = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
         });
     };
 
-    handleBloqueSeleccionado = (event) => {
-        const idBloque = event.target.value;
-        this.setState({ bloqueSeleccionado: idBloque });
-
-        this.cargarOpcionesDependientes(idBloque);
-    };
-
-    handleEdificioSeleccionado = (e) => {
-        const edificio = e.target.value; // Obtener el número de pisos del edificio seleccionado
-        this.setState({ edificioSeleccionado: edificio });
-        this.cargarPisos(edificio);
-    };
-
     handleChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
         this.setState({
-            imagenDep: e.target.files[0],
+            nuevaImagen: reader.result, // Guardar la URL de la nueva imagen seleccionada
         });
-        console.log('imagen:', this.state.imagenDep.name);
-      };
+        };
+
+        if (file) {
+        reader.readAsDataURL(file);
+        } else {
+        this.setState({ nuevaImagen: '' }); // Si no se seleccionó ningún archivo, limpiar la nueva imagen
+        }
+
+    };
 
     cargarPisos = async (idEdificio) => {
         try {
@@ -114,8 +136,6 @@ class CrearDepartamento extends Component {
         try {
             const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
 
-            const data = response.data;
-
             this.setState({ edificios: response.data });
         } catch (error) {
             console.error('Error al obtener las opciones dependientes:', error);
@@ -126,7 +146,7 @@ class CrearDepartamento extends Component {
         this.setState({ [name]: !this.state[name] }); // Cambiar el estado del atributo específico
     };
 
-    storeDepartment = async (e) => {
+    updateDepartment = async (e) => {
         e.preventDefault();
         const validationErrors = {};
 
@@ -140,7 +160,7 @@ class CrearDepartamento extends Component {
             validationErrors.nombre_departamento = "Ingrese un nombre válido";
         }
 
-        if (!this.state.numero_habitaciones.trim()) {
+        if (!this.state.numero_habitaciones) {
             validationErrors.numero_habitaciones = "Este campo es obligatorio";
         } else {
             if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_habitaciones)) {
@@ -149,7 +169,7 @@ class CrearDepartamento extends Component {
             }
         }
 
-        if (!this.state.numero_personas.trim()) {
+        if (!this.state.numero_personas) {
             validationErrors.numero_personas = "Este campo es obligatorio";
         } else {
             if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_personas)) {
@@ -167,18 +187,6 @@ class CrearDepartamento extends Component {
         ) {
             validationErrors.descripcion_departamento =
                 "Ingrese una descripcion válida";
-        }
-
-        if (!this.state.pisoSeleccionado) {
-            validationErrors.pisoSeleccionado = "Debe seleccionar un piso";
-        }
-
-        if (!this.state.bloqueSeleccionado) {
-            validationErrors.bloqueSeleccionado = "Debe seleccionar un bloque";
-        }
-
-        if (!this.state.edificioSeleccionado) {
-            validationErrors.edificioSeleccionado = "Debe seleccionar un edificio";
         }
 
         if (this.state.imagenDep.name) {
@@ -201,8 +209,7 @@ class CrearDepartamento extends Component {
         this.setState({ errors: validationErrors });
 
         if (Object.keys(validationErrors).length === 0) {
-
-            const url = `${endpoint}/departamento`;
+            const idDep = cookies.get('idDepa');
             const data = new FormData();
 
             data.append("nombre_departamento", this.state.nombre_departamento);
@@ -213,6 +220,9 @@ class CrearDepartamento extends Component {
             data.append("amoblado", this.state.amoblado ? '1' : '0');
             data.append("descripcion_departamento", this.state.descripcion_departamento);
             data.append("piso", this.state.pisoSeleccionado);
+            if (this.state.nuevaImagen !== '') {
+                this.setState({ imagenDep: this.state.nuevaImagen });
+            }
             if (this.state.imagenDep) {
                 data.append("imagen_departamento", this.state.imagenDep);
             }
@@ -228,17 +238,15 @@ class CrearDepartamento extends Component {
             console.log(this.state.imagenDep);
             console.log(this.state.edificioSeleccionado);
 
-            axios.post(url, data).then((res) => {
-                console.log(res);
-                window.location.href = "./depas";
-            });
+            const res = await axios.post(`${endpoint}/departamentoupd/${idDep}`, data);
+            cookies.remove('idDepa');
+            window.location.href = "./depa";
+            
 
         }
     };
 
     render() {
-        const { bloques } = this.state;
-        const { edificios } = this.state;
         const { numeroPisos, pisoSeleccionado } = this.state;
         const pisosOptions = [];
 
@@ -255,7 +263,7 @@ class CrearDepartamento extends Component {
                             <Row>
                                 <Col sm={12}>
                                     <h2 className="text-center mb-5">Crear departamento</h2>
-                                    <form onSubmit={this.storeDepartment}>
+                                    <form onSubmit={this.updateDepartment}>
                                         <FormGroup className="mb-4">
                                             <Label
                                                 className="label-custom"
@@ -335,7 +343,7 @@ class CrearDepartamento extends Component {
                                                     <Input
                                                         type="checkbox"
                                                         id="checkBoxdisponibilidad"
-                                                        value={this.state.disponibilidad}
+                                                        checked={this.state.disponibilidad}
                                                         onChange={() => this.changeChecked('disponibilidad')}
                                                     />
                                                     {' '}
@@ -351,7 +359,7 @@ class CrearDepartamento extends Component {
                                                     <Input
                                                         type="checkbox"
                                                         id="checkBoxAmoblado"
-                                                        value={this.state.amoblado}
+                                                        checked={this.state.amoblado}
                                                         onChange={() => this.changeChecked('amoblado')}
                                                     />
                                                     {' '}
@@ -361,64 +369,6 @@ class CrearDepartamento extends Component {
 
                                             </Col>
                                         </Row>
-
-                                        <FormGroup className="mb-4">
-                                            <Label
-                                                className="label-custom"
-                                            >
-                                                Selecciona un bloque
-                                            </Label>
-                                            <Input
-                                                type="select"
-                                                name="bloque_id"
-                                                id="bloque_id"
-                                                value={this.state.bloqueSeleccionado}
-                                                onChange={this.handleBloqueSeleccionado}
-                                            >
-                                                <option value="">Seleccionar Bloque</option>
-                                                {this.state.bloques.map(bloque => (
-                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
-                                                ))}
-                                            </Input>
-                                        </FormGroup>
-
-                                        <FormGroup className="mb-4">
-                                            <Label
-                                                className="label-custom"
-                                            >
-                                                Selecciona un edificio
-                                            </Label>
-                                            <Input
-                                                type="select"
-                                                className="mb-3 w-100"
-                                                name="edificio_id"
-                                                id="edificio_id"
-                                                value={this.state.edificioSeleccionado}
-                                                onChange={this.handleEdificioSeleccionado}
-                                            >
-                                                <option value="">Seleccionar Edificio</option>
-                                                {this.state.edificios.map(edificio => (
-                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
-                                                ))}
-                                            </Input>
-                                        </FormGroup>
-                                        <FormGroup className="mb-4">
-                                            <Label
-                                                className="label-custom"
-                                            >
-                                                Selecciona un piso
-                                            </Label>
-                                            <Input
-                                                type="select"
-                                                name="piso"
-                                                id="piso"
-                                                value={pisoSeleccionado}
-                                                onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
-                                            >
-                                                <option value="">{pisoSeleccionado}</option>
-                                                {pisosOptions}
-                                            </Input>
-                                        </FormGroup>
                                         <Label
                                             size="sm"
                                             style={{ fontWeight: 'bold' }}
@@ -426,12 +376,12 @@ class CrearDepartamento extends Component {
                                         >
                                             Subir una imagen
                                         </Label>
+                                        <img src={this.state.imagenDep} alt="Imagen actual del departamento" style={{ maxWidth: '100px' }} />
                                         <Input
                                             type="file"
                                             className="mb-3 w-100"
                                             name="imagen_departamento"
                                             id="imagen_departamento"
-                                            value={this.state.imagenDep}
                                             onChange={this.handleChange}
                                         >
                                         </Input>
@@ -467,4 +417,4 @@ class CrearDepartamento extends Component {
         );
     }
 }
-export default CrearDepartamento;
+export default EditarDep;

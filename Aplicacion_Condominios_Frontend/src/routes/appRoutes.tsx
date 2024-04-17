@@ -21,6 +21,8 @@ import EngineeringIcon from '@mui/icons-material/Engineering';
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
 import Depa from "../departamento/components/MostrarDep.js"
+import EditarDep from "../departamento/components/EditarDep.js"
+import RegistrarResidente from "../departamento/components/CrearResidente"
 
 const appRoutes: RouteType[] = [
   {
@@ -58,6 +60,19 @@ const appRoutes: RouteType[] = [
         sidebarProps: {
           displayText: "Gestionar Departamento"
         },
+      },
+      {
+        path: "/dashboard/RegResidente",
+        element: <RegistrarResidente />,
+        state: "dashboard.depa",
+        sidebarProps: {
+          displayText: "Registrar Residente"
+        },
+      },
+      {
+        path: "/dashboard/editarDepa",
+        element: <EditarDep />,
+        state: "dashboard.depa",
       },
       {
         path: "/dashboard/default",

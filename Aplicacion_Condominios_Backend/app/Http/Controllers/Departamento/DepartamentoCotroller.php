@@ -33,9 +33,9 @@ class DepartamentoCotroller extends Controller
         if($request -> hasFile ('imagen_departamento')){
             $image = $request->file('imagen_departamento');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $image->move('departamento/images/', $name);
+            $image->move('departamento/images/departamentos/', $name);
 
-            $departamento-> imagen_departamento = $name;
+            $departamento-> imagen_departamento = "departamento/images/departamentos/${name}";
             $departamento-> save();
 
             return response()->json([
@@ -46,7 +46,7 @@ class DepartamentoCotroller extends Controller
         }
         if (!$request->hasFile('imagen_departamento') || !$departamento->imagen_departamento) {
             // Ruta de la imagen predeterminada
-            $imagenPredeterminada = 'departamento/images/departamento_pred.jpeg';
+            $imagenPredeterminada = 'departamento/images/departamentos/departamento_pred.jpeg';
             $departamento->imagen_departamento = $imagenPredeterminada;
         }
 
@@ -61,7 +61,7 @@ class DepartamentoCotroller extends Controller
 
     public function update(Request $request, $id)
     {
-        $departamento = departamento::findOrFail($request->$id);
+        $departamento = departamento::findOrFail($id);
         $departamento-> nombre_departamento = $request -> nombre_departamento;
         $departamento-> numero_habitaciones = $request -> numero_habitaciones;
         $departamento-> numero_personas = $request -> numero_personas;
@@ -70,9 +70,23 @@ class DepartamentoCotroller extends Controller
         $departamento-> amoblado = $request -> amoblado;
         $departamento-> descripcion_departamento = $request -> descripcion_departamento;
         $departamento-> piso = $request -> piso;
-        $departamento-> edificio_id = $request -> edificio_id;
+        /* $departamento-> edificio_id = $request -> edificio_id; */
 
-        $departamento->save();
+        if($request -> hasFile ('imagen_departamento')){
+            $image = $request->file('imagen_departamento');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move('departamento/images/departamentos/', $name);
+
+            $departamento-> imagen_departamento = "departamento/images/departamentos/${name}";
+
+            return response()->json([
+                'status' => 200,
+                'message' =>'Evento añadido exitosamente',
+            ]);
+
+        }
+
+        $departamento->update();
     }
 
     public function destroy($id)

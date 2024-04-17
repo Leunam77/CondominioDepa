@@ -363,7 +363,6 @@ class CrearDepartamento extends Component {
                                         type="select"
                                         name="piso"
                                         id="piso"
-                                        value={pisoSeleccionado}
                                         onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
                                     >
                                         <option disabled selected>

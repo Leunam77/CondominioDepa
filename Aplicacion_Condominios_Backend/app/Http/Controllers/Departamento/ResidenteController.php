@@ -101,9 +101,12 @@ class ResidenteController extends Controller
      * @param  \App\Models\GestDepartamento\Residente  $residente
      * @return \Illuminate\Http\Response
      */
-    public function show(Residente $residente)
+    public function show($id)
     {
-        //
+        //mostrar el residente por su id
+        $residente = Residente::find($id);
+        //return response()->json($residente);
+        return $residente;
     }
 
     /**
@@ -124,9 +127,56 @@ class ResidenteController extends Controller
      * @param  \App\Models\GestDepartamento\Residente  $residente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Residente $residente)
+    public function update(Request $request,$id)
     {
         //
+        $residente = new Residente();
+        $residente = Residente::find($id);
+        if(!$residente){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Residente no encontrado'
+            ]);
+        }
+        \Log::info('Received data: ', $request->all()); // Esto te ayudará a ver qué datos están llegando.
+        $validate = $request->validate([
+            'nombre_residente' => 'required|string|max:50',
+            'apellidos_residente' => 'required|string|max:150',
+            'cedula_residente' => 'required',
+            'telefono_residente' => 'required',
+            'fecha_nacimiento_residente' => 'required|date',
+            'tipo_residente' => 'required',
+            'nacionalidad_residente' => 'required',
+            'email_residente' => 'nullable|email|unique:residentes,email_residente,'.$id,
+            'genero_residente' => 'required',
+            'estado_civil_residente' => 'required',
+            'imagen_residente' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
+            'contrato_id' => 'nullable',
+        ]);
+        $residente->update($validate);
+        if($request->hasFile('imagen_residente')){
+            $image = $request->file('imagen_residente');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move('departamento/images/residentes/', $name);
+            $residente->imagen_residente = "departamento/images/residentes/${name}";
+            $residente->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Residente actualizado exitosamente'
+            ]);
+        }else{
+            $errors = $request->file('imagen_residente') ? $request->file('imagen_residente')->getErrorMessage() : 'No file or file has errors';
+            \Log::info('Error with image upload: ' . $errors);  // Utiliza Log para verificar qué está pasando
+
+
+            $residente->imagen_residente = 'residente/images/residentes/residente_pred.jpg';
+            $residente->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Residente creado por defecto'
+            ]);
+        }
+        
     }
 
     /**
@@ -135,9 +185,15 @@ class ResidenteController extends Controller
      * @param  \App\Models\GestDepartamento\Residente  $residente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Residente $residente)
+    public function destroy($id)
     {
-        //
+        //eliminar un residente 
+        $residente = Residente::find($id);
+        $residente->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Residente eliminado exitosamente'
+        ]);
     }
     public function import(Request $request){
         $file = $request->file('file');

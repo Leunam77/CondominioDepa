@@ -9,6 +9,7 @@ use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\AuthController;
+use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Models\Mantenimiento\CategoriaServicio;
 /*
@@ -70,5 +71,10 @@ Route::apiResource('/areas-comunes', CommonAreaController::class);
 Route::group(['prefix' =>  'v1'], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
+});
+
+Route::controller(TelegramNotificationController::class)->group(function() {
+    Route::post('/notification', 'sendNoticeToOne');
+    Route::post('/notifications', 'sendNoticeToMany');
 });
 

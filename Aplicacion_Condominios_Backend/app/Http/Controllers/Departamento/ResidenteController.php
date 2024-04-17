@@ -73,7 +73,7 @@ class ResidenteController extends Controller
         
         if(!$request->hasFile('imagen_residente') || !$residente->imagen_residente){
             //añade una imagen predeterminada si no se sube una imagen
-            $imagenPredeterminada = 'residentes/images/residente_pred.jpeg';
+            $imagenPredeterminada = 'residentes/images/residente_pred.jpg';
             $residente->imagen_residente = $imagenPredeterminada;
             $residente->save();
             return response()->json([

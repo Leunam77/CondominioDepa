@@ -16,6 +16,7 @@ class ContratoController extends Controller
     public function index()
     {
         //
+        return Contrato::all();
     }
 
     /**
@@ -37,6 +38,26 @@ class ContratoController extends Controller
     public function store(Request $request)
     {
         //
+        $contrato = new Contrato();
+        $validatedData = $request->validate([
+            'fecha_inicio_contrato' => 'required|date',
+            'fecha_fin_contrato' => 'required|date',
+            'precio_contrato' => 'required|numeric',
+            'tipo_contrato' => 'required|string',
+            'vigente_contrato' => 'required|boolean',
+            'departamento_id' => 'nullable|numeric'
+        ]);
+        $contrato->fecha_inicio_contrato = $validatedData['fecha_inicio_contrato'];
+        $contrato->fecha_fin_contrato = $validatedData['fecha_fin_contrato'];
+        $contrato->precio_contrato = $validatedData['precio_contrato'];
+        $contrato->tipo_contrato = $validatedData['tipo_contrato'];
+        $contrato->vigente_contrato = $validatedData['vigente_contrato'];
+        $contrato->departamento_id = $validatedData['departamento_id'];
+        $contrato->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Contrato creado exitosamente'
+        ]);
     }
 
     /**
@@ -45,11 +66,26 @@ class ContratoController extends Controller
      * @param  \App\Models\GestDepartamento\Contrato  $contrato
      * @return \Illuminate\Http\Response
      */
-    public function show(Contrato $contrato)
+    public function show($id)
     {
         //
+        $contrato = Contrato::find($id);
+        return $contrato;
     }
-
+    /* public function show(Contrato $contrato)
+    {
+        //
+        if(!$contrato){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Contrato no encontrado'
+            ]);
+        }
+        return response()->json([
+            'status' => 200,
+            'data' => $contrato
+        ]);
+    } */
     /**
      * Show the form for editing the specified resource.
      *
@@ -68,9 +104,10 @@ class ContratoController extends Controller
      * @param  \App\Models\GestDepartamento\Contrato  $contrato
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contrato $contrato)
+    public function update(Request $request, $id)
     {
         //
+        $contrato = Contrato::find($id);
     }
 
     /**
@@ -79,8 +116,37 @@ class ContratoController extends Controller
      * @param  \App\Models\GestDepartamento\Contrato  $contrato
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contrato $contrato)
+    public function destroy($id){
+        //
+        try{
+            $contrato = Contrato::find($id);
+            $contrato->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contrato eliminado exitosamente'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al eliminar el contrato'
+            ]);
+        }
+    }
+    /* public function destroy(Contrato $contrato)
     {
         //
-    }
+        try{
+            $contrato->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contrato eliminado exitosamente'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al eliminar el contrato'
+            ]);
+        }
+        
+    } */
 }

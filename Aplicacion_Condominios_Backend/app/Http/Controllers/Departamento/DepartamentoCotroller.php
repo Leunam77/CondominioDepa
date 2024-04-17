@@ -75,9 +75,9 @@ class DepartamentoCotroller extends Controller
         if($request -> hasFile ('imagen_departamento')){
             $image = $request->file('imagen_departamento');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $image->move('departamento/images/', $name);
+            $image->move('departamento/images/departamentos/', $name);
 
-            $departamento-> imagen_departamento = "departamento/images/${name}";
+            $departamento-> imagen_departamento = "departamento/images/departamentos/${name}";
 
             return response()->json([
                 'status' => 200,

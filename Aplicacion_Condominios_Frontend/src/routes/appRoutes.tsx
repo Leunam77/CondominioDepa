@@ -66,7 +66,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento"
+          displayText: "Registrar Residente"
         },
       },
       {

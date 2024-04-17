@@ -22,7 +22,7 @@ class CrearResidente extends Component {
             cedula_residente: "",
             telefono_residente: 0,
             fecha_nacimiento_residente: "",
-            tipo_residente: "",
+            tipo_residente: "Residente",
             nacionalidad_residente: "",
             email_residente: "",
             genero_residente: "",
@@ -115,10 +115,6 @@ class CrearResidente extends Component {
             validationErrors.email_residente = "Ingrese un email válido";
           }
 
-        if (!this.state.tipo_residente) {
-            validationErrors.tipo_residente = "Debe seleccionar un piso";
-        }
-
         if (!this.state.nacionalidad_residente) {
             validationErrors.nacionalidad_residente = "Debe seleccionar un bloque";
         }
@@ -165,20 +161,21 @@ class CrearResidente extends Component {
             data.append("email_residente", this.state.email_residente);
             data.append("genero_residente", this.state.genero_residente);
             data.append("estado_civil_residente", this.state.estado_civil_residente);
-            if (this.state.imagenDep) {
+            if (this.state.imagen_residente) {
                 data.append("imagen_residente", this.state.imagen_residente);
             }
             data.append("contrato_id", this.state.contrato_id)
-            console.log(this.state.nombre_departamento);
-            console.log(this.state.numero_habitaciones);
-            console.log(this.state.numero_personas);
-            console.log(this.state.superficie);
-            console.log(this.state.disponibilidad);
-            console.log(this.state.amoblado);
-            console.log(this.state.descripcion_departamento);
-            console.log(this.state.pisoSeleccionado);
-            console.log(this.state.imagenDep);
-            console.log(this.state.edificioSeleccionado);
+            console.log(this.state.nombre_residente);
+            console.log(this.state.apellidos_residente);
+            console.log(this.state.cedula_residente);
+            console.log(this.state.telefono_residente);
+            console.log(this.state.fecha_nacimiento_residente);
+            console.log(this.state.tipo_residente);
+            console.log(this.state.nacionalidad_residente);
+            console.log(this.state.email_residente);
+            console.log(this.state.genero_residente);
+            console.log(this.state.estado_civil_residente);
+            console.log(this.state.imagen_residente);
 
             axios.post(url, data).then((res) => {
                 console.log(res);
@@ -281,25 +278,6 @@ class CrearResidente extends Component {
                                     {this.state.errors.fecha_nacimiento_residente && (
                                         <span>{this.state.errors.fecha_nacimiento_residente}</span>
                                     )}
-                                </FormGroup>
-
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Tipo de residente
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="tipo_residente"
-                                        id="tipo_residente"
-                                        onChange={this.handleInput}
-                                    >
-                                        <option disabled selected>{" "} Seleccione un tipo</option>
-                                        <option value="Propietario">Propietario</option>
-                                        <option value="Residente">Residente</option>
-
-                                    </Input>
                                 </FormGroup>
 
                                 <FormGroup className="mb-4">

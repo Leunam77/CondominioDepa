@@ -62,9 +62,8 @@ class ResidenteController extends Controller
         if($request->hasFile('imagen_residente')){
             $image = $request->file('imagen_residente');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $image->move('residente/images/residentes', $name);
-
-            $residente->imagen_residente = "residente/images/residentes/${name}";
+            $image->move('departamento/images/residentes/', $name);
+            $residente->imagen_residente = "departamento/images/residentes/${name}";
             $residente->save();
             return response()->json([
                 'status' => 200,
@@ -85,7 +84,7 @@ class ResidenteController extends Controller
         
         /* if(!$request->hasFile('imagen_residente') || !$residente->imagen_residente){
             //añade una imagen predeterminada si no se sube una imagen
-            $imagenPredeterminada = 'residente/images/residentes/residente_pred.jpg';
+            $imagenPredeterminada = 'departamento/images/residentes/residente_default.png';
             $residente->imagen_residente = $imagenPredeterminada;
             $residente->save();
             return response()->json([

@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie';
 const endpoint = "http://localhost:8000/api";
 const endpointImg = "http://localhost:8000";
 const cookies = new Cookies();
-class CrearDepartamento extends Component {
+class EditarDep extends Component {
     departamentos = [];
     pisosAr = [];
 
@@ -417,4 +417,4 @@ class CrearDepartamento extends Component {
         );
     }
 }
-export default CrearDepartamento;
+export default EditarDep;

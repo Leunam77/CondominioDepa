@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use App\Models\GestDepartamento\Contrato;
 class ContratoSeeder extends Seeder
 {
     /**
@@ -14,5 +14,6 @@ class ContratoSeeder extends Seeder
     public function run()
     {
         //
+        Contrato::factory()->count(7)->create();
     }
 }

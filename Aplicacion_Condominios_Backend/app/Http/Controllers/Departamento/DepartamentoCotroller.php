@@ -33,9 +33,9 @@ class DepartamentoCotroller extends Controller
         if($request -> hasFile ('imagen_departamento')){
             $image = $request->file('imagen_departamento');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $image->move('departamento/images/', $name);
+            $image->move('departamento/images/departamentos/', $name);
 
-            $departamento-> imagen_departamento = "departamento/images/${name}";
+            $departamento-> imagen_departamento = "departamento/images/departamentos/${name}";
             $departamento-> save();
 
             return response()->json([
@@ -46,7 +46,7 @@ class DepartamentoCotroller extends Controller
         }
         if (!$request->hasFile('imagen_departamento') || !$departamento->imagen_departamento) {
             // Ruta de la imagen predeterminada
-            $imagenPredeterminada = 'departamento/images/departamento_pred.jpeg';
+            $imagenPredeterminada = 'departamento/images/departamentos/departamento_pred.jpeg';
             $departamento->imagen_departamento = $imagenPredeterminada;
         }
 

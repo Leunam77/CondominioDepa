@@ -33,7 +33,7 @@ const MostrarDep = () => {
         return amoblado ? "Si" : "No";
     }
     const mostrarDisponibilidad = (disponibilidad) => {
-        return disponibilidad ? "Ocupado" : "Libre";
+        return disponibilidad ? "Libre" : "Ocupado";
     }
 
     const handleClickEditar = (idDepa) => {

@@ -1,11 +1,10 @@
-import React, { Component, useState } from "react";
+import React, { Component} from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button
 } from "reactstrap";
 import "./customs.css";
-import { Form } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
 const endpoint = "http://localhost:8000/api";
@@ -137,8 +136,6 @@ class CrearDepartamento extends Component {
         try {
             const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
 
-            const data = response.data;
-
             this.setState({ edificios: response.data });
         } catch (error) {
             console.error('Error al obtener las opciones dependientes:', error);
@@ -242,6 +239,7 @@ class CrearDepartamento extends Component {
             console.log(this.state.edificioSeleccionado);
 
             const res = await axios.post(`${endpoint}/departamentoupd/${idDep}`, data);
+            cookies.remove('idDepa');
             window.location.href = "./depa";
             
 
@@ -249,8 +247,6 @@ class CrearDepartamento extends Component {
     };
 
     render() {
-        const { bloques } = this.state;
-        const { edificios } = this.state;
         const { numeroPisos, pisoSeleccionado } = this.state;
         const pisosOptions = [];
 

@@ -47,17 +47,19 @@ class ContratoController extends Controller
             'vigente_contrato' => 'required|boolean',
             'departamento_id' => 'nullable|numeric'
         ]);
-        $contrato->fecha_inicio_contrato = $validatedData['fecha_inicio_contrato'];
-        $contrato->fecha_fin_contrato = $validatedData['fecha_fin_contrato'];
-        $contrato->precio_contrato = $validatedData['precio_contrato'];
-        $contrato->tipo_contrato = $validatedData['tipo_contrato'];
-        $contrato->vigente_contrato = $validatedData['vigente_contrato'];
-        $contrato->departamento_id = $validatedData['departamento_id'];
-        $contrato->save();
-        return response()->json([
-            'status' => 200,
-            'message' => 'Contrato creado exitosamente'
-        ]);
+        $contrato->fill($validatedData);
+        try{
+            $contrato->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contrato creado exitosamente'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al crear el contrato'
+            ]);
+        }
     }
 
     /**

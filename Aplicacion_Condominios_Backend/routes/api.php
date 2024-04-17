@@ -8,6 +8,8 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
+use App\Http\Controllers\Notificaciones\AuthController;
+use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Models\Mantenimiento\CategoriaServicio;
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +65,10 @@ Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
 
 Route::apiResource('/areas-comunes', CommonAreaController::class);
+
+// Notificaciones
+Route::group(['prefix' =>  'v1'], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
+});
+

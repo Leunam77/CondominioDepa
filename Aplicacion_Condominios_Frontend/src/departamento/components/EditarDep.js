@@ -41,7 +41,7 @@ class EditarDep extends Component {
             numero_habitaciones: 0,
             numero_personas: 0,
             superficie: 0,
-            disponibilidad: false,
+            disponibilidad: true,
             amoblado: false,
             descripcion_departamento: "",
             errors: {},
@@ -350,22 +350,6 @@ class EditarDep extends Component {
                                     )}
                                 </FormGroup>
                                 <Row className="mb-4">
-                                    <Col sm={6}>
-
-                                        <Label
-                                            check
-                                            className="label-custom"
-                                        >
-                                            <Input
-                                                type="checkbox"
-                                                id="checkBoxdisponibilidad"
-                                                checked={this.state.disponibilidad}
-                                                onChange={() => this.changeChecked('disponibilidad')}
-                                            />
-                                            {' '}
-                                            Disponible
-                                        </Label>
-                                    </Col>
                                     <Col sm={6}>
 
                                         <Label

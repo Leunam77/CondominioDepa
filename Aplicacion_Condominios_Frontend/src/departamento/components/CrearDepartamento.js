@@ -285,7 +285,7 @@ class CrearDepartamento extends Component {
                                                 id="inputRegistro"
                                                 type="number"
                                                 name="numero_habitaciones"
-                                                placeholder="4"
+                                                placeholder="Numero de habitaciones entre 1 y 20"
                                                 onChange={this.handleInput}
                                             />
                                             {this.state.errors.numero_habitaciones && (
@@ -302,7 +302,7 @@ class CrearDepartamento extends Component {
                                                 id="inputRegistro"
                                                 type="number"
                                                 name="numero_personas"
-                                                placeholder="4"
+                                                placeholder="Numero de personas entre 1 y 20"
                                                 onChange={this.handleInput}
                                             />
                                             {this.state.errors.numero_personas && (
@@ -319,7 +319,7 @@ class CrearDepartamento extends Component {
                                                 id="inputRegistro"
                                                 type="number"
                                                 name="superficie"
-                                                placeholder="4"
+                                                placeholder="Superficie entre 100 y 999"
                                                 onChange={this.handleInput}
                                             />
                                             {this.state.errors.superficie && (

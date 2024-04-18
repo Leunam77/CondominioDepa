@@ -86,7 +86,7 @@ class CrearResidente extends Component {
         } else {
             if (!/^\+?[1-9][0-9]{7,11}$/.test(this.state.telefono_residente)) {
                 validationErrors.telefono_residente =
-                    "Ingrese un número de telefono válido";
+                    "Ingrese un número de teléfono válido";
             }
         }
 
@@ -224,62 +224,64 @@ class CrearResidente extends Component {
                                         <span>{this.state.errors.apellidos_residente}</span>
                                     )}
                                 </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Cedula de identificacion
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="text"
-                                        name="cedula_residente"
-                                        placeholder="Ingrese su carnet"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.cedula_residente && (
-                                        <span>{this.state.errors.cedula_residente}</span>
-                                    )}
-                                </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Telefono
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="text"
-                                        name="telefono_residente"
-                                        placeholder="Ingrese su telefono"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.telefono_residente && (
-                                        <span>{this.state.errors.telefono_residente}</span>
-                                    )}
-                                </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Fecha de nacimiento
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="date"
-                                        name="fecha_nacimiento_residente"
-                                        placeholder=""
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.fecha_nacimiento_residente && (
-                                        <span>{this.state.errors.fecha_nacimiento_residente}</span>
-                                    )}
-                                </FormGroup>
+                                <Row>
+                                    <Col sm={6}>
+                                        <FormGroup className="mb-4">
+                                            <Label className="label-custom">
+                                                Cédula de identidad
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="text"
+                                                name="cedula_residente"
+                                                placeholder="Ingrese su carnet"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.cedula_residente && (
+                                                <span>{this.state.errors.cedula_residente}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup className="mb-4">
+                                            <Label className="label-custom">
+                                                Teléfono
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="text"
+                                                name="telefono_residente"
+                                                placeholder="Ingrese su teléfono"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.telefono_residente && (
+                                                <span>{this.state.errors.telefono_residente}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={6}>
+                                        <FormGroup className="mb-4">
+                                            <Label className="label-custom">
+                                                Fecha de nacimiento
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="date"
+                                                name="fecha_nacimiento_residente"
+                                                placeholder=""
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.fecha_nacimiento_residente && (
+                                                <span>{this.state.errors.fecha_nacimiento_residente}</span>
+                                            )}
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
 
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
+                                    <Label className="label-custom">
                                         Nacionalidad
                                     </Label>
                                     <Input
@@ -522,8 +524,12 @@ class CrearResidente extends Component {
                                         <option value="Zimbabue">Zimbabue</option>
 
                                     </Input>
-                                </FormGroup>
-
+                                    {this.state.errors.nacionalidad_residente && (
+                <span>{this.state.errors.nacionalidad_residente}</span>
+            )}
+        </FormGroup>
+    </Col>
+</Row>
                                 <FormGroup className="mb-4">
                                     <Label
                                         className="label-custom"
@@ -563,9 +569,7 @@ class CrearResidente extends Component {
                                 </FormGroup>
 
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
+                                    <Label className="label-custom">
                                         Subir una imagen
                                     </Label>
                                     <Input
@@ -573,8 +577,17 @@ class CrearResidente extends Component {
                                         name="imagen_residente"
                                         id="imagen_residente"
                                         onChange={this.handleChange}
-                                    >
-                                    </Input>
+                                    />
+                                    {this.state.imagen_residente && (
+                                        <img
+                                            src={URL.createObjectURL(this.state.imagen_residente)}
+                                            alt="Vista previa"
+                                            style={{ marginTop: '10px', maxWidth: '200px' }}
+                                        />
+                                    )}
+                                    {this.state.errors.imagen_residente && (
+                                        <span>{this.state.errors.imagen_residente}</span>
+                                    )}
                                 </FormGroup>
                                 
                                 <Button size="lg" type="submit" className="custom-button mx-auto d-block"

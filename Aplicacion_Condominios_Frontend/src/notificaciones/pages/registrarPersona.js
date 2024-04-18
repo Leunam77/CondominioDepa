@@ -1,37 +1,64 @@
 import { Button, Container, Row, Col } from "react-bootstrap";
 import axios from 'axios';
 import React, { useState } from 'react';
+import {Toaster, toast} from 'sonner'
 
 export const RegistrarPersona = () => {
+
   const [datosPersona, setDatosPersona] = useState({
     nombre: '',
     apellido: '',
     correo: '',
+    celular: '',
     genero: '',
-    celular: ''
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setDatosPersona(prevState => ({
-      ...prevState,
+    setDatosPersona({
+      ...datosPersona,
       [name]: value
-    }));
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Enviar datos al servidor usando axios
-    axios.post('http://127.0.0.1:8000/api/add_persona', datosPersona)
-      .then(response => {
-        // Manejar la respuesta del servidor
-        console.log(response.data);
-      })
-      .catch(error => {
-        // Manejar errores
-        console.error('Error al enviar los datos:', error);
-      });
+    const datos = new FormData();
+    datos.append("nombre", datosPersona.nombre);
+    datos.append("apellido", datosPersona.apellido);
+    datos.append("correo", datosPersona.correo);
+    datos.append("celular", datosPersona.celular);
+    datos.append("genero", datosPersona.genero);
+    datos.append("chat_id", '1314077933');
+
+
+    const res = await axios.post('http://127.0.0.1:8000/api/add_persona', datos)
+    if (res.data.status === 200) {
+      toast.success("Se añadio correctamente");
+    }
+
+    const email = datosPersona.correo;
+    const password = 'admin123';
+    const first_name = datosPersona.nombre;
+    const last_name = datosPersona.apellido;
+
+    // para la verificacion
+    axios.post('http://127.0.0.1:8000/api/v1/register', null,
+        {
+          params: {
+            email,
+            password,
+            first_name,
+            last_name
+          }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log('Error', error);
+        });
   };
 
   return (
@@ -41,7 +68,7 @@ export const RegistrarPersona = () => {
           Registro de Personas
         </h3>
 
-        <form onSubmit={handleSubmit}>
+        <form>
           <Row>
             <Col md={6} className="pl-10">
               <div className="mb-4">
@@ -114,10 +141,16 @@ export const RegistrarPersona = () => {
             </Col>
           </Row>
 
-          <Button type="submit" block variant="primary" className="float-end">
+          <Button type="submit" block variant="primary" className="float-end" onClick={handleSubmit}>
             Registrar
           </Button>
         </form>
+        <Toaster
+        position="top-center"
+        richColorSuccess
+        closeButton
+        style={{position:"absolute"}}
+      />
       </div>
     </div>
   );

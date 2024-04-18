@@ -15,5 +15,6 @@ class Persona extends Model
         'correo',
         'celular',
         'genero',
+        'chat_id'
     ];
 }

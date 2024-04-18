@@ -20,6 +20,7 @@ class CreatePersonaTable extends Migration
             $table->string('correo')->unique();
             $table->integer('celular')->unique();
             $table->char('genero', 1);
+            $table->char('chat_id');
         });
     }
 

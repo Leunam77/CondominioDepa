@@ -15,7 +15,9 @@ class PersonaController extends Controller
      */
     public function index()
     {
-        //
+        $persons = Persona::all();
+
+        return response()->json($persons, 200);
     }
 
     /**
@@ -32,6 +34,7 @@ class PersonaController extends Controller
         $persona-> correo = $request -> correo;
         $persona-> celular = $request -> celular;           
         $persona-> genero = $request -> genero;
+        $persona->chat_id = $request->chat_id;
         
         $persona -> save();
 

@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::get('/departamentos','index')->name('departamento.index');
+    Route::put('/departamentos/{id}/actualizarDisp','actualizarDisponibilidadDepa')->name('residente.actualizarDisponibilidadDepa');
     Route::post('/departamento','store')->name('departamento.store');
     Route::get('/departamento/{id}','show')->name('departamento.show');
     Route::post('/departamentoupd/{id}','update')->name('departamento.update');

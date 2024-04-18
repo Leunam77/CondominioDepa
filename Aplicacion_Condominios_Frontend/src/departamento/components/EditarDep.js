@@ -368,26 +368,6 @@ class EditarDep extends Component {
                                             check
                                             className="label-custom"
                                         >
-<<<<<<< HEAD
-                                            Subir una imagen
-                                        </Label>
-                                        <img src={this.state.imagenDep} alt="Imagen actual del departamento" style={{ maxWidth: '100px' }} />
-                                        <Input
-                                            type="file"
-                                            className="mb-3 w-100"
-                                            name="nuevaImagen"
-                                            id="nuevaImagen"
-                                            onChange={this.handleChange}
-                                        >
-                                        </Input>
-                                        <FormGroup className="mb-5">
-                                            <Label
-                                                className="label-custom"
-                                            >
-                                                Descripción
-                                            </Label>
-=======
->>>>>>> 548ebd3c976c9001503791ee301d9f31fdf99f08
                                             <Input
                                                 type="checkbox"
                                                 id="checkBoxdisponibilidad"
@@ -425,8 +405,8 @@ class EditarDep extends Component {
                                     </Label>
                                     <Input
                                         type="file"
-                                        name="imagen_departamento"
-                                        id="imagen_departamento"
+                                        name="nuevaImagen"
+                                        id="nuevaImagen"
                                         onChange={this.handleChange}
                                     />
                                     {this.state.imagenDep && (

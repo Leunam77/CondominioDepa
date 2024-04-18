@@ -1,13 +1,18 @@
 
 import axios from "axios";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import './AñadirResidenteCss.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import React, { useState, useEffect } from 'react';
 const endpoint = "http://localhost:8000/api";
 const estadoRes = 0;
-const ModalUsuarios = ({agregarResidente, estado1, toggleModal }) => {
+const ModalUsuarios = ({isOpen,toggle,agregarResidente}) => {
   // Aquí puedes usar useState para manejar el estado local de la ventana modal
-  
+
   const [residentes, setResidentes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   // Si necesitas hacer una solicitud para obtener la lista de usuarios, puedes usar useEffect
   useEffect(() => {
     
@@ -20,29 +25,47 @@ const ModalUsuarios = ({agregarResidente, estado1, toggleModal }) => {
     });
   }, []);
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+const filteredResidentes = residentes.filter(residente =>
+    residente.nombre_residente.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
 
-  const salirVentanaModal = () => {
-    toggleModal();
-}
   return (
-    (estado1 &&
-        <div className="modal" style={{ display: estado1 ? 'block' : 'none' }}>
-      <div className="modal-content">
-        <h2>Seleccionar Usuario</h2>
-        <ul>
-          {residentes.map((residente) => (
-            <li key={residente.id}>
-              <label onClick={() => { agregarResidente(residente); toggleModal(); }}>
-                {residente.nombre_residente} {residente.apellidos_residente}
-              </label>
-            </li>
-          ))}
-        </ul>
-        <button onClick={salirVentanaModal}>Cerrar</button>
+
+      <div>
+          <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
+          <ModalHeader style={{ marginLeft: 'auto', marginRight: 'auto' }}>Añadir Residente</ModalHeader>
+          <ModalBody>
+              <div className="search-container">
+                <input
+                  type="text"
+                  placeholder="Buscar residente..."
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  className="search-input"
+                />
+                <FontAwesomeIcon icon={faSearch} className="search-icon" />
+              </div>
+              <ul>
+              {filteredResidentes.map(residente => (
+                  <li key={residente.id} className="residente-item">
+                  <span style={{ marginLeft: '1rem' }} onClick={() => { agregarResidente(residente); toggle(); }} >{residente.nombre_residente} {residente.apellidos_residente}</span>
+                </li>
+                ))}
+              </ul>
+          </ModalBody>
+          <ModalFooter>
+              <Button onClick={toggle} className='boton-cerrar'>
+                Cerrar
+            </Button>
+            </ModalFooter>
+          </Modal>
       </div>
-    </div>
-    )
+    
   );
 };
 

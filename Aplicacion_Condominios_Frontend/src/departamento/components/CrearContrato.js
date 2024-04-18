@@ -38,7 +38,7 @@ class CrearContrato extends Component {
             residentesSeleccionados:[],
             mostrarModal: false,
         };
-    }
+    };
 
     toggleModal = () => {
         this.setState((prevState) => ({
@@ -139,9 +139,10 @@ class CrearContrato extends Component {
         this.setState({ errors: validationErrors });
 
         if (Object.keys(validationErrors).length === 0) {
-            
+            const idDep = cookies.get('idDepa');
             const url = `${endpoint}/contrato`;
             const data = new FormData();
+            console.log("se guarda el id?",idDep);
 
             data.append("fecha_inicio_contrato", this.state.fecha_inicio_contrato);
             data.append("fecha_fin_contrato", this.state.fecha_fin_contrato);
@@ -159,10 +160,13 @@ class CrearContrato extends Component {
 
             axios.post(url, data).then((res) => {
                 console.log(res);
-                cookies.remove('idDepa');
-                window.location.href = "./depa";
+                
             });
-
+            await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
+                disponibilidad: 0,
+              });
+            cookies.remove('idDepa');
+            window.location.href = "./depa";
         }
     };
 
@@ -275,10 +279,11 @@ class CrearContrato extends Component {
                                 </Button>
 
                                 {this.state.mostrarModal && (
+                                    
                                 <ModalMostrarResidentes
+                                    isOpen={this.state.mostrarModal}
+                                    toggle={this.toggleModal}
                                     agregarResidente={this.agregarResidente}
-                                    estado1={this.state.mostrarModal}
-                                    toggleModal={this.toggleModal}
                                 />
                                 )}
                                 

@@ -33,6 +33,10 @@ import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
+import PersonalPage from "../mantenimiento/personal/PersonalPage";
+import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
+import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
+import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -174,12 +178,46 @@ const appRoutes: RouteType[] = [
 
   {
     path: "/changelog",
-    element: <ChangelogPage />,
+    element: <ChangelogPageLayout />,
     state: "changelog",
     sidebarProps: {
       displayText: "Mantenimiento",
       icon: <BuildIcon />,
     },
+    child: [
+      {
+        path: "/changelog/registrar_servicio",
+        element: <ChangelogPage />,
+        state: "changelog.servicio",
+        sidebarProps: {
+          displayText: "Registrar servicio",
+        },
+      },
+      {
+        path: "/changelog/personal",
+        element: <PersonalPage />,
+        state: "changelog.personal",
+        sidebarProps: {
+          displayText: "Personal",
+        },
+      },
+      {
+        path: "/changelog/registro",
+        element: <RegistroServicioPage />,
+        state: "changelog.registro",
+        sidebarProps: {
+          displayText: "Registro",
+        },
+      },
+      {
+        path: "/changelog/solicitud",
+        element: <ListaSolicitudServicioPage />,
+        state: "changelog.solicitud",
+        sidebarProps: {
+          displayText: "Solicitud",
+        },
+      },
+    ],
   },
 
   {

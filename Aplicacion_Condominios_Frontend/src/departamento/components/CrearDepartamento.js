@@ -53,8 +53,8 @@ class CrearDepartamento extends Component {
         }));
     }
     handleConfirm = (e) => {
-        this.storeDepartment(e);
         console.log('Usuario confirmó la acción');
+        this.storeDepartment(e);
         this.toggleModal();
     }
 
@@ -82,8 +82,8 @@ class CrearDepartamento extends Component {
             imagenDep: e.target.files[0],
         });
         console.log('imagen:', this.state.imagenDep.name);
-        if(e.target.name === "imagen_departamento"){
-            this.setState({imagen_departamento: URL.createObjectURL(e.target.files[0])});
+        if (e.target.name === "imagen_departamento") {
+            this.setState({ imagen_departamento: URL.createObjectURL(e.target.files[0]) });
         }
     };
 
@@ -325,7 +325,7 @@ class CrearDepartamento extends Component {
                                     )}
                                 </FormGroup>
                                 <Row className="mb-4">
-                                    
+
                                     <Col sm={6}>
 
                                         <Label
@@ -358,7 +358,7 @@ class CrearDepartamento extends Component {
                                         onChange={this.handleBloqueSeleccionado}
                                     >
                                         <option disabled selected>
-                                        {" "}Seleccionar Bloque</option>
+                                            {" "}Seleccionar Bloque</option>
                                         {this.state.bloques.map(bloque => (
                                             <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
                                         ))}
@@ -382,7 +382,7 @@ class CrearDepartamento extends Component {
                                         onChange={this.handleEdificioSeleccionado}
                                     >
                                         <option disabled selected>
-                                        {" "}Seleccionar Edificio</option>
+                                            {" "}Seleccionar Edificio</option>
                                         {this.state.edificios.map(edificio => (
                                             <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
                                         ))}
@@ -404,7 +404,7 @@ class CrearDepartamento extends Component {
                                         onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
                                     >
                                         <option disabled selected>
-                                        {" "}Seleccionar piso</option>
+                                            {" "}Seleccionar piso</option>
                                         {pisosOptions}
                                     </Input>
                                     {this.state.errors.pisoSeleccionado && (
@@ -428,12 +428,12 @@ class CrearDepartamento extends Component {
                                             <img
                                                 src={this.state.imagen_departamento}
                                                 alt="Vista previa"
-                                                style={{ width: '300px', height: '300px' }}
+                                                style={{ width: '300px', height: '300px', marginTop: '25px'}}
                                             />
                                         </div>
                                     )}
                                 </FormGroup>
-                                
+
                                 <FormGroup className="mb-5">
                                     <Label
                                         className="label-custom"
@@ -456,7 +456,7 @@ class CrearDepartamento extends Component {
                                         <span>{this.state.errors.descripcion_departamento}</span>
                                     )}
                                 </FormGroup>
-                                <Button size="lg" type="submit" className="custom-button mx-auto d-block"
+                                <Button size="lg" type="button" className="custom-button mx-auto d-block"
                                     style={{ fontWeight: 'bold' }}
                                     onClick={this.toggleModal}
                                 >

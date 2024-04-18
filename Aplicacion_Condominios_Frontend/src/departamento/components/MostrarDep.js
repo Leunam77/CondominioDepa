@@ -36,9 +36,10 @@ const MostrarDep = () => {
         window.location.href = '/dashboard/editarDepa'; // Redirige a la página de edición
       };
     
-      const handleBotonSwitch = () => {
+      const handleBotonSwitch = (idDepa) => {
         if (switchState) {
-            // Ocupado (redirige al formulario de contrato?)
+            cookies.set('idDepa', idDepa);
+            window.location.href = '/dashboard/crearContrato';
         } else {
             // Libre
         }
@@ -64,7 +65,7 @@ const MostrarDep = () => {
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
                                 <label className="switch">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" checked={switchState} onChange={() => { setSwitchState(!switchState); handleBotonSwitch(departamento.id); }} />
                                     <span className="slider"></span>
                                 </label>
                             </div>

@@ -7,6 +7,7 @@ use App\Models\GestDepartamento\Residente;
 use Illuminate\Http\Request;
 use League\Csv\Reader;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class ResidenteController extends Controller
 {
@@ -130,7 +131,6 @@ class ResidenteController extends Controller
     public function update(Request $request,$id)
     {
         //
-        $residente = new Residente();
         $residente = Residente::find($id);
         if(!$residente){
             return response()->json([
@@ -138,22 +138,9 @@ class ResidenteController extends Controller
                 'message' => 'Residente no encontrado'
             ]);
         }
-        \Log::info('Received data: ', $request->all()); // Esto te ayudará a ver qué datos están llegando.
-        $validate = $request->validate([
-            'nombre_residente' => 'required|string|max:50',
-            'apellidos_residente' => 'required|string|max:150',
-            'cedula_residente' => 'required',
-            'telefono_residente' => 'required',
-            'fecha_nacimiento_residente' => 'required|date',
-            'tipo_residente' => 'required',
-            'nacionalidad_residente' => 'required',
-            'email_residente' => 'nullable|email|unique:residentes,email_residente,'.$id,
-            'genero_residente' => 'required',
-            'estado_civil_residente' => 'required',
-            'imagen_residente' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
-            'contrato_id' => 'nullable',
-        ]);
-        $residente->update($validate);
+        //actualizar el residente
+
+        $residente->update($request->all());
         if($request->hasFile('imagen_residente')){
             $image = $request->file('imagen_residente');
             $name = time().'.'.$image->getClientOriginalExtension();
@@ -168,12 +155,13 @@ class ResidenteController extends Controller
             $errors = $request->file('imagen_residente') ? $request->file('imagen_residente')->getErrorMessage() : 'No file or file has errors';
             \Log::info('Error with image upload: ' . $errors);  // Utiliza Log para verificar qué está pasando
 
-
-            $residente->imagen_residente = 'residente/images/residentes/residente_pred.jpg';
+            $residente->imagen_residente = 'departamento/images/residentes/residente_pred.jpg';
             $residente->save();
             return response()->json([
                 'status' => 200,
-                'message' => 'Residente creado por defecto'
+                'message' => 'Residente creado por defecto',
+                'errors' => $errors,
+                'imagen' => $request
             ]);
         }
         

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button, Container
 } from "reactstrap";
+import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
 
 const endpoint = "http://localhost:8000/api";
@@ -40,8 +41,21 @@ class CrearDepartamento extends Component {
             edificios: [],
             numeroPisos: 0,
             pisoSeleccionado: '',
-            imagenDep: ""
+            imagenDep: "",
+            modalOpen: false,
+            imagen_departamento: null
         };
+    }
+
+    toggleModal = () => {
+        this.setState(prevState => ({
+            modalOpen: !prevState.modalOpen
+        }));
+    }
+    handleConfirm = (e) => {
+        this.storeDepartment(e);
+        console.log('Usuario confirmó la acción');
+        this.toggleModal();
     }
 
     handleInput = (e) => {
@@ -68,6 +82,9 @@ class CrearDepartamento extends Component {
             imagenDep: e.target.files[0],
         });
         console.log('imagen:', this.state.imagenDep.name);
+        if(e.target.name === "imagen_departamento"){
+            this.setState({imagen_departamento: URL.createObjectURL(e.target.files[0])});
+        }
     };
 
     cargarPisos = async (idEdificio) => {
@@ -114,7 +131,7 @@ class CrearDepartamento extends Component {
         if (!this.state.numero_habitaciones) {
             validationErrors.numero_habitaciones = "Este campo es obligatorio";
         } else {
-            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_habitaciones)) {
+            if (!/^(?!-)(?:[1-9]|[1]\d)$/.test(this.state.numero_habitaciones)) {
                 validationErrors.numero_habitaciones =
                     "Ingrese un número de habitaciones válido";
             }
@@ -123,7 +140,7 @@ class CrearDepartamento extends Component {
         if (!this.state.numero_personas) {
             validationErrors.numero_personas = "Este campo es obligatorio";
         } else {
-            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_personas)) {
+            if (!/^(?!-)(?:[1-9]|[1]\d)$/.test(this.state.numero_personas)) {
                 validationErrors.numero_personas =
                     "Ingrese un número de personas válido";
             }
@@ -138,6 +155,16 @@ class CrearDepartamento extends Component {
         ) {
             validationErrors.descripcion_departamento =
                 "Ingrese una descripcion válida";
+        }
+        if (!this.state.superficie) {
+            validationErrors.superficie = "Este campo es obligatorio";
+        } else if (
+            !/^(?!-)(?:[1-9]\d{2})$/.test(
+                this.state.superficie
+            )
+        ) {
+            validationErrors.superficie =
+                "Ingrese una superficie válida";
         }
 
         if (!this.state.pisoSeleccionado) {
@@ -218,7 +245,12 @@ class CrearDepartamento extends Component {
         }
         return (
             <>
-
+                <ModalConfirm
+                    isOpen={this.state.modalOpen}
+                    toggle={this.toggleModal}
+                    confirm={this.handleConfirm}
+                    message="¿Está seguro de que deseas guardar el departamento?"
+                />
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>
@@ -331,6 +363,9 @@ class CrearDepartamento extends Component {
                                             <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
                                         ))}
                                     </Input>
+                                    {this.state.errors.bloqueSeleccionado && (
+                                        <span>{this.state.errors.bloqueSeleccionado}</span>
+                                    )}
                                 </FormGroup>
 
                                 <FormGroup className="mb-4">
@@ -352,6 +387,9 @@ class CrearDepartamento extends Component {
                                             <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
                                         ))}
                                     </Input>
+                                    {this.state.errors.edificioSeleccionado && (
+                                        <span>{this.state.errors.edificioSeleccionado}</span>
+                                    )}
                                 </FormGroup>
                                 <FormGroup className="mb-4">
                                     <Label
@@ -369,6 +407,9 @@ class CrearDepartamento extends Component {
                                         {" "}Seleccionar piso</option>
                                         {pisosOptions}
                                     </Input>
+                                    {this.state.errors.pisoSeleccionado && (
+                                        <span>{this.state.errors.pisoSeleccionado}</span>
+                                    )}
                                 </FormGroup>
                                 <FormGroup className="mb-4">
                                     <Label
@@ -381,8 +422,16 @@ class CrearDepartamento extends Component {
                                         name="imagen_departamento"
                                         id="imagen_departamento"
                                         onChange={this.handleChange}
-                                    >
-                                    </Input>
+                                    />
+                                    {this.state.imagen_departamento && (
+                                        <div className="d-flex justify-content-center">
+                                            <img
+                                                src={this.state.imagen_departamento}
+                                                alt="Vista previa"
+                                                style={{ width: '300px', height: '300px' }}
+                                            />
+                                        </div>
+                                    )}
                                 </FormGroup>
                                 
                                 <FormGroup className="mb-5">
@@ -395,12 +444,21 @@ class CrearDepartamento extends Component {
                                         id="inputRegistro"
                                         type="textarea"
                                         name="descripcion_departamento"
+                                        className="autoExpand"
                                         placeholder="Ingrese descripcion"
                                         onChange={this.handleInput}
+                                        onInput={(e) => {
+                                            e.target.style.height = 'auto';
+                                            e.target.style.height = (e.target.scrollHeight) + 'px';
+                                        }}
                                     />
+                                    {this.state.errors.descripcion_departamento && (
+                                        <span>{this.state.errors.descripcion_departamento}</span>
+                                    )}
                                 </FormGroup>
                                 <Button size="lg" type="submit" className="custom-button mx-auto d-block"
                                     style={{ fontWeight: 'bold' }}
+                                    onClick={this.toggleModal}
                                 >
                                     Continuar
                                 </Button>

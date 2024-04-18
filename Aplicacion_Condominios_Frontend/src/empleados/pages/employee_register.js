@@ -24,7 +24,7 @@ function EmployeeRegister() {
     correo : "",
     celular : "",
     genero : "",
-    fecha_contratacion : "",
+    ci : "",
   });
 
   const handleInput = (e) => {
@@ -48,12 +48,14 @@ function EmployeeRegister() {
     data.append("correo", values.correo);
     data.append("celular", values.celular);
     data.append("genero", values.genero);
-    data.append("fecha_contratacion", values.fecha_contratacion);
+    data.append("ci", values.ci);
+    data.append("estado_contrato", "Sin contrato");
 
     const res = await axios.post(`http://127.0.0.1:8000/api/add_employee`, data);
 
     if (res.data.status === 200) {
       console.log(res);
+      /* 
       setValues({
         nombre: "",
         apellido: "",
@@ -62,6 +64,7 @@ function EmployeeRegister() {
         genero: "",
         fecha_contratacion: "",
       });
+      */
       window.location.href = "./";
     }
     
@@ -151,12 +154,12 @@ function EmployeeRegister() {
 
               <MDBCol md="6">
                 <MDBInput
-                  name="fecha_contratacion"
+                  name="ci"
                   wrapperClass="mb-4"
-                  label="fecha_contratacion"
+                  label="CI"
                   size="lg"
                   id="form5"
-                  type="date"
+                  type="number"
                   onBlur={handleInput}
                 />
               </MDBCol>

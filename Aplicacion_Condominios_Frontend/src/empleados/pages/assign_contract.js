@@ -2,20 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Cookies from 'universal-cookie';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import '../css/contract_register_style.css'
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
 
 const cookies = new Cookies();
 
-function EmployeHomePage() {
+function AssignContract() {
 
   const [empleados, setEmpleados] = useState([]);
   
@@ -46,7 +41,13 @@ function EmployeHomePage() {
   const editarInformacionEmpleado = (id)  => {
     console.log(id)
     cookies.set("id_empleado_seleccionado", id, { path: "/" });
-    window.location.href = "./employeeEdit";
+    window.location.href = "./contractRegister";
+  }
+
+  const firmarContrato = (id)  => {
+    console.log(id)
+    cookies.set("id_empleado_seleccionado", id, { path: "/" });
+    window.location.href = "./contractRegister";
   }
 
   return (
@@ -66,9 +67,9 @@ function EmployeHomePage() {
             <tr>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Correo</th>
-              <th>Celular</th>
-              <th>Funciones</th>
+              <th>CI</th>
+              <th>Estado de Contrato</th>
+              <th>Contratar</th>
             </tr>
           </thead>
           <tbody>
@@ -77,29 +78,25 @@ function EmployeHomePage() {
                 <tr >
                   <td >{empleado.nombre}</td>
                   <td>{empleado.apellido}</td>
-                  <td>{empleado.correo}</td>
-                  <td>{empleado.celular}</td>
-                  <td><Button variant="danger" onClick={() => eliminarEmpleado(empleado.id)}><DeleteIcon/></Button> {}
-                  <Button variant="info" onClick={() => editarInformacionEmpleado(empleado.id)}><EditIcon/></Button>
-                  </td>
+                  <td>{empleado.ci}</td>
+                  <td>{empleado.estado_contrato}</td>
+                  <td>
+
+                  {empleado.estado_contrato === "Contratado" ? (
+                          <div> Contrato {empleado.contracts[0].tipo_contrato}</div>
+                        ) : (
+                            <Button variant="danger" onClick={() => firmarContrato(empleado)}><DeleteIcon/></Button>
+                        )}
+                        </td>
                 </tr>
               );
             })}
           </tbody>
         </Table>
       </Container>
-
-      <Row className=''>
-        <Col></Col>
-        <Col></Col>
-        <Col></Col>
-        <Col>
-        <Button variant="success" onClick={() => window.location.href = "./employeeRegister"}><AddIcon/></Button>
-        </Col>
-      </Row>
       
     </>
   );
 }
 
-export default EmployeHomePage;
+export default AssignContract;

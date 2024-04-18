@@ -9,6 +9,7 @@ use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Models\Mantenimiento\CategoriaServicio;
+use App\Http\Controllers\Empleados\ContractController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,11 +50,15 @@ Route::controller(EdificioController::class)->group(function(){
     Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificios.bybloques');
 });
 
+// EMPLEADOS
 Route::post('/add_employee', [EmployeeController::class, 'store']);
 Route::get('/get_all_employees', [EmployeeController::class, 'getAll']);
 Route::delete('/delete_employee/{id}', [EmployeeController::class, 'delete']);
 Route::get('/get_employee/{id}', [EmployeeController::class, 'getById']);
 Route::post('/update_employee/{id}', [EmployeeController::class, 'update']);
+Route::post('/updateContractStatus/{id}', [EmployeeController::class, 'updateContractStatus']);
+
+Route::post('/add_contract', [ContractController::class, 'store']);
 
 // MANTENIMIENTO
 Route::get('/CategoriaServicio', [CategoriaServicioController::class,'getCategoriaServicio']);

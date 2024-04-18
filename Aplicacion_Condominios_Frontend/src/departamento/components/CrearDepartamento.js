@@ -445,7 +445,7 @@ class CrearDepartamento extends Component {
                                             <img
                                                 src={this.state.imagen_departamento}
                                                 alt="Vista previa"
-                                                style={{ width: '200px', height: '200px', marginTop: '25px'}}
+                                                style={{ width: '128px', height: '128px', marginTop: '25px'}}
                                             />
                                         </div>
                                     )}

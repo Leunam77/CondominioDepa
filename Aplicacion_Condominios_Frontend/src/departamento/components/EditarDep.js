@@ -299,55 +299,66 @@ class EditarDep extends Component {
                                     )}
                                 </FormGroup >
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de habitaciones
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_habitaciones"
-                                        value={this.state.numero_habitaciones}
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_habitaciones && (
-                                        <span>{this.state.errors.numero_habitaciones}</span>
-                                    )}
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Número de habitaciones
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_habitaciones"
+                                                value={this.state.numero_habitaciones}
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.numero_habitaciones && (
+                                                <span>{this.state.errors.numero_habitaciones}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Número de personas
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_personas"
+                                                value={this.state.numero_personas}
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.numero_personas && (
+                                                <span>{this.state.errors.numero_personas}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Superficie
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="superficie"
+                                                value={this.state.superficie}
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.superficie && (
+                                                <span>{this.state.errors.superficie}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    
                                 </FormGroup>
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de personas
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_personas"
-                                        value={this.state.numero_personas}
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_personas && (
-                                        <span>{this.state.errors.numero_personas}</span>
-                                    )}
+                                   
                                 </FormGroup>
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Superficie
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="superficie"
-                                        value={this.state.superficie}
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.superficie && (
-                                        <span>{this.state.errors.superficie}</span>
-                                    )}
+                                    
                                 </FormGroup>
                                 <Row className="mb-4">
                                     <Col sm={6}>
@@ -386,7 +397,7 @@ class EditarDep extends Component {
                                         <img
                                             src={this.state.nuevaImagenMostrar ? this.state.nuevaImagenMostrar : this.state.imagenDep}
                                             alt="Vista previa"
-                                            style={{ width: '300px', height: '300px', marginTop: '25px'}}
+                                            style={{ width: '128px', height: '128px', marginTop: '25px'}}
                                         />
                                     </div>
                                     )}

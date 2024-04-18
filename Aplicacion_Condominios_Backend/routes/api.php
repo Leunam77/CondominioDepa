@@ -74,5 +74,8 @@ Route::controller(EquipamientosController::class)->group(function(){
 
 Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
+    Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
 });
+
+
 

@@ -34,6 +34,8 @@ import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
+import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
+import { NotificationsList } from "../notificaciones/pages/NotificationsList";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -199,6 +201,19 @@ const appRoutes: RouteType[] = [
         sidebarProps: {
           displayText: "Registro Persona",
         },
+      },
+      {
+        path: "/notifications/list",
+        element: <NotificationsList />,
+        state: "notificacion.lista",
+        sidebarProps: {
+          displayText: "Lista de Notificaciones",
+        },
+      },
+      {
+        path: "/notifications/send/telegram",
+        element: <SendTelegramNotification />,
+        state: "telegram.enviar",
       },
     ]
   },

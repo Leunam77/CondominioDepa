@@ -69,7 +69,10 @@ Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::cl
 Route::apiResource('/areas-comunes', CommonAreaController::class);
 
 // Notificaciones
-Route::post('/add_persona',[PersonaController::class,'store']);
+Route::controller(PersonaController::class)->group(function() {
+    Route::post('/add_persona', 'store');
+    Route::get('/persons', 'index');
+});
 
 Route::group(['prefix' =>  'v1'], function () {
     Route::post('register', [AuthController::class, 'register']);
@@ -77,7 +80,7 @@ Route::group(['prefix' =>  'v1'], function () {
 });
 
 Route::controller(TelegramNotificationController::class)->group(function() {
-    Route::post('/notification', 'sendNoticeToOne');
-    Route::post('/notifications', 'sendNoticeToMany');
+    Route::post('/telegram/notification', 'sendNoticeToOne');
+    Route::post('/telegram/notifications', 'sendNoticeToMany');
 });
 

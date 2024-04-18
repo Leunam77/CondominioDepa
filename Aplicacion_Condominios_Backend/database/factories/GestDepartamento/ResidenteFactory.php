@@ -14,7 +14,12 @@ class ResidenteFactory extends Factory
     public function definition()
     {
         $apellidos = $this->faker->lastName . ' ' . $this->faker->lastName;
-
+        $directory = public_path('departamento/images/residentes');
+        
+        // Asegurarse de que el directorio existe, si no, crearlo
+        if (!\File::isDirectory($directory)) {
+            \File::makeDirectory($directory, 0777, true, true);
+        }
         return [
             //
             'nombre_residente' => $this->faker->name,
@@ -27,7 +32,7 @@ class ResidenteFactory extends Factory
             'email_residente' => $this->faker->unique()->safeEmail,
             'genero_residente' => $this->faker->randomElement(['masculino', 'femenino']),
             'estado_residente' => false, 
-            'imagen_residente' => $this->faker->imageUrl($width = 640, $height = 480),
+            'imagen_residente' => $this->faker->image($directory, 512, 512, null, false),
             'contrato_id' => $this->faker->numberBetween(1, 10)           
         ];
     }

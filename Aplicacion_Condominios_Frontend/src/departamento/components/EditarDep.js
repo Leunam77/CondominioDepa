@@ -380,8 +380,8 @@ class EditarDep extends Component {
                                         <Input
                                             type="file"
                                             className="mb-3 w-100"
-                                            name="imagen_departamento"
-                                            id="imagen_departamento"
+                                            name="nuevaImagen"
+                                            id="nuevaImagen"
                                             onChange={this.handleChange}
                                         >
                                         </Input>

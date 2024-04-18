@@ -3,16 +3,18 @@ import axios from "axios";
 import './DepartamentosCss.css';
 
 import { Link } from "react-router-dom";
-
+import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle , Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faX } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const endpoint = 'http://localhost:8000/api';
 const endpointImg = 'http://localhost:8000';
+const cookies = new Cookies();
 const MostrarDep = () => {
     const [departamentos, setDepartamentos] = useState ([]);
+    const [switchStates, setSwitchStates] = useState({});
 
     useEffect(() => {
         getAllDepartments();
@@ -21,6 +23,11 @@ const MostrarDep = () => {
     const getAllDepartments = async () => {
         const response = await axios.get(`${endpoint}/departamentos`);
         setDepartamentos(response.data);
+        const initialSwitchStates = {};
+        response.data.forEach(departamento => {
+            initialSwitchStates[departamento.id] = false;
+        });
+        setSwitchStates(initialSwitchStates);
     }
 
     const deleteDepartment = async (id) => {
@@ -28,11 +35,24 @@ const MostrarDep = () => {
         getAllDepartments();
     }
 
-    const mostrarAmoblado = (amoblado) => {
-        return amoblado ? "Si" : "No";
-    }
-    const mostrarDisponibilidad = (disponibilidad) => {
-        return disponibilidad ? "Ocupado" : "Libre";
+    const handleClickEditar = (idDepa) => {
+        cookies.set('idDepa', idDepa); // Guarda el ID del departamento en una cookie llamada 'idDepa'
+        // Lógica para redirigir a la página de edición
+        window.location.href = '/dashboard/editarDepa'; // Redirige a la página de edición
+      };
+    
+    const handleBotonSwitch = (idDepa) => {
+        setSwitchStates(prevState => ({
+            ...prevState,
+            [idDepa]: !prevState[idDepa]
+        }));
+
+        if (!switchStates[idDepa]) {
+            cookies.set('idDepa', idDepa);
+            window.location.href = '/dashboard/crearContrato';
+        } else {
+            // Libre
+        }
     }
 
     return(
@@ -41,7 +61,7 @@ const MostrarDep = () => {
         
             <div className= "lista">
                 {departamentos.map((departamento) => (
-                    <Card key={departamento.id} id="Otro">
+                    <Card key={departamento.id}>
                         <CardImg
                             alt="Card image cap"
                             src={`${endpointImg}/${departamento.imagen_departamento}`}
@@ -50,15 +70,17 @@ const MostrarDep = () => {
                         />
                         <CardBody>
                             <CardTitle tag="h5">{departamento.nombre_departamento}</CardTitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Numero de habitaciones: {departamento.numero_habitaciones}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Numero de personas: {departamento.numero_personas}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Superficie: {departamento.superficie}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Disponibilidad: {mostrarDisponibilidad(departamento.disponibilidad)}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Amoblado: {mostrarAmoblado(departamento.amoblado)}</CardSubtitle>
-                            <CardSubtitle className="mb-2 text-muted" tag="h6">Descripcion: {departamento.descripcion_departamento}</CardSubtitle>
                             <div className="botones">
-                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faX} className="masInf" /></Button>
+                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
+                                <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
+                                <label className="switch">
+                                    <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { setSwitchStates(!switchStates); handleBotonSwitch(departamento.id); }} />
+                                    <span className="slider"></span>
+                                </label>
                             </div>
+                            
+                            
+
                         </CardBody>
                     </Card>
                 ))}

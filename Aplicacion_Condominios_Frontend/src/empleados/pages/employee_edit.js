@@ -55,14 +55,11 @@ function EmployeeEdit() {
         genero : respuesta.data.empleado.genero,
         fecha_contratacion : respuesta.data.empleado.fecha_contratacion,
     });
-    console.log(values)
     nombre_empleado = respuesta.data.empleado.nombre
-    console.log(respuesta.data)
     setEmpleado(respuesta.data.empleado)
    };
 
   const handleInput = (e) => {
-    console.log("ASASS")
     const {name, value} = e.target;
     setValues({
         ...values,
@@ -99,7 +96,6 @@ function EmployeeEdit() {
       */
       window.location.href = "./";
     }
-    
   };
 
   return (

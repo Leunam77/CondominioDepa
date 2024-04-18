@@ -579,11 +579,13 @@ class CrearResidente extends Component {
                                         onChange={this.handleChange}
                                     />
                                     {this.state.imagen_residente && (
+                                        <Container className="d-flex justify-content-center">
                                         <img
                                             src={URL.createObjectURL(this.state.imagen_residente)}
                                             alt="Vista previa"
-                                            style={{ marginTop: '10px', maxWidth: '200px' }}
+                                            style={{ width: '200px', height: '200px', marginTop: '25px' }}
                                         />
+                                    </Container>
                                     )}
                                     {this.state.errors.imagen_residente && (
                                         <span>{this.state.errors.imagen_residente}</span>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
+use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
 use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
@@ -68,6 +69,8 @@ Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::cl
 Route::apiResource('/areas-comunes', CommonAreaController::class);
 
 // Notificaciones
+Route::post('/add_persona',[PersonaController::class,'store']);
+
 Route::group(['prefix' =>  'v1'], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');

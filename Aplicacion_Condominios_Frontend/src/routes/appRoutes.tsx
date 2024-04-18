@@ -33,6 +33,7 @@ import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
+import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -190,6 +191,16 @@ const appRoutes: RouteType[] = [
       displayText: "Notificaciones",
       icon: <NotificationsActiveIcon />,
     },
+    child:[
+      {
+        path: "/notifications/registrar",
+        element: <RegistrarPersona />,
+        state: "usuario.registrar",
+        sidebarProps: {
+          displayText: "Registro Persona",
+        },
+      },
+    ]
   },
 
   {

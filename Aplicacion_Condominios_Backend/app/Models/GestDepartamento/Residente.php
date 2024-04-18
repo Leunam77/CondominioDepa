@@ -18,7 +18,7 @@ class Residente extends Model
         'nacionalidad_residente',
         'email_residente',
         'genero_residente',
-        'estado_civil_residente',
+        'estado_residente',
         'imagen_residente',
         'contrato_id'
     ];

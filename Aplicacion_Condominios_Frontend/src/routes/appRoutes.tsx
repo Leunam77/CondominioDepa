@@ -23,6 +23,7 @@ import CrearDepa from "../departamento/components/CrearDepartamento.js";
 import Depa from "../departamento/components/MostrarDep.js"
 import EditarDep from "../departamento/components/EditarDep.js"
 import RegistrarResidente from "../departamento/components/CrearResidente"
+import CrearContrato from "../departamento/components/CrearContrato";
 
 const appRoutes: RouteType[] = [
   {
@@ -72,6 +73,11 @@ const appRoutes: RouteType[] = [
       {
         path: "/dashboard/editarDepa",
         element: <EditarDep />,
+        state: "dashboard.depa",
+      },
+      {
+        path: "/dashboard/crearContrato",
+        element: <CrearContrato />,
         state: "dashboard.depa",
       },
       {

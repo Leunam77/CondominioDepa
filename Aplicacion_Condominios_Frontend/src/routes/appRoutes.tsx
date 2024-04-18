@@ -37,6 +37,8 @@ import PersonalPage from "../mantenimiento/personal/PersonalPage";
 import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
+import Changelog from "../pages/changelog/ChangelogPage";
+
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -187,7 +189,7 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/changelog/registrar_servicio",
-        element: <ChangelogPage />,
+        element: <Changelog />,
         state: "changelog.servicio",
         sidebarProps: {
           displayText: "Registrar servicio",

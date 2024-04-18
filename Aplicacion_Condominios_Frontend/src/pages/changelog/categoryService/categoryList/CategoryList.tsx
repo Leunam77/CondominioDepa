@@ -34,7 +34,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
         <table className="table table-striped">
           <thead>
             <tr>
-              <th className="left">Nombre de la categoría</th>
+              <th className="left">Nombre de la categoríaaaaaa</th>
               <th className="left">Descripción</th>
               <th className="righ">Acciones</th>
             </tr>

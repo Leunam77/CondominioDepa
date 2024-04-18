@@ -20,8 +20,11 @@ import EmployePage from "../pages/employes/EmployePage";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
+import Depa from "../departamento/components/MostrarDep.js"
+import EditarDep from "../departamento/components/EditarDep.js"
+import RegistrarResidente from "../departamento/components/CrearResidente"
+import CrearContrato from "../departamento/components/CrearContrato";
 
-import Depa from "../departamento/components/MostrarDep.js";
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
 
@@ -55,14 +58,14 @@ const appRoutes: RouteType[] = [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index",
+        state: "dashboard.index"
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento",
+          displayText: "Crear Departamento"
         },
       },
       {
@@ -70,15 +73,33 @@ const appRoutes: RouteType[] = [
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento",
+          displayText: "Gestionar Departamento"
         },
+      },
+      {
+        path: "/dashboard/RegResidente",
+        element: <RegistrarResidente />,
+        state: "dashboard.depa",
+        sidebarProps: {
+          displayText: "Registrar Residente"
+        },
+      },
+      {
+        path: "/dashboard/editarDepa",
+        element: <EditarDep />,
+        state: "dashboard.depa",
+      },
+      {
+        path: "/dashboard/crearContrato",
+        element: <CrearContrato />,
+        state: "dashboard.depa",
       },
       {
         path: "/dashboard/default",
         element: <DefaultPage />,
         state: "dashboard.default",
         sidebarProps: {
-          displayText: "Residentes (Ejemplo)",
+          displayText: "Residentes (Ejemplo)"
         },
       },
       {
@@ -86,18 +107,18 @@ const appRoutes: RouteType[] = [
         element: <AnalyticsPage />,
         state: "dashboard.analytics",
         sidebarProps: {
-          displayText: "Habitaciones",
-        },
+          displayText: "Habitaciones"
+        }
       },
       {
         path: "/dashboard/saas",
         element: <SaasPage />,
         state: "dashboard.saas",
         sidebarProps: {
-          displayText: "Parqueos",
-        },
-      },
-    ],
+          displayText: "Parqueos"
+        }
+      }
+    ]
   },
   {
     path: "/component",

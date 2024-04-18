@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
 use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
+use App\Http\Controllers\Departamento\ResidenteController;
+use App\Http\Controllers\Departamento\ContratoController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Models\Mantenimiento\CategoriaServicio;
@@ -25,11 +27,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// DEPARTAMENTOS
+
 Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::get('/departamentos','index')->name('departamento.index');
+    Route::put('/departamentos/{id}/actualizarDisp','actualizarDisponibilidadDepa')->name('residente.actualizarDisponibilidadDepa');
     Route::post('/departamento','store')->name('departamento.store');
     Route::get('/departamento/{id}','show')->name('departamento.show');
-    Route::put('/departamento/{id}','update')->name('departamento.update');
+    Route::post('/departamentoupd/{id}','update')->name('departamento.update');
     Route::delete('/departamento/{id}','destroy')->name('departamento.destroy');
 });
 
@@ -37,7 +42,7 @@ Route::controller(BloqueController::class)->group(function(){
     Route::get('/bloques','index')->name('bloque.index');
     Route::post('/bloque','store')->name('bloque.store');
     Route::get('/bloque/{id}','show')->name('bloque.show');
-    Route::put('/bloque/{id}','update')->name('bloque.update');
+    Route::post('/bloqueupd/{id}','update')->name('bloque.update');
     Route::delete('/bloque/{id}','destroy')->name('bloque.destroy');
 });
 
@@ -45,9 +50,27 @@ Route::controller(EdificioController::class)->group(function(){
     Route::get('/edificios','index')->name('edificio.index');
     Route::post('/edificio','store')->name('edificio.store');
     Route::get('/edificio/{id}','show')->name('edificio.show');
-    Route::put('/edificio/{id}','update')->name('edificio.update');
+    Route::post('/edificioupd/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
     Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificios.bybloques');
+});
+Route::controller(ResidenteController::class)->group(function(){
+    Route::get('/residentes','index')->name('residente.index');
+    Route::get('/residentes-disp/{estado}','getResidentesbyEstado')->name('residente.getResidentesbyEstado');
+    Route::post('/residentes/actualizar-estado-contrato', 'actualizarEstadoContrato')->name('residente.actualizarEstadoContrato');
+    Route::put('/residentes/{id}/actualizarEst','actualizarEstadoResidente')->name('residente.actualizarEstadoResidente');
+    Route::post('/residente','store')->name('residente.store');
+    Route::get('/residente/{id}','show')->name('residente.show');
+    Route::put('/residenteupd/{id}','update')->name('residente.update');
+    Route::delete('/residente/{id}','destroy')->name('residente.destroy');
+    Route::post('/residente-csv','import')->name('residente.import');
+});
+Route::controller(ContratoController::class)->group(function(){
+    Route::get('/contratos','index')->name('contrato.index');
+    Route::post('/contrato','store')->name('contrato.store');
+    Route::get('/contrato/{id}','show')->name('contrato.show');
+    Route::put('/contratoupd/{id}','update')->name('contrato.update');
+    Route::delete('/contrato/{id}','destroy')->name('contrato.destroy');
 });
 
 // EMPLEADOS

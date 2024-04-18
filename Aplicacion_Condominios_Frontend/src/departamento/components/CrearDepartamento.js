@@ -1,11 +1,11 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button, Container
 } from "reactstrap";
+import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
-import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 class CrearDepartamento extends Component {
@@ -31,7 +31,7 @@ class CrearDepartamento extends Component {
             numero_habitaciones: 0,
             numero_personas: 0,
             superficie: 0,
-            disponibilidad: false,
+            disponibilidad: true,
             amoblado: false,
             descripcion_departamento: "",
             errors: {},
@@ -41,8 +41,21 @@ class CrearDepartamento extends Component {
             edificios: [],
             numeroPisos: 0,
             pisoSeleccionado: '',
-            imagenDep: ""
+            imagenDep: "",
+            modalOpen: false,
+            imagen_departamento: null
         };
+    }
+
+    toggleModal = () => {
+        this.setState(prevState => ({
+            modalOpen: !prevState.modalOpen
+        }));
+    }
+    handleConfirm = (e) => {
+        console.log('Usuario confirmó la acción');
+        this.storeDepartment(e);
+        this.toggleModal();
     }
 
     handleInput = (e) => {
@@ -69,6 +82,9 @@ class CrearDepartamento extends Component {
             imagenDep: e.target.files[0],
         });
         console.log('imagen:', this.state.imagenDep.name);
+        if (e.target.name === "imagen_departamento") {
+            this.setState({ imagen_departamento: URL.createObjectURL(e.target.files[0]) });
+        }
     };
 
     cargarPisos = async (idEdificio) => {
@@ -87,8 +103,6 @@ class CrearDepartamento extends Component {
     cargarOpcionesDependientes = async (idBloque) => {
         try {
             const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
-
-            const data = response.data;
 
             this.setState({ edificios: response.data });
         } catch (error) {
@@ -114,19 +128,19 @@ class CrearDepartamento extends Component {
             validationErrors.nombre_departamento = "Ingrese un nombre válido";
         }
 
-        if (!this.state.numero_habitaciones.trim()) {
+        if (!this.state.numero_habitaciones) {
             validationErrors.numero_habitaciones = "Este campo es obligatorio";
         } else {
-            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_habitaciones)) {
+            if (!/^(?!-)(?:[1-9]|[1]\d)$/.test(this.state.numero_habitaciones)) {
                 validationErrors.numero_habitaciones =
                     "Ingrese un número de habitaciones válido";
             }
         }
 
-        if (!this.state.numero_personas.trim()) {
+        if (!this.state.numero_personas) {
             validationErrors.numero_personas = "Este campo es obligatorio";
         } else {
-            if (!/^(?!-)(?:[2-9]|[1]\d)$/.test(this.state.numero_personas)) {
+            if (!/^(?!-)(?:[1-9]|[1]\d)$/.test(this.state.numero_personas)) {
                 validationErrors.numero_personas =
                     "Ingrese un número de personas válido";
             }
@@ -141,6 +155,16 @@ class CrearDepartamento extends Component {
         ) {
             validationErrors.descripcion_departamento =
                 "Ingrese una descripcion válida";
+        }
+        if (!this.state.superficie) {
+            validationErrors.superficie = "Este campo es obligatorio";
+        } else if (
+            !/^(?!-)(?:[1-9]\d{2})$/.test(
+                this.state.superficie
+            )
+        ) {
+            validationErrors.superficie =
+                "Ingrese una superficie válida";
         }
 
         if (!this.state.pisoSeleccionado) {
@@ -211,8 +235,6 @@ class CrearDepartamento extends Component {
     };
 
     render() {
-        const { bloques } = this.state;
-        const { edificios } = this.state;
         const { numeroPisos, pisoSeleccionado } = this.state;
         const pisosOptions = [];
 
@@ -223,7 +245,12 @@ class CrearDepartamento extends Component {
         }
         return (
             <>
-
+                <ModalConfirm
+                    isOpen={this.state.modalOpen}
+                    toggle={this.toggleModal}
+                    confirm={this.handleConfirm}
+                    message="¿Está seguro de que deseas guardar el departamento?"
+                />
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>
@@ -247,72 +274,64 @@ class CrearDepartamento extends Component {
                                     )}
                                 </FormGroup >
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de habitaciones
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_habitaciones"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_habitaciones && (
-                                        <span>{this.state.errors.numero_habitaciones}</span>
-                                    )}
-                                </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de personas
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_personas"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_personas && (
-                                        <span>{this.state.errors.numero_personas}</span>
-                                    )}
-                                </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Superficie
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="superficie"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.superficie && (
-                                        <span>{this.state.errors.superficie}</span>
-                                    )}
-                                </FormGroup>
-                                <Row className="mb-4">
-                                    <Col sm={6}>
-
-                                        <Label
-                                            check
-                                            className="label-custom"
-                                        >
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                N° de habitaciones
+                                            </Label>
                                             <Input
-                                                type="checkbox"
-                                                id="checkBoxdisponibilidad"
-                                                onChange={() => this.changeChecked('disponibilidad')}
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_habitaciones"
+                                                placeholder="Numero de habitaciones entre 1 y 20"
+                                                onChange={this.handleInput}
                                             />
-                                            {' '}
-                                            Disponible
-                                        </Label>
-                                    </Col>
+                                            {this.state.errors.numero_habitaciones && (
+                                                <span>{this.state.errors.numero_habitaciones}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Número de personas
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_personas"
+                                                placeholder="Numero de personas entre 1 y 20"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.numero_personas && (
+                                                <span>{this.state.errors.numero_personas}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Superficie
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="superficie"
+                                                placeholder="Superficie entre 100 y 999"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.superficie && (
+                                                <span>{this.state.errors.superficie}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    
+                                </FormGroup>
+                                
+                                <Row className="mb-4">
+
                                     <Col sm={6}>
 
                                         <Label
@@ -333,59 +352,81 @@ class CrearDepartamento extends Component {
                                 </Row>
 
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un bloque
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="bloque_id"
-                                        id="bloque_id"
-                                        onChange={this.handleBloqueSeleccionado}
-                                    >
-                                        <option value="">Seleccionar Bloque</option>
-                                        {this.state.bloques.map(bloque => (
-                                            <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
-                                        ))}
-                                    </Input>
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Seleccionar bloque
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                name="bloque_id"
+                                                id="bloque_id"
+                                                onChange={this.handleBloqueSeleccionado}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar Bloque</option>
+                                                {this.state.bloques.map(bloque => (
+                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                                ))}
+                                            </Input>
+                                            {this.state.errors.bloqueSeleccionado && (
+                                                <span>{this.state.errors.bloqueSeleccionado}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Seleccionar edificio
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="mb-3 w-100"
+                                                name="edificio_id"
+                                                id="edificio_id"
+                                                onChange={this.handleEdificioSeleccionado}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar Edificio</option>
+                                                {this.state.edificios.map(edificio => (
+                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
+                                                ))}
+                                            </Input>
+                                            {this.state.errors.edificioSeleccionado && (
+                                                <span>{this.state.errors.edificioSeleccionado}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Seleccionar piso
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                name="piso"
+                                                id="piso"
+                                                onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar piso</option>
+                                                {pisosOptions}
+                                            </Input>
+                                            {this.state.errors.pisoSeleccionado && (
+                                                <span>{this.state.errors.pisoSeleccionado}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    
                                 </FormGroup>
 
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un edificio
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        className="mb-3 w-100"
-                                        name="edificio_id"
-                                        id="edificio_id"
-                                        onChange={this.handleEdificioSeleccionado}
-                                    >
-                                        <option value="">Seleccionar Edificio</option>
-                                        {this.state.edificios.map(edificio => (
-                                            <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
-                                        ))}
-                                    </Input>
+                                    
                                 </FormGroup>
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un piso
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="piso"
-                                        id="piso"
-                                        value={pisoSeleccionado}
-                                        onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
-                                    >
-                                        <option value="">Seleccionar piso</option>
-                                        {pisosOptions}
-                                    </Input>
+                                    
                                 </FormGroup>
                                 <FormGroup className="mb-4">
                                     <Label
@@ -398,10 +439,18 @@ class CrearDepartamento extends Component {
                                         name="imagen_departamento"
                                         id="imagen_departamento"
                                         onChange={this.handleChange}
-                                    >
-                                    </Input>
+                                    />
+                                    {this.state.imagen_departamento && (
+                                        <div className="d-flex justify-content-center">
+                                            <img
+                                                src={this.state.imagen_departamento}
+                                                alt="Vista previa"
+                                                style={{ width: '128px', height: '128px', marginTop: '25px'}}
+                                            />
+                                        </div>
+                                    )}
                                 </FormGroup>
-                                
+
                                 <FormGroup className="mb-5">
                                     <Label
                                         className="label-custom"
@@ -412,12 +461,21 @@ class CrearDepartamento extends Component {
                                         id="inputRegistro"
                                         type="textarea"
                                         name="descripcion_departamento"
+                                        className="autoExpand"
                                         placeholder="Ingrese descripcion"
                                         onChange={this.handleInput}
+                                        onInput={(e) => {
+                                            e.target.style.height = 'auto';
+                                            e.target.style.height = (e.target.scrollHeight) + 'px';
+                                        }}
                                     />
+                                    {this.state.errors.descripcion_departamento && (
+                                        <span>{this.state.errors.descripcion_departamento}</span>
+                                    )}
                                 </FormGroup>
-                                <Button size="lg" type="submit" className="custom-button mx-auto d-block"
+                                <Button size="lg" type="button" className="custom-button mx-auto d-block"
                                     style={{ fontWeight: 'bold' }}
+                                    onClick={this.toggleModal}
                                 >
                                     Continuar
                                 </Button>

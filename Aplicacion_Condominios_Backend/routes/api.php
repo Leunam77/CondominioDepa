@@ -8,6 +8,7 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
+use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Models\Mantenimiento\CategoriaServicio;
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +64,5 @@ Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
 
 Route::apiResource('/areas-comunes', CommonAreaController::class);
+
+Route::post('/add_persona',[PersonaController::class,'store']);

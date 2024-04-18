@@ -13,3 +13,15 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+# Ignora todos los archivos en la carpeta
+departamentos/*
+
+# Pero no ignores este archivo
+!departamentos/departamento_pred.jpeg
+
+residentes/*
+
+# Pero no ignores este archivo
+!residentes/residente_default.png
+# Ignora todos

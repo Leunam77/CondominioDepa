@@ -29,6 +29,9 @@ import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
 import EmployeeRegister from "../empleados/pages/employee_register";
 import DashboardEmployee from "../pages/dashboard/DashboardEmployee";
+import ContractRegister from "../empleados/pages/contract_register";
+import AssignContract from "../empleados/pages/assign_contract";
+
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
@@ -224,10 +227,26 @@ const appRoutes: RouteType[] = [
       },
 
       {
+        path: "/employees/assignContract",
+        element: <AssignContract />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Asignar contrato",
+        },
+      },
+
+      {
         path: "/employees/employeeEdit",
         element: <EmployeeEdit />,
         state: "employee.analytics",
       },
+
+      {
+        path: "/employees/contractRegister",
+        element: <ContractRegister />,
+        state: "employee.analytics",
+      },
+
     ],
   },
 ];

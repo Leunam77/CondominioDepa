@@ -51,4 +51,95 @@ class EquipamientosController extends Controller
         $common_areas
     ]);
 }
+
+public function edit(Request $request, $id)
+{
+    $request->validate([
+        'nombre' => 'required|string',
+        'descripcion' => 'required|string',
+        'costo' => 'required|numeric',
+        'area_comun_nombre' => 'required|string',
+    ]);
+
+    try {
+        // Buscar el equipo por su ID
+        $equipo = EquipamientosModel::findOrFail($id);
+
+        // Buscar el ID del área común por su nombre
+        $area_comun_nombre = $request->area_comun_nombre;
+        $area_comun_id = CommonArea::where('common_area_name', $area_comun_nombre)->value('id_common_area');
+
+        if (!$area_comun_id) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'El área común especificada no existe.',
+            ], 404);
+        }
+
+        // Actualizar los datos del equipo
+        $equipo->nombre = $request->nombre;
+        $equipo->descripcion = $request->descripcion;
+        $equipo->costo = $request->costo;
+        $equipo->area_comun_id = $area_comun_id; // Asigna el ID del área común encontrado
+        $equipo->area_comun_nombre = $area_comun_nombre; // Guarda el nombre del área común
+        $equipo->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Equipo editado exitosamente',
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 500,
+            'message' => 'Error al editar el equipo: ' . $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getEquipoById($id)
+{
+    try {
+        $equipo = EquipamientosModel::select('id','nombre', 'descripcion', 'costo', 'area_comun_nombre')
+                                    ->findOrFail($id);
+
+        return response()->json([
+            'status' => 200,
+            'equipo' => $equipo,
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 500,
+            'message' => 'Error al obtener los detalles del equipo: ' . $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function getAllEquipamientos()
+{
+    $equipamientos = EquipamientosModel::select('id','nombre', 'descripcion', 'costo', 'area_comun_nombre')->get();
+    return response()->json([
+        'equipamientos' => $equipamientos,
+    ]);
+}
+
+public function delete($id)
+    {
+        try {
+            // Buscar el equipo por su ID
+            $equipo = EquipamientosModel::findOrFail($id);
+            $equipo->delete();
+            
+            return response()->json([
+                'status' => 200,
+                'message' => 'Equipo eliminado exitosamente',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al eliminar el equipo: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
 }

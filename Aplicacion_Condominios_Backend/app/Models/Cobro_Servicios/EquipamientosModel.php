@@ -4,6 +4,7 @@ namespace App\Models\Cobro_Servicios;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CommonArea\CommonArea; // Import the AreasComunes model
 
 class EquipamientosModel extends Model
 {
@@ -11,6 +12,10 @@ class EquipamientosModel extends Model
 
     protected $table = 'equipamientos';
 
-    protected $fillable = ['nombre', 'descripcion','costo'];
+    protected $fillable = ['nombre', 'descripcion','costo','area_comun_id'];
+    public function areaComun()
+    {
+        return $this->belongsTo(CommonArea::class, 'area_comun_id');
+    }
     
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
+use App\Http\Controllers\Cobro_Servicios\PreAvisoController;
 use App\Models\Mantenimiento\CategoriaServicio;
 /*
 |--------------------------------------------------------------------------
@@ -69,5 +70,11 @@ Route::apiResource('/areas-comunes', CommonAreaController::class);
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){
     Route::post('/agregarEquipo', [EquipamientosController::class, 'store']);
+    Route::get('/obtenerAreasComunes', [EquipamientosController::class, 'getAllCommonAreas']);
+});
+
+
+Route::controller(PreAvisoController::class)->group(function(){
+    Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
 });
 

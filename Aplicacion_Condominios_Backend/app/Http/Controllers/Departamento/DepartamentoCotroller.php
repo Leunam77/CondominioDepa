@@ -72,19 +72,16 @@ class DepartamentoCotroller extends Controller
         $departamento-> piso = $request -> piso;
         /* $departamento-> edificio_id = $request -> edificio_id; */
 
-        if($request -> hasFile ('imagen_departamento')){
+        if ($request->hasFile('imagen_departamento')) {
             $image = $request->file('imagen_departamento');
-            $name = time().'.'.$image->getClientOriginalExtension();
+            $name = time() . '.' . $image->getClientOriginalExtension();
             $image->move('departamento/images/departamentos/', $name);
-
-            $departamento-> imagen_departamento = "departamento/images/departamentos/${name}";
-
-            return response()->json([
-                'status' => 200,
-                'message' =>'Evento añadido exitosamente',
-            ]);
-
+    
+            $departamento->imagen_departamento = "departamento/images/departamentos/{$name}";
         }
+    
+        // Guardar los cambios en el departamento
+        $departamento->save();
 
         $departamento->update();
     }

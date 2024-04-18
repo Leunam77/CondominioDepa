@@ -12,6 +12,7 @@ use App\Models\Mantenimiento\CategoriaServicio;
 use App\Http\Controllers\Mantenimiento\PersonalExternoController;
 use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes

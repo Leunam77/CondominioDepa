@@ -5,7 +5,7 @@ import './DepartamentosCss.css';
 import { Link } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, CardImg, CardBody, CardTitle, CardSubtitle , Button } from 'reactstrap';
+import { Card, CardImg, CardBody, CardTitle , Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,7 +14,7 @@ const endpointImg = 'http://localhost:8000';
 const cookies = new Cookies();
 const MostrarDep = () => {
     const [departamentos, setDepartamentos] = useState ([]);
-    const [switchState, setSwitchState] = useState(false);
+    const [switchStates, setSwitchStates] = useState({});
 
     useEffect(() => {
         getAllDepartments();
@@ -23,6 +23,11 @@ const MostrarDep = () => {
     const getAllDepartments = async () => {
         const response = await axios.get(`${endpoint}/departamentos`);
         setDepartamentos(response.data);
+        const initialSwitchStates = {};
+        response.data.forEach(departamento => {
+            initialSwitchStates[departamento.id] = false;
+        });
+        setSwitchStates(initialSwitchStates);
     }
 
     const deleteDepartment = async (id) => {
@@ -36,14 +41,19 @@ const MostrarDep = () => {
         window.location.href = '/dashboard/editarDepa'; // Redirige a la página de edición
       };
     
-      const handleBotonSwitch = () => {
-        if (switchState) {
-            // Ocupado (redirige al formulario de contrato?)
+    const handleBotonSwitch = (idDepa) => {
+        setSwitchStates(prevState => ({
+            ...prevState,
+            [idDepa]: !prevState[idDepa]
+        }));
+
+        if (!switchStates[idDepa]) {
+            cookies.set('idDepa', idDepa);
+            window.location.href = '/dashboard/crearContrato';
         } else {
             // Libre
         }
     }
-    <input type="checkbox" checked={switchState} onChange={() => { setSwitchState(!switchState); handleBotonSwitch(); }} />
 
     return(
         <div className="Deps">
@@ -64,7 +74,7 @@ const MostrarDep = () => {
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
                                 <label className="switch">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { setSwitchStates(!switchStates); handleBotonSwitch(departamento.id); }} />
                                     <span className="slider"></span>
                                 </label>
                             </div>

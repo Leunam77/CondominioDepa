@@ -54,7 +54,7 @@ class ResidenteController extends Controller
             'nacionalidad_residente' => 'required',
             'email_residente' => 'nullable|email|unique:residentes,email_residente',
             'genero_residente' => 'required',
-            'estado_civil_residente' => 'required',
+            'estado_residente' => 'required',
             'imagen_residente' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
             'contrato_id' => 'nullable',
         ]);
@@ -75,7 +75,7 @@ class ResidenteController extends Controller
             \Log::info('Error with image upload: ' . $errors);  // Utiliza Log para verificar qué está pasando
 
 
-            $residente->imagen_residente = 'residente/images/residentes/residente_pred.jpg';
+            $residente->imagen_residente = 'departamento/images/residentes/residente_default.png';
             $residente->save();
             return response()->json([
                 'status' => 200,
@@ -108,6 +108,37 @@ class ResidenteController extends Controller
         $residente = Residente::find($id);
         //return response()->json($residente);
         return $residente;
+    }
+
+    public function getResidentesbyEstado($estado)
+    {
+        $residentes = Residente::where('estado_residente', $estado)->get();
+        return $residentes;
+    } 
+
+    public function actualizarEstadoContrato()
+    {
+        // Busca los residentes con contrato_id null
+        $residentesSinContrato = Residente::whereNull('contrato_id')->get();
+
+        // Actualiza el estado_residente a 0 para los residentes encontrados
+        foreach ($residentesSinContrato as $residente) {
+            $residente->estado_residente = 0;
+            $residente->save();
+        }
+
+        return response()->json(['mensaje' => 'Estado de residentes actualizado correctamente']);
+    }
+
+    public function actualizarEstadoResidente(Request $request, $id)
+    {
+        $usuario = Residente::findOrFail($id);
+
+        // Actualiza el atributo específico
+        $usuario->estado_residente = $request->input('estado_residente');
+        $usuario->save();
+
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
     }
 
     /**
@@ -203,7 +234,7 @@ class ResidenteController extends Controller
                 'nacionalidad_residente' => 'required',
                 'email_residente' => 'nullable|email|unique:residentes,email_residente',
                 'genero_residente' => 'required',
-                'estado_civil_residente' => 'required',
+                'estado_residente' => 'required',
                 'imagen_residente' => 'required',
                 'contrato_id' => 'nullable'
             ]);
@@ -234,7 +265,7 @@ class ResidenteController extends Controller
                 'nacionalidad_residente' => $record['nacionalidad_residente'],
                 'email_residente' => $record['email_residente'],
                 'genero_residente' => $record['genero_residente'],
-                'estado_civil_residente' => $record['estado_civil_residente'],
+                'estado_residente' => $record['estado_residente'],
                 'imagen_residente' => $record['imagen_residente'],
                 'contrato_id' => $record['contrato_id']
             ]);

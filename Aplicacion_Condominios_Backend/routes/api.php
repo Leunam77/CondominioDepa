@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::get('/departamentos','index')->name('departamento.index');
+    Route::put('/departamentos/{id}/actualizarDisp','actualizarDisponibilidadDepa')->name('residente.actualizarDisponibilidadDepa');
     Route::post('/departamento','store')->name('departamento.store');
     Route::get('/departamento/{id}','show')->name('departamento.show');
     Route::post('/departamentoupd/{id}','update')->name('departamento.update');
@@ -49,6 +50,9 @@ Route::controller(EdificioController::class)->group(function(){
 });
 Route::controller(ResidenteController::class)->group(function(){
     Route::get('/residentes','index')->name('residente.index');
+    Route::get('/residentes-disp/{estado}','getResidentesbyEstado')->name('residente.getResidentesbyEstado');
+    Route::post('/residentes/actualizar-estado-contrato', 'actualizarEstadoContrato')->name('residente.actualizarEstadoContrato');
+    Route::put('/residentes/{id}/actualizarEst','actualizarEstadoResidente')->name('residente.actualizarEstadoResidente');
     Route::post('/residente','store')->name('residente.store');
     Route::get('/residente/{id}','show')->name('residente.show');
     Route::put('/residenteupd/{id}','update')->name('residente.update');

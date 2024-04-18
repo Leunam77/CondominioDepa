@@ -96,4 +96,15 @@ class DepartamentoCotroller extends Controller
             'message' => 'Departameto eliminado'
             ]);        
     }
+
+    public function actualizarDisponibilidadDepa(Request $request, $id)
+    {
+        $departamento = Departamento::findOrFail($id);
+
+        // Actualiza el atributo específico
+        $departamento->disponibilidad = $request->input('disponibilidad');
+        $departamento->save();
+
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+    }
 }

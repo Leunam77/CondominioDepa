@@ -74,7 +74,7 @@ class ResidenteController extends Controller
             \Log::info('Error with image upload: ' . $errors);  // Utiliza Log para verificar qué está pasando
 
 
-            $residente->imagen_residente = 'residente/images/residentes/residente_pred.jpg';
+            $residente->imagen_residente = 'departamento/images/residentes/residente_default.png';
             $residente->save();
             return response()->json([
                 'status' => 200,

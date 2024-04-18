@@ -274,56 +274,62 @@ class CrearDepartamento extends Component {
                                     )}
                                 </FormGroup >
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de habitaciones
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_habitaciones"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_habitaciones && (
-                                        <span>{this.state.errors.numero_habitaciones}</span>
-                                    )}
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                N° de habitaciones
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_habitaciones"
+                                                placeholder="4"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.numero_habitaciones && (
+                                                <span>{this.state.errors.numero_habitaciones}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Número de personas
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="numero_personas"
+                                                placeholder="4"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.numero_personas && (
+                                                <span>{this.state.errors.numero_personas}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Superficie
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                type="number"
+                                                name="superficie"
+                                                placeholder="4"
+                                                onChange={this.handleInput}
+                                            />
+                                            {this.state.errors.superficie && (
+                                                <span>{this.state.errors.superficie}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    
                                 </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de personas
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_personas"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_personas && (
-                                        <span>{this.state.errors.numero_personas}</span>
-                                    )}
-                                </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Superficie
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="superficie"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.superficie && (
-                                        <span>{this.state.errors.superficie}</span>
-                                    )}
-                                </FormGroup>
+                                
                                 <Row className="mb-4">
 
                                     <Col sm={6}>
@@ -346,70 +352,81 @@ class CrearDepartamento extends Component {
                                 </Row>
 
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un bloque
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="bloque_id"
-                                        id="bloque_id"
-                                        onChange={this.handleBloqueSeleccionado}
-                                    >
-                                        <option disabled selected>
-                                            {" "}Seleccionar Bloque</option>
-                                        {this.state.bloques.map(bloque => (
-                                            <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
-                                        ))}
-                                    </Input>
-                                    {this.state.errors.bloqueSeleccionado && (
-                                        <span>{this.state.errors.bloqueSeleccionado}</span>
-                                    )}
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Seleccionar bloque
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                name="bloque_id"
+                                                id="bloque_id"
+                                                onChange={this.handleBloqueSeleccionado}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar Bloque</option>
+                                                {this.state.bloques.map(bloque => (
+                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                                ))}
+                                            </Input>
+                                            {this.state.errors.bloqueSeleccionado && (
+                                                <span>{this.state.errors.bloqueSeleccionado}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Seleccionar edificio
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="mb-3 w-100"
+                                                name="edificio_id"
+                                                id="edificio_id"
+                                                onChange={this.handleEdificioSeleccionado}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar Edificio</option>
+                                                {this.state.edificios.map(edificio => (
+                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
+                                                ))}
+                                            </Input>
+                                            {this.state.errors.edificioSeleccionado && (
+                                                <span>{this.state.errors.edificioSeleccionado}</span>
+                                            )}
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Seleccionar piso
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                name="piso"
+                                                id="piso"
+                                                onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar piso</option>
+                                                {pisosOptions}
+                                            </Input>
+                                            {this.state.errors.pisoSeleccionado && (
+                                                <span>{this.state.errors.pisoSeleccionado}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    
                                 </FormGroup>
 
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un edificio
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        className="mb-3 w-100"
-                                        name="edificio_id"
-                                        id="edificio_id"
-                                        onChange={this.handleEdificioSeleccionado}
-                                    >
-                                        <option disabled selected>
-                                            {" "}Seleccionar Edificio</option>
-                                        {this.state.edificios.map(edificio => (
-                                            <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
-                                        ))}
-                                    </Input>
-                                    {this.state.errors.edificioSeleccionado && (
-                                        <span>{this.state.errors.edificioSeleccionado}</span>
-                                    )}
+                                    
                                 </FormGroup>
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un piso
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="piso"
-                                        id="piso"
-                                        onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
-                                    >
-                                        <option disabled selected>
-                                            {" "}Seleccionar piso</option>
-                                        {pisosOptions}
-                                    </Input>
-                                    {this.state.errors.pisoSeleccionado && (
-                                        <span>{this.state.errors.pisoSeleccionado}</span>
-                                    )}
+                                    
                                 </FormGroup>
                                 <FormGroup className="mb-4">
                                     <Label
@@ -428,7 +445,7 @@ class CrearDepartamento extends Component {
                                             <img
                                                 src={this.state.imagen_departamento}
                                                 alt="Vista previa"
-                                                style={{ width: '300px', height: '300px', marginTop: '25px'}}
+                                                style={{ width: '200px', height: '200px', marginTop: '25px'}}
                                             />
                                         </div>
                                     )}

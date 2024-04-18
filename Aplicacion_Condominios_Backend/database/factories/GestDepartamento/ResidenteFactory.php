@@ -26,7 +26,7 @@ class ResidenteFactory extends Factory
             'nacionalidad_residente' => $this->faker->country,
             'email_residente' => $this->faker->unique()->safeEmail,
             'genero_residente' => $this->faker->randomElement(['masculino', 'femenino']),
-            'estado_civil_residente' => $this->faker->randomElement(['soltero(a)', 'casado(a)', 'divorciado(a)', 'viudo(a)']), 
+            'estado_residente' => false, 
             'imagen_residente' => $this->faker->imageUrl($width = 640, $height = 480),
             'contrato_id' => $this->faker->numberBetween(1, 10)           
         ];

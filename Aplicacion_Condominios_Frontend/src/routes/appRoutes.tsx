@@ -40,6 +40,8 @@ import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
+import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
+import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -127,6 +129,20 @@ const appRoutes: RouteType[] = [
         sidebarProps: {
           displayText: "Agregar Equipo",
         },
+      },
+      {
+        path: "/cobros/gestion-equipo",
+        element: <GestionEquipos/>,
+        state: "cobros.alerta",
+        sidebarProps: {
+          displayText: "Gestion de equipos dañados",
+        },
+      },
+      {
+        path: "/cobros/edicion-equipo/:id",
+        element: <EditarEquipo/>,
+        state: "cobros.editar-equipo",
+        
       },
       
     ],

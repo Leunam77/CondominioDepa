@@ -24,7 +24,7 @@ class CreateResidentesTable extends Migration
             $table->string('nacionalidad_residente');
             $table->string('email_residente')->unique();
             $table->string('genero_residente');
-            $table->string('estado_civil_residente');
+            $table->boolean('estado_residente');
             $table->string('imagen_residente');
             $table->unsignedBigInteger('contrato_id')->nullable(); //todavia no se si va a ser nullable
             $table->foreign('contrato_id')->references('id')->on('contratos')->onDelete('set null');

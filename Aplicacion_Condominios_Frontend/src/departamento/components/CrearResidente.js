@@ -26,7 +26,7 @@ class CrearResidente extends Component {
             nacionalidad_residente: "",
             email_residente: "",
             genero_residente: "",
-            estado_civil_residente: "",
+            estado_residente: false,
             imagen_residente: "",
             contrato_id: "",
             errors:[]
@@ -120,11 +120,7 @@ class CrearResidente extends Component {
         }
 
         if (!this.state.genero_residente) {
-            validationErrors.genero_residente = "Debe seleccionar un edificio";
-        }
-
-        if (!this.state.estado_civil_residente) {
-            validationErrors.estado_civil_residente = "Debe seleccionar un edificio";
+            validationErrors.genero_residente = "Debe seleccionar un genero";
         }
 
         if (this.state.imagen_residente.name) {
@@ -160,7 +156,7 @@ class CrearResidente extends Component {
             data.append("nacionalidad_residente", this.state.nacionalidad_residente);
             data.append("email_residente", this.state.email_residente);
             data.append("genero_residente", this.state.genero_residente);
-            data.append("estado_civil_residente", this.state.estado_civil_residente);
+            data.append("estado_residente", this.state.estado_residente ? '1' : '0');
             if (this.state.imagen_residente) {
                 data.append("imagen_residente", this.state.imagen_residente);
             }
@@ -174,7 +170,7 @@ class CrearResidente extends Component {
             console.log(this.state.nacionalidad_residente);
             console.log(this.state.email_residente);
             console.log(this.state.genero_residente);
-            console.log(this.state.estado_civil_residente);
+            console.log(this.state.estado_residente);
             console.log(this.state.imagen_residente);
 
             axios.post(url, data).then((res) => {
@@ -562,27 +558,6 @@ class CrearResidente extends Component {
                                         <option value="Masculino">Masculino</option>
                                         <option value="Femenino">Femenino</option>
                                         <option value="Ninguno">Ninguno</option>
-
-                                    </Input>
-                                </FormGroup>
-
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Estado civil
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="estado_civil_residente"
-                                        id="estado_civil_residente"
-                                        onChange={this.handleInput}
-                                    >
-                                        <option disabled selected>{" "} Seleccione un estado civil</option>
-                                        <option value="Solter@">Solter@</option>
-                                        <option value="Casad@">Casad@</option>
-                                        <option value="Divorciad@">Divorciad@</option>
-                                        <option value="Viud@">Viud@</option>
 
                                     </Input>
                                 </FormGroup>

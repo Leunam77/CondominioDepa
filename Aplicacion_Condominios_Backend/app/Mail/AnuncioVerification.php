@@ -1,21 +1,21 @@
 <?php
 namespace App\Mail;
 
+use App\Models\Notificaciones\AnuncioEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
 
-class UserVerification extends Mailable
+class AnuncioVerification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $anuncioEmail;
 
-    public function __construct(User $user)
+    public function __construct(AnuncioEmail $anuncioEmail)
     {
-        $this->user = $user;
+        $this->anuncioEmail = $anuncioEmail;
     }
 
     public function build()

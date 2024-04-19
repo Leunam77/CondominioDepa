@@ -4,7 +4,7 @@ namespace App\Models\Empleados;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Empleados\Contract;
 class Employee extends Model
 {
     use HasFactory;
@@ -14,6 +14,15 @@ class Employee extends Model
         'correo',
         'celular',
         'genero',
-        'fecha_contratacion'
+        'estado_contrato',
+        'ci'
     ];
+
+    protected $with = ['contracts'];
+
+    public function contracts(){
+
+        return $this->hasMany(Contract::class, 'empleado', 'id');
+
+    }
 }

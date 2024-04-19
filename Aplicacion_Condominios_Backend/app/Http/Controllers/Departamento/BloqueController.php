@@ -33,7 +33,7 @@ class BloqueController extends Controller
 
     public function update(Request $request, $id)
     {
-        $bloque = bloque::findOrFail($request->$id);
+        $bloque = bloque::findOrFail($id);
         $bloque-> nombre_bloque = $request -> nombre_bloque;
         $bloque-> direccion_bloque = $request -> direccion_bloque;
         $bloque-> descripcion_bloque = $request -> descripcion_bloque;

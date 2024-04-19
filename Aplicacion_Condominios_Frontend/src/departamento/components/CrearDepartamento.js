@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-    Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback
+    Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback, CardImg
 } from "reactstrap";
 import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
@@ -439,10 +439,11 @@ class CrearDepartamento extends Component {
                                     />
                                     {this.state.imagen_departamento && (
                                         <div className="d-flex justify-content-center">
-                                            <img
+                                            <CardImg
+                                                width="100%"
                                                 src={this.state.imagen_departamento}
                                                 alt="Vista previa"
-                                                style={{ width: '128px', height: '128px', marginTop: '25px'}}
+                                                style={{ width: '200px', height: '200px', marginTop: '25px', borderRadius: '10px'}}
                                             />
                                         </div>
                                     )}

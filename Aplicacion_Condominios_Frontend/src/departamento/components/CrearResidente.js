@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-    Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback
+    Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback, CardImg
 } from "reactstrap";
 import "./customs.css";
 import ModalConfirm from "./ModalConfirm";
@@ -610,10 +610,11 @@ class CrearResidente extends Component {
                                     />
                                     {this.state.imagen_residente && (
                                         <Container className="d-flex justify-content-center">
-                                            <img
+                                            <CardImg
+                                                width="100%"
                                                 src={URL.createObjectURL(this.state.imagen_residente)}
                                                 alt="Vista previa"
-                                                style={{ width: '128px', height: '128px', marginTop: '25px' }}
+                                                style={{ width: '200px', height: '200px', marginTop: '25px', borderRadius: '10px' }}
                                             />
                                         </Container>
                                     )}

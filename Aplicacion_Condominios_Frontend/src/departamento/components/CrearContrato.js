@@ -302,14 +302,13 @@ class CrearContrato extends Component {
 
                                             <Col sm={3} >
                                                 <CardImg
-                                                    top
-                                                    style={{ maxWidth: '128px', maxHeight: '128px', margin: '10px' }}
+                                                    style={{ maxWidth: '64px', maxHeight: '64px', margin: '10px', borderRadius: '10px'}}
                                                     src={`${endpointImg}/${residente.imagen_residente}`}
                                                     alt={residente.nombre_residente}
                                                 />
                                             </Col>
                                             <Col sm={3} >
-                                                <li style={{ fontWeight: 'bold'}} key={index}>{residente.nombre_residente} {residente.apellidos_residente}
+                                                <li style={{ fontWeight: 'bold', fontSize: '0.9rem'}} key={index}>{residente.nombre_residente} {residente.apellidos_residente}
                                                 </li>
                                             </Col>
                                             <Col sm={3}>

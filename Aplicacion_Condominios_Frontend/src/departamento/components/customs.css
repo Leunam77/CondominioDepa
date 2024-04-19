@@ -46,6 +46,27 @@ ul {
 	min-height: 500px;
 	width: 60vw;
 }
+@media (max-width: 2560px) {
+	.custom-form {
+		width: 35vw;
+	}
+}
+@media (max-width: 1920px) {
+	.custom-form {
+		width: 45w;
+	}
+}
+@media (max-width: 1366px) {
+	.custom-form {
+		width: 60vw;
+	}
+}
+/* Para pantallas con una resolución de 480px o menos */
+@media (max-width: 1280px) {
+	.custom-form {
+		width: 65vw;
+	}
+}
 
 .label-custom{
 	font-weight: bold !important;
@@ -130,4 +151,7 @@ input[type="date"].customInput{
 .customImage.form-control:focus, .customImage.form-control:active{
 	box-shadow: none;
 	border: 2px solid rgba(45, 96, 115, 1);
+}
+.roundedImage {
+	border-radius: 20px;
 }

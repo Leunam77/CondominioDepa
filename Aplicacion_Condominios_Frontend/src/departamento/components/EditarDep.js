@@ -3,7 +3,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button, Container,
-    FormFeedback
+    FormFeedback, CardImg
 } from "reactstrap";
 import "./customs.css";
 import Cookies from 'universal-cookie';
@@ -393,11 +393,12 @@ class EditarDep extends Component {
                                     />
                                     {this.state.imagenDep && (
                                     <div className="d-flex justify-content-center">
-                                        <img
-                                            src={this.state.nuevaImagenMostrar ? this.state.nuevaImagenMostrar : this.state.imagenDep}
-                                            alt="Vista previa"
-                                            style={{ width: '128px', height: '128px', marginTop: '25px'}}
-                                        />
+                                            <CardImg
+                                                width="100%"
+                                                src={this.state.nuevaImagenMostrar ? this.state.nuevaImagenMostrar : this.state.imagenDep}
+                                                alt="Vista previa"
+                                                style={{ width: '200px', height: '200px', marginTop: '25px', borderRadius: '10px' }}
+                                            />
                                     </div>
                                     )}
                                     {this.state.errors.nuevaImagen && (

@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Notificaciones;
 
 use App\Http\Controllers\Controller;
-use App\Mail\UserVerification;
-use App\Models\User;
+use App\Mail\AnuncioVerification;
+use App\Models\Notificaciones\AnuncioEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -29,16 +29,16 @@ class AuthController extends Controller
 
         try {
             // Busca un usuario existente con el email proporcionado
-            $user = User::where('email', $request->email)->first();
+            $anuncioEmail = AnuncioEmail::where('email', $request->email)->first();
 
-            if ($user) {
+            if ($anuncioEmail) {
                 // Si el usuario ya existe, actualiza los campos 'titulo' y 'anuncio'
-                $user->titulo = $request->titulo;
-                $user->anuncio = $request->anuncio;
-                $user->save();
+                $anuncioEmail->titulo = $request->titulo;
+                $anuncioEmail->anuncio = $request->anuncio;
+                $anuncioEmail->save();
             } else {
                 // Si el usuario no existe, crea uno nuevo
-                $user = User::create([
+                $anuncioEmail = AnuncioEmail::create([
                     'email' => $request->email,
                     'titulo' => $request->titulo,
                     'anuncio' => $request->anuncio,
@@ -46,7 +46,7 @@ class AuthController extends Controller
             }
 
             // Envía un correo de verificación al usuario
-            Mail::to($user->email)->send(new UserVerification($user));
+            Mail::to($anuncioEmail->email)->send(new AnuncioVerification($anuncioEmail));
 
             return response()->json([
                 'status' => 200,

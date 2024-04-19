@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Notificaciones;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notificaciones\AnuncioEmail;
 use Illuminate\Http\Request;
-use App\Models\User;
 
 class VerificationController extends Controller
 {
@@ -19,12 +19,12 @@ class VerificationController extends Controller
         }
 
         // Encuentra el usuario con el ID proporcionado
-        $user = User::findOrFail($user_id);
+        $anuncioEmail = AnuncioEmail::findOrFail($user_id);
 
         // Verifica si el email del usuario ya ha sido verificado
-        if (!$user->hasVerifiedEmail()) {
+        if (!$anuncioEmail->hasVerifiedEmail()) {
             // Marca el email del usuario como verificado
-            $user->markEmailAsVerified();
+            $anuncioEmail->markEmailAsVerified();
 
             return response()->json([
                 "status" => 200,

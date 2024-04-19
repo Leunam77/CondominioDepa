@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Notificaciones;
 
 use App\Http\Controllers\Controller;
@@ -7,19 +6,17 @@ use App\Mail\UserVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function send(Request $request)
     {
         // Validación de los datos de entrada
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required'
+            'titulo' => 'required',
+            'anuncio' => 'required'
         ]);
 
         // Si la validación falla, se devuelve una respuesta de error
@@ -31,22 +28,29 @@ class AuthController extends Controller
         }
 
         try {
-            // Crear un nuevo usuario sin verificar si ya existe
-            $user = User::firstOrCreate(
-                ['email' => $request->email], // Verifica si el usuario ya existe por su correo electrónico
-                [
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'password' => Hash::make($request->password),
-                ]
-            );
+            // Busca un usuario existente con el email proporcionado
+            $user = User::where('email', $request->email)->first();
 
-            // Envío de correo de verificación al usuario
+            if ($user) {
+                // Si el usuario ya existe, actualiza los campos 'titulo' y 'anuncio'
+                $user->titulo = $request->titulo;
+                $user->anuncio = $request->anuncio;
+                $user->save();
+            } else {
+                // Si el usuario no existe, crea uno nuevo
+                $user = User::create([
+                    'email' => $request->email,
+                    'titulo' => $request->titulo,
+                    'anuncio' => $request->anuncio,
+                ]);
+            }
+
+            // Envía un correo de verificación al usuario
             Mail::to($user->email)->send(new UserVerification($user));
 
             return response()->json([
                 'status' => 200,
-                'message' => "Registered, verify your email address to login",
+                'message' => "Mensaje enviado correctamente",
             ], 200);
         } catch (\Exception $err) {
             // Si hay un error, se devuelve una respuesta de error

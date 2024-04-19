@@ -44,21 +44,21 @@ export const RegistrarPersona = () => {
     const last_name = datosPersona.apellido;
 
     // para la verificacion
-    axios.post('http://127.0.0.1:8000/api/v1/register', null,
-        {
-          params: {
-            email,
-            password,
-            first_name,
-            last_name
-          }
-        })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.log('Error', error);
-        });
+    // axios.post('http://127.0.0.1:8000/api/v1/register', null,
+    //     {
+    //       params: {
+    //         email,
+    //         password,
+    //         first_name,
+    //         last_name
+    //       }
+    //     })
+    //     .then(response => {
+    //       console.log(response);
+    //     })
+    //     .catch(error => {
+    //       console.log('Error', error);
+    //     });
   };
 
   return (

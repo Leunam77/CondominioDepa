@@ -19,7 +19,7 @@ const GestionCobro = () => {
 
     const generarFormulario = (idDepartamento) => {
         // Aquí puedes implementar la lógica para generar el formulario de pre-aviso
-        console.log("Generar formulario para el departamento con ID:", idDepartamento);
+        window.location.href = `/cobros/generar-preaviso/${idDepartamento}`;
     };
 
     return (

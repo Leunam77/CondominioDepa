@@ -58,7 +58,7 @@ import Changelog from "../pages/changelog/ChangelogPage";
 
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
-
+import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -179,7 +179,12 @@ const appRoutes: RouteType[] = [
         state: "cobros.editar-equipo",
         
       },
-      
+      {
+        path: "/cobros/generar-preaviso/:departamento_id",
+        element: <GenerarPreAviso/>,
+        state: "cobros.generar-pre-aviso",
+        
+      },
     ],
   },
   {

@@ -36,6 +36,7 @@ import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
+import NotificationEmail from "../notificaciones/pages/NotificationEmail";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -208,6 +209,14 @@ const appRoutes: RouteType[] = [
         state: "notificacion.lista",
         sidebarProps: {
           displayText: "Lista de Notificaciones",
+        },
+      },
+      {
+        path: "/notifications/email",
+        element: <NotificationEmail />,
+        state: "notificacion.email",
+        sidebarProps: {
+          displayText: "Enviar email",
         },
       },
       {

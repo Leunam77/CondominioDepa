@@ -51,6 +51,7 @@ export const SendTelegramNotification = () => {
     axios.post('http://127.0.0.1:8000/api/telegram/notifications', data)
       .then(response => {
         console.log(response.data);
+        alert(response.data.message);
       })
       .catch(error => {
         console.error('Error al enviar los datos:', error);

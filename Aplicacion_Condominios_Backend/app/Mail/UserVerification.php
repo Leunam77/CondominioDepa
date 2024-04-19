@@ -22,6 +22,6 @@ class UserVerification extends Mailable
     {
         return $this->from(env('MAIL_USERNAME'))
             ->view('name')
-            ->subject('Verify your email address');
+            ->subject('Notificaciones Condominio');
     }
 }

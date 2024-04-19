@@ -75,7 +75,7 @@ Route::controller(PersonaController::class)->group(function() {
 });
 
 Route::group(['prefix' =>  'v1'], function () {
-    Route::post('register', [AuthController::class, 'register']);
+    Route::post('send', [AuthController::class, 'send']);
     Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 });
 

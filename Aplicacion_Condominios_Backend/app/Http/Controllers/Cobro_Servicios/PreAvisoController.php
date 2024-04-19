@@ -17,14 +17,9 @@ class PreAvisoController extends Controller
     }
     public function store(Request $request)
     {
-       /* $request->validate([
-            'departamento' => 'required|string',
-            'fecha' => 'required|date',
-            'descripcion_servicios' => 'required|string',
-            'monto' => 'required|decimal'
-        ]);*/   
+       
         $expensa = new ExpensaModel();
-        $expensa->departamento = $request->departamento;
+        $expensa->departamento_id = $request->departamento_id;
         $expensa->fecha = $request->fecha;
         $expensa->descripcion_servicios = $request->descripcion_servicios;
         $expensa->monto = $request->monto;

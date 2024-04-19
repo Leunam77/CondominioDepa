@@ -15,9 +15,10 @@ class CreateExpensasTable extends Migration
     {
         Schema::create('expensas', function (Blueprint $table) {
             $table->id();
-            $table->string('departamento');
+            $table->unsignedBigInteger('departamento_id');
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->date('fecha'); 
-            $table->string('descripcion_servicios'); 
+            $table->text('descripcion_servicios'); 
             $table->decimal('monto', 10, 2);
             $table->timestamps();
         });

@@ -35,7 +35,7 @@ class EdificioController extends Controller
 
     public function update(Request $request, $id)
     {
-        $edificio = edificio::findOrFail($request->$id);
+        $edificio = edificio::findOrFail($id);
         $edificio-> nombre_edificio = $request -> nombre_edificio;
         $edificio-> descripcion_edificio = $request -> descripcion_edificio;
         $edificio-> cantidad_pisos = $request -> cantidad_pisos;

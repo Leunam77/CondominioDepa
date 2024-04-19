@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommonArea\CommonAreaController;
+use App\Http\Controllers\CommonArea\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
@@ -100,6 +101,11 @@ Route::post('/CategoriaServicio/insert', [CategoriaServicioController::class,'in
 Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class,'updateCategoria']);
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
 
+// COMMON AREAS
+Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
+Route::apiResource('/common-areas/reservations', ReservationController::class);
+Route::apiResource('/common-areas', CommonAreaController::class);
+
 Route::get('/personal-externo', [PersonalExternoController::class,'getPersonalExterno']);
 Route::get('/personal-externo/{id}', [PersonalExternoController::class,'getPersonalExternoId']);
 Route::post('/personal-externo/insert', [PersonalExternoController::class,'insertPersonalExterno']);
@@ -111,8 +117,6 @@ Route::get('/registro-solicitud/{id}', [RegistroSolicitudController::class,'getR
 Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'insertRegistroSolicitud']);
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
-
-Route::apiResource('/areas-comunes', CommonAreaController::class);
 
 
 //Cobro_Servicios

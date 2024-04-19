@@ -18,17 +18,17 @@
 .a-center{
   align-items: center;
 }
-button {
+.block {
   width: 143px;
   height: 39px;
-  background-color: #233044;
+  background-color: #2A98CC;
   color: white;
   font-size: 18px;
   border-radius: 5px;
 
   &:hover {
     cursor: pointer;
-    background-color: #233044b6;
+    background-color: #16658A;
   }
 }
 

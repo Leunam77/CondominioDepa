@@ -194,7 +194,7 @@ export default function PersonalPage() {
                 onChange={handleChangeUbicacion}
               />
             </div>
-            <button
+            <button 
               className="block"
               type="submit"
               onClick={handleClickRegistrar}

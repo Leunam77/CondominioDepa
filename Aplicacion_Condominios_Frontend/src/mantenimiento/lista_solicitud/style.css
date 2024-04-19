@@ -21,14 +21,14 @@
 button {
   width: 143px;
   height: 39px;
-  background-color: #233044;
-  color: white;
+  background-color: transparent;
+  color:  #233044;
   font-size: 18px;
   border-radius: 5px;
 
   &:hover {
     cursor: pointer;
-    background-color: #233044b6;
+    background-color:  #bbc1cc;
   }
 }
 

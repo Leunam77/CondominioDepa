@@ -26,7 +26,14 @@ import RegistrarResidente from "../departamento/components/CrearResidente"
 import CrearContrato from "../departamento/components/CrearContrato";
 
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
+import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
+
+
+
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
+import CobrosLayout from "../pages/dashboard/CobrosLayout";
+
+
 
 import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
@@ -45,6 +52,8 @@ import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSo
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
 
+import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
+import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -127,8 +136,8 @@ const appRoutes: RouteType[] = [
     ]
   },
   {
-    path: "/component",
-    element: <ComponentPageLayout />,
+    path: "/cobros",
+    element: <CobrosLayout />,
     state: "component",
     sidebarProps: {
       displayText: "Cobro por Servicios",
@@ -136,37 +145,36 @@ const appRoutes: RouteType[] = [
     },
     child: [
       {
-        path: "/component/alert",
+        path: "/cobros/pre-aviso",
         element: <Cobros />,
-        state: "component.alert",
+        state: "cobros.alert",
         sidebarProps: {
           displayText: "Generar pre-aviso",
         },
       },
       {
-        path: "/component/button",
-        element: <Equipos />,
+        path: "/cobros/agregar-equipo",
+        element: <AgregarEquipo />,
         state: "component.button",
         sidebarProps: {
-          displayText: "Gestionar Equipos",
+          displayText: "Agregar Equipo",
         },
       },
       {
-        path: "/component/button",
-        element: <Equipos />,
-        state: "component.button",
+        path: "/cobros/gestion-equipo",
+        element: <GestionEquipos/>,
+        state: "cobros.alerta",
         sidebarProps: {
-          displayText: "Gestionar Equipos",
+          displayText: "Gestion de equipos dañados",
         },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
-        sidebarProps: {
-          displayText: "Enviar Cobro",
-        },
+        path: "/cobros/edicion-equipo/:id",
+        element: <EditarEquipo/>,
+        state: "cobros.editar-equipo",
+        
       },
+      
     ],
   },
   {

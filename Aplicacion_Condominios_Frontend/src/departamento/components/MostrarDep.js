@@ -63,7 +63,7 @@ const MostrarDep = () => {
         
             <div className= "lista">
                 {departamentos.map((departamento) => (
-                    <Card key={departamento.id}>
+                    <Card className="cardDepa" key={departamento.id}>
                         <CardImg
                             alt="Card image cap"
                             src={`${endpointImg}/${departamento.imagen_departamento}`}

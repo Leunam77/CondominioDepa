@@ -219,6 +219,7 @@ class CrearResidente extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="text"
                                                 name="nombre_residente"
                                                 placeholder="Ingrese nombre"
@@ -235,6 +236,7 @@ class CrearResidente extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="text"
                                                 name="apellidos_residente"
                                                 placeholder="Ingrese apellidos"
@@ -255,6 +257,7 @@ class CrearResidente extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="text"
                                                 name="cedula_residente"
                                                 placeholder="Ingrese su número de cédula"
@@ -269,6 +272,7 @@ class CrearResidente extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="text"
                                                 name="telefono_residente"
                                                 placeholder="Ingrese su número de celular"
@@ -288,6 +292,7 @@ class CrearResidente extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="date"
                                                 name="fecha_nacimiento_residente"
                                                 placeholder=""
@@ -303,6 +308,7 @@ class CrearResidente extends Component {
                                             <Input
                                                 type="select"
                                                 name="nacionalidad_residente"
+                                                className="customInput"
                                                 id="nacionalidad_residente"
                                                 onChange={this.handleInput}
                                                 invalid={this.state.errors.nacionalidad_residente ? true : false}
@@ -556,6 +562,7 @@ class CrearResidente extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="text"
                                                 name="email_residente"
                                                 placeholder="Ingrese su email"
@@ -572,6 +579,7 @@ class CrearResidente extends Component {
                                             </Label>
                                             <Input
                                                 type="select"
+                                                className="customInput"
                                                 name="genero_residente"
                                                 id="genero_residente"
                                                 onChange={this.handleInput}
@@ -594,6 +602,7 @@ class CrearResidente extends Component {
                                     </Label>
                                     <Input
                                         type="file"
+                                        className="customImage"
                                         name="imagen_residente"
                                         id="imagen_residente"
                                         onChange={this.handleChange}

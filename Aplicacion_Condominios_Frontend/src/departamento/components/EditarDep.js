@@ -289,6 +289,7 @@ class EditarDep extends Component {
                                     </Label>
                                     <Input
                                         id="inputRegistro"
+                                        className="customInput"
                                         type="text"
                                         name="nombre_departamento"
                                         placeholder="Ingrese nombre del departamento"
@@ -309,6 +310,7 @@ class EditarDep extends Component {
                                             <Input
                                                 id="inputRegistro"
                                                 type="number"
+                                                className="customInput"
                                                 name="numero_habitaciones"
                                                 placeholder="N° de habitaciones entre 1 y 20"
                                                 value={this.state.numero_habitaciones}
@@ -325,6 +327,7 @@ class EditarDep extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="number"
                                                 name="numero_personas"
                                                 value={this.state.numero_personas}
@@ -342,6 +345,7 @@ class EditarDep extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="number"
                                                 name="superficie"
                                                 value={this.state.superficie}
@@ -381,6 +385,7 @@ class EditarDep extends Component {
                                     </Label>
                                     <Input
                                         type="file"
+                                        className="customImage"
                                         name="nuevaImagen"
                                         id="nuevaImagen"
                                         onChange={this.handleChange}
@@ -408,10 +413,10 @@ class EditarDep extends Component {
                                     </Label>
                                     <Input
                                         id="inputRegistro"
-                                        type="textarea"
+                                        type="textarea"                                        
                                         name="descripcion_departamento"
                                         value={this.state.descripcion_departamento}
-                                        className="autoExpand"
+                                        className="autoExpand customInput"
                                         placeholder="Ingrese descripcion"
                                         onChange={this.handleInput}
                                         invalid={this.state.errors.descripcion_departamento ? true : false}

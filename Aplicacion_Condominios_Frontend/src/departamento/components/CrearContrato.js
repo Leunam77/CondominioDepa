@@ -219,6 +219,7 @@ class CrearContrato extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="date"
                                                 name="fecha_inicio_contrato"
                                                 onChange={this.handleInput}
@@ -235,6 +236,7 @@ class CrearContrato extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="date"
                                                 name="fecha_fin_contrato"
                                                 onChange={this.handleInput}
@@ -256,6 +258,7 @@ class CrearContrato extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="text"
                                                 name="precio_contrato"
                                                 placeholder="N° en $ entre 100 y 999999"
@@ -273,6 +276,7 @@ class CrearContrato extends Component {
                                             </Label>
                                             <Input
                                                 type="select"
+                                                className="customInput"
                                                 name="tipo_contrato"
                                                 id="tipo_contrato"
                                                 onChange={this.handleInput}
@@ -311,6 +315,7 @@ class CrearContrato extends Component {
                                             <Col sm={3}>
                                                 <Input
                                                     type="select"
+                                                    className="customInput"
                                                     name="tipo_residente"
                                                     id="tipo_residente"
                                                     onChange={this.handleInput}

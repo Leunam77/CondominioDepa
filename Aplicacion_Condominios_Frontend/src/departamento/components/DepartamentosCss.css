@@ -46,11 +46,21 @@
 
 .botoncard:hover {
     background-color: transparent;
+    color: rgb(32, 75, 90);
+}
+.botoncard:active{
+    background-color: transparent !important;
 }
 
 .iconos {
     color: rgba(45, 96, 115, 1);
     font-size: 1.4rem;
+}
+.iconos:hover {
+    color: rgb(32, 75, 90);
+}
+.iconos:active {
+    color: rgb(83, 116, 128);
 }
 
 .card-img-top {

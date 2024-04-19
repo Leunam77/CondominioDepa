@@ -265,6 +265,7 @@ class CrearDepartamento extends Component {
                                     </Label>
                                     <Input
                                         id="inputRegistro"
+                                        className="customInput"
                                         type="text"
                                         name="nombre_departamento"
                                         placeholder="Ingrese el nombre del departamento"
@@ -284,6 +285,7 @@ class CrearDepartamento extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="number"
                                                 name="numero_habitaciones"
                                                 placeholder="N° de habitaciones entre 1 y 20"
@@ -300,6 +302,7 @@ class CrearDepartamento extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="number"
                                                 name="numero_personas"
                                                 placeholder="N° de personas entre 1 y 20"
@@ -316,6 +319,7 @@ class CrearDepartamento extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="number"
                                                 name="superficie"
                                                 placeholder="Valor entre 100 y 999"
@@ -359,6 +363,7 @@ class CrearDepartamento extends Component {
                                             </Label>
                                             <Input
                                                 type="select"
+                                                className="customInput"
                                                 name="bloque_id"
                                                 id="bloque_id"
                                                 onChange={this.handleBloqueSeleccionado}
@@ -380,6 +385,7 @@ class CrearDepartamento extends Component {
                                             </Label>
                                             <Input
                                                 type="select"
+                                                className="customInput"
                                                 name="edificio_id"
                                                 id="edificio_id"
                                                 onChange={this.handleEdificioSeleccionado}
@@ -401,6 +407,7 @@ class CrearDepartamento extends Component {
                                             </Label>
                                             <Input
                                                 type="select"
+                                                className="customInput"
                                                 name="piso"
                                                 id="piso"
                                                 onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
@@ -425,6 +432,7 @@ class CrearDepartamento extends Component {
                                     <Input
                                         type="file"
                                         name="imagen_departamento"
+                                        className="customImage"
                                         id="imagen_departamento"
                                         onChange={this.handleChange}
                                         style={this.state.errors.imagenDep ? { borderColor: 'red' } : {}}
@@ -453,7 +461,7 @@ class CrearDepartamento extends Component {
                                         id="inputRegistro"
                                         type="textarea"
                                         name="descripcion_departamento"
-                                        className="autoExpand"
+                                        className="autoExpand customInput"
                                         placeholder="Ingrese descripcion"
                                         onChange={this.handleInput}
                                         invalid={this.state.errors.descripcion_departamento ? true : false}

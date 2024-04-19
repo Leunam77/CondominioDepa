@@ -6,10 +6,10 @@ import "dayjs/locale/es";
 
 import { Reservation } from "../../interfaces/reservations";
 import { getNameCommonAreaById } from "../../services/common-area.service";
-
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "./calendar-page.css";
 import { getReservationsByCommonAreaId } from "../../services/reservation.service";
+
+import "./calendar-page.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 dayjs.locale("es");
 
@@ -92,9 +92,6 @@ export default function CalendarPage() {
           messages={messages}
           onSelectEvent={(event) => {
             console.log(event);
-          }}
-          onNavigate={(date) => {
-            console.log(date);
           }}
           components={components}
         />

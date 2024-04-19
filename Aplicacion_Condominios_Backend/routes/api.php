@@ -118,8 +118,6 @@ Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'i
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
 
-Route::apiResource('/areas-comunes', CommonAreaController::class);
-
 
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){

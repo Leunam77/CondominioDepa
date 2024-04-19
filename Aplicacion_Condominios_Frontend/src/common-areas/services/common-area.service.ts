@@ -5,7 +5,7 @@ const API_URL = "http://localhost:8000/api/";
 export async function getCommonAreaById(
   commonAreaId: number
 ): Promise<CommonArea> {
-  const response = await fetch(`${API_URL}areas-comunes/${commonAreaId}`);
+  const response = await fetch(`${API_URL}common-areas/${commonAreaId}`);
 
   if (!response.ok) {
     throw new Error("No se pudo obtener el área común");

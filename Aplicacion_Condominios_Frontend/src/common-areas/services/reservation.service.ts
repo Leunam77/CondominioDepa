@@ -19,7 +19,7 @@ export async function getReservationsByCommonAreaId(
 }
 
 export async function createReservation(reservation: CreateReservationDTO) {
-  const response = await fetch(`${API_URL}areas-comunes/reservations`, {
+  const response = await fetch(`${API_URL}common-areas/reservations`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

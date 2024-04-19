@@ -17,10 +17,11 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('correo')->unique();
-            $table->integer('celular')->unique();
+            $table->string('correo');
+            $table->integer('celular');
+            $table->string('estado_contrato');
             $table->char('genero', 1);
-            $table->date('fecha_contratacion')->unique();
+            $table->integer('ci');
 
             $table->timestamps();
         });

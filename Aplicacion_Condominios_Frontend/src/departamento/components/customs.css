@@ -1,3 +1,29 @@
+body {
+	font-family: Arial, Roboto, Open Sans, Helvetica, sans-serif !important; 
+	font-size: 1rem !important;
+	font-weight: normal !important;
+}
+::-webkit-input-placeholder {
+	font-size: 0.9rem;
+}
+
+::-moz-placeholder {
+	font-size: 0.9rem;
+}
+
+:-ms-input-placeholder {
+	font-size: 0.9rem;
+}
+
+:-moz-placeholder {
+	font-size: 0.9rem;
+}
+
+
+.titulosForms{
+	font-size: 2rem;
+	font-weight: bold;
+}
 ul {
 	list-style-type: none;
 }
@@ -15,18 +41,20 @@ ul {
 	border-radius: 12px;
 	padding: 40px;
 	box-shadow: 2px 2px 5px rgba(73, 73, 73, 0.3);
-	min-width: 400px;
+	min-width: 500px;
 	min-height: 500px;
-	width: 50%;
-}
-.custom-font{
-	font-family: 'Lato', sans-serif;
+	width: 60vw;
 }
 
 .label-custom{
-	font-family: 'Lato', sans-serif;
-	font-size: 18px;
-	font-weight: bold;
+	font-weight: bold !important;
+}
+.modalTitle .modal-title{
+	font-size: 1.3rem !important;
+	font-weight: bold !important;
+	text-align: center;
+	width: 100%;
+
 }
 .autoExpand {
   resize: none;

@@ -29,4 +29,5 @@ class PreAvisoController extends Controller
             'message' => 'Expensa generada existosamente',
         ]);
     }
+    
 }

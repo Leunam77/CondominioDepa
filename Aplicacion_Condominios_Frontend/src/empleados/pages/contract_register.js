@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import {
     MDBBtn,
     MDBContainer,
@@ -111,8 +112,6 @@ function ContractRegister() {
             }
             window.location.href = "./assignContract";
           }
-
-          
         }
     };
 
@@ -135,7 +134,12 @@ function ContractRegister() {
         <MDBContainer fluid>
           <MDBRow className="d-flex justify-content-center align-items-center">
             <MDBCol lg="9" className="my-5">
-              <h1 class="text-white mb-4">Apply for a job</h1>
+              <MDBRow >
+                <MDBCol className="d-flex align-items-center justify-content-center">
+                <h1 class="mb-4">Registro de contrato</h1>
+
+                </MDBCol>
+              </MDBRow>
 
               <MDBCard>
                 <MDBCardBody className="px-4">
@@ -175,7 +179,7 @@ function ContractRegister() {
                       <MDBInput
                         id="form2"
                         type="email"
-                        value={empleado.nombre + ' ' + empleado.apellido} 
+                        value={empleado.nombre + " " + empleado.apellido}
                       />
                     </MDBCol>
                   </MDBRow>
@@ -184,7 +188,7 @@ function ContractRegister() {
 
                   <MDBRow className="align-items-center pt-4 pb-3">
                     <MDBCol md="3" className="ps-5">
-                      <h6 className="mb-0">Fecha Inicio</h6>
+                      <h6 className="mb-0">Fecha de Inicio</h6>
                     </MDBCol>
 
                     <MDBCol md="9" className="pe-5">
@@ -194,15 +198,17 @@ function ContractRegister() {
                         name="fecha_inicio"
                         onBlur={handleInput}
                       />
-                        {errors.fecha_inicio && (
-                           <span className="advertencia-creEve">{errors.fecha_inicio}</span>
-                        )}
+                      {errors.fecha_inicio && (
+                        <span className="advertencia-creEve">
+                          {errors.fecha_inicio}
+                        </span>
+                      )}
                     </MDBCol>
                   </MDBRow>
 
                   <MDBRow className="align-items-center pt-4 pb-3">
                     <MDBCol md="3" className="ps-5">
-                      <h6 className="mb-0">Fecha Final</h6>
+                      <h6 className="mb-0">Fecha de Finalización</h6>
                     </MDBCol>
 
                     <MDBCol md="9" className="pe-5">
@@ -213,8 +219,10 @@ function ContractRegister() {
                         onBlur={handleInput}
                       />
                       {errors.fecha_final && (
-                           <span className="advertencia-creEve">{errors.fecha_final}</span>
-                        )}
+                        <span className="advertencia-creEve">
+                          {errors.fecha_final}
+                        </span>
+                      )}
                     </MDBCol>
                   </MDBRow>
 
@@ -239,8 +247,10 @@ function ContractRegister() {
                         <option value="Limpieza">Limpieza</option>
                       </Form.Select>
                       {errors.area && (
-                           <span className="advertencia-creEve">{errors.area}</span>
-                        )}
+                        <span className="advertencia-creEve">
+                          {errors.area}
+                        </span>
+                      )}
                     </MDBCol>
                   </MDBRow>
 
@@ -263,8 +273,10 @@ function ContractRegister() {
                         <option value="Subordinado">Subordinado</option>
                       </Form.Select>
                       {errors.cargo && (
-                           <span className="advertencia-creEve">{errors.cargo}</span>
-                        )}
+                        <span className="advertencia-creEve">
+                          {errors.cargo}
+                        </span>
+                      )}
                     </MDBCol>
                   </MDBRow>
 
@@ -310,16 +322,31 @@ function ContractRegister() {
                         onBlur={handleInput}
                       />
                       {errors.salario && (
-                           <span className="advertencia-creEve">{errors.salario}</span>
-                        )}
+                        <span className="advertencia-creEve">
+                          {errors.salario}
+                        </span>
+                      )}
                     </MDBCol>
                   </MDBRow>
 
                   <hr className="mx-n3" />
 
-                  <MDBBtn className="my-4" size="lg" onClick={handleSubmit}>
-                    send application
-                  </MDBBtn>
+                  <MDBRow>
+                    <MDBCol className="d-flex align-items-center justify-content-center">
+                      <Button
+                        block
+                        className="my-4"
+                        size="lg"
+                        onClick={handleSubmit}
+                        style={{
+                          backgroundColor: "#65B8A6",
+                          borderColor: "#65B8A6",
+                        }}
+                      >
+                        Contratar
+                      </Button>
+                    </MDBCol>
+                  </MDBRow>
                 </MDBCardBody>
               </MDBCard>
             </MDBCol>

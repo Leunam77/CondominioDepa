@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-    Input, FormGroup, Label, Col, Row, Button, Container, CardImg
+    Input, FormGroup, Label, Col, Row, Button, Container, CardImg, FormFeedback
 } from "reactstrap";
 import Cookies from 'universal-cookie';
 import ModalMostrarResidentes from "./ModalMostrarResidentes";
@@ -11,6 +11,7 @@ import ModalConfirm from "./ModalConfirm";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import "./customs.css";
+import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 const endpointImg = 'http://localhost:8000';
@@ -206,7 +207,7 @@ class CrearContrato extends Component {
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>
-                            <h2 className="text-center mb-5">Crear contrato</h2>
+                            <h2 className="text-center mb-5 titulosForms">Crear contrato</h2>
                             <form onSubmit={this.storeResident}>
                                 <FormGroup className="mb-4">
                                     <Row>
@@ -214,33 +215,34 @@ class CrearContrato extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Fecha de inicio del contrato
+                                                Inicio del contrato
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="date"
                                                 name="fecha_inicio_contrato"
                                                 onChange={this.handleInput}
+                                                invalid={this.state.errors.fecha_inicio_contrato ? true : false}
+
                                             />
-                                            {this.state.errors.fecha_inicio_contrato && (
-                                                <span>{this.state.errors.fecha_inicio_contrato}</span>
-                                            )}
+                                            <FormFeedback>{this.state.errors.fecha_inicio_contrato}</FormFeedback>
                                         </Col>
                                         <Col sm={6}>
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Fecha de fin del contrato
+                                                Fin del contrato
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="date"
                                                 name="fecha_fin_contrato"
                                                 onChange={this.handleInput}
+                                                invalid={this.state.errors.fecha_fin_contrato ? true : false}
                                             />
-                                            {this.state.errors.fecha_fin_contrato && (
-                                                <span>{this.state.errors.fecha_fin_contrato}</span>
-                                            )}
+                                            <FormFeedback>{this.state.errors.fecha_fin_contrato}</FormFeedback>
                                         </Col>
                                     </Row>
 
@@ -256,14 +258,14 @@ class CrearContrato extends Component {
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
+                                                className="customInput"
                                                 type="text"
                                                 name="precio_contrato"
-                                                placeholder="Ingrese el monto del contrato"
+                                                placeholder="N° en $ entre 100 y 999999"
                                                 onChange={this.handleInput}
+                                                invalid={this.state.errors.precio_contrato ? true : false}
                                             />
-                                            {this.state.errors.precio_contrato && (
-                                                <span>{this.state.errors.precio_contrato}</span>
-                                            )}
+                                            <FormFeedback>{this.state.errors.precio_contrato}</FormFeedback>
                                         </Col>
                                         <Col sm={6}>
 
@@ -274,9 +276,11 @@ class CrearContrato extends Component {
                                             </Label>
                                             <Input
                                                 type="select"
+                                                className="customInput"
                                                 name="tipo_contrato"
                                                 id="tipo_contrato"
                                                 onChange={this.handleInput}
+                                                invalid={this.state.errors.tipo_contrato ? true : false}
                                             >
                                                 <option disabled selected>{" "} Seleccione un tipo de contrato</option>
                                                 <option value="Venta">Venta</option>
@@ -284,9 +288,7 @@ class CrearContrato extends Component {
                                                 <option value="Anticretico">Anticretico</option>
 
                                             </Input>
-                                            {this.state.errors.tipo_contrato && (
-                                                <span>{this.state.errors.tipo_contrato}</span>
-                                            )}
+                                            <FormFeedback>{this.state.errors.tipo_contrato}</FormFeedback>
 
                                         </Col>
                                     </Row>
@@ -300,19 +302,19 @@ class CrearContrato extends Component {
 
                                             <Col sm={3} >
                                                 <CardImg
-                                                    top
-                                                    style={{ maxWidth: '128px', maxHeight: '128px', margin: '10px' }}
+                                                    style={{ maxWidth: '64px', maxHeight: '64px', margin: '10px', borderRadius: '10px'}}
                                                     src={`${endpointImg}/${residente.imagen_residente}`}
                                                     alt={residente.nombre_residente}
                                                 />
                                             </Col>
                                             <Col sm={3} >
-                                                <li style={{ fontWeight: 'bold'}} key={index}>{residente.nombre_residente} {residente.apellidos_residente}
+                                                <li style={{ fontWeight: 'bold', fontSize: '0.9rem'}} key={index}>{residente.nombre_residente} {residente.apellidos_residente}
                                                 </li>
                                             </Col>
                                             <Col sm={3}>
                                                 <Input
                                                     type="select"
+                                                    className="customInput"
                                                     name="tipo_residente"
                                                     id="tipo_residente"
                                                     onChange={this.handleInput}

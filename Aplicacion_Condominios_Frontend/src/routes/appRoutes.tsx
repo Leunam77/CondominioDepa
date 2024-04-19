@@ -46,6 +46,10 @@ import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
+import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
+import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
+import { NotificationsList } from "../notificaciones/pages/NotificationsList";
+import NotificationEmail from "../notificaciones/pages/NotificationEmail";
 import PersonalPage from "../mantenimiento/personal/PersonalPage";
 import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
@@ -54,6 +58,7 @@ import Changelog from "../pages/changelog/ChangelogPage";
 
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
+
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -262,6 +267,37 @@ const appRoutes: RouteType[] = [
       displayText: "Notificaciones",
       icon: <NotificationsActiveIcon />,
     },
+    child:[
+      {
+        path: "/notifications/registrar",
+        element: <RegistrarPersona />,
+        state: "usuario.registrar",
+        sidebarProps: {
+          displayText: "Registro Persona",
+        },
+      },
+      {
+        path: "/notifications/list",
+        element: <NotificationsList />,
+        state: "notificacion.lista",
+        sidebarProps: {
+          displayText: "Lista de Notificaciones",
+        },
+      },
+      {
+        path: "/notifications/email",
+        element: <NotificationEmail />,
+        state: "notificacion.email",
+        sidebarProps: {
+          displayText: "Enviar email",
+        },
+      },
+      {
+        path: "/notifications/send/telegram",
+        element: <SendTelegramNotification />,
+        state: "telegram.enviar",
+      },
+    ]
   },
 
   {

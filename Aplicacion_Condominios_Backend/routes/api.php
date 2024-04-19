@@ -10,6 +10,10 @@ use App\Http\Controllers\Departamento\ResidenteController;
 use App\Http\Controllers\Departamento\ContratoController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
+use App\Http\Controllers\Notificaciones\PersonaController;
+use App\Http\Controllers\Notificaciones\AuthController;
+use App\Http\Controllers\Notificaciones\TelegramNotificationController;
+use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
 use App\Http\Controllers\Cobro_Servicios\PreAvisoController;
 use App\Models\Mantenimiento\CategoriaServicio;
@@ -126,3 +130,18 @@ Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
 });
 
+// Notificaciones
+Route::controller(PersonaController::class)->group(function() {
+    Route::post('/add_persona', 'store');
+    Route::get('/persons', 'index');
+});
+
+Route::group(['prefix' =>  'v1'], function () {
+    Route::post('send', [AuthController::class, 'send']);
+    Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
+});
+
+Route::controller(TelegramNotificationController::class)->group(function() {
+    Route::post('/telegram/notification', 'sendNoticeToOne');
+    Route::post('/telegram/notifications', 'sendNoticeToMany');
+});

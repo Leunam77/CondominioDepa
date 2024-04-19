@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommonArea\CommonAreaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
@@ -7,6 +8,10 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
+use App\Http\Controllers\Notificaciones\PersonaController;
+use App\Http\Controllers\Notificaciones\AuthController;
+use App\Http\Controllers\Notificaciones\TelegramNotificationController;
+use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Models\Mantenimiento\CategoriaServicio;
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +65,22 @@ Route::get('/CategoriaServicio/{id}', [CategoriaServicioController::class,'getCa
 Route::post('/CategoriaServicio/insert', [CategoriaServicioController::class,'insertarCategoria']);
 Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class,'updateCategoria']);
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
+
+Route::apiResource('/areas-comunes', CommonAreaController::class);
+
+// Notificaciones
+Route::controller(PersonaController::class)->group(function() {
+    Route::post('/add_persona', 'store');
+    Route::get('/persons', 'index');
+});
+
+Route::group(['prefix' =>  'v1'], function () {
+    Route::post('send', [AuthController::class, 'send']);
+    Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
+});
+
+Route::controller(TelegramNotificationController::class)->group(function() {
+    Route::post('/telegram/notification', 'sendNoticeToOne');
+    Route::post('/telegram/notifications', 'sendNoticeToMany');
+});
+

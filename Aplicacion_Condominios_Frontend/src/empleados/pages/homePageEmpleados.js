@@ -58,7 +58,7 @@ function EmployeHomePage() {
       
 
       <Container className="mt-5 mb-5 text-light ">
-        <Table striped hover>
+        <Table hover>
           <thead>
             <tr>
               <th>Nombre</th>

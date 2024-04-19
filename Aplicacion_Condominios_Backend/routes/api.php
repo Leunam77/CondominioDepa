@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommonArea\CommonAreaController;
+use App\Http\Controllers\CommonArea\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Departamento\BloqueController;
@@ -62,4 +63,7 @@ Route::post('/CategoriaServicio/insert', [CategoriaServicioController::class,'in
 Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class,'updateCategoria']);
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
 
+// COMMON AREAS
+Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
+Route::apiResource('/areas-comunes/reservations', ReservationController::class);
 Route::apiResource('/areas-comunes', CommonAreaController::class);

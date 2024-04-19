@@ -29,10 +29,14 @@ import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
 import EmployeeRegister from "../empleados/pages/employee_register";
 import DashboardEmployee from "../pages/dashboard/DashboardEmployee";
+
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
+import CalendarPage from "../common-areas/pages/calendar-page/CalendarPage";
+import ReservationPage from "../common-areas/pages/reservation-page/ReservationPage";
+
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -168,6 +172,16 @@ const appRoutes: RouteType[] = [
         path: "/areas-comunes/:id",
         element: <UpdatePage />,
         state: "areas-comunes.actualizar",
+      },
+      {
+        path: "/areas-comunes/calendario/:id",
+        element: <CalendarPage />,
+        state: "areas-comunes.calendario",
+      },
+      {
+        path: "/areas-comunes/reservar/:id",
+        element: <ReservationPage />,
+        state: "areas-comunes.reservar",
       },
     ],
   },

@@ -182,22 +182,29 @@ class CrearContrato extends Component {
             data.append("vigente_contrato", this.state.vigente_contrato ? '1' : '0');
             data.append("departamento_id", this.state.departamento_id);
 
-            console.log(this.state.fecha_inicio_contrato);
-            console.log(this.state.fecha_fin_contrato);
-            console.log(this.state.precio_contrato);
-            console.log(this.state.tipo_contrato);
-            console.log(this.state.vigente_contrato);
-            console.log(this.state.departamento_id);
 
-            axios.post(url, data).then((res) => {
-                console.log(res);
+            const res = await axios.post(url, data);
+            const contratoId = res.data.contrato_id;
+                console.log(Object.keys(res.data));
+                console.log("id del contrato creado",contratoId);
+        
+                // Actualizar disponibilidad del departamento
+                await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
+                    disponibilidad: 0,
+                });
+                cookies.remove('idDepa');
+        
+                // Recorrer el arreglo de usuarios y actualizar el contrato
+                const residentes = this.state.residentesSeleccionados;
+                console.log("lista de residentes",residentes);
+                for (const residente of residentes) {
+                    const idResidente = residente.id; // Suponiendo que el usuario tiene un campo 'id'
+                    console.log("id del residente",idResidente);
+                    await axios.put(`${endpoint}/residentes/${idResidente}/actualizarContrato`, {
+                        contrato_id: contratoId,
+                    });
+                }
 
-            });
-            await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
-                disponibilidad: 0,
-            });
-            cookies.remove('idDepa');
-            window.location.href = "./depa";
         }
     };
 

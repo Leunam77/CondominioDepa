@@ -214,6 +214,18 @@ class ResidenteController extends Controller
             'message' => 'Residente eliminado exitosamente'
         ]);
     }
+
+    public function actualizarContrato(Request $request, $id)
+    {
+        $residente = Residente::findOrFail($id);
+
+        // Actualiza el atributo específico
+        $residente->contrato_id = $request->input('contrato_id');
+        $residente->save();
+
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+    }
+
     public function import(Request $request){
         $file = $request->file('file');
         //leer el archivo csv

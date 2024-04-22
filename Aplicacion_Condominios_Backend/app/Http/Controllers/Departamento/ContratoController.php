@@ -50,9 +50,11 @@ class ContratoController extends Controller
         $contrato->fill($validatedData);
         try{
             $contrato->save();
+            $contratoId = $contrato->id;
             return response()->json([
                 'status' => 200,
-                'message' => 'Contrato creado exitosamente'
+                'message' => 'Contrato creado exitosamente',
+                'contrato_id' => $contratoId
             ]);
         }catch(\Exception $e){
             return response()->json([

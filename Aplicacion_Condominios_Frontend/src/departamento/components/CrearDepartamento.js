@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-    Input, FormGroup, Label, Col, Row, Button, Container
+    Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback, CardImg
 } from "reactstrap";
 import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
+import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 class CrearDepartamento extends Component {
@@ -192,7 +193,7 @@ class CrearDepartamento extends Component {
 
                 this.setState({ imagenDep: "" });
                 validationErrors.imagenDep =
-                    "La imagen tiene que tener una extension .png, .jpg, .PNG o .jpeg";
+                    "La imagen debe tener formato PNG, JPG o JPEG";
             }
         }
 
@@ -254,76 +255,83 @@ class CrearDepartamento extends Component {
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>
-                            <h2 className="text-center mb-5">Crear departamento</h2>
+                            <h2 className="text-center mb-5 titulosForms">Crear departamento</h2>
                             <form onSubmit={this.storeDepartment}>
                                 <FormGroup className="mb-4">
                                     <Label
                                         className="label-custom"
                                     >
-                                        Nombre departamento
+                                        Nombre
                                     </Label>
                                     <Input
                                         id="inputRegistro"
+                                        className="customInput"
                                         type="text"
                                         name="nombre_departamento"
-                                        placeholder="Ingrese nombre"
+                                        placeholder="Ingrese el nombre del departamento"
                                         onChange={this.handleInput}
+                                        invalid={this.state.errors.nombre_departamento ? true : false}
                                     />
-                                    {this.state.errors.nombre_departamento && (
-                                        <span>{this.state.errors.nombre_departamento}</span>
-                                    )}
+                                    <FormFeedback>{this.state.errors.nombre_departamento}</FormFeedback>
+
                                 </FormGroup >
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de habitaciones
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_habitaciones"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_habitaciones && (
-                                        <span>{this.state.errors.numero_habitaciones}</span>
-                                    )}
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Habitaciones
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                className="customInput"
+                                                type="number"
+                                                name="numero_habitaciones"
+                                                placeholder="N° de habitaciones entre 1 y 20"
+                                                onChange={this.handleInput}
+                                                invalid={this.state.errors.numero_habitaciones ? true : false}
+                                            />
+                                            <FormFeedback>{this.state.errors.numero_habitaciones}</FormFeedback>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Personas
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                className="customInput"
+                                                type="number"
+                                                name="numero_personas"
+                                                placeholder="N° de personas entre 1 y 20"
+                                                onChange={this.handleInput}
+                                                invalid={this.state.errors.numero_personas ? true : false}
+                                            />
+                                            <FormFeedback>{this.state.errors.numero_personas}</FormFeedback>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Superficie
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                className="customInput"
+                                                type="number"
+                                                name="superficie"
+                                                placeholder="Valor entre 100 y 999"
+                                                onChange={this.handleInput}
+                                                invalid={this.state.errors.superficie ? true : false}
+                                            />
+                                            <FormFeedback>{this.state.errors.superficie}</FormFeedback>
+                                        </Col>
+                                    </Row>
+                                    
                                 </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Número de personas
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="numero_personas"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.numero_personas && (
-                                        <span>{this.state.errors.numero_personas}</span>
-                                    )}
-                                </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Superficie
-                                    </Label>
-                                    <Input
-                                        id="inputRegistro"
-                                        type="number"
-                                        name="superficie"
-                                        placeholder="4"
-                                        onChange={this.handleInput}
-                                    />
-                                    {this.state.errors.superficie && (
-                                        <span>{this.state.errors.superficie}</span>
-                                    )}
-                                </FormGroup>
+                                
                                 <Row className="mb-4">
 
                                     <Col sm={6}>
@@ -331,14 +339,14 @@ class CrearDepartamento extends Component {
                                         <Label
                                             check
                                             className="label-custom"
-                                        >
+                                        >   
+                                            Amoblado
+                                            {' '}
                                             <Input
                                                 type="checkbox"
                                                 id="checkBoxAmoblado"
                                                 onChange={() => this.changeChecked('amoblado')}
                                             />
-                                            {' '}
-                                            Amoblado
                                         </Label>
 
 
@@ -346,71 +354,75 @@ class CrearDepartamento extends Component {
                                 </Row>
 
                                 <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un bloque
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="bloque_id"
-                                        id="bloque_id"
-                                        onChange={this.handleBloqueSeleccionado}
-                                    >
-                                        <option disabled selected>
-                                            {" "}Seleccionar Bloque</option>
-                                        {this.state.bloques.map(bloque => (
-                                            <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
-                                        ))}
-                                    </Input>
-                                    {this.state.errors.bloqueSeleccionado && (
-                                        <span>{this.state.errors.bloqueSeleccionado}</span>
-                                    )}
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Bloque
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="bloque_id"
+                                                id="bloque_id"
+                                                onChange={this.handleBloqueSeleccionado}
+                                                invalid={this.state.errors.bloqueSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected >
+                                                    {" "}Seleccionar bloque</option>
+                                                {this.state.bloques.map(bloque => (
+                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                                ))}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.bloqueSeleccionado}</FormFeedback>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Edificio
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="edificio_id"
+                                                id="edificio_id"
+                                                onChange={this.handleEdificioSeleccionado}
+                                                invalid={this.state.errors.edificioSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar edificio</option>
+                                                {this.state.edificios.map(edificio => (
+                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
+                                                ))}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.edificioSeleccionado}</FormFeedback>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Piso
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="piso"
+                                                id="piso"
+                                                onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
+                                                invalid={this.state.errors.pisoSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar piso</option>
+                                                {pisosOptions}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.pisoSeleccionado}</FormFeedback>
+                                        </Col>
+                                    </Row>
+                                    
                                 </FormGroup>
 
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un edificio
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        className="mb-3 w-100"
-                                        name="edificio_id"
-                                        id="edificio_id"
-                                        onChange={this.handleEdificioSeleccionado}
-                                    >
-                                        <option disabled selected>
-                                            {" "}Seleccionar Edificio</option>
-                                        {this.state.edificios.map(edificio => (
-                                            <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
-                                        ))}
-                                    </Input>
-                                    {this.state.errors.edificioSeleccionado && (
-                                        <span>{this.state.errors.edificioSeleccionado}</span>
-                                    )}
-                                </FormGroup>
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Selecciona un piso
-                                    </Label>
-                                    <Input
-                                        type="select"
-                                        name="piso"
-                                        id="piso"
-                                        onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
-                                    >
-                                        <option disabled selected>
-                                            {" "}Seleccionar piso</option>
-                                        {pisosOptions}
-                                    </Input>
-                                    {this.state.errors.pisoSeleccionado && (
-                                        <span>{this.state.errors.pisoSeleccionado}</span>
-                                    )}
-                                </FormGroup>
                                 <FormGroup className="mb-4">
                                     <Label
                                         className="label-custom"
@@ -420,17 +432,23 @@ class CrearDepartamento extends Component {
                                     <Input
                                         type="file"
                                         name="imagen_departamento"
+                                        className="customImage"
                                         id="imagen_departamento"
                                         onChange={this.handleChange}
+                                        style={this.state.errors.imagenDep ? { borderColor: 'red' } : {}}
                                     />
                                     {this.state.imagen_departamento && (
                                         <div className="d-flex justify-content-center">
-                                            <img
+                                            <CardImg
+                                                width="100%"
                                                 src={this.state.imagen_departamento}
                                                 alt="Vista previa"
-                                                style={{ width: '300px', height: '300px', marginTop: '25px'}}
+                                                style={{ width: '200px', height: '200px', marginTop: '25px', borderRadius: '10px'}}
                                             />
                                         </div>
+                                    )}
+                                    {this.state.errors.imagenDep && (
+                                        <div style={{ color: 'red', fontSize: '0.875rem' }}>{this.state.errors.imagenDep}</div>
                                     )}
                                 </FormGroup>
 
@@ -444,17 +462,16 @@ class CrearDepartamento extends Component {
                                         id="inputRegistro"
                                         type="textarea"
                                         name="descripcion_departamento"
-                                        className="autoExpand"
+                                        className="autoExpand customInput"
                                         placeholder="Ingrese descripcion"
                                         onChange={this.handleInput}
+                                        invalid={this.state.errors.descripcion_departamento ? true : false}
                                         onInput={(e) => {
                                             e.target.style.height = 'auto';
                                             e.target.style.height = (e.target.scrollHeight) + 'px';
                                         }}
                                     />
-                                    {this.state.errors.descripcion_departamento && (
-                                        <span>{this.state.errors.descripcion_departamento}</span>
-                                    )}
+                                    <FormFeedback>{this.state.errors.descripcion_departamento}</FormFeedback>
                                 </FormGroup>
                                 <Button size="lg" type="button" className="custom-button mx-auto d-block"
                                     style={{ fontWeight: 'bold' }}

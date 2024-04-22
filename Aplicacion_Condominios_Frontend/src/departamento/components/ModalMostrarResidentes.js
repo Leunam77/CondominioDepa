@@ -38,7 +38,11 @@ const filteredResidentes = residentes.filter(residente =>
 
       <div>
           <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
-          <ModalHeader style={{ marginLeft: 'auto', marginRight: 'auto' }}>Añadir Residente</ModalHeader>
+        <ModalHeader style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          <span style={{fontWeight:'bold'}}>
+            Añadir Residente
+          </span>
+          </ModalHeader>
           <ModalBody>
               <div className="search-container">
                 <input
@@ -50,7 +54,7 @@ const filteredResidentes = residentes.filter(residente =>
                 />
                 <FontAwesomeIcon icon={faSearch} className="search-icon" />
               </div>
-              <ul>
+              <ul  className="cardLista">
               {filteredResidentes.map(residente => (
                   <li key={residente.id} className="residente-item">
                   <span style={{ marginLeft: '1rem' }} onClick={() => { agregarResidente(residente); toggle(); }} >{residente.nombre_residente} {residente.apellidos_residente}</span>
@@ -59,7 +63,7 @@ const filteredResidentes = residentes.filter(residente =>
               </ul>
           </ModalBody>
           <ModalFooter>
-              <Button onClick={toggle} className='boton-cerrar'>
+              <Button onClick={toggle} className='boton-modal'>
                 Cerrar
             </Button>
             </ModalFooter>

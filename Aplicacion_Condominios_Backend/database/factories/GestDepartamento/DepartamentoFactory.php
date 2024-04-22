@@ -15,11 +15,17 @@ class DepartamentoFactory extends Factory
     {
         // Define el nuevo camino donde se almacenarán las imágenes
         $directory = public_path('departamento/images/departamentos');
-        
+        $ruta = 'departamento/images/departamentos';
         // Asegurarse de que el directorio existe, si no, crearlo
         if (!\File::isDirectory($directory)) {
-            \File::makeDirectory($directory, 0777, true, true);
+            \File::makeDirectory($directory, 0755, true, true);
         }
+        // Generar la imagen y obtener el nombre del archivo
+        $imageName = $this->faker->image($directory, 512, 512, null, false);
+        
+        // Concatenar el path al nombre del archivo para almacenar en la base de datos
+        $imagePath = $imageName ? $ruta . '/' . $imageName : 'departamento/images/departamentos/departamento_pred.jpeg';
+
         return [
             //
             'nombre_departamento' => $this->faker->word,
@@ -30,7 +36,7 @@ class DepartamentoFactory extends Factory
             'amoblado' => $this->faker->boolean(),
             'descripcion_departamento' => $this->faker->sentence(),
             'piso' => $this->faker->numberBetween(1,10),
-            'imagen_departamento' => $this->faker->image($directory, 512, 512, null, false),
+            'imagen_departamento' => $imagePath,
             'edificio_id' => edificio::factory()->create()->id
         ];
     }

@@ -4,9 +4,25 @@
 }
   
 .residente-item {
-    margin-bottom: 1rem;
+    padding: 10px;
     display: flex;
     justify-content: space-between; 
+    cursor: pointer;
+    background-color: rgb(238, 234, 255);
+    box-shadow: ();
+}
+.residente-item:hover {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: rgb(219, 219, 219);
+    box-shadow: ();
+}
+.cardLista{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    padding:0;
+    margin: 0;
 }
   
 .boton-modal {

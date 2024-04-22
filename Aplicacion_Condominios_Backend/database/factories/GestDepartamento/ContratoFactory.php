@@ -19,7 +19,7 @@ class ContratoFactory extends Factory
             'fecha_fin_contrato' => $this->faker->date(),
             'precio_contrato' => $this->faker->randomFloat(2, 1000, 10000),
             'tipo_contrato' => $this->faker->randomElement(['alquiler', 'venta']),
-            'vigente_contrato' => $this->faker->boolean(),
+            'vigente_contrato' => true,
             'departamento_id' => Departamento::all()->random()->id,
             
         ];

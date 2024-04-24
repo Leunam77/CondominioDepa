@@ -9,6 +9,7 @@ use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\AuthController;
+use App\Http\Controllers\Notificaciones\AvisosController;
 use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Models\Mantenimiento\CategoriaServicio;
@@ -78,3 +79,8 @@ Route::controller(TelegramNotificationController::class)->group(function() {
     Route::post('/notifications', 'sendNoticeToMany');
 });
 
+Route::get("/avisos",[AvisosController::class,"index"]);
+Route::post("/avisos",[AvisosController::class,"store"]);
+Route::get("/avisos/{id}",[AvisosController::class,"show"]);
+Route::put("/avisos/{id}",[AvisosController::class,"update"]);
+Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]); 

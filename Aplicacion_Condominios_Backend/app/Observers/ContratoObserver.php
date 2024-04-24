@@ -15,13 +15,17 @@ class ContratoObserver
      */
     public function created(Contrato $contrato)
     {
-        $id_departamento = $contrato->departamento_id;
+        //$id_departamento = $contrato->departamento_id;
         $id_contrato= $contrato->id;
-        $residentes=Residente::where('id_contrato',$id_contrato)->get();
+        $residentes=Residente::where('contrato_id',$id_contrato)->get();
         //verificar si la fecha fin es anterior a la fecha actual
         if($contrato->fecha_fin < now()){
             $contrato->vigente_contrato = 0;
             $contrato->departamento_id = null;
+            foreach($residentes as $residente){
+                $residente->id_contrato = null;
+                $residente->save();
+            }
             $contrato->save();
         }
 

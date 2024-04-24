@@ -3,7 +3,7 @@
 namespace Database\Factories\GestDepartamento;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\GestDepartamento\Contrato;
 class ResidenteFactory extends Factory
 {
     /**
@@ -36,7 +36,7 @@ class ResidenteFactory extends Factory
             'genero_residente' => $this->faker->randomElement(['masculino', 'femenino']),
             'estado_residente' => false, 
             'imagen_residente' => $imagePath,
-            'contrato_id' => null        
+            'contrato_id' => Contrato::all()->random()->id,        
         ];
     }
 }

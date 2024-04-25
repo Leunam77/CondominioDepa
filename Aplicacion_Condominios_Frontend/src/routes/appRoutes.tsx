@@ -162,7 +162,7 @@ const appRoutes: RouteType[] = [
         element: <AgregarEquipo />,
         state: "component.button",
         sidebarProps: {
-          displayText: "Agregar Equipo",
+          displayText: "Agregar equipo dañado",
         },
       },
       {

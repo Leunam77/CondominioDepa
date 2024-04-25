@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardImg, CardBody, CardTitle , Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleRight, faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const endpoint = 'http://localhost:8000/api';
 const endpointImg = 'http://localhost:8000';
@@ -18,6 +18,7 @@ const MostrarDep = () => {
 
     useEffect(() => {
         getAllDepartments();
+        cookies.remove('idDepa');
     }, []);
 
     const getAllDepartments = async () => {
@@ -36,10 +37,14 @@ const MostrarDep = () => {
     }
 
     const handleClickEditar = (idDepa) => {
-        cookies.set('idDepa', idDepa); // Guarda el ID del departamento en una cookie llamada 'idDepa'
-        // Lógica para redirigir a la página de edición
-        window.location.href = '/dashboard/editarDepa'; // Redirige a la página de edición
+        cookies.set('idDepa', idDepa);
+        window.location.href = '/dashboard/editarDepa'; 
       };
+
+    const handleClickInfo = (idDepa) => {
+        cookies.set('idDepa', idDepa);
+        window.location.href = '/dashboard/infoDepartamento';
+    };
     
     const handleBotonSwitch = (idDepa) => {
         setSwitchStates(prevState => ({
@@ -75,6 +80,7 @@ const MostrarDep = () => {
                             <div className="botones">
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
+                                <Button className="botoncard" onClick={() => handleClickInfo(departamento.id)} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
                                 <label className="switch">
                                     <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { setSwitchStates(!switchStates); handleBotonSwitch(departamento.id); }} />
                                     <span className="slider"></span>

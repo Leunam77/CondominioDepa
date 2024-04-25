@@ -66,4 +66,5 @@ Route::controller(ContratoController::class)->group(function(){
     Route::get('/contrato/{id}','show')->name('contrato.show');
     Route::put('/contratoupd/{id}','update')->name('contrato.update');
     Route::delete('/contrato/{id}','destroy')->name('contrato.destroy');
+    Route::get('/contratoDep/{valorDepartamento}', 'buscarContratoPorDepartamento')->name('contrato.buscarContratoPorDepartamento');
 });

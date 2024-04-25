@@ -25,6 +25,7 @@ import EditarDep from "../departamento/components/EditarDep.js"
 import RegistrarResidente from "../departamento/components/CrearResidente"
 import CrearContrato from "../departamento/components/CrearContrato";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
+import InfoDepartamento from "../departamento/components/InfoDepartamento";
 
 const appRoutes: RouteType[] = [
   {
@@ -79,6 +80,11 @@ const appRoutes: RouteType[] = [
       {
         path: "/dashboard/crearContrato",
         element: <CrearContrato />,
+        state: "dashboard.depa",
+      },
+      {
+        path: "/dashboard/infoDepartamento",
+        element: <InfoDepartamento />,
         state: "dashboard.depa",
       },
       {

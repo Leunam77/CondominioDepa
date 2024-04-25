@@ -64,17 +64,33 @@ class ContratoController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\GestDepartamento\Contrato  $contrato
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function buscarContratoPorDepartamento($valorDepartamento)
     {
-        //
-        $contrato = Contrato::find($id);
-        return $contrato;
+        try {
+            // Buscar los primeros dos contratos por el valor en el atributo "departamento"
+            $contratos = Contrato::where('departamento_id', $valorDepartamento)->where('vigente_contrato', true)->take(2)->get();
+    
+            if ($contratos->isEmpty()) {
+                // Si no se encuentran contratos, devolver un mensaje de error
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Contratos no encontrados'
+                ], 404);
+            }
+    
+            // Devolver los contratos encontrados en la respuesta
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contratos encontrados',
+                'contratos' => $contratos
+            ]);
+        } catch (\Exception $e) {
+            // Manejar cualquier error que ocurra durante la búsqueda de contratos
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar los contratos'
+            ], 500);
+        }
     }
     /* public function show(Contrato $contrato)
     {

@@ -44,6 +44,9 @@ class EditarDep extends Component {
             superficie: 0,
             disponibilidad: true,
             amoblado: false,
+            ofertado_venta: false,
+            ofertado_alquiler: false,
+            ofertado_anticretico: false,
             descripcion_departamento: "",
             errors: {},
             bloques: [],
@@ -82,6 +85,9 @@ class EditarDep extends Component {
                 superficie: departamento.superficie,
                 disponibilidad: departamento.disponibilidad === 1 ? true : false,
                 amoblado: departamento.amoblado === 1 ? true : false,
+                ofertado_venta: departamento.ofertado_venta === 1 ? true : false,
+                ofertado_alquiler: departamento.ofertado_alquiler === 1 ? true : false,
+                ofertado_anticretico: departamento.ofertado_anticretico === 1 ? true : false,
                 descripcion_departamento: departamento.descripcion_departamento,
                 pisoSeleccionado: departamento.piso,
                 edificioSeleccionado: departamento.edificio_id,
@@ -238,6 +244,9 @@ class EditarDep extends Component {
             data.append("superficie", this.state.superficie);
             data.append("disponibilidad", this.state.disponibilidad ? '1' : '0');
             data.append("amoblado", this.state.amoblado ? '1' : '0');
+            data.append("ofertado_venta", this.state.ofertado_venta ? '1' : '0');
+            data.append("ofertado_alquiler", this.state.ofertado_alquiler ? '1' : '0');
+            data.append("ofertado_anticretico", this.state.ofertado_anticretico ? '1' : '0');
             data.append("descripcion_departamento", this.state.descripcion_departamento);
             data.append("piso", this.state.pisoSeleccionado);
             if (this.state.nuevaImagen) {
@@ -377,6 +386,58 @@ class EditarDep extends Component {
                                         </Label>
                                     </Col>
                                 </Row>
+
+                                <FormGroup className="mb-4">
+                                    <Row className="mb-4">
+                                    <span>Ofertar cómo:</span>
+                                        <Col sm={6}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Venta
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    id="checkBoxVenta"
+                                                    checked={this.state.ofertado_venta}
+                                                    onChange={() => this.changeChecked('ofertado_venta')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={6}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Alquiler
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    id="checkBoxAlquiler"
+                                                    checked={this.state.ofertado_alquiler}
+                                                    onChange={() => this.changeChecked('ofertado_alquiler')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={6}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Anticretico
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    id="checkBoxAnticretico"
+                                                    checked={this.state.ofertado_anticretico}
+                                                    onChange={() => this.changeChecked('ofertado_anticretico')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                    </Row>
+                                </FormGroup>
+
                                 <FormGroup className="mb-4">
                                     <Label
                                         className="label-custom"

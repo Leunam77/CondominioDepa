@@ -24,6 +24,7 @@ import Depa from "../departamento/components/MostrarDep.js"
 import EditarDep from "../departamento/components/EditarDep.js"
 import RegistrarResidente from "../departamento/components/CrearResidente"
 import CrearContrato from "../departamento/components/CrearContrato";
+import MostrarResidentes from "../departamento/components/MostrarResidentes";
 
 const appRoutes: RouteType[] = [
   {
@@ -55,7 +56,7 @@ const appRoutes: RouteType[] = [
         },
       },
       {
-        path: "/dashboard/depa",
+        path: "/dashboard/departamentos",
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
@@ -81,11 +82,11 @@ const appRoutes: RouteType[] = [
         state: "dashboard.depa",
       },
       {
-        path: "/dashboard/default",
-        element: <DefaultPage />,
-        state: "dashboard.default",
+        path: "/dashboard/residentes",
+        element: <MostrarResidentes />,
+        state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Residentes (Ejemplo)"
+          displayText: "Residentes"
         },
       },
       {

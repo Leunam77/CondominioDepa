@@ -204,7 +204,7 @@ class CrearContrato extends Component {
                         contrato_id: contratoId,
                     });
                 }
-
+                window.location.href = "./departamentos";
         }
     };
 

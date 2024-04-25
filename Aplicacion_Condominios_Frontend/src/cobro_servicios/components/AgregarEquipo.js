@@ -88,7 +88,7 @@ class AgregarEquipo extends Component {
       }
     }
   };
-
+/// probando commit
   render() {
     return (
       <Container className="custom-form">

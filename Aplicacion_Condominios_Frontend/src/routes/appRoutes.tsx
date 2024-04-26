@@ -20,8 +20,11 @@ import EmployePage from "../pages/employes/EmployePage";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
+import Depa from "../departamento/components/MostrarDep.js"
+import EditarDep from "../departamento/components/EditarDep.js"
+import RegistrarResidente from "../departamento/components/CrearResidente"
+import CrearContrato from "../departamento/components/CrearContrato";
 
-import Depa from "../departamento/components/MostrarDep.js";
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
 
@@ -36,12 +39,26 @@ import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
 import EmployeeRegister from "../empleados/pages/employee_register";
 import DashboardEmployee from "../pages/dashboard/DashboardEmployee";
+import ContractRegister from "../empleados/pages/contract_register";
+import AssignContract from "../empleados/pages/assign_contract";
+
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
+import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
+import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
+import { NotificationsList } from "../notificaciones/pages/NotificationsList";
+import NotificationEmail from "../notificaciones/pages/NotificationEmail";
+import PersonalPage from "../mantenimiento/personal/PersonalPage";
+import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
+import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
+import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
+import Changelog from "../pages/changelog/ChangelogPage";
+
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
+import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -61,14 +78,14 @@ const appRoutes: RouteType[] = [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index",
+        state: "dashboard.index"
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento",
+          displayText: "Crear Departamento"
         },
       },
       {
@@ -76,15 +93,33 @@ const appRoutes: RouteType[] = [
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento",
+          displayText: "Gestionar Departamento"
         },
+      },
+      {
+        path: "/dashboard/RegResidente",
+        element: <RegistrarResidente />,
+        state: "dashboard.depa",
+        sidebarProps: {
+          displayText: "Registrar Residente"
+        },
+      },
+      {
+        path: "/dashboard/editarDepa",
+        element: <EditarDep />,
+        state: "dashboard.depa",
+      },
+      {
+        path: "/dashboard/crearContrato",
+        element: <CrearContrato />,
+        state: "dashboard.depa",
       },
       {
         path: "/dashboard/default",
         element: <DefaultPage />,
         state: "dashboard.default",
         sidebarProps: {
-          displayText: "Residentes (Ejemplo)",
+          displayText: "Residentes (Ejemplo)"
         },
       },
       {
@@ -92,18 +127,18 @@ const appRoutes: RouteType[] = [
         element: <AnalyticsPage />,
         state: "dashboard.analytics",
         sidebarProps: {
-          displayText: "Habitaciones",
-        },
+          displayText: "Habitaciones"
+        }
       },
       {
         path: "/dashboard/saas",
         element: <SaasPage />,
         state: "dashboard.saas",
         sidebarProps: {
-          displayText: "Parqueos",
-        },
-      },
-    ],
+          displayText: "Parqueos"
+        }
+      }
+    ]
   },
   {
     path: "/cobros",
@@ -127,7 +162,7 @@ const appRoutes: RouteType[] = [
         element: <AgregarEquipo />,
         state: "component.button",
         sidebarProps: {
-          displayText: "Agregar Equipo",
+          displayText: "Agregar equipo dañado",
         },
       },
       {
@@ -144,7 +179,12 @@ const appRoutes: RouteType[] = [
         state: "cobros.editar-equipo",
         
       },
-      
+      {
+        path: "/cobros/generar-preaviso/:departamento_id",
+        element: <GenerarPreAviso/>,
+        state: "cobros.generar-pre-aviso",
+        
+      },
     ],
   },
   {
@@ -182,12 +222,46 @@ const appRoutes: RouteType[] = [
 
   {
     path: "/changelog",
-    element: <ChangelogPage />,
+    element: <ChangelogPageLayout />,
     state: "changelog",
     sidebarProps: {
       displayText: "Mantenimiento",
       icon: <BuildIcon />,
     },
+    child: [
+      {
+        path: "/changelog/registrar_servicio",
+        element: <Changelog />,
+        state: "changelog.servicio",
+        sidebarProps: {
+          displayText: "Registrar servicio",
+        },
+      },
+      {
+        path: "/changelog/personal",
+        element: <PersonalPage />,
+        state: "changelog.personal",
+        sidebarProps: {
+          displayText: "Personal",
+        },
+      },
+      {
+        path: "/changelog/registro",
+        element: <RegistroServicioPage />,
+        state: "changelog.registro",
+        sidebarProps: {
+          displayText: "Registro",
+        },
+      },
+      {
+        path: "/changelog/solicitud",
+        element: <ListaSolicitudServicioPage />,
+        state: "changelog.solicitud",
+        sidebarProps: {
+          displayText: "Solicitud",
+        },
+      },
+    ],
   },
 
   {
@@ -198,6 +272,37 @@ const appRoutes: RouteType[] = [
       displayText: "Notificaciones",
       icon: <NotificationsActiveIcon />,
     },
+    child:[
+      {
+        path: "/notifications/registrar",
+        element: <RegistrarPersona />,
+        state: "usuario.registrar",
+        sidebarProps: {
+          displayText: "Registro Persona",
+        },
+      },
+      {
+        path: "/notifications/list",
+        element: <NotificationsList />,
+        state: "notificacion.lista",
+        sidebarProps: {
+          displayText: "Lista de Notificaciones",
+        },
+      },
+      {
+        path: "/notifications/email",
+        element: <NotificationEmail />,
+        state: "notificacion.email",
+        sidebarProps: {
+          displayText: "Enviar email",
+        },
+      },
+      {
+        path: "/notifications/send/telegram",
+        element: <SendTelegramNotification />,
+        state: "telegram.enviar",
+      },
+    ]
   },
 
   {
@@ -232,10 +337,26 @@ const appRoutes: RouteType[] = [
       },
 
       {
+        path: "/employees/assignContract",
+        element: <AssignContract />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Asignar contrato",
+        },
+      },
+
+      {
         path: "/employees/employeeEdit",
         element: <EmployeeEdit />,
         state: "employee.analytics",
       },
+
+      {
+        path: "/employees/contractRegister",
+        element: <ContractRegister />,
+        state: "employee.analytics",
+      },
+
     ],
   },
 ];

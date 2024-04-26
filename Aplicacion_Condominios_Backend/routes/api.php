@@ -71,10 +71,6 @@ Route::apiResource('/areas-comunes', CommonAreaController::class);
 Route::controller(EquipamientosController::class)->group(function(){
     Route::post('/agregarEquipo', [EquipamientosController::class, 'store']);
     Route::get('/obtenerAreasComunes', [EquipamientosController::class, 'getAllCommonAreas']);
-    Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
-    Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
-    Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
-    Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
 });
 
 
@@ -82,3 +78,8 @@ Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
 });
 
+Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
+
+Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
+    Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
+    Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);

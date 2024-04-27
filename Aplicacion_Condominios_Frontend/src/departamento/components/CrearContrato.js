@@ -45,6 +45,7 @@ class CrearContrato extends Component {
             residentesSeleccionados: [],
             mostrarModal: false,
             modalOpen: false,
+            fecha_fin_contrato_disabled: false,
         };
     };
 
@@ -83,8 +84,14 @@ class CrearContrato extends Component {
 
 
     handleInput = (e) => {
+        let fecha_fin_contrato_disabled = false;
+
+        if (e.target.name === 'tipo_contrato') {
+            fecha_fin_contrato_disabled = e.target.value === 'Venta'; // Desactivar fecha fin del contrato si se selecciona "Venta"
+        }
         this.setState({
             [e.target.name]: e.target.value,
+            fecha_fin_contrato_disabled,
         });
     };
 
@@ -175,27 +182,35 @@ class CrearContrato extends Component {
             data.append("vigente_contrato", this.state.vigente_contrato ? '1' : '0');
             data.append("departamento_id", this.state.departamento_id);
 
-            console.log(this.state.fecha_inicio_contrato);
-            console.log(this.state.fecha_fin_contrato);
-            console.log(this.state.precio_contrato);
-            console.log(this.state.tipo_contrato);
-            console.log(this.state.vigente_contrato);
-            console.log(this.state.departamento_id);
 
-            axios.post(url, data).then((res) => {
-                console.log(res);
-
-            });
-            await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
-                disponibilidad: 0,
-            });
-            cookies.remove('idDepa');
-            window.location.href = "./depa";
+            const res = await axios.post(url, data);
+            const contratoId = res.data.contrato_id;
+                console.log(Object.keys(res.data));
+                console.log("id del contrato creado",contratoId);
+        
+                // Actualizar disponibilidad del departamento
+                await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
+                    disponibilidad: 0,
+                });
+                cookies.remove('idDepa');
+        
+                // Recorrer el arreglo de usuarios y actualizar el contrato
+                const residentes = this.state.residentesSeleccionados;
+                console.log("lista de residentes",residentes);
+                for (const residente of residentes) {
+                    const idResidente = residente.id; // Suponiendo que el usuario tiene un campo 'id'
+                    console.log("id del residente",idResidente);
+                    await axios.put(`${endpoint}/residentes/${idResidente}/actualizarContrato`, {
+                        contrato_id: contratoId,
+                    });
+                }
+                window.location.href = "./departamentos";
         }
     };
 
     render() {
         const { residentesSeleccionados } = this.state;
+        const { fecha_fin_contrato_disabled } = this.state;
         return (
             <>
                 <ModalConfirm
@@ -209,45 +224,6 @@ class CrearContrato extends Component {
                         <Col sm={12}>
                             <h2 className="text-center mb-5 titulosForms">Crear contrato</h2>
                             <form onSubmit={this.storeResident}>
-                                <FormGroup className="mb-4">
-                                    <Row>
-                                        <Col sm={6}>
-                                            <Label
-                                                className="label-custom"
-                                            >
-                                                Inicio del contrato
-                                            </Label>
-                                            <Input
-                                                id="inputRegistro"
-                                                className="customInput"
-                                                type="date"
-                                                name="fecha_inicio_contrato"
-                                                onChange={this.handleInput}
-                                                invalid={this.state.errors.fecha_inicio_contrato ? true : false}
-
-                                            />
-                                            <FormFeedback>{this.state.errors.fecha_inicio_contrato}</FormFeedback>
-                                        </Col>
-                                        <Col sm={6}>
-                                            <Label
-                                                className="label-custom"
-                                            >
-                                                Fin del contrato
-                                            </Label>
-                                            <Input
-                                                id="inputRegistro"
-                                                className="customInput"
-                                                type="date"
-                                                name="fecha_fin_contrato"
-                                                onChange={this.handleInput}
-                                                invalid={this.state.errors.fecha_fin_contrato ? true : false}
-                                            />
-                                            <FormFeedback>{this.state.errors.fecha_fin_contrato}</FormFeedback>
-                                        </Col>
-                                    </Row>
-
-                                </FormGroup >
-
                                 <FormGroup className="mb-4">
                                     <Row>
                                         <Col sm={6}>
@@ -293,6 +269,45 @@ class CrearContrato extends Component {
                                         </Col>
                                     </Row>
                                 </FormGroup>
+                                <FormGroup className="mb-4">
+                                    <Row>
+                                        <Col sm={6}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Inicio del contrato
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                className="customInput"
+                                                type="date"
+                                                name="fecha_inicio_contrato"
+                                                onChange={this.handleInput}
+                                                invalid={this.state.errors.fecha_inicio_contrato ? true : false}
+
+                                            />
+                                            <FormFeedback>{this.state.errors.fecha_inicio_contrato}</FormFeedback>
+                                        </Col>
+                                        <Col sm={6}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Fin del contrato
+                                            </Label>
+                                            <Input
+                                                id="inputRegistro"
+                                                className="customInput"
+                                                type="date"
+                                                name="fecha_fin_contrato"
+                                                onChange={this.handleInput}
+                                                invalid={this.state.errors.fecha_fin_contrato ? true : false}
+                                                disabled={fecha_fin_contrato_disabled}
+                                            />
+                                            <FormFeedback>{this.state.errors.fecha_fin_contrato}</FormFeedback>
+                                        </Col>
+                                    </Row>
+
+                                </FormGroup >
 
                                 <Label className="label-custom">Residentes</Label>
                                 <ul>

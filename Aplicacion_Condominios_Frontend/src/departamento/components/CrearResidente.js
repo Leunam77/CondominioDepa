@@ -25,7 +25,7 @@ class CrearResidente extends Component {
             cedula_residente: "",
             telefono_residente: 0,
             fecha_nacimiento_residente: "",
-            tipo_residente: "Residente",
+            tipo_residente: "ninguno",
             nacionalidad_residente: "",
             email_residente: "",
             genero_residente: "",
@@ -189,7 +189,7 @@ class CrearResidente extends Component {
 
             axios.post(url, data).then((res) => {
                 console.log(res);
-                window.location.href = "./depa";
+                window.location.href = "./departamentos";
             });
 
         }

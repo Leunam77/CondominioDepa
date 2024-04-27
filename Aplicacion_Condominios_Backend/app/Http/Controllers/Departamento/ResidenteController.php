@@ -214,6 +214,18 @@ class ResidenteController extends Controller
             'message' => 'Residente eliminado exitosamente'
         ]);
     }
+
+    public function actualizarContrato(Request $request, $id)
+    {
+        $residente = Residente::findOrFail($id);
+
+        // Actualiza el atributo específico
+        $residente->contrato_id = $request->input('contrato_id');
+        $residente->save();
+
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+    }
+
     public function import(Request $request){
         $file = $request->file('file');
         //leer el archivo csv
@@ -277,4 +289,82 @@ class ResidenteController extends Controller
             'message' => 'Residentes importados exitosamente'
         ]);
     }
+    
+    public function getResidentesByContrato($id)
+    {
+        $residentes = Residente::where('contrato_id', $id)->get();
+        return $residentes;
+    }
+
+    public function getPropietariosByContrato($valorContrato)
+    {
+        try {
+            $residente = Residente::where('contrato_id', $valorContrato)->where('tipo_residente', "Propietario")->first();
+            if ($residente === null) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No tiene propietario'
+                ], 404);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Propietario encontrado',
+                'residente' => $residente
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar los propietario'
+            ], 500);
+        }
+    }
+
+    public function getTitularByContrato($valorContrato)
+    {
+        try {
+            $residente = Residente::where('contrato_id', $valorContrato)->where('tipo_residente', "Titular")->first();
+            if ($residente === null) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No tiene titular'
+                ], 404);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Titular encontrado',
+                'residente' => $residente
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar los titulares'
+            ], 500);
+        }
+    }
+    public function notificacionesGenerales()
+    {
+        try {
+            $residentes = Residente::where('tipo_residente', 'Propietario')
+                ->orWhere('tipo_residente', 'Titular')
+                ->get();
+    
+            if ($residentes->isEmpty()) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No se encontraron residentes con tipo "Propietario" o "Titular"'
+                ], 404);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Residentes encontrados',
+                'residentes' => $residentes
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar residentes'
+            ], 500);
+        }
+    }
+
 }

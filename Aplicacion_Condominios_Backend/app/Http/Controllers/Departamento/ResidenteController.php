@@ -309,7 +309,7 @@ class ResidenteController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Propietario encontrado',
-                'contratos' => $residente
+                'residente' => $residente
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -332,7 +332,7 @@ class ResidenteController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Titular encontrado',
-                'contratos' => $residente
+                'residente' => $residente
             ]);
         } catch (\Exception $e) {
             return response()->json([

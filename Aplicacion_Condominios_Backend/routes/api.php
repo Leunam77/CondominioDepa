@@ -30,6 +30,8 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::get('/departamento/{id}','show')->name('departamento.show');
     Route::post('/departamentoupd/{id}','update')->name('departamento.update');
     Route::delete('/departamento/{id}','destroy')->name('departamento.destroy');
+    //ruta para mantenimiento
+    Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -46,7 +48,7 @@ Route::controller(EdificioController::class)->group(function(){
     Route::get('/edificio/{id}','show')->name('edificio.show');
     Route::post('/edificioupd/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
-    Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificios.bybloques');
+    Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificio.getEdificiosByBloques');
 });
 Route::controller(ResidenteController::class)->group(function(){
     Route::get('/residentes','index')->name('residente.index');
@@ -59,6 +61,14 @@ Route::controller(ResidenteController::class)->group(function(){
     Route::put('/residenteupd/{id}','update')->name('residente.update');
     Route::delete('/residente/{id}','destroy')->name('residente.destroy');
     Route::post('/residente-csv','import')->name('residente.import');
+    //obtener residentes de un contrato
+    Route::get('/residentes-by-contrato/{id}', 'getResidentesByContrato')->name('residente.getResidentesByContrato');
+    //obtener propietario de un contrato
+    Route::get('/propietario-by-contrato/{id}', 'getPropietariosByContrato')->name('residente.getPropietariosByContrato');
+    //obtener titulares de un contrato
+    Route::get('/titular-by-contrato/{id}', 'getTitularByContrato')->name('residente.getTitularByContrato');
+    //obtener titulares y propietarios para notificaciones generales
+    Route::get('/notificacion-general', 'notificacionesGenerales')->name('residente.notificacionesGenerales');
 });
 Route::controller(ContratoController::class)->group(function(){
     Route::get('/contratos','index')->name('contrato.index');

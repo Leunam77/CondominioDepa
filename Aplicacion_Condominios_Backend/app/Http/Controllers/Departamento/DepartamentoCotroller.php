@@ -110,4 +110,11 @@ class DepartamentoCotroller extends Controller
 
         return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
     }
+
+    //funcion para mantenimiento
+    public function getDepartamentosByEdificios($id)
+    {
+        $departamentos = departamento::where('edificio_id', $id)->get();
+        return $departamentos;
+    } 
 }

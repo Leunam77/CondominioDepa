@@ -21,7 +21,7 @@ const MostrarDep = () => {
         cookies.remove('idDepa');
     }, []);
 
-    const getAllDepartments = async () => {
+    /* const getAllDepartments = async () => {
         const response = await axios.get(`${endpoint}/departamentos`);
         setDepartamentos(response.data);
         const initialSwitchStates = {};
@@ -29,7 +29,34 @@ const MostrarDep = () => {
             initialSwitchStates[departamento.id]  = departamento.disponibilidad;
         });
         setSwitchStates(initialSwitchStates);
+    } */
+
+    const getAllDepartments = async () => {
+        try {
+            const response = await axios.get(`${endpoint}/departamentos`);
+            const departamentos = response.data;
+            // Guardar la lista de departamentos
+            setDepartamentos(departamentos);
+            const initialSwitchStates = {};
+            // Iterar sobre cada departamento
+            for (const departamento of departamentos) {
+                // Guardar el estado de disponibilidad de cada departamento
+                initialSwitchStates[departamento.id] = departamento.disponibilidad;
+    
+                // Obtener los contratos asociados a este departamento
+                const contratosResponse = await axios.get(`${endpoint}/contratoDep/${departamento.id}`);
+                
+                // Guardar los contratos asociados a este departamento
+                departamento.contratos = contratosResponse.data;
+            }
+            // Guardar el estado de los interruptores y la lista de departamentos actualizada
+            setSwitchStates(initialSwitchStates);
+            setDepartamentos(departamentos);
+        } catch (error) {
+            console.error("Error al obtener departamentos:", error);
+        }
     }
+    
 
     const deleteDepartment = async (id) => {
         await axios.delete(`${endpoint}/departamento/${id}`);

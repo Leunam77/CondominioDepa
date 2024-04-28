@@ -173,3 +173,20 @@ input[type="date"].customInput{
 	height: 200px;
 	object-fit: cover;
 }
+.labelResidente.form-label{
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+.labelResidenteDep.form-label {
+	font-size: 0.8rem;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+.labelResidenteTel.form-label {
+	font-size: 0.8rem;
+	font-weight: bold;
+	margin-top: 0.5rem;
+}
+.cardRes{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

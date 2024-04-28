@@ -4,7 +4,7 @@ import './customs.css';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, CardImg, CardBody, CardTitle, Row, Col, Container, Label, CardText } from 'reactstrap';
+import { Card, CardImg, CardBody, Row, Col, Container, Label, CardText, Input, InputGroup, InputGroupText, Button } from 'reactstrap';
 
 
 const endpoint = 'http://localhost:8000/api';
@@ -16,6 +16,7 @@ const MostrarResidentes = () => {
     const [departamentos, setDepartamentos] = useState({});
     const [edificios, setEdificios] = useState({});
     const [bloques, setBloques] = useState({});
+    const [busqueda, setBusqueda] = useState('');
 
     useEffect(() => {
         getAllData();
@@ -57,21 +58,39 @@ const MostrarResidentes = () => {
             console.error('Error al obtener los datos:', error);
         }
     };
+    const manejarCambio = (e) => {
+        setBusqueda(e.target.value);
+    }
 
     return (
         <>
             <Container>
                 <Row >
                     <Label className="text-center mb-4 titulosForms">Residentes</Label>
-                    {residentes.map((residente) => {
+                    <InputGroup className="mb-4">
+                        <Input placeholder="Buscar residente..." onChange={manejarCambio}
+                            style={{
+                                borderRadius: "15px",
+                                border: "1px solid rgba(0, 0, 0, 0.3)",
+                                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+                            }}
+                        />
+                    </InputGroup>
+                    {residentes.filter(residente => {
+                        if (busqueda === "") {
+                            return residente;
+                        } else if (residente.nombre_residente.toLowerCase().includes(busqueda.toLowerCase()) || residente.apellidos_residente.toLowerCase().includes(busqueda.toLowerCase()) || residente.cedula_residente.toLowerCase().includes(busqueda.toLowerCase())) {
+                            return residente;
+                        }
+                    }).map((residente) => {
                         const contrato = contratos[residente.contrato_id];
                         const departamento = departamentos[contrato.departamento_id];
                         const edificio = edificios[departamento.edificio_id];
                         const bloque = bloques[edificio.bloque_id];
 
                         return (
-                            <Col sm={2} key={residente.id}>
-                                <Card >
+                            <Col sm={12} md={6} lg={4} xl={3} key={residente.id}>
+                                <Card className="mt-3 mb-3 cardRes">
                                     <CardImg
                                         className="cardImgResidente"
                                         alt="Card image cap"
@@ -80,13 +99,23 @@ const MostrarResidentes = () => {
                                     />
                                     <CardBody>
                                         <CardText>
-                                            <Label>{residente.nombre_residente} {residente.apellidos_residente}</Label>
-                                            <Label> DNI: {residente.cedula_residente}</Label>
-                                            <Label> Bloque: {bloque?.nombre_bloque || 'Ninguno'}</Label>
-                                            <Label> Edificio: {edificio?.nombre_edificio || 'Ninguno'}</Label>
-                                            <Label> Departamento: {departamento?.nombre_departamento || 'Ninguno'}</Label>
-                                            <Label> Celular: {residente.telefono_residente}</Label>
-                                            <Label> Tipo de residente: {residente.tipo_residente}</Label>
+                                            <Row>
+                                                <Col sm={12} md={6} lg={6}>
+                                                    <Label className="labelResidente">{residente.nombre_residente} {residente.apellidos_residente}</Label>
+
+                                                </Col>
+                                                <Col sm={12} md={6} lg={6}>
+                                                    <Label className="labelResidente"> DNI: {residente.cedula_residente}</Label>
+
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Label className="labelResidenteDep"> {bloque?.nombre_bloque || 'Ninguno'}</Label>
+                                                <Label className="labelResidenteDep"> Edificio: {edificio?.nombre_edificio || 'Ninguno'}</Label>
+                                                <Label className="labelResidenteDep"> Departamento: {departamento?.nombre_departamento || 'Ninguno'}</Label>
+                                                <Label className="labelResidenteTel"> Celular: {residente.telefono_residente}</Label>
+                                                <Label className="labelResidente"> Tipo: {residente.tipo_residente}</Label>
+                                            </Row>
                                         </CardText>
                                     </CardBody>
                                 </Card>

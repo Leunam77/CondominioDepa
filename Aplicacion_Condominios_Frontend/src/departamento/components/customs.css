@@ -48,7 +48,7 @@ ul {
 }
 @media (max-width: 2560px) {
 	.custom-form {
-		width: 40vw;
+		width: 50vw;
 	}
 }
 @media (max-width: 1920px) {
@@ -58,7 +58,7 @@ ul {
 }
 @media (max-width: 1366px) {
 	.custom-form {
-		width: 65vw;
+		width: 60vw;
 	}
 }
 /* Para pantallas con una resolución de 480px o menos */

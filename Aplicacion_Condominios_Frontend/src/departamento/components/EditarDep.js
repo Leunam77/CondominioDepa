@@ -169,7 +169,7 @@ class EditarDep extends Component {
         if (!this.state.nombre_departamento.trim()) {
             validationErrors.nombre_departamento = "Este campo es obligatorio";
         } else if (
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú]$/.test(
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(
                 this.state.nombre_departamento
             )
         ) {
@@ -350,7 +350,7 @@ class EditarDep extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Superficie
+                                                Superficie(m²)
                                             </Label>
                                             <Input
                                                 id="inputRegistro"

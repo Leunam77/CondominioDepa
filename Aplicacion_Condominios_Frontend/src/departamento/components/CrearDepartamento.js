@@ -322,7 +322,7 @@ class CrearDepartamento extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Superficie
+                                                Superficie(m²)
                                             </Label>
                                             <Input
                                                 id="inputRegistro"

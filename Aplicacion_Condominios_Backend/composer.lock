@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c61ff82cbf0142a401a48a8161e1595a",
+    "content-hash": "e06d56cc0cdeacc95f98257ba9215cfd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3003,6 +3003,111 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "skrtdev/async",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/skrtdev/php-async.git",
+                "reference": "b5e3f58b0be1c351db2049519750f29b7a143a7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/skrtdev/php-async/zipball/b5e3f58b0be1c351db2049519750f29b7a143a7b",
+                "reference": "b5e3f58b0be1c351db2049519750f29b7a143a7b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/range.php",
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "skrtdev\\async\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gaetano Sutera",
+                    "email": "gaetanosutera@yahoo.it",
+                    "role": "Developer"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/skrtdev/php-async/issues",
+                "source": "https://github.com/skrtdev/php-async/tree/v1.1.1"
+            },
+            "time": "2021-05-12T08:55:24+00:00"
+        },
+        {
+            "name": "skrtdev/novagram",
+            "version": "v1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/skrtdev/NovaGram.git",
+                "reference": "44b340b0fb00492d4b85c7c4b2f43720ea1b902b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/skrtdev/NovaGram/zipball/44b340b0fb00492d4b85c7c4b2f43720ea1b902b",
+                "reference": "44b340b0fb00492d4b85c7c4b2f43720ea1b902b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "monolog/monolog": "^2.1",
+                "php": ">=7.4",
+                "skrtdev/async": "^1.0",
+                "symfony/polyfill-php80": "^1.22"
+            },
+            "suggest": {
+                "ext-mbstring": "Needed to use the built-in Telegram Entites Parser",
+                "ext-pcntl": "Needed to process updates with multi-processing",
+                "ext-pdo": "Needed to use the built-in Database"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/NovaGram/helpers.php"
+                ],
+                "psr-4": {
+                    "skrtdev\\": "src/",
+                    "skrtdev\\Telegram\\": [
+                        "src/Telegram/Types",
+                        "src/Telegram/Exceptions"
+                    ]
+                },
+                "classmap": [
+                    "src/bc"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gaetano Sutera",
+                    "email": "gaetanosutera@yahoo.it",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An Object-Oriented PHP Library for Telegram Bots",
+            "support": {
+                "issues": "https://github.com/skrtdev/NovaGram/issues",
+                "source": "https://github.com/skrtdev/NovaGram/tree/v1.10"
+            },
+            "time": "2021-05-05T16:02:13+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

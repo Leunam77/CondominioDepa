@@ -261,7 +261,7 @@ class EditarDep extends Component {
 
             await axios.post(`${endpoint}/departamentoupd/${idDep}`, data);
             cookies.remove('idDepa');
-            window.location.href = "./depa";
+            window.location.href = "./departamentos";
 
 
         }

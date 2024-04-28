@@ -21,11 +21,18 @@ class CrearContrato extends Component {
     async componentDidMount() {
         const idDep = cookies.get('idDepa');
         this.setState({ departamento_id: idDep });
-        console.log(idDep);
+        console.log("id dep",idDep);
 
         try {
             const response = await axios.post(`${endpoint}/residentes/actualizar-estado-contrato`);
-            console.log(response.data);
+            const departamento = await axios.get(`${endpoint}/departamento/${idDep}`);
+            const depa = departamento.data
+            this.setState({
+                departamento_id: idDep,
+                ofertado_venta: depa.ofertado_venta === 1 ? true : false,
+                ofertado_alquiler: depa.ofertado_alquiler === 1 ? true : false,
+                ofertado_anticretico: depa.ofertado_anticretico === 1 ? true : false,
+             })
 
         } catch (error) {
             console.error('Error al obtener los bloques:', error);
@@ -46,6 +53,9 @@ class CrearContrato extends Component {
             mostrarModal: false,
             modalOpen: false,
             fecha_fin_contrato_disabled: false,
+            ofertado_venta: false,
+            ofertado_alquiler: false,
+            ofertado_anticretico: false,
         };
     };
 
@@ -60,7 +70,6 @@ class CrearContrato extends Component {
         }));
     }
     handleConfirm = (e) => {
-        console.log('Usuario confirmó la acción');
         this.storeResident(e);
         this.toggleModalConfirm();
     }
@@ -74,7 +83,6 @@ class CrearContrato extends Component {
             const response = await axios.put(`${endpoint}/residentes/${idRes}/actualizarEst`, {
                 estado_residente: 1,
             });
-            console.log(response.data);
         } catch (error) {
             console.error('Error al actualizar el atributo:', error);
             // Manejar el error según sea necesario
@@ -90,11 +98,28 @@ class CrearContrato extends Component {
                 [e.target.name]: e.target.value,
                 fecha_fin_contrato_disabled: isVenta,
             });
-        } else {
+        } 
+        else if (e.target.name === 'fecha_fin_contrato' && e.target.value.trim() === '') {
+            this.setState({
+                [e.target.name]: null,
+            });
+        }else {
             this.setState({
                 [e.target.name]: e.target.value,
             });
         }
+    };
+
+    handleInputTipo = (e, index) => {
+        const { name, value } = e.target;
+        const updatedResidentes = [...this.state.residentesSeleccionados];
+        updatedResidentes[index].tipo_residente = value;
+        console.log("tipo residente", updatedResidentes[index].tipo_residente);
+    
+        this.setState({
+            residentesSeleccionados: updatedResidentes,
+        });
+        console.log("residentes supuestamente actualizados", this.state.residentesSeleccionados);
     };
 
     eliminarListaResidente = async (idResidente) => {
@@ -102,7 +127,6 @@ class CrearContrato extends Component {
             const response = await axios.put(`${endpoint}/residentes/${idResidente}/actualizarEst`, {
                 estado_residente: 0,
             });
-            console.log(response.data);
         } catch (error) {
             console.error('Error al actualizar el atributo:', error);
             // Manejar el error según sea necesario
@@ -167,7 +191,7 @@ class CrearContrato extends Component {
         if (this.state.residentesSeleccionados.length === 0) {
             validationErrors.residentesSeleccionados = "Debe seleccionar al menos un residente";
         }
-        console.log(validationErrors);
+        //console.log(validationErrors);
 
         this.setState({ errors: validationErrors });
 
@@ -175,7 +199,6 @@ class CrearContrato extends Component {
             const idDep = cookies.get('idDepa');
             const url = `${endpoint}/contrato`;
             const data = new FormData();
-            console.log("se guarda el id?", idDep);
 
             data.append("fecha_inicio_contrato", this.state.fecha_inicio_contrato);
             data.append("fecha_fin_contrato", this.state.fecha_fin_contrato);
@@ -184,11 +207,8 @@ class CrearContrato extends Component {
             data.append("vigente_contrato", this.state.vigente_contrato ? '1' : '0');
             data.append("departamento_id", this.state.departamento_id);
 
-
             const res = await axios.post(url, data);
             const contratoId = res.data.contrato_id;
-                console.log(Object.keys(res.data));
-                console.log("id del contrato creado",contratoId);
         
                 // Actualizar disponibilidad del departamento
                 await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
@@ -198,12 +218,16 @@ class CrearContrato extends Component {
         
                 // Recorrer el arreglo de usuarios y actualizar el contrato
                 const residentes = this.state.residentesSeleccionados;
+                
                 console.log("lista de residentes",residentes);
                 for (const residente of residentes) {
                     const idResidente = residente.id; // Suponiendo que el usuario tiene un campo 'id'
+                    const tipoResidente = residente.tipo_residente;
                     console.log("id del residente",idResidente);
+                    console.log("tipo de residente",tipoResidente);
                     await axios.put(`${endpoint}/residentes/${idResidente}/actualizarContrato`, {
                         contrato_id: contratoId,
+                        tipo_residente: tipoResidente,
                     });
                 }
                 window.location.href = "./departamentos";
@@ -261,9 +285,9 @@ class CrearContrato extends Component {
                                                 invalid={this.state.errors.tipo_contrato ? true : false}
                                             >
                                                 <option disabled selected>{" "} Seleccione un tipo de contrato</option>
-                                                <option value="Venta">Venta</option>
-                                                <option value="Alquiler">Alquiler</option>
-                                                <option value="Anticretico">Anticretico</option>
+                                                {this.state.ofertado_venta && <option value="Venta">Venta</option>}
+                                                {this.state.ofertado_alquiler && <option value="Alquiler">Alquiler</option>}
+                                                {this.state.ofertado_anticretico && <option value="Anticretico">Anticretico</option>}
 
                                             </Input>
                                             <FormFeedback>{this.state.errors.tipo_contrato}</FormFeedback>
@@ -314,9 +338,7 @@ class CrearContrato extends Component {
                                 <Label className="label-custom">Residentes</Label>
                                 <ul>
                                     {residentesSeleccionados.map((residente, index) => (
-
-                                        <Row className="d-flex align-items-center customCard">
-
+                                        <Row className="d-flex align-items-center customCard" key={index}>
                                             <Col sm={3} >
                                                 <CardImg
                                                     style={{ maxWidth: '64px', maxHeight: '64px', margin: '10px', borderRadius: '10px'}}
@@ -325,7 +347,7 @@ class CrearContrato extends Component {
                                                 />
                                             </Col>
                                             <Col sm={3} >
-                                                <li style={{ fontWeight: 'bold', fontSize: '0.9rem'}} key={index}>{residente.nombre_residente} {residente.apellidos_residente}
+                                                <li style={{ fontWeight: 'bold', fontSize: '0.9rem'}}>{residente.nombre_residente} {residente.apellidos_residente}
                                                 </li>
                                             </Col>
                                             <Col sm={3}>
@@ -334,11 +356,13 @@ class CrearContrato extends Component {
                                                     className="customInput"
                                                     name="tipo_residente"
                                                     id="tipo_residente"
-                                                    onChange={this.handleInput}
-                                                >
-                                                    <option value="Residente">Residente</option>
-                                                    <option value="Propietario">Propietario</option>
 
+                                                    onChange={(e) => this.handleInputTipo(e, index)}
+                                                >
+                                                    <option disabled selected>{" "} Seleccione un tipo de residente</option>
+                                                    {this.state.tipo_contrato === "Venta" && <option value="Propietario">Propietario</option>}
+                                                    {(this.state.tipo_contrato === "Alquiler" || this.state.tipo_contrato === "Anticretico") && <option value="Titular">Titular</option>}
+                                                    <option value="Residente">Residente</option>
                                                 </Input>
                                             </Col>
                                             <Col sm={3}>

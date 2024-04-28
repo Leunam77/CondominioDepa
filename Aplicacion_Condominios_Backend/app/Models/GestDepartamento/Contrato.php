@@ -25,4 +25,8 @@ class Contrato extends Model
     {
         return $this->belongsTo(departamento::class);
     }
+    public function residentes()
+    {
+        return $this->hasMany(Residente::class, 'id');
+    }
 }

@@ -236,7 +236,7 @@ class CrearDepartamento extends Component {
 
             axios.post(url, data).then((res) => {
                 console.log(res);
-                window.location.href = "./depa";
+                window.location.href = "./departamentos";
             });
 
         }

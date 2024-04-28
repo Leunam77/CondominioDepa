@@ -83,11 +83,15 @@ const MostrarResidentes = () => {
                             return residente;
                         }
                     }).map((residente) => {
-                        const contrato = contratos[residente.contrato_id];
-                        const departamento = departamentos[contrato.departamento_id];
-                        const edificio = edificios[departamento.edificio_id];
-                        const bloque = bloques[edificio.bloque_id];
-
+                            let contrato = contratos[residente.contrato_id];
+                            let departamento = "Niguno";
+                            let edificio = "Niguno";
+                            let bloque = "Niguno";
+                        if(typeof contrato !== 'undefined'){
+                            departamento = departamentos[contrato.departamento_id];
+                            edificio = edificios[departamento.edificio_id];
+                            bloque = bloques[edificio.bloque_id];
+                        }
                         return (
                             <Col sm={12} md={6} lg={4} xl={3} key={residente.id}>
                                 <Card className="mt-3 mb-3 cardRes">

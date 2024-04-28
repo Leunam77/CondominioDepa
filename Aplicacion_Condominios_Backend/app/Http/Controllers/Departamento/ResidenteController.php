@@ -221,6 +221,7 @@ class ResidenteController extends Controller
 
         // Actualiza el atributo específico
         $residente->contrato_id = $request->input('contrato_id');
+        $residente->tipo_residente = $request->input('tipo_residente');
         $residente->save();
 
         return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
@@ -365,6 +366,14 @@ class ResidenteController extends Controller
                 'message' => 'Error al buscar residentes'
             ], 500);
         }
+    }
+    public function getResidenteByDepartamento($id)
+    {
+        $residente = Residente::whereHas('contrato', function ($query) use ($id) {
+            $query->where('id', $id);
+        })->get()->first(); 
+        
+	return $residente;
     }
 
 }

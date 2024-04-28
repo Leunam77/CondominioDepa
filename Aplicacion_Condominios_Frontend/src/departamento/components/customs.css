@@ -48,7 +48,7 @@ ul {
 }
 @media (max-width: 2560px) {
 	.custom-form {
-		width: 35vw;
+		width: 40vw;
 	}
 }
 @media (max-width: 1920px) {
@@ -58,7 +58,7 @@ ul {
 }
 @media (max-width: 1366px) {
 	.custom-form {
-		width: 60vw;
+		width: 65vw;
 	}
 }
 /* Para pantallas con una resolución de 480px o menos */
@@ -69,6 +69,12 @@ ul {
 }
 
 .label-custom{
+	font-weight: bold !important;
+	margin-bottom: 0 !important;
+	font-size: 0.8rem !important;
+}
+.label-custom.active {
+	color: gray !important;
 	font-weight: bold !important;
 	margin-bottom: 0 !important;
 	font-size: 0.8rem !important;
@@ -154,4 +160,11 @@ input[type="date"].customInput{
 }
 .roundedImage {
 	border-radius: 20px;
+}
+.customCheckbox.form-check-input {
+	font-size: 1rem;
+	margin-top: 0;
+	border: 1px solid rgb(63, 63, 63);
+	margin-left: 6px;
+	box-shadow: none;
 }

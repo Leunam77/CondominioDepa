@@ -378,6 +378,7 @@ class EditarDep extends Component {
                                             Amoblado{' '}
                                             <Input
                                                 type="checkbox"
+                                                className="customCheckbox"
                                                 id="checkBoxAmoblado"
                                                 checked={this.state.amoblado}
                                                 onChange={() => this.changeChecked('amoblado')}
@@ -388,48 +389,60 @@ class EditarDep extends Component {
                                 </Row>
 
                                 <FormGroup className="mb-4">
-                                    <Row className="mb-4">
-                                    <span>Ofertar cómo:</span>
-                                        <Col sm={6}>
+                                    <Label
+                                        className="label-custom"
+
+                                    >
+                                        Ofertar como:
+
+                                    </Label>
+                                    <Row className="mb-4 mt-2">
+                                        <Col sm={4}>
                                             <Label
                                                 check
-                                                className="label-custom"
+                                                className={`label-custom ${this.state.ofertado_alquiler || this.state.ofertado_anticretico ? 'active' : ''}`}
                                             >   
                                                 Venta
                                                 {' '}
                                                 <Input
                                                     type="checkbox"
+                                                    className="customCheckbox"
                                                     id="checkBoxVenta"
+                                                    disabled={this.state.ofertado_alquiler || this.state.ofertado_anticretico}
                                                     checked={this.state.ofertado_venta}
                                                     onChange={() => this.changeChecked('ofertado_venta')}
                                                 />
                                             </Label>
                                         </Col>
-                                        <Col sm={6}>
+                                        <Col sm={4}>
                                             <Label
                                                 check
-                                                className="label-custom"
+                                                className={`label-custom ${this.state.ofertado_venta || this.state.ofertado_anticretico ? 'active' : ''}`}
                                             >   
                                                 Alquiler
                                                 {' '}
                                                 <Input
                                                     type="checkbox"
+                                                    className="customCheckbox"
                                                     id="checkBoxAlquiler"
+                                                    disabled={this.state.ofertado_venta || this.state.ofertado_anticretico}
                                                     checked={this.state.ofertado_alquiler}
                                                     onChange={() => this.changeChecked('ofertado_alquiler')}
                                                 />
                                             </Label>
                                         </Col>
-                                        <Col sm={6}>
+                                        <Col sm={4}>
                                             <Label
                                                 check
-                                                className="label-custom"
+                                                className={`label-custom ${this.state.ofertado_alquiler || this.state.ofertado_venta ? 'active' : ''}`}
                                             >   
                                                 Anticretico
                                                 {' '}
                                                 <Input
                                                     type="checkbox"
+                                                    className="customCheckbox"
                                                     id="checkBoxAnticretico"
+                                                    disabled={this.state.ofertado_alquiler || this.state.ofertado_venta}
                                                     checked={this.state.ofertado_anticretico}
                                                     onChange={() => this.changeChecked('ofertado_anticretico')}
                                                 />

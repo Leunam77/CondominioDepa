@@ -84,15 +84,17 @@ class CrearContrato extends Component {
 
 
     handleInput = (e) => {
-        let fecha_fin_contrato_disabled = false;
-
         if (e.target.name === 'tipo_contrato') {
-            fecha_fin_contrato_disabled = e.target.value === 'Venta'; // Desactivar fecha fin del contrato si se selecciona "Venta"
+            const isVenta = e.target.value === 'Venta';
+            this.setState({
+                [e.target.name]: e.target.value,
+                fecha_fin_contrato_disabled: isVenta,
+            });
+        } else {
+            this.setState({
+                [e.target.name]: e.target.value,
+            });
         }
-        this.setState({
-            [e.target.name]: e.target.value,
-            fecha_fin_contrato_disabled,
-        });
     };
 
     eliminarListaResidente = async (idResidente) => {
@@ -133,9 +135,9 @@ class CrearContrato extends Component {
             }
         }
 
-        if (!this.state.fecha_fin_contrato) {
+        if (!this.state.fecha_fin_contrato && !this.state.fecha_fin_contrato_disabled) {
             validationErrors.fecha_fin_contrato = "Este campo es obligatorio";
-        } else {
+        } else if(!this.state.fecha_fin_contrato_disabled){
             let d2 = new Date(this.state.fecha_fin_contrato);
             d2.setDate(d2.getDate() + 1);
             d2.setUTCHours(0, 0, 0, 0);
@@ -290,7 +292,7 @@ class CrearContrato extends Component {
                                         </Col>
                                         <Col sm={6}>
                                             <Label
-                                                className="label-custom"
+                                                className={`label-custom ${fecha_fin_contrato_disabled ? 'active' : ''}`}
                                             >
                                                 Fin del contrato
                                             </Label>
@@ -300,10 +302,10 @@ class CrearContrato extends Component {
                                                 type="date"
                                                 name="fecha_fin_contrato"
                                                 onChange={this.handleInput}
-                                                invalid={this.state.errors.fecha_fin_contrato ? true : false}
-                                                disabled={fecha_fin_contrato_disabled}
+                                                invalid={this.state.errors.fecha_fin_contrato && !this.state.fecha_fin_contrato_disabled ? true : false}
+                                                disabled={this.state.fecha_fin_contrato_disabled}
                                             />
-                                            <FormFeedback>{this.state.errors.fecha_fin_contrato}</FormFeedback>
+                                            <FormFeedback>{this.state.errors.fecha_fin_contrato }</FormFeedback>
                                         </Col>
                                     </Row>
 
@@ -350,8 +352,9 @@ class CrearContrato extends Component {
                                     ))}
                                 </ul>
                                 {this.state.errors.residentesSeleccionados && (
-                                    <span>{this.state.errors.residentesSeleccionados}</span>
+                                    <span style={{ color: 'red', fontSize: '0.9rem' }}>{this.state.errors.residentesSeleccionados}</span> 
                                 )}
+
 
                                 <Button size="lg" type="button" className="custom-button mx-auto d-block mb-4 mt-4"
                                     style={{ fontWeight: 'bold' }} onClick={this.toggleModal}

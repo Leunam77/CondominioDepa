@@ -48,7 +48,7 @@ class CrearDepartamento extends Component {
             imagenDep: "",
             modalOpen: false,
             imagen_departamento: null,
-            
+            checkBoxOferta: '',
         };
     }
 
@@ -118,6 +118,12 @@ class CrearDepartamento extends Component {
     changeChecked = (name) => {
         this.setState({ [name]: !this.state[name] }); // Cambiar el estado del atributo específico
     };
+    validarCheckboxes = () => {
+        if (!this.state.ofertado_venta && !this.state.ofertado_alquiler && !this.state.ofertado_anticretico) {
+            return 'Selecciona al menos una oferta.';
+        }
+        return '';
+    };
 
     storeDepartment = async (e) => {
         e.preventDefault();
@@ -170,6 +176,10 @@ class CrearDepartamento extends Component {
         ) {
             validationErrors.superficie =
                 "Ingrese una superficie válida";
+        }
+        let checkBoxError = this.validarCheckboxes();
+        if (checkBoxError !== '') {
+            validationErrors.checkBoxOferta = checkBoxError;
         }
 
         if (!this.state.pisoSeleccionado) {
@@ -339,7 +349,7 @@ class CrearDepartamento extends Component {
                                     
                                 </FormGroup>
                                 
-                                <Row className="mb-4">
+                                <Row className="mb-3">
 
                                     <Col sm={6}>
 
@@ -361,7 +371,7 @@ class CrearDepartamento extends Component {
                                     </Col>
                                 </Row>
 
-                                <FormGroup className="mb-4">
+                                <FormGroup className="mb-3">
                                     <Label
                                         className="label-custom"
 
@@ -369,7 +379,7 @@ class CrearDepartamento extends Component {
                                         Ofertar como:
 
                                     </Label>
-                                    <Row className="mb-4 mt-2">
+                                    <Row className="mb-3 mt-1">
                                         <Col sm={4}>
                                             <Label
                                                 check
@@ -417,6 +427,9 @@ class CrearDepartamento extends Component {
                                                 />
                                             </Label>
                                         </Col>
+                                        {this.state.errors.checkBoxOferta && <Label
+                                            style={{color: 'red', fontSize: '0.875rem'}}
+                                        >{this.state.errors.checkBoxOferta}</Label>}
                                     </Row>
                                 </FormGroup>
 

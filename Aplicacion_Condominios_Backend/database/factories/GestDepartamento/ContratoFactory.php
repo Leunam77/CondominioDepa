@@ -14,14 +14,14 @@ class ContratoFactory extends Factory
     public function definition()
     {
         //si quiero que la fecha fin sea mayor a la fecha inicio
-        $fecha_inicio = $this->faker->dateTimeBetween('-1 year', 'now');
-        $fecha_fin = $this->faker->dateTimeBetween($fecha_inicio, '+1 year');
+        $fechaInicio = $this->faker->dateTimeBetween('-1 year', 'now');
+        $fechaFin = $this->faker->dateTimeBetween($fechaInicio, '+1 year');
         return [
             //generar datos aleatorios
-            'fecha_inicio_contrato' => $fecha_inicio,
-            'fecha_fin_contrato' => $fecha_fin,
+            'fecha_inicio_contrato' => $fechaInicio,
+            'fecha_fin_contrato' => $fechaFin,
             'precio_contrato' => $this->faker->randomFloat(2, 1000, 10000),
-            'tipo_contrato' => $this->faker->randomElement(['alquiler', 'anticretico']),
+            'tipo_contrato' => $this->faker->randomElement(['alquiler', 'anticretico','venta']),
             'vigente_contrato' => true,
             'departamento_id' => Departamento::all()->random()->id,
             

@@ -30,7 +30,7 @@ class ResidenteFactory extends Factory
             'cedula_residente' => $this->faker->unique()->randomNumber(8),
             'telefono_residente' => $this->faker->phoneNumber,
             'fecha_nacimiento_residente' => $this->faker->date(),
-            'tipo_residente' => $this->faker->randomElement(['propietario', 'inquilino']),
+            'tipo_residente' => $this->faker->randomElement(['propietario', 'inquilino','titular']),
             'nacionalidad_residente' => $this->faker->country,
             'email_residente' => $this->faker->unique()->safeEmail,
             'genero_residente' => $this->faker->randomElement(['masculino', 'femenino']),

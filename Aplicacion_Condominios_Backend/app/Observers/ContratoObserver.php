@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use App\Models\GestDepartamento\Contrato;
 use App\Models\GestDepartamento\Residente;
+use App\Models\GestDepartamento\Departamento;
+use Carbon\Carbon;
 
 class ContratoObserver
 {
@@ -18,9 +20,14 @@ class ContratoObserver
         //$id_departamento = $contrato->departamento_id;
         $id_contrato= $contrato->id;
         $residentes=Residente::where('contrato_id',$id_contrato)->get();
+        
         //verificar si la fecha fin es anterior a la fecha actual
-        if($contrato->fecha_fin < now()){
+        $fechaActual = Carbon::now();
+        if($contrato->fecha_fin_contrato->lessThan($fechaActual)){
             $contrato->vigente_contrato = 0;
+            $departamento = Departamento::find($contrato->departamento_id);
+            $departamento->disponibilidad = true;
+            $departamento->save();
             $contrato->departamento_id = null;
             foreach($residentes as $residente){
                 $residente->id_contrato = null;
@@ -39,7 +46,19 @@ class ContratoObserver
      */
     public function updated(Contrato $contrato)
     {
-        //
+        $residentes=Residente::where('contrato_id',$contrato->id)->get();
+        
+        //verificar si la fecha fin es anterior a la fecha actual
+        $fechaActual = Carbon::now();
+        if($contrato->fecha_fin_contrato->lessThan($fechaActual)){
+            $contrato->vigente_contrato = 0;
+            $contrato->departamento_id = null;
+            foreach($residentes as $residente){
+                $residente->id_contrato = null;
+                $residente->save();
+            }
+            $contrato->save();
+        }
     }
 
     /**

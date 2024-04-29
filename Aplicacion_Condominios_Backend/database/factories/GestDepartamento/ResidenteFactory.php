@@ -3,7 +3,7 @@
 namespace Database\Factories\GestDepartamento;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\GestDepartamento\Contrato;
 class ResidenteFactory extends Factory
 {
     /**
@@ -22,7 +22,7 @@ class ResidenteFactory extends Factory
         }
         $imageName = $this->faker->image($directory, 512, 512, null, false);
         $imagePath = $imageName ? $ruta . '/' . $imageName : 'departamento/images/residentes/residente_default.png';
-
+        $tipo_residente = $this->faker->randomElement(['propietario', 'inquilino','titular']);
         return [
             //
             'nombre_residente' => $this->faker->name,
@@ -30,13 +30,27 @@ class ResidenteFactory extends Factory
             'cedula_residente' => $this->faker->unique()->randomNumber(8),
             'telefono_residente' => $this->faker->phoneNumber,
             'fecha_nacimiento_residente' => $this->faker->date(),
-            'tipo_residente' => $this->faker->randomElement(['propietario', 'inquilino']),
+            //'tipo_residente' => $this->faker->randomElement(['propietario', 'inquilino','titular']),
             'nacionalidad_residente' => $this->faker->country,
             'email_residente' => $this->faker->unique()->safeEmail,
             'genero_residente' => $this->faker->randomElement(['masculino', 'femenino']),
             'estado_residente' => false, 
             'imagen_residente' => $imagePath,
-            'contrato_id' => null        
+            'contrato_id' => function () use (&$tipo_residente){
+                // Obtener un contrato aleatorio
+                $contrato = Contrato::all()->random();
+                // Verificar si el contrato es de tipo "venta"
+                if ($contrato->tipo_contrato === 'venta') {
+                    // Si es de tipo "venta", establecer el tipo de residente como "propietario"
+                    $tipo_residente = 'propietario';
+                } else {
+                    // Si no es de tipo "venta", asignar el tipo de residente de forma aleatoria entre "inquilino" y "titular"
+                    $tipo_residente = $this->faker->randomElement(['inquilino', 'titular']);
+                }
+                // Devolver el id del contrato
+                return $contrato->id;
+            },
+            'tipo_residente' => $tipo_residente,      
         ];
     }
 }

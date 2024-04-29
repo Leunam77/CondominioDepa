@@ -17,6 +17,10 @@ class Contrato extends Model
         'vigente_contrato',
         'departamento_id'
     ];
+    protected $dates = [
+        'fecha_inicio_contrato',
+        'fecha_fin_contrato',
+    ];
     public function residente()
     {
         return $this->hasMany(Residente::class); //supuestamente no importa si no hay residentes asociados

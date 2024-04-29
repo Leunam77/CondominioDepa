@@ -14,6 +14,7 @@ const InfoDepartamento = () => {
     const [edificios, setEdificios] = useState ([]);
     const [bloques, setBloques] = useState ([]);
     const [contratos, setContratos] = useState ([]);
+    const [residentes, setResidentes] = useState ([]);
     useEffect(() => {
         const idDep = cookies.get('idDepa');
         obtenerDatosDepartamento(idDep);
@@ -41,6 +42,13 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
             const bloqueBus = await axios.get(`${endpoint}/bloque/${bloque}`);
             const bloqueSelect = bloqueBus.data;
             setBloques(bloqueSelect);
+
+
+            const residente = await axios.get(`${endpoint}/residentes-by-contrato/${contratoSelec.id}`);
+            const residenteSelec = residente.data;
+            console.log("residentes", residenteSelec)
+            setResidentes(residenteSelec.residentes);
+
 
         } catch (error) {
             console.error('Error al obtener datos del departamento:', error);
@@ -70,6 +78,19 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
                             <h3>Tipo de contrato: {contrato.tipo_contrato}</h3>
                         </Card>
                     ))}
+                    <h1>Residentes:</h1>
+                    {residentes.map((residente) => (
+                        
+                        <Card className="cardDepa" key={residente.id}>
+                            <h3>Nombre: {residente.nombre_residente}</h3>
+                            <h3>Apellido: {residente.apellido_residente}</h3>
+                            <h3>Fecha de nacimiento: {residente.fecha_nacimiento_residente}</h3>
+                            <h3>Correo: {residente.correo_residente}</h3>
+                            <h3>Telefono: {residente.telefono_residente}</h3>
+                            <h3>tipo de residente: {residente.tipo_residente}</h3>
+                        </Card>
+                    ))}
+
                 </div>
                 </>
         );

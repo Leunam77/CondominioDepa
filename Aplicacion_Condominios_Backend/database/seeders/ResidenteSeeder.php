@@ -15,6 +15,7 @@ class ResidenteSeeder extends Seeder
     public function run()
     {
         //
+        //Residente::truncate();
         Residente::factory()->count(8)->create();
     }
 }

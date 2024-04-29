@@ -50,19 +50,30 @@ const MostrarDep = () => {
                 const tieneVenta = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "venta");
                 //const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
                 const obtenerPropietarioyOTitular = async (contrato) => {
-                    const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
+                    try {
+                        const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
                         const tienePropietario = inquilinoResponse.data.residente !== null;
                         const titularResponse = await axios.get(`${endpoint}/titular-by-contrato/${contrato.id}`);
                         const tieneTitular = titularResponse.data.residente !== null;
-                        if(tienePropietario){
-                            console.log(inquilinoResponse.data.residente);
+                
+                        if (tienePropietario) {
                             contrato.residente = inquilinoResponse.data.residente;
-                        } else if(tieneTitular){
-                            console.log(titularResponse.data.residente);
+                        } else if (tieneTitular) {
                             contrato.residente = titularResponse.data.residente;
                         } else {
-                            console.log('no tiene propietario ni titular');
+                            contrato.residente = null;
                         }
+                    } catch (error) {
+                        if (error.response && error.response.status === 404) {
+                            // Manejar el caso en el que el propietario no existe (por ejemplo, asignar null)
+                            contrato.residente = null;
+                        } else {
+                            // Manejar otros errores de manera adecuada
+                            console.error("Error al obtener el propietario o titular:", error);
+                            // Puedes lanzar nuevamente el error para que sea manejado por la función que llama a esta función
+                            throw error;
+                        }
+                    }
                 };
                 for (const contrato of departamento.contratos) {
                     await obtenerPropietarioyOTitular(contrato);

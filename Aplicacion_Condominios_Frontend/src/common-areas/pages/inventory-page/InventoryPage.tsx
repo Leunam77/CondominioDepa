@@ -67,7 +67,7 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Costo</th>
-                        {/* <th>Id_Area Común</th> */}
+                        <th>Id Area</th>
                         <th>Area común</th>
                         <th>Acción</th>
                     </tr>
@@ -81,7 +81,7 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
                                     <td>{equipments.nombre}</td>
                                     <td>{equipments.descripcion}</td>
                                     <td>{equipments.costo}</td>
-                                    {/* <td>{equipments.area_comun_id}</td> */}
+                                    <td>{equipments.area_comun_id}</td>
                                     <td>{equipments.area_comun_nombre}</td>
                                     <td style={{ width: '10px', whiteSpace: 'nowrap' }}>
                                         <button type='button' className='btn btn-primary btn-sm me-2'>Editar</button>
@@ -98,6 +98,39 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
 }
 
 const FormElement: React.FC<FormElementProps> = ({ showList }) => {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        //leer
+        const formData = new FormData(event.currentTarget);
+        //convertir en objeto
+        const element = Object.fromEntries(formData.entries());
+
+        if (!(element.id || element.nombre || element.descripcion || element.costo || element.area_comun_id || element.area_comun_nombre)) {
+            console.log("Todos los datos son requeridos")
+            return;
+        }
+
+        fetch("http://localhost:3004/equipment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(element)
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Error")
+                }
+                return response.json();
+            })
+            .then((data) => {
+                showList();
+            })
+            .catch((error) => {
+                console.log("Error", error);
+            });
+
+    }
     return (
         <>
             <h2 className='text-center mb-3'> Crear nuevo producto </h2>
@@ -105,7 +138,7 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
 
             <div className='row'>
                 <div className='col-lg-6 mx-auto'>
-                    <form>
+                    <form onSubmit={(event) => handleSubmit(event)}>
                         <div className='row mb-3'>
                             <label className='col-sm-4 col-form-label'> ID </label>
                             <div className='col-sm-8'>
@@ -120,7 +153,7 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
                             <label className='col-sm-4 col-form-label'> Nombre </label>
                             <div className='col-sm-8'>
                                 <input className='form-control'
-                                    name="Nombre"
+                                    name="nombre"
                                     defaultValue=""
                                 />
 
@@ -130,7 +163,7 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
                             <label className='col-sm-4 col-form-label'> Descripción </label>
                             <div className='col-sm-8'>
                                 <textarea className='form-control'
-                                    name="Descripción"
+                                    name="descripcion"
                                     defaultValue=""
                                 />
 
@@ -140,18 +173,28 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
                             <label className='col-sm-4 col-form-label'> Costo </label>
                             <div className='col-sm-8'>
                                 <input className='form-control'
-                                    name="Costo"
+                                    name="costo"
                                     defaultValue=""
                                 />
 
                             </div>
                         </div>
                         <div className='row mb-3'>
-                            <label className='col-sm-4 col-form-label'> Costo </label>
+                            <label className='col-sm-4 col-form-label'> area_comun_id </label>
                             <div className='col-sm-8'>
-                                <select className='form-select'>
-                                    name="Costo"
+                                <input className='form-control'
+                                    name="area_comun_id"
                                     defaultValue=""
+                                />
+
+                            </div>
+                        </div>
+                        <div className='row mb-3'>
+                            <label className='col-sm-4 col-form-label'> Área común </label>
+                            <div className='col-sm-8'>
+                                <select className='form-select'
+                                    name='area_comun_nombre'
+                                    defaultValue="">
                                     <option value='Sala de juegos'>Sala de juegos</option>
                                     <option value='Cafeteria'>Cafeteria</option>
                                 </select>

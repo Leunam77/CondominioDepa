@@ -4,7 +4,7 @@
             "id": 1,
             "nombre": "Mesa de Ping Pong",
             "descripcion": "Mesa profesional para jugar ping pong.",
-            "costo": 1500.00,
+            "costo": 1600.00,
             "area_comun_id": 101,
             "area_comun_nombre": "Sala de Juegos"
         },

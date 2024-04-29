@@ -63,6 +63,68 @@ interface Solicitud {
   fechaFinalizado: string;
 }
 
+//Bloques
+const bloque = [
+  {
+    value: "1",
+    label: "Bloque1",
+  },
+  {
+    value: "2",
+    label: "Bloque2",
+  },
+  {
+    value: "3",
+    label: "Bloque3",
+  },
+  {
+    value: "4",
+    label: "Bloque4",
+  },
+];
+
+
+//Edificio
+const edificio = [
+  {
+    value: "1",
+    label: "Edificio1",
+  },
+  {
+    value: "2",
+    label: "Edificio2",
+  },
+  {
+    value: "3",
+    label: "Edificio3",
+  },
+  {
+    value: "4",
+    label: "Edificio4",
+  },
+];
+
+
+//Piso
+const piso= [
+  {
+    value: "1",
+    label: "Piso1",
+  },
+  {
+    value: "2",
+    label: "Piso2",
+  },
+  {
+    value: "3",
+    label: "Piso3",
+  },
+  {
+    value: "4",
+    label: "Piso4",
+  },
+];
+
 export default function PersonalPage() {
   const [servicioList, setServicioList] = useState<Servicio[]>([]);
   const [solicitud, setSolicitud] = useState<Solicitud>({
@@ -157,6 +219,53 @@ export default function PersonalPage() {
                 </MenuItem>
               ))}
             </TextField>
+              
+
+
+
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Bloque"
+              //defaultValue="1"
+              helperText="Por favor seleccione el bloque"
+            >
+              {bloque.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+
+
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Edificio"
+              //defaultValue="1"
+              helperText="Por favor seleccione el edificio"
+            >
+              {edificio.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Piso"
+             // defaultValue="1"
+              helperText="Por favor seleccione el número de piso"
+            >
+              {piso.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+
 
             <div>
               <TextField
@@ -185,14 +294,7 @@ export default function PersonalPage() {
                 value={solicitud.numerRegerencia}
                 onChange={handleChangeTelefono}
               />
-              <TextField
-                required
-                id="outlined"
-                label="Ubicación"
-                placeholder="Ingrese la ubicación"
-                value={solicitud.ubicacion}
-                onChange={handleChangeUbicacion}
-              />
+              
             </div>
             <button 
               className="block"

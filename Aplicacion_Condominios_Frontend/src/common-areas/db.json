@@ -1,0 +1,44 @@
+{
+    "equipment": [
+        {
+            "id": 1,
+            "nombre": "Mesa de Ping Pong",
+            "descripcion": "Mesa profesional para jugar ping pong.",
+            "costo": 1500.00,
+            "area_comun_id": 101,
+            "area_comun_nombre": "Sala de Juegos"
+        },
+        {
+            "id": 2,
+            "nombre": "Sillones para descanso",
+            "descripcion": "Conjunto de sillones cómodos para la sala de estar.",
+            "costo": 3000.00,
+            "area_comun_id": 102,
+            "area_comun_nombre": "Lobby"
+        },
+        {
+            "id": 3,
+            "nombre": "Equipo de Sonido",
+            "descripcion": "Sistema de sonido envolvente para eventos.",
+            "costo": 5000.00,
+            "area_comun_id": 103,
+            "area_comun_nombre": "Salón de Eventos"
+        },
+        {
+            "id": 4,
+            "nombre": "Proyector",
+            "descripcion": "Proyector de alta definición para presentaciones y películas.",
+            "costo": 2500.00,
+            "area_comun_id": 104,
+            "area_comun_nombre": "Sala de Conferencias"
+        },
+        {
+            "id": 5,
+            "nombre": "Juego de Sillas y Mesas",
+            "descripcion": "Conjunto de mobiliario para eventos al aire libre.",
+            "costo": 1200.00,
+            "area_comun_id": 105,
+            "area_comun_nombre": "Terraza"
+        }
+    ]
+}

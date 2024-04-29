@@ -1,5 +1,13 @@
 import React, { useState, ReactElement, useEffect } from 'react'
 
+interface Equipment {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    costo: number;
+    area_comun_id: number;
+    area_comun_nombre: string;
+}
 interface ListElementProps {
     showForm: () => void;
 }
@@ -27,10 +35,10 @@ export default function InventoryPage(): ReactElement {
 }
 
 const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
-    const [equipment, setEquipment] = useState([]);
+    const [equipment, setEquipment] = useState<Equipment[]>([]);
 
     function fetchEquipment() {
-        fetch("http://localhost:3004/elements")
+        fetch("http://localhost:3004/equipment")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Unexpected server response");
@@ -55,25 +63,22 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                        <th>6</th>
-                        <th>7</th>
+                        <th>Nombre</th>
+                        <th>Description</th>
+                        <th>Costo</th>
+                        <th>Area común</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        equipment.map((inventory, index) => {
+                        equipment.map((equipments, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{ }</td>
-                                    <td>{ }</td>
-                                    <td>{ }</td>
-                                    <td>{ }</td>
-                                    <td>{ }</td>
-                                    <td>{ }</td>
+                                    <td>{equipments.id}</td>
+                                    <td>{equipments.nombre}</td>
+                                    <td>{equipments.descripcion}</td>
+                                    <td>{equipments.costo}</td>
+                                    <td>{equipments.area_comun_nombre}</td>
                                     <td style={{ width: '10px', whiteSpace: 'nowrap' }}>
                                         <button type='button' className='btn btn-primary btn-sm me-2'>Editar</button>
                                         <button type='button' className='btn btn-danger btn-sm'>Eliminar</button>

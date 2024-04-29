@@ -52,19 +52,33 @@ const MostrarDep = () => {
 
                 const tieneContratos = departamento.contratos && departamento.contratos.length > 0;
                 const tieneVenta = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "venta");
-                if(tieneVenta){
+                const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
+                
+                if(tieneContratos){
 
                     for(const contrato of departamento.contratos){
                         const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
-                        const tienePropietario = inquilinoResponse.data.residente && inquilinoResponse.data.residente.length > 0;
+                        const tienePropietario = inquilinoResponse.data.residente !== null;
+                        const titularResponse = await axios.get(`${endpoint}/titular-by-contrato/${contrato.id}`);
+                        const tieneTitular = titularResponse.data.residente !== null;
+                        //console.log('tienePropietario', tienePropietario, inquilinoResponse.data.residente);
                         if(tienePropietario){
-                            contrato.propietario = inquilinoResponse.data.residente;
-                        
-                        }else{
-                            contrato.propietario = null;
+                            console.log(inquilinoResponse.data.residente);
+                            contrato.residente = inquilinoResponse.data.residente;
+                        } else if(tieneTitular){
+                            console.log(titularResponse.data.residente);
+                            contrato.residente = titularResponse.data.residente;
+                        } else {
+                            contrato.residente = {
+                                nombre_residente: '',
+                                apellidos_residente: '',
+                                telefono_residente: ''
+                            };
                         }
                     }
+                }else {
                 }
+
                 initialSwitchStates[departamento.id] = tieneVenta;
             }
             // Guardar el estado de los interruptores y la lista de departamentos actualizada

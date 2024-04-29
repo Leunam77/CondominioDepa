@@ -35,33 +35,25 @@ const MostrarDep = () => {
         try {
             const response = await axios.get(`${endpoint}/departamentos`);
             const departamentos = response.data;
-            // Guardar la lista de departamentos
             setDepartamentos(departamentos);
             const initialSwitchStates = {};
             // Iterar sobre cada departamento
             for (const departamento of departamentos) {
-                // Guardar el estado de disponibilidad de cada departamento
                 initialSwitchStates[departamento.id] = departamento.disponibilidad;
     
                 // Obtener los contratos asociados a este departamento
                 const contratosResponse = await axios.get(`${endpoint}/contratoDep/${departamento.id}`);
-                
-                //console.log(contratosResponse.data);
                 // Guardar los contratos asociados a este departamento
                 departamento.contratos = contratosResponse.data.contratos;
 
                 const tieneContratos = departamento.contratos && departamento.contratos.length > 0;
                 const tieneVenta = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "venta");
-                const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
-                
-                if(tieneContratos){
-
-                    for(const contrato of departamento.contratos){
-                        const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
+                //const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
+                const obtenerPropietarioyOTitular = async (contrato) => {
+                    const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
                         const tienePropietario = inquilinoResponse.data.residente !== null;
                         const titularResponse = await axios.get(`${endpoint}/titular-by-contrato/${contrato.id}`);
                         const tieneTitular = titularResponse.data.residente !== null;
-                        //console.log('tienePropietario', tienePropietario, inquilinoResponse.data.residente);
                         if(tienePropietario){
                             console.log(inquilinoResponse.data.residente);
                             contrato.residente = inquilinoResponse.data.residente;
@@ -69,16 +61,13 @@ const MostrarDep = () => {
                             console.log(titularResponse.data.residente);
                             contrato.residente = titularResponse.data.residente;
                         } else {
-                            contrato.residente = {
-                                nombre_residente: '',
-                                apellidos_residente: '',
-                                telefono_residente: ''
-                            };
+                            console.log('no tiene propietario ni titular');
                         }
-                    }
-                }else {
+                };
+                for (const contrato of departamento.contratos) {
+                    await obtenerPropietarioyOTitular(contrato);
                 }
-
+                
                 initialSwitchStates[departamento.id] = tieneVenta;
             }
             // Guardar el estado de los interruptores y la lista de departamentos actualizada
@@ -135,11 +124,27 @@ const MostrarDep = () => {
                         />
                         <CardBody>
                             <CardTitle tag="h5">{departamento.nombre_departamento}</CardTitle>
-                            <p className="card-text">Propietario: {departamento.contrato}</p>
+                            {departamento.contratos && departamento.contratos.length > 0 && (
+                                <div>
+                                    {departamento.contratos.map(contrato => (
+                                        <div>
+                                            {contrato.tipo_contrato === "venta" && contrato.residente && (
+                                               <p>Propietario: {contrato.residente.nombre_residente} {contrato.residente.apellidos_residente}</p>
+                                            )}
+                                            {contrato.tipo_contrato !== "venta" && contrato.residente && (
+                                                <p>Titular: {contrato.residente.nombre_residente} {contrato.residente.apellidos_residente}</p>
+                                            )}
+                                        </div>
+
+                                    ))}
+                                </div>
+                                
+                            )}
                             <div className="botones">
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickInfo(departamento.id)} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
+                                
                                 <label className="switch">
                                     <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { setSwitchStates(!switchStates); handleBotonSwitch(departamento.id); }} />
                                     <span className="slider"></span>

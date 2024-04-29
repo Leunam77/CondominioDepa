@@ -46,8 +46,26 @@ const MostrarDep = () => {
                 // Obtener los contratos asociados a este departamento
                 const contratosResponse = await axios.get(`${endpoint}/contratoDep/${departamento.id}`);
                 
+                //console.log(contratosResponse.data);
                 // Guardar los contratos asociados a este departamento
-                departamento.contratos = contratosResponse.data;
+                departamento.contratos = contratosResponse.data.contratos;
+
+                const tieneContratos = departamento.contratos && departamento.contratos.length > 0;
+                const tieneVenta = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "venta");
+                if(tieneVenta){
+
+                    for(const contrato of departamento.contratos){
+                        const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
+                        const tienePropietario = inquilinoResponse.data.residente && inquilinoResponse.data.residente.length > 0;
+                        if(tienePropietario){
+                            contrato.propietario = inquilinoResponse.data.residente;
+                        
+                        }else{
+                            contrato.propietario = null;
+                        }
+                    }
+                }
+                initialSwitchStates[departamento.id] = tieneVenta;
             }
             // Guardar el estado de los interruptores y la lista de departamentos actualizada
             setSwitchStates(initialSwitchStates);
@@ -57,7 +75,6 @@ const MostrarDep = () => {
         }
     }
     
-
     const deleteDepartment = async (id) => {
         await axios.delete(`${endpoint}/departamento/${id}`);
         getAllDepartments();
@@ -104,6 +121,7 @@ const MostrarDep = () => {
                         />
                         <CardBody>
                             <CardTitle tag="h5">{departamento.nombre_departamento}</CardTitle>
+                            <p className="card-text">Propietario: {departamento.contrato}</p>
                             <div className="botones">
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
@@ -113,9 +131,6 @@ const MostrarDep = () => {
                                     <span className="slider"></span>
                                 </label>
                             </div>
-                            
-                            
-
                         </CardBody>
                     </Card>
                 ))}

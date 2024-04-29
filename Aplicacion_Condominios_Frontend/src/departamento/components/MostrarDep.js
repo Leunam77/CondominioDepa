@@ -48,14 +48,17 @@ const MostrarDep = () => {
 
                 const tieneContratos = departamento.contratos && departamento.contratos.length > 0;
                 const tieneVenta = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "venta");
-                //const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
+                const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
                 const obtenerPropietarioyOTitular = async (contrato) => {
                     try {
                         const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
-                        const tienePropietario = inquilinoResponse.data.residente !== null;
+                        console.log('Propietario:', inquilinoResponse.data);
+                        const tienePropietario = inquilinoResponse.data !== null;
+                        console.log('tienePropietario',tienePropietario);
                         const titularResponse = await axios.get(`${endpoint}/titular-by-contrato/${contrato.id}`);
-                        const tieneTitular = titularResponse.data.residente !== null;
-                
+                        const tieneTitular = titularResponse.data !== null;
+                        console.log('tieneTitular',tieneTitular);
+                        console.log('Titular:', titularResponse.data);
                         if (tienePropietario) {
                             contrato.residente = inquilinoResponse.data.residente;
                         } else if (tieneTitular) {
@@ -138,8 +141,9 @@ const MostrarDep = () => {
                             {departamento.contratos && departamento.contratos.length > 0 && (
                                 <div>
                                     {departamento.contratos.map(contrato => (
-                                        <div>
+                                        <div key={contrato.id}>
                                             {contrato.tipo_contrato === "venta" && contrato.residente && (
+                                                //console.log("Propietario: ", contrato.residente.nombre_residente);
                                                <p>Propietario: {contrato.residente.nombre_residente} {contrato.residente.apellidos_residente}</p>
                                             )}
                                             {contrato.tipo_contrato !== "venta" && contrato.residente && (
@@ -155,11 +159,12 @@ const MostrarDep = () => {
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickInfo(departamento.id)} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
-                                
+                                {departamento.contratos && !departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico") ? (
                                 <label className="switch">
                                     <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { setSwitchStates(!switchStates); handleBotonSwitch(departamento.id); }} />
                                     <span className="slider"></span>
                                 </label>
+                                ):null}
                             </div>
                         </CardBody>
                     </Card>

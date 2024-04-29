@@ -383,14 +383,13 @@ class CrearDepartamento extends Component {
                                         <Col sm={4}>
                                             <Label
                                                 check
-                                                className={`label-custom ${this.state.ofertado_alquiler || this.state.ofertado_anticretico ? 'active' : ''}`}
+                                                className="label-custom"
                                             >   
                                                 Venta
                                                 {' '}
                                                 <Input
                                                     type="checkbox"
                                                     className="customCheckbox"
-                                                    disabled={this.state.ofertado_alquiler || this.state.ofertado_anticretico}
                                                     onChange={() => this.changeChecked('ofertado_venta')}
                                                 />
                                             </Label>
@@ -398,7 +397,7 @@ class CrearDepartamento extends Component {
                                         <Col sm={4}>
                                             <Label
                                                 check
-                                                className={`label-custom ${this.state.ofertado_venta || this.state.ofertado_anticretico ? 'active' : ''}`}
+                                                className="label-custom"
                                             >   
                                                 Alquiler
                                                 {' '}
@@ -406,7 +405,6 @@ class CrearDepartamento extends Component {
                                                     type="checkbox"
                                                     className="customCheckbox"
                                                     id="checkBoxAlquiler"
-                                                    disabled={this.state.ofertado_venta || this.state.ofertado_anticretico}
                                                     onChange={() => this.changeChecked('ofertado_alquiler')}
                                                 />
                                             </Label>
@@ -414,7 +412,7 @@ class CrearDepartamento extends Component {
                                         <Col sm={4}>
                                             <Label
                                                 check
-                                                className={`label-custom ${this.state.ofertado_alquiler || this.state.ofertado_venta ? 'active' : ''}`}
+                                                className="label-custom"
                                             >   
                                                 Anticretico
                                                 {' '}
@@ -422,7 +420,6 @@ class CrearDepartamento extends Component {
                                                     type="checkbox"
                                                     className="customCheckbox"
                                                     id="checkBoxAnticretico"
-                                                    disabled={this.state.ofertado_alquiler || this.state.ofertado_venta}
                                                     onChange={() => this.changeChecked('ofertado_anticretico')}
                                                 />
                                             </Label>

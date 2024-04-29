@@ -412,7 +412,7 @@ class EditarDep extends Component {
                                         <Col sm={4}>
                                             <Label
                                                 check
-                                                className={`label-custom ${this.state.ofertado_alquiler || this.state.ofertado_anticretico ? 'active' : ''}`}
+                                                className="label-custom"
                                             >   
                                                 Venta
                                                 {' '}
@@ -420,7 +420,6 @@ class EditarDep extends Component {
                                                     type="checkbox"
                                                     className="customCheckbox"
                                                     id="checkBoxVenta"
-                                                    disabled={this.state.ofertado_alquiler || this.state.ofertado_anticretico}
                                                     checked={this.state.ofertado_venta}
                                                     onChange={() => this.changeChecked('ofertado_venta')}
                                                 />
@@ -429,7 +428,7 @@ class EditarDep extends Component {
                                         <Col sm={4}>
                                             <Label
                                                 check
-                                                className={`label-custom ${this.state.ofertado_venta || this.state.ofertado_anticretico ? 'active' : ''}`}
+                                                className="label-custom"
                                             >   
                                                 Alquiler
                                                 {' '}
@@ -437,7 +436,6 @@ class EditarDep extends Component {
                                                     type="checkbox"
                                                     className="customCheckbox"
                                                     id="checkBoxAlquiler"
-                                                    disabled={this.state.ofertado_venta || this.state.ofertado_anticretico}
                                                     checked={this.state.ofertado_alquiler}
                                                     onChange={() => this.changeChecked('ofertado_alquiler')}
                                                 />
@@ -446,7 +444,7 @@ class EditarDep extends Component {
                                         <Col sm={4}>
                                             <Label
                                                 check
-                                                className={`label-custom ${this.state.ofertado_alquiler || this.state.ofertado_venta ? 'active' : ''}`}
+                                                className="label-custom"
                                             >   
                                                 Anticretico
                                                 {' '}
@@ -454,7 +452,6 @@ class EditarDep extends Component {
                                                     type="checkbox"
                                                     className="customCheckbox"
                                                     id="checkBoxAnticretico"
-                                                    disabled={this.state.ofertado_alquiler || this.state.ofertado_venta}
                                                     checked={this.state.ofertado_anticretico}
                                                     onChange={() => this.changeChecked('ofertado_anticretico')}
                                                 />

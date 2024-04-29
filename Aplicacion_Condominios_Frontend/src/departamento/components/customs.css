@@ -73,12 +73,7 @@ ul {
 	margin-bottom: 0 !important;
 	font-size: 0.8rem !important;
 }
-.label-custom.active {
-	color: gray !important;
-	font-weight: bold !important;
-	margin-bottom: 0 !important;
-	font-size: 0.8rem !important;
-}
+
 .modalTitle .modal-title{
 	font-size: 1.3rem !important;
 	font-weight: bold !important;

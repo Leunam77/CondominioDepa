@@ -108,6 +108,7 @@ class CrearContrato extends Component {
                 [e.target.name]: e.target.value,
             });
         }
+        
     };
 
     handleInputTipo = (e, index) => {
@@ -120,6 +121,7 @@ class CrearContrato extends Component {
             residentesSeleccionados: updatedResidentes,
         });
         console.log("residentes supuestamente actualizados", this.state.residentesSeleccionados);
+
     };
 
     eliminarListaResidente = async (idResidente) => {
@@ -190,7 +192,14 @@ class CrearContrato extends Component {
 
         if (this.state.residentesSeleccionados.length === 0) {
             validationErrors.residentesSeleccionados = "Debe seleccionar al menos un residente";
+        } else {
+            for (const residente of this.state.residentesSeleccionados) {
+                if (residente.tipo_residente === "" || residente.tipo_residente === " Seleccione un tipo de residente" || residente.tipo_residente === "ninguno") {
+                    validationErrors.residentesSeleccionados = "Debe seleccionar un tipo de residente";
+                }
+            }
         }
+
         //console.log(validationErrors);
 
         this.setState({ errors: validationErrors });
@@ -356,14 +365,16 @@ class CrearContrato extends Component {
                                                     className="customInput"
                                                     name="tipo_residente"
                                                     id="tipo_residente"
-
                                                     onChange={(e) => this.handleInputTipo(e, index)}
                                                 >
-                                                    <option disabled selected>{" "} Seleccione un tipo de residente</option>
+                                                    <option disabled selected>{" "}Seleccione un tipo de residente</option>
                                                     {this.state.tipo_contrato === "Venta" && <option value="Propietario">Propietario</option>}
                                                     {(this.state.tipo_contrato === "Alquiler" || this.state.tipo_contrato === "Anticretico") && <option value="Titular">Titular</option>}
                                                     <option value="Residente">Residente</option>
                                                 </Input>
+                                                {(this.state.residentesSeleccionados[index].tipo_residente === '' || this.state.residentesSeleccionados[index].tipo_residente === "ninguno") && ( 
+                                                    <span style={{ color: 'red', fontSize: '0.9rem', marginLeft: "0.5rem" }}>Seleccione un tipo</span>    
+                                                )}
                                             </Col>
                                             <Col sm={3}>
                                                 <Button className="botoncardContr" type="button" onClick={() => this.eliminarListaResidente(residente.id)} >

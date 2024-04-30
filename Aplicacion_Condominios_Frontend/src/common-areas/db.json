@@ -31,14 +31,6 @@
       "costo": 1200,
       "area_comun_id": 105,
       "area_comun_nombre": "Terraza"
-    },
-    {
-      "id": "6",
-      "nombre": "Cafetera",
-      "descripcion": "Para hacer café",
-      "costo": "14.00",
-      "area_comun_id": "110",
-      "area_comun_nombre": "Cafeteria"
     }
   ]
 }

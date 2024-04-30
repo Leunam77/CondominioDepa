@@ -9,6 +9,10 @@ import Button from 'react-bootstrap/Button';
 import Cookies from 'universal-cookie';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 const cookies = new Cookies();
 
@@ -65,8 +69,6 @@ function EmployeHomePage() {
               <th>Apellido</th>
               <th>Correo</th>
               <th>Celular</th>
-              <th>Genero</th>
-              <th>Fecha de Contratacion</th>
               <th>Funciones</th>
             </tr>
           </thead>
@@ -78,26 +80,15 @@ function EmployeHomePage() {
                   <td>{empleado.apellido}</td>
                   <td>{empleado.correo}</td>
                   <td>{empleado.celular}</td>
-                  <td>{empleado.genero}</td>
-                  <td>{empleado.fecha_contratacion}</td>
-                  <td><Button variant="danger" onClick={() => eliminarEmpleado(empleado.id)}>Eliminar</Button> {}
-                  <Button variant="info" onClick={() => editarInformacionEmpleado(empleado.id)}>Editar</Button></td>
+                  <td><Button variant="danger" onClick={() => eliminarEmpleado(empleado.id)}><DeleteIcon/></Button> {}
+                  <Button variant="info" onClick={() => editarInformacionEmpleado(empleado.id)} style={{ backgroundColor: '#65B8A6', borderColor: '#65B8A6' }}><ModeEditIcon/></Button>
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </Table>
       </Container>
-
-      <Row className=''>
-        <Col></Col>
-        <Col></Col>
-        <Col></Col>
-        <Col>
-        <Button variant="success" onClick={() => window.location.href = "./employeeRegister"}>Agregar</Button>
-        </Col>
-      </Row>
-      
     </>
   );
 }

@@ -9,14 +9,6 @@
       "area_comun_nombre": "Sala de Juegos"
     },
     {
-      "id": "2",
-      "nombre": "Sillones para descanso",
-      "descripcion": "Sillones para descanso",
-      "costo": "4555",
-      "area_comun_id": "102",
-      "area_comun_nombre": "Sala de juegos"
-    },
-    {
       "id": "3",
       "nombre": "Equipo de Sonido",
       "descripcion": "Sistema de sonido envolvente para eventos.",
@@ -46,14 +38,6 @@
       "descripcion": "Para hacer café",
       "costo": "14.00",
       "area_comun_id": "110",
-      "area_comun_nombre": "Cafeteria"
-    },
-    {
-      "id": "7",
-      "nombre": "Cubiertos",
-      "descripcion": "Para comer",
-      "costo": "21.00",
-      "area_comun_id": "120",
       "area_comun_nombre": "Cafeteria"
     }
   ]

@@ -56,6 +56,14 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
 
     useEffect(() => fetchEquipment(), []);
 
+    function deleteProduct(id: number) {
+        fetch(`http://localhost:3004/equipment/${id}`, {
+            method: 'DELETE'
+        })
+            .then((response) => response.json())
+            .then((data) => fetchEquipment());
+    }
+
     return (
         <>
             <h2 className='text-center mb-3'> Lista de elementos </h2>
@@ -86,7 +94,7 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
                                     <td>{equipments.area_comun_nombre}</td>
                                     <td style={{ width: '10px', whiteSpace: 'nowrap' }}>
                                         <button onClick={() => showForm(equipments)} type='button' className='btn btn-primary btn-sm me-2'>Editar</button>
-                                        <button type='button' className='btn btn-danger btn-sm'>Eliminar</button>
+                                        <button onClick={() => deleteProduct(equipments.id)} type='button' className='btn btn-danger btn-sm'>Eliminar</button>
                                     </td>
                                 </tr>
                             );

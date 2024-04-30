@@ -111,25 +111,50 @@ const FormElement: React.FC<FormElementProps> = ({ showList, product }) => {
             return;
         }
 
-        fetch("http://localhost:3004/equipment", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(element)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Error")
-                }
-                return response.json();
+        if (product?.id) {
+            fetch(`http://localhost:3004/equipment/${product?.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(element)
             })
-            .then((data) => {
-                showList();
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Error")
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    showList();
+                })
+                .catch((error) => {
+                    console.log("Error", error);
+                });
+        } else {
+
+            fetch("http://localhost:3004/equipment", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(element)
             })
-            .catch((error) => {
-                console.log("Error", error);
-            });
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Error")
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    showList();
+                })
+                .catch((error) => {
+                    console.log("Error", error);
+                });
+        }
+
+
 
     }
     return (

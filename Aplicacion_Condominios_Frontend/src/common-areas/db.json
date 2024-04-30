@@ -11,10 +11,10 @@
     {
       "id": "2",
       "nombre": "Sillones para descanso",
-      "descripcion": "Conjunto de sillones cómodos para la sala de estar.",
-      "costo": 3000,
-      "area_comun_id": 102,
-      "area_comun_nombre": "Lobby"
+      "descripcion": "Sillones para descanso",
+      "costo": "4555",
+      "area_comun_id": "102",
+      "area_comun_nombre": "Sala de juegos"
     },
     {
       "id": "3",
@@ -27,10 +27,10 @@
     {
       "id": "4",
       "nombre": "Proyector",
-      "descripcion": "Proyector de alta definición para presentaciones y películas.",
-      "costo": 2500,
-      "area_comun_id": 104,
-      "area_comun_nombre": "Sala de Conferencias"
+      "descripcion": "Proyector",
+      "costo": "1400",
+      "area_comun_id": "104",
+      "area_comun_nombre": "Sala de juegos"
     },
     {
       "id": "5",
@@ -51,7 +51,7 @@
     {
       "id": "7",
       "nombre": "Cubiertos",
-      "descripcion": "Para comer de manera educada",
+      "descripcion": "Para comer",
       "costo": "21.00",
       "area_comun_id": "120",
       "area_comun_nombre": "Cafeteria"

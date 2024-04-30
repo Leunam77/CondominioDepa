@@ -9,11 +9,12 @@ interface Equipment {
     area_comun_nombre: string;
 }
 interface ListElementProps {
-    showForm: () => void;
+    showForm: (product?: Equipment) => void;
 }
 
 interface FormElementProps {
     showList: () => void;
+    product?: Equipment;
 }
 
 export default function InventoryPage(): ReactElement {
@@ -23,8 +24,8 @@ export default function InventoryPage(): ReactElement {
         setContent(<ListElement showForm={showForm} />);
     }
 
-    function showForm(): void {
-        setContent(<FormElement showList={showList} />);
+    function showForm(product?: Equipment): void {
+        setContent(<FormElement product={product} showList={showList} />);
     }
 
     return (
@@ -58,7 +59,7 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
     return (
         <>
             <h2 className='text-center mb-3'> Lista de elementos </h2>
-            <button onClick={showForm} type='button' className='btn btn-primary me-2'> Crear </button>
+            <button onClick={() => showForm()} type='button' className='btn btn-primary me-2'> Crear </button>
             <button onClick={fetchEquipment} type='button' className='btn btn-outline-primary me-2'> Refrescar </button>
             <table className='table'>
                 <thead>
@@ -84,7 +85,7 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
                                     <td>{equipments.area_comun_id}</td>
                                     <td>{equipments.area_comun_nombre}</td>
                                     <td style={{ width: '10px', whiteSpace: 'nowrap' }}>
-                                        <button type='button' className='btn btn-primary btn-sm me-2'>Editar</button>
+                                        <button onClick={() => showForm(equipments)} type='button' className='btn btn-primary btn-sm me-2'>Editar</button>
                                         <button type='button' className='btn btn-danger btn-sm'>Eliminar</button>
                                     </td>
                                 </tr>
@@ -97,7 +98,7 @@ const ListElement: React.FC<ListElementProps> = ({ showForm }) => {
     );
 }
 
-const FormElement: React.FC<FormElementProps> = ({ showList }) => {
+const FormElement: React.FC<FormElementProps> = ({ showList, product }) => {
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         //leer
@@ -133,28 +134,30 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
     }
     return (
         <>
-            <h2 className='text-center mb-3'> Crear nuevo producto </h2>
-
-
+            <h2 className='text-center mb-3'>
+                {product?.id ? "Editar producto" : "Crear nuevo producto"}
+            </h2>
             <div className='row'>
                 <div className='col-lg-6 mx-auto'>
                     <form onSubmit={(event) => handleSubmit(event)}>
-                        <div className='row mb-3'>
-                            <label className='col-sm-4 col-form-label'> ID </label>
-                            <div className='col-sm-8'>
-                                <input className='form-control'
-                                    name="id"
-                                    defaultValue=""
-                                />
+                        {product?.id &&
+                            <div className='row mb-3'>
+                                <label className='col-sm-4 col-form-label'> ID </label>
+                                <div className='col-sm-8'>
+                                    <input readOnly className='form-control-plaintext'
+                                        name="id"
+                                        defaultValue={product ? product.id : ''}
+                                    />
 
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div className='row mb-3'>
                             <label className='col-sm-4 col-form-label'> Nombre </label>
                             <div className='col-sm-8'>
                                 <input className='form-control'
                                     name="nombre"
-                                    defaultValue=""
+                                    defaultValue={product ? product.nombre : ''}
                                 />
 
                             </div>
@@ -164,7 +167,7 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
                             <div className='col-sm-8'>
                                 <textarea className='form-control'
                                     name="descripcion"
-                                    defaultValue=""
+                                    defaultValue={product ? product.nombre : ''}
                                 />
 
                             </div>
@@ -174,7 +177,7 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
                             <div className='col-sm-8'>
                                 <input className='form-control'
                                     name="costo"
-                                    defaultValue=""
+                                    defaultValue={product ? product.costo : ''}
                                 />
 
                             </div>
@@ -184,7 +187,7 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
                             <div className='col-sm-8'>
                                 <input className='form-control'
                                     name="area_comun_id"
-                                    defaultValue=""
+                                    defaultValue={product ? product.area_comun_id : ''}
                                 />
 
                             </div>
@@ -194,7 +197,7 @@ const FormElement: React.FC<FormElementProps> = ({ showList }) => {
                             <div className='col-sm-8'>
                                 <select className='form-select'
                                     name='area_comun_nombre'
-                                    defaultValue="">
+                                    defaultValue={product ? product.area_comun_nombre : ''}>
                                     <option value='Sala de juegos'>Sala de juegos</option>
                                     <option value='Cafeteria'>Cafeteria</option>
                                 </select>

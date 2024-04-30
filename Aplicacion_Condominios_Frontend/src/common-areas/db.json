@@ -47,6 +47,14 @@
       "costo": "14.00",
       "area_comun_id": "110",
       "area_comun_nombre": "Cafeteria"
+    },
+    {
+      "id": "7",
+      "nombre": "Cubiertos",
+      "descripcion": "Para comer de manera educada",
+      "costo": "21.00",
+      "area_comun_id": "120",
+      "area_comun_nombre": "Cafeteria"
     }
   ]
 }

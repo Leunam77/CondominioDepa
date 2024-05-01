@@ -25,7 +25,7 @@ const MostrarDep = () => {
         setDepartamentos(response.data);
         const initialSwitchStates = {};
         response.data.forEach(departamento => {
-            initialSwitchStates[departamento.id]  = departamento.disponibilidad;
+            initialSwitchStates[departamento.id] = departamento.disponibilidad;
         });
         setSwitchStates(initialSwitchStates);
     }
@@ -46,11 +46,11 @@ const MostrarDep = () => {
             ...prevState,
             [idDepa]: !prevState[idDepa]
         }));
-
+    
         if (!switchStates[idDepa]) {
             axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
-            disponibilidad: 1,
-        });
+                disponibilidad: 1,
+            });
         } else {
             cookies.set('idDepa', idDepa);
             window.location.href = '/dashboard/crearContrato';

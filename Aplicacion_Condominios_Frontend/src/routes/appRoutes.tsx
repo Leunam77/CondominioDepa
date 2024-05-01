@@ -181,7 +181,8 @@ const appRoutes: RouteType[] = [
         path: "/cobros/generar-preaviso/:departamento_id",
         element: <GenerarPreAviso/>,
         state: "cobros.generar-pre-aviso",
-        },
+        
+      },
     ],
   },
   {

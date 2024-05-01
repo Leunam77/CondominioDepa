@@ -209,7 +209,7 @@ class CrearContrato extends Component {
 
             const contratoVentaExis = await axios.get(`${endpoint}/contratoDepS/${idDep}`);
             const cve = contratoVentaExis.data;
-            if(cve && cve.contratos && this.state.tipo_contrato === "Venta"){
+            if(cve && cve.contratos.length > 0 && this.state.tipo_contrato === "Venta"){
                 const residentesAntiguos = await axios.get(`${endpoint}/residentes-by-contrato/${cve.contratos[0].id}`);
                 const ra = residentesAntiguos.data;
                 for (const residente of ra) {

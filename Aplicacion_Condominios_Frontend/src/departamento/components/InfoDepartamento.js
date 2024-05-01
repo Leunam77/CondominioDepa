@@ -54,10 +54,12 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
             setBloques(bloqueSelect);
 
 
-            const residente = await axios.get(`${endpoint}/residentes-by-contrato/${contratoSelec.id}`);
-            const residenteSelec = residente.data;
-            console.log("residentes", residenteSelec)
-            setResidentes(residenteSelec.residentes);
+            const residentesPorContratoData = {};
+            for (const contrato of contratoSelec.contratos) {
+                const responseResidentes = await axios.get(`${endpoint}/residentes-by-contrato/${contrato.id}`);
+                residentesPorContratoData[contrato.id] = responseResidentes.data;
+            }
+            setResidentes(residentesPorContratoData);
 
 
         } catch (error) {
@@ -85,6 +87,7 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
                             <h1 id="text-subtit"><b>Contratos Activos:</b></h1>
                             <div className="contenedorContratoinf">
                             {contratos.map((contrato) => (
+                               
                                 <Card className="contratoinf" key={contrato.id}>
                                     <span id="tupla">
                                         <h2 id="text-infDep"><b>Fecha inicio: </b>{formatDate(contrato.fecha_inicio_contrato)}</h2>
@@ -94,35 +97,37 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
                                         <h2 id="text-infDep"><b>Monto: </b>{contrato.precio_contrato} $</h2>
                                         <h2 id="text-infDep"><b>Tipo de contrato: </b>{contrato.tipo_contrato}</h2>
                                     </span>
+                                    {residentes[contrato.id] && residentes[contrato.id].length > 0 && (
+                                <div>
+                                    <h1 id="text-subtit"><b>Residentes:</b></h1>
+                                    <div className="contenedorResidente">
+                                    {residentes[contrato.id].map((residente) => (
+                                        <Card className="contratoinf" key={residente.id}>
+                                            <span id="tupla">
+                                                <h2 id="text-infDep"><b>Nombre: </b>{residente.nombre_residente}</h2>
+                                                <h2 id="text-infDep"><b>Apellido: </b>{residente.apellidos_residente}</h2>
+                                            </span>
+                                            <span id="tupla">
+                                                <h2 id="text-infDep"><b>Fecha de nacimiento: </b>{formatDate(residente.fecha_nacimiento_residente)}</h2>
+                                                <h2 id="text-infDep"><b>Correo: </b>{residente.email_residente}</h2>
+                                            </span>
+                                            <span id="tupla">
+                                                <h2 id="text-infDep"><b>Telefono: </b>{residente.telefono_residente}</h2>
+                                                <h2 id="text-infDep"><b>tipo de residente: </b>{residente.tipo_residente}</h2>
+                                            </span>
+                                        </Card>
+                                    ))}
+                                    </div>
+                                </div>
+                                )}
                                 </Card>
                             ))}
                             </div>
                         </div>
+                        
                         )}
                             
-                        {residentes && residentes.length > 0 && (
-                        <div>
-                            <h1 id="text-subtit"><b>Residentes:</b></h1>
-                            <div className="contenedorResidente">
-                            {residentes.map((residente) => (
-                                <Card className="contratoinf" key={residente.id}>
-                                    <span id="tupla">
-                                        <h2 id="text-infDep"><b>Nombre: </b>{residente.nombre_residente}</h2>
-                                        <h2 id="text-infDep"><b>Apellido: </b>{residente.apellido_residente}</h2>
-                                    </span>
-                                    <span id="tupla">
-                                        <h2 id="text-infDep"><b>Fecha de nacimiento: </b>{formatDate(residente.fecha_nacimiento_residente)}</h2>
-                                        <h2 id="text-infDep"><b>Correo: </b>{residente.correo_residente}</h2>
-                                    </span>
-                                    <span id="tupla">
-                                        <h2 id="text-infDep"><b>Telefono: </b>{residente.telefono_residente}</h2>
-                                        <h2 id="text-infDep"><b>tipo de residente: </b>{residente.tipo_residente}</h2>
-                                    </span>
-                                </Card>
-                            ))}
-                            </div>
-                        </div>
-                        )}
+                        
                     </div>
                     <div className= "imgInfo-departamento">
                         <img src={`${endpointImg}/${departamentos.imagen_departamento}`} alt="Imagen del departamento" />

@@ -53,7 +53,7 @@ const MostrarDep = () => {
 
                 const tieneContratos = departamento.contratos && departamento.contratos.length > 0;
                 const tieneVenta = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "venta");
-                const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
+                // const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "alquiler" || contrato.tipo_contrato === "anticretico" );
                 const obtenerPropietarioyOTitular = async (contrato) => {
                     try {
                         const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
@@ -66,10 +66,13 @@ const MostrarDep = () => {
                         console.log('Titular:', titularResponse.data);
                         if (tienePropietario) {
                             contrato.residente = inquilinoResponse.data.residente;
-                        } else if (tieneTitular) {
-                            contrato.residente = titularResponse.data.residente;
                         } else {
                             contrato.residente = null;
+                        } 
+                        if (tieneTitular) {
+                            contrato.titular = titularResponse.data.residente;
+                        } else {
+                            contrato.titular = null;
                         }
                     } catch (error) {
                         if (error.response && error.response.status === 404) {
@@ -176,7 +179,7 @@ const MostrarDep = () => {
                                                 //console.log("Propietario: ", contrato.residente.nombre_residente);
                                                <p>Propietario: {contrato.residente.nombre_residente} {contrato.residente.apellidos_residente}</p>
                                             )}
-                                            {contrato.tipo_contrato !== "venta" && contrato.residente && (
+                                            {contrato.tipo_contrato !== "venta" && contrato.titular && (
                                                 <p>Titular: {contrato.residente.nombre_residente} {contrato.residente.apellidos_residente}</p>
                                             )}
                                         </div>

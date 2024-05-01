@@ -331,7 +331,7 @@ class ResidenteController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'No tiene propietario',
-                    'residente' => []
+                    'residente' => null
                 ]);
             }
             return response()->json([
@@ -376,7 +376,7 @@ class ResidenteController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'No tiene titular',
-                    'residente' => []
+                    'residente' => null
                 ]);
             }
             return response()->json([

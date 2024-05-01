@@ -17,7 +17,7 @@ class ResidenteSeeder extends Seeder
         //
         //Residente::truncate();
         Residente::factory()->count(8)->create();
-        $residenteData = [
+        /* $residenteData = [
             [
                 'nombre_residente' => 'Juan',
                 'apellidos_residente' => 'Pérez',
@@ -106,7 +106,7 @@ class ResidenteSeeder extends Seeder
         ];
         foreach($residenteData as $residente){
             Residente::create($residente);
-        }
+        } */
         // Crear los residentes utilizando createMany()
         //Residente::createMany($residenteData);
     }

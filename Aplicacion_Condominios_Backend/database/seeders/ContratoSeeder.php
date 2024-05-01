@@ -14,7 +14,7 @@ class ContratoSeeder extends Seeder
     public function run()
     {
         //
-        $contratoData = [
+        /* $contratoData = [
             [
                 'fecha_inicio_contrato' => '2023-01-01',
                 'fecha_fin_contrato' => '2024-12-31',
@@ -69,10 +69,10 @@ class ContratoSeeder extends Seeder
         //Contrato::createMany($contratoData);
         foreach($contratoData as $contrato){
             Contrato::create($contrato);
-        }
+        } */
         Contrato::factory()->count(10)->create();
 
-        $this->call(ResidenteSeeder::class);
+        //$this->call(ResidenteSeeder::class);
 
     }
 }

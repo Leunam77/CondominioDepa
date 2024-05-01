@@ -22,7 +22,7 @@ class ResidenteFactory extends Factory
         }
         $imageName = $this->faker->image($directory, 512, 512, null, false);
         $imagePath = $imageName ? $ruta . '/' . $imageName : 'departamento/images/residentes/residente_default.png';
-        $tipo_residente = $this->faker->randomElement(['propietario', 'inquilino','titular']);
+        $tipo_residente = $this->faker->randomElement(['Propietario', 'Residente','Titular']);
         return [
             //
             'nombre_residente' => $this->faker->name,
@@ -45,7 +45,7 @@ class ResidenteFactory extends Factory
                     $tipo_residente = 'propietario';
                 } else {
                     // Si no es de tipo "venta", asignar el tipo de residente de forma aleatoria entre "inquilino" y "titular"
-                    $tipo_residente = $this->faker->randomElement(['inquilino', 'titular']);
+                    $tipo_residente = $this->faker->randomElement(['Residente', 'Titular']);
                 }
                 // Devolver el id del contrato
                 return $contrato->id;

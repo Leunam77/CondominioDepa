@@ -161,4 +161,8 @@ Route::group(['prefix' =>  'v1'], function () {
 Route::controller(TelegramNotificationController::class)->group(function() {
     Route::post('/telegram/notification', 'sendNoticeToOne');
     Route::post('/telegram/notifications', 'sendNoticeToMany');
-});
+});Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
+
+Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
+    Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
+    Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);

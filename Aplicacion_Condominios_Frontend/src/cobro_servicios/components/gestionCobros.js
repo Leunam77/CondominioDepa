@@ -4,6 +4,7 @@ import { FaFileAlt } from 'react-icons/fa'; // Importamos el icono de registrar
 const GestionCobro = () => {
     const endpoint = "http://localhost:8000/api";
     const [departamentos, setDepartamentos] = useState([]);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         fetch(`${endpoint}/obtener-departamentos`)

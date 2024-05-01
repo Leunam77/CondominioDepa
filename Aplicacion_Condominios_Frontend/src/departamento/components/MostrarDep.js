@@ -56,14 +56,23 @@ const MostrarDep = () => {
                 const tieneOtro = tieneContratos && departamento.contratos.some(contrato => contrato.tipo_contrato === "Alquiler" || contrato.tipo_contrato === "Anticretico" );
                 const obtenerPropietarioyOTitular = async (contrato) => {
                     try {
-                        const inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
-                        //console.log('Propietario:', inquilinoResponse.data);
-                        const tienePropietario = inquilinoResponse.data !== null;
-                        //console.log('tienePropietario',tienePropietario);
-                        const titularResponse = await axios.get(`${endpoint}/titular-by-contrato/${contrato.id}`);
-                        const tieneTitular = titularResponse.data !== null;
+                        let inquilinoResponse= null;
+                        let tienePropietario = false;
+                        console.log(departamento.id,'tieneVenta',tieneVenta);
+                        if(tieneVenta){
+                            inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
+                            tienePropietario = inquilinoResponse !== null;
+                            // console.log('tienePropietario',tienePropietario);
+                            console.log('Propietario:', inquilinoResponse.data.residente);
+                        }
+                        let titularResponse=null;
+                        if(tieneOtro){
+                            titularResponse = await axios.get(`${endpoint}/titular-by-contrato/${contrato.id}`);
+                        }
+                        const tieneTitular = titularResponse !== null;
                         //console.log('tieneTitular',tieneTitular);
-                        //console.log('Titular:', titularResponse.data);
+                        console.log(departamento.id,'tieneAntAlq',tieneOtro);
+                        console.log('Titular:', titularResponse.data.residente);
                         if (tienePropietario) {
                             contrato.residente = inquilinoResponse.data.residente;
                         } else {

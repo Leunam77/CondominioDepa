@@ -185,6 +185,10 @@ const MostrarDep = () => {
                                 </div>
                                 
                             )}
+                            <p>Modalidad de oferta:</p>
+                            {departamento.ofertado_venta ? <span>Venta</span> : null}
+                            {departamento.ofertado_alquiler ? <span>Alquiler</span> : null}
+                            {departamento.ofertado_anticretico ? <span>Anticretico</span> : null}
                             <div className="botones">
                                 <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>

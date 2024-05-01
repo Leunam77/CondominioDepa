@@ -76,7 +76,7 @@ class ContratoController extends Controller
     public function getContratByDepShort($idDepartament){
         try{
             $contratos = Contrato::select('id','precio_contrato','tipo_contrato','vigente_contrato','departamento_id')
-                                ->where('departamento_id',$idDepartament)->get()
+                                ->where('departamento_id',$idDepartament)
                                 ->where('vigente_contrato',true)
                                 ->take(2)->get();
             if($contratos->isEmpty()){

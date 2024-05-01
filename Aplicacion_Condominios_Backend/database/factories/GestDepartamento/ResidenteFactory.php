@@ -40,9 +40,9 @@ class ResidenteFactory extends Factory
                 // Obtener un contrato aleatorio
                 $contrato = Contrato::all()->random();
                 // Verificar si el contrato es de tipo "venta"
-                if ($contrato->tipo_contrato === 'venta') {
+                if ($contrato->tipo_contrato === 'Venta' && $contrato->vigente_contrato === true) {
                     // Si es de tipo "venta", establecer el tipo de residente como "propietario"
-                    $tipo_residente = 'propietario';
+                    $tipo_residente = 'Propietario';
                 } else {
                     // Si no es de tipo "venta", asignar el tipo de residente de forma aleatoria entre "inquilino" y "titular"
                     $tipo_residente = $this->faker->randomElement(['Residente', 'Titular']);

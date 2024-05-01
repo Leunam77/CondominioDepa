@@ -8,33 +8,13 @@ use Illuminate\Http\Request;
 
 class ContratoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
         return Contrato::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
@@ -80,6 +60,32 @@ class ContratoController extends Controller
             }
     
             // Devolver los contratos encontrados en la respuesta
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contratos encontrados',
+                'contratos' => $contratos
+            ]);
+        } catch (\Exception $e) {
+            // Manejar cualquier error que ocurra durante la búsqueda de contratos
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar los contratos'
+            ], 500);
+        }
+    }
+    public function getContratByDepShort($idDepartament){
+        try{
+            $contratos = Contrato::select('id','precio_contrato','tipo_contrato','vigente_contrato','departamento_id')
+                                ->where('departamento_id',$idDepartament)->get()
+                                ->where('vigente_contrato',true)
+                                ->take(2)->get();
+            if($contratos->isEmpty()){
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Contratos no encontrados',
+                    'contratos' => []
+                ]);
+            }
             return response()->json([
                 'status' => 200,
                 'message' => 'Contratos encontrados',

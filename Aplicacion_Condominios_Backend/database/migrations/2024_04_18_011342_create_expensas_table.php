@@ -17,8 +17,13 @@ class CreateExpensasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('departamento_id');
             $table->foreign('departamento_id')->references('id')->on('departamentos')->onDelete('cascade');
+<<<<<<< HEAD
+=======
+            $table->text('propietario_pagar');
+>>>>>>> 565c734cbdf334395c2a9ffbf90693c4d0779af3
             $table->date('fecha'); 
             $table->text('descripcion_servicios'); 
+            $table->text('servicio_pagar'); 
             $table->decimal('monto', 10, 2);
             $table->timestamps();
         });

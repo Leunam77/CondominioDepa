@@ -89,6 +89,7 @@ function EmployeeRegister() {
         data.append("estado_contrato", "Sin contrato");
         const res = await axios.post(`http://127.0.0.1:8000/api/add_employee`, data);
         Swal.fire('Registro con exito','','success');
+        window.location.href = "./";
     }
     
   }
@@ -100,19 +101,16 @@ function EmployeeRegister() {
           <MDBCardBody className="px-4">
           <div className="text-center"> 
             <h3 className="fw-bold mb-4 pb-2 pb-md-0 mb-md-5">
-              Registrar Informacion
+              Registrar Informacion de Empleado
             </h3>
           </div>
 
-            <MDBRow>
+            <MDBRow className="mb-3">
               <MDBCol md="6">
               
                   <label htmlFor="form1" className="form-label fw-bold">Nombre(s):</label>
-                
-               
                 <MDBInput
                   name="nombre"
-                  wrapperClass="mb-4"
                   size="lg"
                   id="form1"
                   type="text"
@@ -131,7 +129,6 @@ function EmployeeRegister() {
             
                 <MDBInput
                   name="apellido"
-                  wrapperClass="mb-4"
                   size="lg"
                   id="form2"
                   type="text"
@@ -143,12 +140,11 @@ function EmployeeRegister() {
               </MDBCol>
             </MDBRow>
 
-            <MDBRow>
+            <MDBRow className="mb-3">
               <MDBCol md="6">
                   <label htmlFor="form4" className="form-label fw-bold" >Celular:</label>
                   <MDBInput
                     name="celular"
-                    wrapperClass="mb-4"
                     size="lg"
                     id="form4"
                     type="number"
@@ -162,7 +158,6 @@ function EmployeeRegister() {
                 <label htmlFor="form3" className="form-label fw-bold" >Correo:</label>
                 <MDBInput
                   name="correo"
-                  wrapperClass="mb-4"
                   size="lg"
                   id="form3"
                   type="text"
@@ -177,7 +172,7 @@ function EmployeeRegister() {
               
             </MDBRow>
 
-            <MDBRow>
+            <MDBRow className="mb-3">
 
 
               <MDBCol md="6">
@@ -187,7 +182,6 @@ function EmployeeRegister() {
               
                 <MDBInput
                   name="ci"
-                  wrapperClass="mb-4"
                   size="lg"
                   id="form5"
                   type="number"
@@ -199,7 +193,7 @@ function EmployeeRegister() {
               </MDBCol>
               <MDBCol md="6" className="mb-4">
                 
-                  <h6 className="fw-bold">Genero: </h6>
+                  <h6 className="fw-bold" style={{ paddingBottom: '15px' }}>Genero: </h6>
                   
                 
                 <MDBRadio

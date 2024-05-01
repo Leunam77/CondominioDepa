@@ -20,20 +20,16 @@ import EmployePage from "../pages/employes/EmployePage";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
-import Depa from "../departamento/components/MostrarDep.js"
-import EditarDep from "../departamento/components/EditarDep.js"
-import RegistrarResidente from "../departamento/components/CrearResidente"
+import Depa from "../departamento/components/MostrarDep.js";
+import EditarDep from "../departamento/components/EditarDep.js";
+import RegistrarResidente from "../departamento/components/CrearResidente";
 import CrearContrato from "../departamento/components/CrearContrato";
 
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
 
-
-
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
 import CobrosLayout from "../pages/dashboard/CobrosLayout";
-
-
 
 import EmployeHomePage from "../empleados/pages/homePageEmpleados";
 import EmployeeEdit from "../empleados/pages/employee_edit";
@@ -46,6 +42,9 @@ import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
 import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
+import CalendarPage from "../common-areas/pages/calendar-page/CalendarPage";
+import ReservationPage from "../common-areas/pages/reservation-page/ReservationPage";
+
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
@@ -78,14 +77,14 @@ const appRoutes: RouteType[] = [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index"
+        state: "dashboard.index",
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento"
+          displayText: "Crear Departamento",
         },
       },
       {
@@ -93,7 +92,7 @@ const appRoutes: RouteType[] = [
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento"
+          displayText: "Gestionar Departamento",
         },
       },
       {
@@ -101,7 +100,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Registrar Residente"
+          displayText: "Registrar Residente",
         },
       },
       {
@@ -119,7 +118,7 @@ const appRoutes: RouteType[] = [
         element: <DefaultPage />,
         state: "dashboard.default",
         sidebarProps: {
-          displayText: "Residentes (Ejemplo)"
+          displayText: "Residentes (Ejemplo)",
         },
       },
       {
@@ -127,18 +126,18 @@ const appRoutes: RouteType[] = [
         element: <AnalyticsPage />,
         state: "dashboard.analytics",
         sidebarProps: {
-          displayText: "Habitaciones"
-        }
+          displayText: "Habitaciones",
+        },
       },
       {
         path: "/dashboard/saas",
         element: <SaasPage />,
         state: "dashboard.saas",
         sidebarProps: {
-          displayText: "Parqueos"
-        }
-      }
-    ]
+          displayText: "Parqueos",
+        },
+      },
+    ],
   },
   {
     path: "/cobros",
@@ -167,7 +166,7 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/cobros/gestion-equipo",
-        element: <GestionEquipos/>,
+        element: <GestionEquipos />,
         state: "cobros.alerta",
         sidebarProps: {
           displayText: "Gestion de equipos dañados",
@@ -175,9 +174,8 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/cobros/edicion-equipo/:id",
-        element: <EditarEquipo/>,
+        element: <EditarEquipo />,
         state: "cobros.editar-equipo",
-        
       },
       {
         path: "/cobros/generar-preaviso/:departamento_id",
@@ -216,6 +214,16 @@ const appRoutes: RouteType[] = [
         path: "/areas-comunes/:id",
         element: <UpdatePage />,
         state: "areas-comunes.actualizar",
+      },
+      {
+        path: "/areas-comunes/calendario/:id",
+        element: <CalendarPage />,
+        state: "areas-comunes.calendario",
+      },
+      {
+        path: "/areas-comunes/reservar/:id",
+        element: <ReservationPage />,
+        state: "areas-comunes.reservar",
       },
     ],
   },
@@ -272,7 +280,7 @@ const appRoutes: RouteType[] = [
       displayText: "Notificaciones",
       icon: <NotificationsActiveIcon />,
     },
-    child:[
+    child: [
       {
         path: "/notifications/registrar",
         element: <RegistrarPersona />,
@@ -302,7 +310,7 @@ const appRoutes: RouteType[] = [
         element: <SendTelegramNotification />,
         state: "telegram.enviar",
       },
-    ]
+    ],
   },
 
   {
@@ -356,7 +364,6 @@ const appRoutes: RouteType[] = [
         element: <ContractRegister />,
         state: "employee.analytics",
       },
-
     ],
   },
 ];

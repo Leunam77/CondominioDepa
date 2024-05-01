@@ -46,16 +46,16 @@ const MostrarDep = () => {
             ...prevState,
             [idDepa]: !prevState[idDepa]
         }));
-
+    
         if (!switchStates[idDepa]) {
-                axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
+            axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
                 disponibilidad: 1,
             });
         } else {
             cookies.set('idDepa', idDepa);
             window.location.href = '/dashboard/crearContrato';
-        }
-    }
+        }
+    }
 
     return(
         <div className="Deps">
@@ -63,7 +63,7 @@ const MostrarDep = () => {
         
             <div className= "lista">
                 {departamentos.map((departamento) => (
-                    <Card key={departamento.id}>
+                    <Card className="cardDepa" key={departamento.id}>
                         <CardImg
                             alt="Card image cap"
                             src={`${endpointImg}/${departamento.imagen_departamento}`}

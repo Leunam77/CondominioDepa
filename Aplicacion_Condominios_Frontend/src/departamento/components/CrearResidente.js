@@ -68,7 +68,7 @@ class CrearResidente extends Component {
         if (!this.state.nombre_residente.trim()) {
             validationErrors.nombre_residente = "Este campo es obligatorio";
         } else if (
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú]$/.test(
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{0,59}[A-Za-zÑñáéíóú]$/.test(
                 this.state.nombre_residente
             )
         ) {
@@ -78,7 +78,7 @@ class CrearResidente extends Component {
         if (!this.state.apellidos_residente.trim()) {
             validationErrors.apellidos_residente = "Este campo es obligatorio";
         } else if (
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú]$/.test(
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{0,59}[A-Za-zÑñáéíóú]$/.test(
                 this.state.apellidos_residente
             )
         ) {
@@ -215,7 +215,7 @@ class CrearResidente extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Nombre
+                                                Nombres
                                             </Label>
                                             <Input
                                                 id="inputRegistro"

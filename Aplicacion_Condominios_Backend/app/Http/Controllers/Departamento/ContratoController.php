@@ -41,7 +41,7 @@ class ContratoController extends Controller
         $contrato = new Contrato();
         $validatedData = $request->validate([
             'fecha_inicio_contrato' => 'required|date',
-            'fecha_fin_contrato' => 'required|date',
+            'fecha_fin_contrato' => 'nullable|date',
             'precio_contrato' => 'required|numeric',
             'tipo_contrato' => 'required|string',
             'vigente_contrato' => 'required|boolean',

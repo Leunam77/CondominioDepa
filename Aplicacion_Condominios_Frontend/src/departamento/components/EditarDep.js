@@ -58,9 +58,17 @@ class EditarDep extends Component {
             imagenDep: "",
             nuevaImagen: "",
             modalOpen: false,
-            nuevaImagenMostrar:"",
+            nuevaImagenMostrar: "",
+            checkBoxOferta: '',
         };
     }
+    validarCheckboxes = () => {
+        if (!this.state.ofertado_venta && !this.state.ofertado_alquiler && !this.state.ofertado_anticretico) {
+            return 'Selecciona al menos una oferta.';
+        }
+        return '';
+    };
+
     obtenerDatosDepartamento = async (idDepartamento) => {
         try {
             const response = await axios.get(`${endpoint}/departamento/${idDepartamento}`);
@@ -169,7 +177,7 @@ class EditarDep extends Component {
         if (!this.state.nombre_departamento.trim()) {
             validationErrors.nombre_departamento = "Este campo es obligatorio";
         } else if (
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú]$/.test(
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(
                 this.state.nombre_departamento
             )
         ) {
@@ -213,6 +221,10 @@ class EditarDep extends Component {
         ) {
             validationErrors.superficie =
                 "Ingrese una superficie válida";
+        }
+        let checkBoxError = this.validarCheckboxes();
+        if (checkBoxError !== '') {
+            validationErrors.checkBoxOferta = checkBoxError;
         }
 
         if (this.state.nuevaImagen.name) {
@@ -261,7 +273,7 @@ class EditarDep extends Component {
 
             await axios.post(`${endpoint}/departamentoupd/${idDep}`, data);
             cookies.remove('idDepa');
-            window.location.href = "./depa";
+            window.location.href = "./departamentos";
 
 
         }
@@ -350,7 +362,7 @@ class EditarDep extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Superficie
+                                                Superficie(m²)
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
@@ -368,7 +380,7 @@ class EditarDep extends Component {
                                     
                                 </FormGroup>
 
-                                <Row className="mb-4">
+                                <Row className="mb-3">
                                     <Col sm={6}>
 
                                         <Label
@@ -378,6 +390,7 @@ class EditarDep extends Component {
                                             Amoblado{' '}
                                             <Input
                                                 type="checkbox"
+                                                className="customCheckbox"
                                                 id="checkBoxAmoblado"
                                                 checked={this.state.amoblado}
                                                 onChange={() => this.changeChecked('amoblado')}
@@ -387,10 +400,16 @@ class EditarDep extends Component {
                                     </Col>
                                 </Row>
 
-                                <FormGroup className="mb-4">
-                                    <Row className="mb-4">
-                                    <span>Ofertar cómo:</span>
-                                        <Col sm={6}>
+                                <FormGroup className="mb-3">
+                                    <Label
+                                        className="label-custom"
+
+                                    >
+                                        Ofertar como:
+
+                                    </Label>
+                                    <Row className="mb-3 mt-1">
+                                        <Col sm={4}>
                                             <Label
                                                 check
                                                 className="label-custom"
@@ -399,13 +418,14 @@ class EditarDep extends Component {
                                                 {' '}
                                                 <Input
                                                     type="checkbox"
+                                                    className="customCheckbox"
                                                     id="checkBoxVenta"
                                                     checked={this.state.ofertado_venta}
                                                     onChange={() => this.changeChecked('ofertado_venta')}
                                                 />
                                             </Label>
                                         </Col>
-                                        <Col sm={6}>
+                                        <Col sm={4}>
                                             <Label
                                                 check
                                                 className="label-custom"
@@ -414,13 +434,14 @@ class EditarDep extends Component {
                                                 {' '}
                                                 <Input
                                                     type="checkbox"
+                                                    className="customCheckbox"
                                                     id="checkBoxAlquiler"
                                                     checked={this.state.ofertado_alquiler}
                                                     onChange={() => this.changeChecked('ofertado_alquiler')}
                                                 />
                                             </Label>
                                         </Col>
-                                        <Col sm={6}>
+                                        <Col sm={4}>
                                             <Label
                                                 check
                                                 className="label-custom"
@@ -429,12 +450,16 @@ class EditarDep extends Component {
                                                 {' '}
                                                 <Input
                                                     type="checkbox"
+                                                    className="customCheckbox"
                                                     id="checkBoxAnticretico"
                                                     checked={this.state.ofertado_anticretico}
                                                     onChange={() => this.changeChecked('ofertado_anticretico')}
                                                 />
                                             </Label>
                                         </Col>
+                                        {this.state.errors.checkBoxOferta && <Label
+                                            style={{ color: 'red', fontSize: '0.875rem' }}
+                                        >{this.state.errors.checkBoxOferta}</Label>}
                                     </Row>
                                 </FormGroup>
 

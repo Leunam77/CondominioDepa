@@ -47,7 +47,7 @@ const MostrarDep = () => {
                 initialSwitchStates[departamento.id] = departamento.disponibilidad;
     
                 // Obtener los contratos asociados a este departamento
-                const contratosResponse = await axios.get(`${endpoint}/contratoDep/${departamento.id}`);
+                const contratosResponse = await axios.get(`${endpoint}/contratoDepS/${departamento.id}`);
                 // Guardar los contratos asociados a este departamento
                 departamento.contratos = contratosResponse.data.contratos;
 

@@ -206,6 +206,24 @@ class CrearContrato extends Component {
 
         if (Object.keys(validationErrors).length === 0) {
             const idDep = cookies.get('idDepa');
+
+            const contratoVentaExis = await axios.get(`${endpoint}/contratoDepS/${idDep}`);
+            const cve = contratoVentaExis.data;
+            if(cve && cve.contratos && this.state.tipo_contrato === "Venta"){
+                const residentesAntiguos = await axios.get(`${endpoint}/residentes-by-contrato/${cve.contratos[0].id}`);
+                const ra = residentesAntiguos.data;
+                for (const residente of ra) {
+                    await axios.put(`${endpoint}/residentes/${residente.id}/actualizarContrato`, {
+                        contrato_id: null,
+                        tipo_residente: "Ninguno",
+                    });
+                }
+                await axios.put(`${endpoint}/contratoNoVig/${cve.contratos[0].id}/anularContrato`,{
+                    vigente_contrato: false,
+                });
+            }
+            
+
             const url = `${endpoint}/contrato`;
             const data = new FormData();
 
@@ -219,18 +237,16 @@ class CrearContrato extends Component {
             const res = await axios.post(url, data);
             const contratoId = res.data.contrato_id;
         
-                // Actualizar disponibilidad del departamento
                 await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
                     disponibilidad: 0,
                 });
                 cookies.remove('idDepa');
         
-                // Recorrer el arreglo de usuarios y actualizar el contrato
                 const residentes = this.state.residentesSeleccionados;
                 
                 console.log("lista de residentes",residentes);
                 for (const residente of residentes) {
-                    const idResidente = residente.id; // Suponiendo que el usuario tiene un campo 'id'
+                    const idResidente = residente.id;
                     const tipoResidente = residente.tipo_residente;
                     console.log("id del residente",idResidente);
                     console.log("tipo de residente",tipoResidente);

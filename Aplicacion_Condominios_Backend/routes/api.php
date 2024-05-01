@@ -77,10 +77,12 @@ Route::controller(ResidenteController::class)->group(function(){
 });
 Route::controller(ContratoController::class)->group(function(){
     Route::get('/contratos','index')->name('contrato.index');
+    Route::get('/contratosVigentes','contratosVigentes')->name('contrato.contratosVigentes');
     Route::post('/contrato','store')->name('contrato.store');
     Route::get('/contrato/{id}','show')->name('contrato.show');
     Route::put('/contratoupd/{id}','update')->name('contrato.update');
     Route::delete('/contrato/{id}','destroy')->name('contrato.destroy');
     Route::get('/contratoDep/{valorDepartamento}', 'buscarContratoPorDepartamento')->name('contrato.buscarContratoPorDepartamento');
     Route::get('/contratoDepS/{idDepartament}', 'getContratByDepShort')->name('contrato.getContratByDepShort');
+    Route::put('/contratoNoVig/{id}/anularContrato','anularContrato')->name('contrato.anularContrato');
 });

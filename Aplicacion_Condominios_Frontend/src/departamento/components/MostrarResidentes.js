@@ -24,8 +24,8 @@ const MostrarResidentes = () => {
 
     const getAllData = async () => {
         try {
-            const responseContratos = await axios.get(`${endpoint}/contratos`);
-            const contratosData = responseContratos.data.reduce((acc, contrato) => {
+            const responseContratos = await axios.get(`${endpoint}/contratosVigentes`);
+            const contratosData = responseContratos.data.contratos.reduce((acc, contrato) => {
                 acc[contrato.id] = contrato;
                 return acc;
             }, {});

@@ -14,6 +14,31 @@ class ContratoController extends Controller
         return Contrato::all();
     }
 
+    public function contratosVigentes()
+    {
+        try {
+            $contratos = Contrato::where('vigente_contrato', true)->get();
+
+            if ($contratos->isEmpty()) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Contratos vigentes no encontrados',
+                    'contratos' => []
+                ]);
+            }
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contratos vigentes encontrados',
+                'contratos' => $contratos
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar los contratos vigentes'
+            ], 500);
+        }
+    }
 
     public function store(Request $request)
     {
@@ -176,4 +201,15 @@ class ContratoController extends Controller
         }
         
     } */
+
+    public function anularContrato(Request $request, $id)
+    {
+        $contrato = Contrato::findOrFail($id);
+
+        // Actualiza el atributo específico
+        $contrato->vigente_contrato = $request->input('vigente_contrato');
+        $contrato->save();
+
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+    }
 }

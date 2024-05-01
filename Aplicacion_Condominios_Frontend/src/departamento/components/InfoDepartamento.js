@@ -3,8 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from 'universal-cookie';
-import "./customs.css";
-import { Card, CardImg, CardBody, CardTitle , Button } from 'reactstrap';
+import "./Fondo.css";
+import "./InfoDep.css";
+import { Card } from 'reactstrap';
 const endpoint = "http://localhost:8000/api";
 const endpointImg = "http://localhost:8000";
 const cookies = new Cookies();
@@ -19,6 +20,15 @@ const InfoDepartamento = () => {
         const idDep = cookies.get('idDepa');
         obtenerDatosDepartamento(idDep);
     }, []);
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+    
+        return `${day}-${month}-${year}`;
+    }
 
 const  obtenerDatosDepartamento = async (idDepartamento) => {
         try {
@@ -55,45 +65,72 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
         }
     };
         return (
-            <>
-                <div>
-                    <img src={`${endpointImg}/${departamentos.imagen_departamento}`}></img>
-                    <h1>Informacion del departamento {departamentos.nombre_departamento}</h1>
-                    <h2>Bloque: {bloques.nombre_bloque}</h2>
-                    <h2>Edificio: {edificios.nombre_edificio}</h2>
-                    <h2>Piso: {departamentos.piso}</h2>
-                    <h3>Numero de habitaciones: {departamentos.numero_habitaciones}</h3>
-                    <h3>Amoblado: {departamentos.amoblado === 1 ? "si" : "no"}</h3>
-                    <h3>Superficie: {departamentos.superficie}</h3>
-                    <h3>Estado: {departamentos.disponibilidad === 1 ? "disponible" : "ocupado"}</h3>
-                    <h3>Descripción: {departamentos.descripcion_departamento}</h3>
-                </div>
-                <div>
-                    <h1>Contratos Activos:</h1>
-                    {contratos.map((contrato) => (
-                        <Card className="cardDepa" key={contrato.id}>
-                            <h3>Fecha inicios: {contrato.fecha_inicio_contrato}</h3>
-                            <h3>Fecha fin: {contrato.fecha_fin_contrato}</h3>
-                            <h3>Monto: {contrato.precio_contrato} $</h3>
-                            <h3>Tipo de contrato: {contrato.tipo_contrato}</h3>
-                        </Card>
-                    ))}
-                    <h1>Residentes:</h1>
-                    {residentes.map((residente) => (
-                        
-                        <Card className="cardDepa" key={residente.id}>
-                            <h3>Nombre: {residente.nombre_residente}</h3>
-                            <h3>Apellido: {residente.apellido_residente}</h3>
-                            <h3>Fecha de nacimiento: {residente.fecha_nacimiento_residente}</h3>
-                            <h3>Correo: {residente.correo_residente}</h3>
-                            <h3>Telefono: {residente.telefono_residente}</h3>
-                            <h3>tipo de residente: {residente.tipo_residente}</h3>
-                        </Card>
-                    ))}
-
-                </div>
-                </>
-        );
-    
+            <div>
+            <div className="background-image"></div>
+            <div className="contenedor">
+                <div className= "info-departamento">
+                    <div className= "infoText-departamento">
+                        <h1 id="titulo-infDep"><b>Informacion del departamento {departamentos.nombre_departamento}</b></h1>
+                        <h2 id="text-infDep"><b>Bloque: </b>{bloques.nombre_bloque}</h2>
+                        <h2 id="text-infDep"><b>Edificio: </b>{edificios.nombre_edificio}</h2>
+                        <h2 id="text-infDep"><b>Piso: </b>{departamentos.piso}</h2>
+                        <h2 id="text-infDep"><b>Numero de habitaciones: </b>{departamentos.numero_habitaciones}</h2>
+                        <h2 id="text-infDep"><b>Amoblado: </b>{departamentos.amoblado === 1 ? "si" : "no"}</h2>
+                        <h2 id="text-infDep"><b>Superficie: </b>{departamentos.superficie}</h2>
+                        <h2 id="text-infDep"><b>Estado: </b>{departamentos.disponibilidad === 1 ? "disponible" : "ocupado"}</h2>
+                        <h2 id="text-infDep"><b>Descripción: </b>{departamentos.descripcion_departamento}</h2>
+                    
+                        {contratos && contratos.length > 0 && (
+                        <div>
+                            <h1 id="text-subtit"><b>Contratos Activos:</b></h1>
+                            <div className="contenedorContratoinf">
+                            {contratos.map((contrato) => (
+                                <Card className="contratoinf" key={contrato.id}>
+                                    <span id="tupla">
+                                        <h2 id="text-infDep"><b>Fecha inicio: </b>{formatDate(contrato.fecha_inicio_contrato)}</h2>
+                                        <h2 id="text-infDep"><b>Fecha fin:</b>{formatDate(contrato.fecha_fin_contrato)}</h2>
+                                    </span>
+                                    <span id="tupla">
+                                        <h2 id="text-infDep"><b>Monto: </b>{contrato.precio_contrato} $</h2>
+                                        <h2 id="text-infDep"><b>Tipo de contrato: </b>{contrato.tipo_contrato}</h2>
+                                    </span>
+                                </Card>
+                            ))}
+                            </div>
+                        </div>
+                        )}
+                            
+                        {residentes && residentes.length > 0 && (
+                        <div>
+                            <h1 id="text-subtit"><b>Residentes:</b></h1>
+                            <div className="contenedorResidente">
+                            {residentes.map((residente) => (
+                                <Card className="contratoinf" key={residente.id}>
+                                    <span id="tupla">
+                                        <h2 id="text-infDep"><b>Nombre: </b>{residente.nombre_residente}</h2>
+                                        <h2 id="text-infDep"><b>Apellido: </b>{residente.apellido_residente}</h2>
+                                    </span>
+                                    <span id="tupla">
+                                        <h2 id="text-infDep"><b>Fecha de nacimiento: </b>{formatDate(residente.fecha_nacimiento_residente)}</h2>
+                                        <h2 id="text-infDep"><b>Correo: </b>{residente.correo_residente}</h2>
+                                    </span>
+                                    <span id="tupla">
+                                        <h2 id="text-infDep"><b>Telefono: </b>{residente.telefono_residente}</h2>
+                                        <h2 id="text-infDep"><b>tipo de residente: </b>{residente.tipo_residente}</h2>
+                                    </span>
+                                </Card>
+                            ))}
+                            </div>
+                        </div>
+                        )}
+                    </div>
+                    <div className= "imgInfo-departamento">
+                        <img src={`${endpointImg}/${departamentos.imagen_departamento}`} alt="Imagen del departamento" />
+                    </div>
+            </div>
+        </div>
+        </div>
+    );
 }
+
 export default InfoDepartamento;

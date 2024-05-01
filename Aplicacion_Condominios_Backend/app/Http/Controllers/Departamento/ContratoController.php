@@ -74,8 +74,9 @@ class ContratoController extends Controller
                 // Si no se encuentran contratos, devolver un mensaje de error
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Contratos no encontrados'
-                ], 404);
+                    'message' => 'Contratos no encontrados',
+                    'contratos' => []
+                ]);
             }
     
             // Devolver los contratos encontrados en la respuesta

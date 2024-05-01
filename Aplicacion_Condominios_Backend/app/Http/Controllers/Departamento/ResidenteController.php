@@ -304,8 +304,9 @@ class ResidenteController extends Controller
             if ($residente === null) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'No tiene propietario'
-                ], 404);
+                    'message' => 'No tiene propietario',
+                    'residente' => []
+                ]);
             }
             return response()->json([
                 'status' => 200,
@@ -327,8 +328,9 @@ class ResidenteController extends Controller
             if ($residente === null) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'No tiene titular'
-                ], 404);
+                    'message' => 'No tiene titular',
+                    'residente' => []
+                ]);
             }
             return response()->json([
                 'status' => 200,
@@ -352,8 +354,9 @@ class ResidenteController extends Controller
             if ($residentes->isEmpty()) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'No se encontraron residentes con tipo "Propietario" o "Titular"'
-                ], 404);
+                    'message' => 'No se encontraron residentes con tipo "Propietario" o "Titular"',
+                    'residente' => []
+                ]);
             }
             return response()->json([
                 'status' => 200,

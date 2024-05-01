@@ -81,14 +81,14 @@ class AgregarEquipo extends Component {
       try {
         const response = await axios.post(url, data);
         console.log("Equipo guardado exitosamente:", response.data);
-        window.location.href = "./pre-aviso"; // Reemplaza "./otra-pestaña" con la URL a la que deseas redirigir
+        window.location.href = "./gestion-equipo"; // Reemplaza "./otra-pestaña" con la URL a la que deseas redirigir
 
       } catch (error) {
         console.error("Error al guardar el equipo:", error);
       }
     }
   };
-
+/// probando commit
   render() {
     return (
       <Container className="custom-form">

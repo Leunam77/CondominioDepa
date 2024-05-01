@@ -57,7 +57,7 @@ import Changelog from "../pages/changelog/ChangelogPage";
 
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
-
+import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -161,7 +161,7 @@ const appRoutes: RouteType[] = [
         element: <AgregarEquipo />,
         state: "component.button",
         sidebarProps: {
-          displayText: "Agregar Equipo",
+          displayText: "Agregar equipo dañado",
         },
       },
       {
@@ -176,6 +176,12 @@ const appRoutes: RouteType[] = [
         path: "/cobros/edicion-equipo/:id",
         element: <EditarEquipo />,
         state: "cobros.editar-equipo",
+      },
+      {
+        path: "/cobros/generar-preaviso/:departamento_id",
+        element: <GenerarPreAviso/>,
+        state: "cobros.generar-pre-aviso",
+        
       },
     ],
   },

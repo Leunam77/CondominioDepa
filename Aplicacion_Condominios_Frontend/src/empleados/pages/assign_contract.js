@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Cookies from 'universal-cookie';
 import '../css/contract_register_style.css'
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 const cookies = new Cookies();
 
@@ -69,7 +70,7 @@ function AssignContract() {
               <th>Apellido</th>
               <th>CI</th>
               <th>Estado de Contrato</th>
-              <th>Contratar</th>
+              <th>Contrato</th>
             </tr>
           </thead>
           <tbody>
@@ -85,7 +86,7 @@ function AssignContract() {
                   {empleado.estado_contrato === "Contratado" ? (
                           <div> Contrato {empleado.contracts[0].tipo_contrato}</div>
                         ) : (
-                            <Button variant="danger" onClick={() => firmarContrato(empleado)}><DeleteIcon/></Button>
+                            <Button variant="danger" onClick={() => firmarContrato(empleado)} style={{ backgroundColor: '#65B8A6', borderColor: '#65B8A6' }}><AddIcon/></Button>
                         )}
                         </td>
                 </tr>

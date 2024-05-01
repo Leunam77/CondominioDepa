@@ -59,8 +59,6 @@ class EmployeeController extends Controller
         $empleado-> apellido = $request -> apellido;
         $empleado-> correo = $request -> correo;
         $empleado-> celular = $request -> celular;
-        $empleado-> genero = $request -> genero;
-        $empleado-> fecha_contratacion = $request -> fecha_contratacion;
 
         $empleado -> update();
 

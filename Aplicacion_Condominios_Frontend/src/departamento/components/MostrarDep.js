@@ -46,16 +46,16 @@ const MostrarDep = () => {
             ...prevState,
             [idDepa]: !prevState[idDepa]
         }));
-
+    
         if (!switchStates[idDepa]) {
-                axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
+            axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
                 disponibilidad: 1,
             });
         } else {
             cookies.set('idDepa', idDepa);
             window.location.href = '/dashboard/crearContrato';
-        }
-    }
+        }
+    }
 
     return(
         <div className="Deps">

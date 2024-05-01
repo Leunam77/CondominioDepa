@@ -25,13 +25,21 @@ class DepartamentoFactory extends Factory
         
         // Concatenar el path al nombre del archivo para almacenar en la base de datos
         $imagePath = $imageName ? $ruta . '/' . $imageName : 'departamento/images/departamentos/departamento_pred.jpeg';
+        $nombreDepa = $this->faker->word;
+        //quiero agregar la palabra departamento al nombre del departamento
+        $nombreDepa = 'Dep. '.$nombreDepa;
+        //quiero agregar un numero a en nombre del departamento
+        $nombreDepa = $nombreDepa.' '.$this->faker->numberBetween(1,100);
+        //quiero agregar una letra de la A a la Z al nombre del departamento en mayuscula
+        $nombreDepa = $nombreDepa.$this->faker->randomElement(range('A', 'Z'));
+        
 
         return [
             //
-            'nombre_departamento' => $this->faker->word,
+            'nombre_departamento' => $nombreDepa,
             'numero_habitaciones' => $this->faker->numberBetween(1,5),
             'numero_personas'  => $this->faker->numberBetween(1,7),
-            'superficie' => $this->faker->randomFloat($nbMaxDecimals = 2, $min =0, $max=100),
+            'superficie' => $this->faker->numberBetween(100, 999),
             'disponibilidad' => true,
             'amoblado' => $this->faker->boolean(),
             'ofertado_venta' => false,

@@ -321,6 +321,28 @@ class ResidenteController extends Controller
         }
     }
 
+    public function getPropietByContratShort($valorContrato){
+        try {
+            $residente = Residente::select('nombre_residente', 'apellidos_residente')
+                                    ->where('contrato_id', $valorContrato)
+                                    ->where('tipo_residente', "Propietario")
+                                    ->first();
+            if ($residente === null) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No tiene propietario',
+                    'residente' => []
+                ]);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Propietario encontrado',
+                'residente' => $residente
+            ]);
+        } catch (\Exception $e) {
+
+        }
+    }
     public function getTitularByContrato($valorContrato)
     {
         try {
@@ -342,6 +364,28 @@ class ResidenteController extends Controller
                 'status' => 500,
                 'message' => 'Error al buscar los titulares'
             ], 500);
+        }
+    }
+    public function getTituByContratShort($valorContrato){
+        try {
+            $residente = Residente::select('nombre_residente', 'apellidos_residente')
+                                    ->where('contrato_id', $valorContrato)
+                                    ->where('tipo_residente', "Titular")
+                                    ->first();
+            if ($residente === null) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No tiene titular',
+                    'residente' => []
+                ]);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Titular encontrado',
+                'residente' => $residente
+            ]);
+        } catch (\Exception $e) {
+
         }
     }
     public function notificacionesGenerales()

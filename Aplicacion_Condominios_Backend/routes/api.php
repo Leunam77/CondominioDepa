@@ -71,6 +71,9 @@ Route::controller(ResidenteController::class)->group(function(){
     Route::get('/notificacion-general', 'notificacionesGenerales')->name('residente.notificacionesGenerales');
     //ruta para mantenimiento
     Route::get('/residente-by-departamento/{id}', 'getResidenteByDepartamento')->name('residente.getResidenteByDepartamento');
+    Route::get('/propietario-by-contratoS/{id}', 'getPropietByContratShort')->name('residente.getPropietByContratShort');
+    Route::get('/titular-by-contratoS/{id}', 'getTitularByContratShort')->name('residente.getTitularByContratShort');
+
 });
 Route::controller(ContratoController::class)->group(function(){
     Route::get('/contratos','index')->name('contrato.index');

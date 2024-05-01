@@ -14,13 +14,12 @@ class ContratoSeeder extends Seeder
     public function run()
     {
         //
-        Contrato::factory()->count(10)->create();
         $contratoData = [
             [
                 'fecha_inicio_contrato' => '2023-01-01',
                 'fecha_fin_contrato' => '2024-12-31',
                 'precio_contrato' => 1500.00,
-                'tipo_contrato' => 'venta',
+                'tipo_contrato' => 'Venta',
                 'vigente_contrato' => true,
                 'departamento_id' => 1, // ID del departamento asociado
             ],
@@ -28,7 +27,7 @@ class ContratoSeeder extends Seeder
                 'fecha_inicio_contrato' => '2023-01-01',
                 'fecha_fin_contrato' => '2024-10-23',
                 'precio_contrato' => 1400.00,
-                'tipo_contrato' => 'alquiler',
+                'tipo_contrato' => 'Alquiler',
                 'vigente_contrato' => true,
                 'departamento_id' => 1, // ID del departamento asociado
             ],
@@ -36,15 +35,15 @@ class ContratoSeeder extends Seeder
                 'fecha_inicio_contrato' => '2023-02-01',
                 'fecha_fin_contrato' => '2024-07-30',
                 'precio_contrato' => 2000.00,
-                'tipo_contrato' => 'venta',
+                'tipo_contrato' => 'Venta',
                 'vigente_contrato' => true,
                 'departamento_id' => 2, // ID del departamento asociado
             ],
             [
                 'fecha_inicio_contrato' => '2023-03-01',
-                'fecha_fin_contrato' => '2023-06-30',
+                'fecha_fin_contrato' => '2024-06-30',
                 'precio_contrato' => 1800.00,
-                'tipo_contrato' => 'alquiler',
+                'tipo_contrato' => 'Alquiler',
                 'vigente_contrato' => true,
                 'departamento_id' => 3, // ID del departamento asociado
             ],
@@ -52,7 +51,7 @@ class ContratoSeeder extends Seeder
                 'fecha_inicio_contrato' => '2023-04-01',
                 'fecha_fin_contrato' => '2024-09-30',
                 'precio_contrato' => 2200.00,
-                'tipo_contrato' => 'venta',
+                'tipo_contrato' => 'Venta',
                 'vigente_contrato' => true,
                 'departamento_id' => 4, // ID del departamento asociado
             ],
@@ -60,7 +59,7 @@ class ContratoSeeder extends Seeder
                 'fecha_inicio_contrato' => '2023-05-01',
                 'fecha_fin_contrato' => '2024-10-31',
                 'precio_contrato' => 1700.00,
-                'tipo_contrato' => 'alquiler',
+                'tipo_contrato' => 'Alquiler',
                 'vigente_contrato' => true,
                 'departamento_id' => 5, // ID del departamento asociado
             ],
@@ -68,6 +67,7 @@ class ContratoSeeder extends Seeder
         ];
         // Crear los contratos utilizando createMany()
         Contrato::createMany($contratoData);
+        Contrato::factory()->count(10)->create();
 
         $this->call(ResidenteSeeder::class);
 

@@ -24,12 +24,12 @@ class ResidenteSeeder extends Seeder
                 'cedula_residente' => '12345678',
                 'telefono_residente' => '555-1234',
                 'fecha_nacimiento_residente' => '1990-05-15',
-                'tipo_residente' => 'propietario', // O 'inquilino' o 'titular'
+                'tipo_residente' => 'Propietario', // O 'inquilino' o 'titular'
                 'nacionalidad_residente' => 'Mexicana',
-                'email_residente' => 'juan@example.com',
+                'email_residente' => 'jua123n@example.com',
                 'genero_residente' => 'masculino',
                 'estado_residente' => true,
-                'imagen_residente' => 'imagen1.jpg',
+                'imagen_residente' => 'departamento/images/residentes/residente_default.png',
                 'contrato_id' => 1, // ID del contrato asociado
             ],
             [
@@ -38,13 +38,69 @@ class ResidenteSeeder extends Seeder
                 'cedula_residente' => '87654321',
                 'telefono_residente' => '555-5678',
                 'fecha_nacimiento_residente' => '1985-08-20',
-                'tipo_residente' => 'inquilino', // O 'propietario' o 'titular'
+                'tipo_residente' => 'Titular', // O 'propietario' o 'titular'
                 'nacionalidad_residente' => 'Colombiana',
-                'email_residente' => 'maria@example.com',
+                'email_residente' => 'mar21ia@example.com',
                 'genero_residente' => 'femenino',
                 'estado_residente' => true,
-                'imagen_residente' => 'imagen2.jpg',
-                'contrato_id' => 2, // ID del contrato asociado
+                'imagen_residente' => 'departamento/images/residentes/residente_default.png',
+                'contrato_id' => 1, // ID del contrato asociado
+            ],
+            [
+                'nombre_residente' => 'Ana',
+                'apellidos_residente' => 'García',
+                'cedula_residente' => '23456789',
+                'telefono_residente' => '555-9876',
+                'fecha_nacimiento_residente' => '1982-03-10',
+                'tipo_residente' => 'titular', // O 'propietario' o 'inquilino'
+                'nacionalidad_residente' => 'Española',
+                'email_residente' => 'ana@example.com',
+                'genero_residente' => 'femenino',
+                'estado_residente' => true,
+                'imagen_residente' => 'departamento/images/residentes/residente_default.png',
+                'contrato_id' => 3, // ID del contrato asociado
+            ],
+            [
+                'nombre_residente' => 'Carlos',
+                'apellidos_residente' => 'Martínez',
+                'cedula_residente' => '34567890',
+                'telefono_residente' => '555-5432',
+                'fecha_nacimiento_residente' => '1975-11-25',
+                'tipo_residente' => 'propietario', // O 'titular' o 'inquilino'
+                'nacionalidad_residente' => 'Argentino',
+                'email_residente' => 'carlos@example.com',
+                'genero_residente' => 'masculino',
+                'estado_residente' => true,
+                'imagen_residente' => 'departamento/images/residentes/residente_default.png',
+                'contrato_id' => 4, // ID del contrato asociado
+            ],
+            [
+                'nombre_residente' => 'Laura',
+                'apellidos_residente' => 'Gutiérrez',
+                'cedula_residente' => '98765432',
+                'telefono_residente' => '555-6789',
+                'fecha_nacimiento_residente' => '1988-09-22',
+                'tipo_residente' => 'titular',
+                'nacionalidad_residente' => 'Chilena',
+                'email_residente' => 'laura@example.com',
+                'genero_residente' => 'femenino',
+                'estado_residente' => true,
+                'imagen_residente' => 'departamento/images/residentes/residente_default.png',
+                'contrato_id' => 5,
+            ],
+            [
+                'nombre_residente' => 'Pedro',
+                'apellidos_residente' => 'Ramírez',
+                'cedula_residente' => '87654321',
+                'telefono_residente' => '555-5432',
+                'fecha_nacimiento_residente' => '1992-11-10',
+                'tipo_residente' => 'inquilino',
+                'nacionalidad_residente' => 'Uruguaya',
+                'email_residente' => 'pedro@example.com',
+                'genero_residente' => 'masculino',
+                'estado_residente' => true,
+                'imagen_residente' => 'departamento/images/residentes/residente_default.png',
+                'contrato_id' => 6,
             ],
             // Agrega más filas según sea necesario
         ];

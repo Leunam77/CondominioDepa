@@ -93,7 +93,7 @@ const MostrarResidentes = () => {
                             bloque = bloques[edificio.bloque_id];
                         }
                         return (
-                            <Col sm={12} md={6} lg={4} xl={3} key={residente.id}>
+                            <Col className= "d-flex align-items-stretch" sm={12} md={6} lg={4} xl={3} key={residente.id}>
                                 <Card className="mt-3 mb-3 cardRes">
                                     <CardImg
                                         className="cardImgResidente"
@@ -101,9 +101,9 @@ const MostrarResidentes = () => {
                                         src={`${endpointImg}/${residente.imagen_residente}`}
                                         top
                                     />
-                                    <CardBody>
+                                    <CardBody >
                                         <CardText>
-                                            <Row>
+                                            <Row >
                                                 <Col sm={12} md={6} lg={6}>
                                                     <Label className="labelResidente">{residente.nombre_residente} {residente.apellidos_residente}</Label>
 

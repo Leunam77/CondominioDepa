@@ -36,7 +36,6 @@ class ResidenteFactory extends Factory
             'genero_residente' => $this->faker->randomElement(['masculino', 'femenino']),
             'estado_residente' => false, 
             'imagen_residente' => $imagePath,
-            /* 
             'contrato_id' => function () use (&$tipo_residente){
                 // Obtener un contrato aleatorio
                 $contrato = Contrato::all()->random();
@@ -50,9 +49,8 @@ class ResidenteFactory extends Factory
                 }
                 // Devolver el id del contrato
                 return $contrato->id;
-            }, */
-            'tipo_residente' => $tipo_residente,   
-            'contrato_id' => Contrato::all()->random()->id,
+            },
+            'tipo_residente' => $tipo_residente,      
         ];
     }
 }

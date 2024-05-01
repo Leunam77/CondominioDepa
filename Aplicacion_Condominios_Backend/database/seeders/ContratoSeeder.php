@@ -14,6 +14,7 @@ class ContratoSeeder extends Seeder
     public function run()
     {
         //
-        Contrato::factory()->count(5)->create();
+        Contrato::factory()->count(10)->create();
+        
     }
 }

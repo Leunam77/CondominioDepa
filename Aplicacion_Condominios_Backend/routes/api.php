@@ -72,7 +72,7 @@ Route::controller(ResidenteController::class)->group(function(){
     //ruta para mantenimiento
     Route::get('/residente-by-departamento/{id}', 'getResidenteByDepartamento')->name('residente.getResidenteByDepartamento');
     Route::get('/propietario-by-contratoS/{id}', 'getPropietByContratShort')->name('residente.getPropietByContratShort');
-    Route::get('/titular-by-contratoS/{id}', 'getTitularByContratShort')->name('residente.getTitularByContratShort');
+    Route::get('/titular-by-contratoS/{id}', 'getTituByContratShort')->name('residente.getTituByContratShort');
 
 });
 Route::controller(ContratoController::class)->group(function(){

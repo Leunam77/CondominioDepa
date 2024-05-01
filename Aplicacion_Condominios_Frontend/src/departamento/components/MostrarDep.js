@@ -60,19 +60,19 @@ const MostrarDep = () => {
                         let tienePropietario = false;
                         console.log(departamento.id,'tieneVenta',tieneVenta);
                         if(tieneVenta){
-                            inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contrato.id}`);
+                            inquilinoResponse = await axios.get(`${endpoint}/propietario-by-contratoS/${contrato.id}`);
                             tienePropietario = inquilinoResponse !== null;
                             // console.log('tienePropietario',tienePropietario);
-                            console.log('Propietario:', inquilinoResponse.data.residente);
+                            //console.log('Propietario:', inquilinoResponse.data.residente);
                         }
                         let titularResponse=null;
                         if(tieneOtro){
-                            titularResponse = await axios.get(`${endpoint}/titular-by-contrato/${contrato.id}`);
+                            titularResponse = await axios.get(`${endpoint}/titular-by-contratoS/${contrato.id}`);
                         }
                         const tieneTitular = titularResponse !== null;
                         //console.log('tieneTitular',tieneTitular);
                         console.log(departamento.id,'tieneAntAlq',tieneOtro);
-                        console.log('Titular:', titularResponse.data.residente);
+                        //console.log('Titular:', titularResponse.data.residente);
                         if (tienePropietario) {
                             contrato.residente = inquilinoResponse.data.residente;
                         } else {
@@ -97,6 +97,7 @@ const MostrarDep = () => {
                 };
                 for (const contrato of departamento.contratos) {
                     await obtenerPropietarioyOTitular(contrato);
+                    console.log(departamento.id,'Contrato:', contrato);
                 }
                 
                 //initialSwitchStates[departamento.id] = tieneVenta;
@@ -188,8 +189,8 @@ const MostrarDep = () => {
                                                 //console.log("Propietario: ", contrato.residente.nombre_residente);
                                                <p>Propietario: {contrato.residente.nombre_residente} {contrato.residente.apellidos_residente}</p>
                                             )}
-                                            {contrato.tipo_contrato !== "venta" && contrato.titular && (
-                                                <p>Titular: {contrato.residente.nombre_residente} {contrato.residente.apellidos_residente}</p>
+                                            {contrato.tipo_contrato !== "Venta" && contrato.titular && (
+                                                <p>Titular: {contrato.titular.nombre_residente} {contrato.titular.apellidos_residente}</p>
                                             )}
                                         </div>
 
@@ -206,10 +207,10 @@ const MostrarDep = () => {
                                 <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
                                 <Button className="botoncard" onClick={() => handleClickInfo(departamento.id)} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
                                 {departamento.contratos && !departamento.contratos.some(contrato => contrato.tipo_contrato === "Alquiler" || contrato.tipo_contrato === "Anticretico") ? (
-                                <label className="switch">
-                                    <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { handleBotonSwitch(departamento.id); }} />
-                                    <span className="slider"></span>
-                                </label>
+                                    <label className="switch">
+                                        <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { handleBotonSwitch(departamento.id); }} />
+                                        <span className="slider"></span>
+                                    </label>
                                 ):null}
                             </div>
                         </CardBody>

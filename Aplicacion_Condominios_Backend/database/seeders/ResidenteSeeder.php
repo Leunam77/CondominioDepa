@@ -21,7 +21,7 @@ class ResidenteSeeder extends Seeder
             [
                 'nombre_residente' => 'Juan',
                 'apellidos_residente' => 'Pérez',
-                'cedula_residente' => '12345678',
+                'cedula_residente' => '72845678',
                 'telefono_residente' => '555-1234',
                 'fecha_nacimiento_residente' => '1990-05-15',
                 'tipo_residente' => 'Propietario', // O 'inquilino' o 'titular'
@@ -104,8 +104,10 @@ class ResidenteSeeder extends Seeder
             ],
             // Agrega más filas según sea necesario
         ];
-
+        foreach($residenteData as $residente){
+            Residente::create($residente);
+        }
         // Crear los residentes utilizando createMany()
-        Residente::createMany($residenteData);
+        //Residente::createMany($residenteData);
     }
 }

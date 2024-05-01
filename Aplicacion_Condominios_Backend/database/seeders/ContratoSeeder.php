@@ -66,7 +66,10 @@ class ContratoSeeder extends Seeder
             // Puedes seguir agregando más filas según sea necesario
         ];
         // Crear los contratos utilizando createMany()
-        Contrato::createMany($contratoData);
+        //Contrato::createMany($contratoData);
+        foreach($contratoData as $contrato){
+            Contrato::create($contrato);
+        }
         Contrato::factory()->count(10)->create();
 
         $this->call(ResidenteSeeder::class);

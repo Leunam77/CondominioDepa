@@ -15,5 +15,6 @@ class ContratoSeeder extends Seeder
     {
         //
         Contrato::factory()->count(10)->create();
+        
     }
 }

@@ -102,7 +102,7 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
                                     <h1 id="text-subtit"><b>Residentes:</b></h1>
                                     <div className="contenedorResidente">
                                     {residentes[contrato.id].map((residente) => (
-                                        <Card className="contratoinf" key={residente.id}>
+                                        <Card className="contratoinfR" key={residente.id}>
                                             <span id="tupla">
                                                 <h2 id="text-infDep"><b>Nombre: </b>{residente.nombre_residente}</h2>
                                                 <h2 id="text-infDep"><b>Apellido: </b>{residente.apellidos_residente}</h2>
@@ -112,8 +112,8 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
                                                 <h2 id="text-infDep"><b>Correo: </b>{residente.email_residente}</h2>
                                             </span>
                                             <span id="tupla">
-                                                <h2 id="text-infDep"><b>Telefono: </b>{residente.telefono_residente}</h2>
-                                                <h2 id="text-infDep"><b>tipo de residente: </b>{residente.tipo_residente}</h2>
+                                                <h2 id="text-infDep"><b>Teléfono: </b>{residente.telefono_residente}</h2>
+                                                <h2 id="text-infDep"><b>Tipo de residente: </b>{residente.tipo_residente}</h2>
                                             </span>
                                         </Card>
                                     ))}

@@ -184,7 +184,17 @@ export default function PersonalPage() {
                       </label>
                     </div>
                     <div className="col">
-                      <TextField id="outlined-select-currency" select>
+                      <TextField
+                        id="outlined-select-currency"
+                        value={categoryService?.find((element) => {
+                          if (element.id === servicioActual?.idCategoria) {
+                            return element.catnombre;
+                          } else {
+                            return "";
+                          }
+                        })}
+                        select
+                      >
                         {categoryService?.map((option, index) => (
                           <MenuItem key={index} value={option.id}>
                             {option.catnombre}

@@ -7,6 +7,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Box from "@mui/material/Box";
 import { getAllCategories } from "../services/maintenance/categoryService";
 import { createSolicitudServicio } from "../services/maintenance/solicitudMantenimientoService";
+import { getAllBloques } from "../services/departamento/bloqueService";
+import { getAllEdificios } from "../services/departamento/edificioService";
+import { getAllDepartamentos } from "../services/departamento/departamentoService";
 const place = [
   {
     value: "1",
@@ -26,26 +29,6 @@ const place = [
   },
 ];
 
-// const currencies = [
-
-//   {
-//     value: '1',
-//     label: 'Electricidad',
-//   },
-//   {
-//     value:'2',
-//     label: 'Plomeria',
-//   },
-//   {
-//     value:'3',
-//     label: 'Construcción',
-//   },
-//   {
-//     value: '4',
-//     label: 'otro',
-//   },
-// ];
-
 interface Servicio {
   id: number;
   catnombre: string;
@@ -57,75 +40,48 @@ interface Solicitud {
   descripcion: string;
   nombrePropietario: string;
   ubicacion: string;
-  numerRegerencia: string;
+  numerReferencia: string;
   encargado: string;
   fechaSoicitud: string;
   fechaFinalizado: string;
 }
 
-//Bloques
-const bloque = [
-  {
-    value: "1",
-    label: "Bloque1",
-  },
-  {
-    value: "2",
-    label: "Bloque2",
-  },
-  {
-    value: "3",
-    label: "Bloque3",
-  },
-  {
-    value: "4",
-    label: "Bloque4",
-  },
-];
+interface Bloque {
+  id: number;
+  nombre_bloque: string;
+  direccion_bloque: string;
+  descripcion_bloque: string;
+  imagen_bloque: string;
+}
 
+interface Edificio {
+  id: number;
+  nombre_edificio: string;
+  descripcion_edificio: string;
+  imagen_edificio: string;
+  cantidad_pisos: string;
+  bloque_id: number;
+}
 
-//Edificio
-const edificio = [
-  {
-    value: "1",
-    label: "Edificio1",
-  },
-  {
-    value: "2",
-    label: "Edificio2",
-  },
-  {
-    value: "3",
-    label: "Edificio3",
-  },
-  {
-    value: "4",
-    label: "Edificio4",
-  },
-];
-
-
-//Piso
-const piso= [
-  {
-    value: "1",
-    label: "Piso1",
-  },
-  {
-    value: "2",
-    label: "Piso2",
-  },
-  {
-    value: "3",
-    label: "Piso3",
-  },
-  {
-    value: "4",
-    label: "Piso4",
-  },
-];
+interface Departamento {
+  id: number;
+  nombre_departamento: string;
+  numero_habitaciones: number;
+  numero_personas: number;
+  superficie: number;
+  disponibilidad: number;
+  amoblado: number;
+  descripcion_departamento: string;
+  piso: number;
+  imagen_departamento: string;
+  edificio_id: number;
+}
 
 export default function PersonalPage() {
+  const [bloque, setBloque] = useState<Bloque[]>();
+  const [edificio, setEdificio] = useState<Edificio[]>();
+  const [departamento, setDepartamento] = useState<Departamento[]>();
+
   const [servicioList, setServicioList] = useState<Servicio[]>([]);
   const [solicitud, setSolicitud] = useState<Solicitud>({
     idCategoria: 0,
@@ -133,19 +89,25 @@ export default function PersonalPage() {
     descripcion: "",
     nombrePropietario: "",
     ubicacion: "",
-    numerRegerencia: "",
+    numerReferencia: "",
     encargado: "",
     fechaSoicitud: "",
     fechaFinalizado: "",
   });
   useEffect(() => {
-    loadServicios();
+    loadData();
   }, []);
 
-  const loadServicios = async () => {
+  const loadData = async () => {
     try {
       const response = await getAllCategories();
       setServicioList(response);
+      const bloquesData = await getAllBloques();
+      setBloque(bloquesData);
+      const edificiosData = await getAllEdificios();
+      setEdificio(edificiosData);
+      const departamentosData = await getAllDepartamentos();
+      setDepartamento(departamentosData);
     } catch (error) {}
   };
 
@@ -156,7 +118,7 @@ export default function PersonalPage() {
     setSolicitud({ ...solicitud, nombrePropietario: e.target.value });
   };
   const handleChangeTelefono = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSolicitud({ ...solicitud, numerRegerencia: e.target.value });
+    setSolicitud({ ...solicitud, numerReferencia: e.target.value });
   };
   const handleChangeUbicacion = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSolicitud({ ...solicitud, ubicacion: e.target.value });
@@ -170,6 +132,7 @@ export default function PersonalPage() {
     const formatedDate = `${year}-${month}-${day}`;
 
     const dataToSend = { ...solicitud, fechaSoicitud: formatedDate };
+    console.log("🚀 ~ handleClickRegistrar ~ dataToSend:", dataToSend);
 
     const response = await createSolicitudServicio(dataToSend);
 
@@ -219,9 +182,6 @@ export default function PersonalPage() {
                 </MenuItem>
               ))}
             </TextField>
-              
-
-
 
             <TextField
               id="outlined-select-currency"
@@ -230,13 +190,12 @@ export default function PersonalPage() {
               //defaultValue="1"
               helperText="Por favor seleccione el bloque"
             >
-              {bloque.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {bloque?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.nombre_bloque}
                 </MenuItem>
               ))}
             </TextField>
-
 
             <TextField
               id="outlined-select-currency"
@@ -245,9 +204,9 @@ export default function PersonalPage() {
               //defaultValue="1"
               helperText="Por favor seleccione el edificio"
             >
-              {edificio.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {edificio?.map((option) => (
+                <MenuItem key={option.bloque_id} value={option.bloque_id}>
+                  {option.nombre_edificio}
                 </MenuItem>
               ))}
             </TextField>
@@ -256,16 +215,15 @@ export default function PersonalPage() {
               id="outlined-select-currency"
               select
               label="Piso"
-             // defaultValue="1"
+              // defaultValue="1"
               helperText="Por favor seleccione el número de piso"
             >
-              {piso.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {departamento?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.piso} / {option.nombre_departamento}
                 </MenuItem>
               ))}
             </TextField>
-
 
             <div>
               <TextField
@@ -291,14 +249,13 @@ export default function PersonalPage() {
                 label="Telefono"
                 type="number"
                 placeholder="Ingrese telefono"
-                value={solicitud.numerRegerencia}
+                value={solicitud.numerReferencia}
                 onChange={handleChangeTelefono}
               />
-              
             </div>
-            <button 
+            <button
               className="block"
-              type="submit"
+              type="button"
               onClick={handleClickRegistrar}
             >
               Registrar

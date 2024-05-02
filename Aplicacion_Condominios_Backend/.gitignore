@@ -24,7 +24,7 @@ yarn-error.log
 /public/departamento/images/residentes/*
 
 # Pero no ignores este archivo
-!/public/departamento/images/residentes/residente_pred.jpeg
+!/public/departamento/images/residentes/residente_residente_default.png
 # Ignora todos
 
 /public/departamento/images/edificios/*

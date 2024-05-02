@@ -160,12 +160,17 @@ const MostrarDep = () => {
                 confirm={() => handleConfirm(estadoIdDepa)}
                 message="¿Está seguro de que deseas cambiar el estado de este departamento?"
             />
-            <ModalDisponible
+            {isOpenModal2 && (
+                <ModalDisponible
                 isOpen={isOpenModal2}
                 toggle={() => setIsOpenModal2(false)}
                 //confirm={() => handleConfirm()}
                 idDep={estadoIdDepa}
             />
+            )
+
+            }
+            
             <h1 className="title">Departamentos</h1>
             <div className= "lista">
                 {departamentos.map((departamento) => (
@@ -200,9 +205,9 @@ const MostrarDep = () => {
                             )}
                             <div id="datosCard">
                                 <span>Modalidad de oferta: </span>
-                                {departamento.ofertado_venta ? <span>Venta</span> : null}
-                                {departamento.ofertado_alquiler ? <span>Alquiler</span> : null}
-                                {departamento.ofertado_anticretico ? <span>Anticretico</span> : null}
+                                {departamento.ofertado_venta ? <span>Venta </span> : null}
+                                {departamento.ofertado_alquiler ? <span>Alquiler </span> : null}
+                                {departamento.ofertado_anticretico ? <span>Anticretico </span> : null}
                             </div>
                             <div className="botones">
                             <Button className="botoncard" onClick={(e) => { e.stopPropagation(); deleteDepartment(departamento.id); }}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>

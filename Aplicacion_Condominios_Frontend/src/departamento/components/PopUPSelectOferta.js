@@ -1,18 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input } from 'reactstrap'; // Added import for useState
 import "./PopUpCss.css";
 import "./customs.css";
+import axios from "axios";
 
+const endpoint = 'http://localhost:8000/api';
 const SeleccionarOferta = (props) => {
 	const { isOpen, toggle, idDep } = props;
 
     const [ventaChecked, setVentaChecked] = useState(false);
     const [alquilerChecked, setAlquilerChecked] = useState(false);
     const [anticreticoChecked, setAnticreticoChecked] = useState(false);
+    const [departamentoModal, setDepartamentoModal] = useState({});
     
-    const updateModalidad = () => {
-        toggle();
+    const updateModalidad = async () => {
+        try {
+            await axios.put(`${endpoint}/departamentoAct/${departamentoModal.id}/actualizarOfertados`, {
+                ofertado_venta: ventaChecked ? '1' : '0',
+                ofertado_alquiler: alquilerChecked ? '1' : '0',
+                ofertado_anticretico: anticreticoChecked ? '1' : '0'
+            });
+            toggle();
+        } catch (error) {
+            console.error('Error al actualizar la modalidad:', error);
+        }
     }
+
+    useEffect(() => {
+        const obtenerInfo = async () => {
+            try {
+                const response = await axios.get(`${endpoint}/departamento/${idDep}`);
+                const departamento = response.data;
+
+                // Establecer los estados basados en la información del departamento
+                setVentaChecked(departamento.ofertado_venta === 1);
+                setAlquilerChecked(departamento.ofertado_alquiler === 1);
+                setAnticreticoChecked(departamento.ofertado_anticretico === 1);
+                
+                // Guardar la información del departamento en el estado
+                setDepartamentoModal(departamento);
+            } catch (error) {
+                console.error('Error al obtener información del departamento:', error);
+            }
+        };
+        obtenerInfo();
+    }, []);
+
+
 	return (
 		<Modal isOpen={isOpen} toggle={toggle} centered>
 			<ModalHeader ></ModalHeader>

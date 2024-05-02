@@ -58,6 +58,8 @@ import Changelog from "../pages/changelog/ChangelogPage";
 
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
+import AssignTurn from "../empleados/pages/assign_turn";
+import TurnRegister from "../empleados/pages/turn_register";
 
 const appRoutes: RouteType[] = [
   {
@@ -341,6 +343,15 @@ const appRoutes: RouteType[] = [
       },
 
       {
+        path: "/employees/assignTurn",
+        element: <AssignTurn />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Asignar turnos",
+        },
+      },
+
+      {
         path: "/employees/employeeEdit",
         element: <EmployeeEdit />,
         state: "employee.analytics",
@@ -349,6 +360,12 @@ const appRoutes: RouteType[] = [
       {
         path: "/employees/contractRegister",
         element: <ContractRegister />,
+        state: "employee.analytics",
+      },
+
+      {
+        path: "/employees/turnRegister",
+        element: <TurnRegister/>,
         state: "employee.analytics",
       },
 

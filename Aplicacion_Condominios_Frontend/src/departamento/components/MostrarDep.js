@@ -204,10 +204,14 @@ const MostrarDep = () => {
                                 
                             )}
                             <div id="datosCard">
-                                <span>Modalidad de oferta: </span>
-                                {departamento.ofertado_venta ? <span>Venta </span> : null}
-                                {departamento.ofertado_alquiler ? <span>Alquiler </span> : null}
-                                {departamento.ofertado_anticretico ? <span>Anticretico </span> : null}
+                            {departamento.disponibilidad ? (
+                                <>
+                                    <span>Modalidad de oferta: </span>
+                                    {departamento.ofertado_venta ? <span>Venta </span> : null}
+                                    {departamento.ofertado_alquiler ? <span>Alquiler </span> : null}
+                                    {departamento.ofertado_anticretico ? <span>Anticretico </span> : null}
+                                </>
+                            ) : null}
                             </div>
                             <div className="botones">
                             <Button className="botoncard" onClick={(e) => { e.stopPropagation(); deleteDepartment(departamento.id); }}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>

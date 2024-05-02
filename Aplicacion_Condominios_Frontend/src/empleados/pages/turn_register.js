@@ -114,7 +114,7 @@ function TurnRegister() {
               }
             }
           }
-          
+          window.location.href = "./assignTurn";
         }
     };
 

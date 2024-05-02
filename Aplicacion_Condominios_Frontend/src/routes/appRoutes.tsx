@@ -95,22 +95,22 @@ const appRoutes: RouteType[] = [
           displayText: "Residentes"
         },
       },
-      {
-        path: "/dashboard/analytics",
-        element: <AnalyticsPage />,
-        state: "dashboard.analytics",
-        sidebarProps: {
-          displayText: "Habitaciones"
-        }
-      },
-      {
-        path: "/dashboard/saas",
-        element: <SaasPage />,
-        state: "dashboard.saas",
-        sidebarProps: {
-          displayText: "Parqueos"
-        }
-      }
+      // {
+      //   path: "/dashboard/analytics",
+      //   element: <AnalyticsPage />,
+      //   state: "dashboard.analytics",
+      //   sidebarProps: {
+      //     displayText: "Habitaciones"
+      //   }
+      // },
+      // {
+      //   path: "/dashboard/saas",
+      //   element: <SaasPage />,
+      //   state: "dashboard.saas",
+      //   sidebarProps: {
+      //     displayText: "Parqueos"
+      //   }
+      // }
     ]
   },
   {

@@ -20,6 +20,9 @@ const SeleccionarOferta = (props) => {
                 ofertado_alquiler: alquilerChecked ? '1' : '0',
                 ofertado_anticretico: anticreticoChecked ? '1' : '0'
             });
+            axios.put(`${endpoint}/departamentos/${departamentoModal.id}/actualizarDisp`, {
+                disponibilidad: 1,
+            });
             toggle();
         } catch (error) {
             console.error('Error al actualizar la modalidad:', error);

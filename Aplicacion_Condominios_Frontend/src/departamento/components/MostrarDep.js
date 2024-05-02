@@ -138,10 +138,6 @@ const MostrarDep = () => {
         }));
 
         if (!switchStates[idDepa]) {
-            
-            axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
-                disponibilidad: 1,
-            });
             setIsOpenModal2(true);
             
         } else {

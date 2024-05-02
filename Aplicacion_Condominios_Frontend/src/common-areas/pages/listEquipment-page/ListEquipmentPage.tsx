@@ -37,11 +37,11 @@ export const ListEquipmentPage: React.FC<ListElementProps> = ({ showForm }) => {
     return (
         <>
             <h2 className='text-center mb-3'> Lista de elementos </h2>
-            <button onClick={() => showForm()} type='button' className='btn btn-primary me-2'> Crear </button>
-            <button onClick={fetchEquipment} type='button' className='btn btn-outline-primary me-2'> Refrescar </button>
+            <button onClick={() => showForm()} type='button' className='btn btn-primary me-2 mb-4'> Crear </button>
+            <button onClick={fetchEquipment} type='button' className='btn btn-outline-primary me-2 mb-4'> Refrescar </button>
             <table className='table'>
                 <thead>
-                    <tr>
+                    <tr style={{ backgroundColor: '#f0f7da' }}>
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Descripción</th>

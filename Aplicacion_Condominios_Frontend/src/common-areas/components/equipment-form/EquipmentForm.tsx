@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Equipment } from '../../interfaces/equipment';
 
 export interface FormElementProps {
@@ -7,14 +7,34 @@ export interface FormElementProps {
 }
 
 export const EquipmentForm: React.FC<FormElementProps> = ({ showList, product }) => {
+    const [idCounter, setIdCounter] = useState<number>(0);
+
+    useEffect(() => {
+        fetch('http://localhost:3004/equipment')
+            .then(response => response.json())
+            .then((data: { id: string }[]) => {
+                const maxId = data.reduce((max: number, item: { id: string }) => Math.max(max, parseInt(item.id)), 0);
+                setIdCounter(maxId + 1);
+            });
+    }, []);
+    const generateSequentialId = () => {
+        const sequentialId = idCounter.toString();
+        setIdCounter(idCounter + 1);
+        return sequentialId;
+    };
+
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        //leer
+
         const formData = new FormData(event.currentTarget);
-        //convertir en objeto
+
         const element = Object.fromEntries(formData.entries());
+        if (!element.id) {
+            element.id = generateSequentialId();
+        }
 
         if (!(element.id || element.nombre || element.descripcion || element.costo || element.area_comun_id || element.area_comun_nombre)) {
+
             console.log("Todos los datos son requeridos")
             return;
         }

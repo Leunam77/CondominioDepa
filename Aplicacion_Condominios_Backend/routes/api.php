@@ -113,11 +113,6 @@ Route::post('/CategoriaServicio/insert', [CategoriaServicioController::class,'in
 Route::put('/CategoriaServicio/update/{id}', [CategoriaServicioController::class,'updateCategoria']);
 Route::delete('/CategoriaServicio/delete/{id}', [CategoriaServicioController::class,'deleteCategoria']);
 
-// COMMON AREAS
-Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
-Route::apiResource('/common-areas/reservations', ReservationController::class);
-Route::apiResource('/common-areas', CommonAreaController::class);
-
 Route::get('/personal-externo', [PersonalExternoController::class,'getPersonalExterno']);
 Route::get('/personal-externo/{id}', [PersonalExternoController::class,'getPersonalExternoId']);
 Route::post('/personal-externo/insert', [PersonalExternoController::class,'insertPersonalExterno']);
@@ -130,6 +125,10 @@ Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'i
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
 
+// COMMON AREAS
+Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
+Route::apiResource('/common-areas/reservations', ReservationController::class);
+Route::apiResource('/common-areas', CommonAreaController::class);
 
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){

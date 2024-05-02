@@ -19,7 +19,7 @@ const MostrarDep = () => {
     const [switchStates, setSwitchStates] = useState({});
     const [isOpenModal1, setIsOpenModal1] = useState(false);
     const [isOpenModal2, setIsOpenModal2] = useState(false);
-    const [estadoIdDepa, setEstadoIdDepa] = useState([null]);
+    const [estadoIdDepa, setEstadoIdDepa] = useState('');
 
 
     useEffect(() => {
@@ -178,8 +178,10 @@ const MostrarDep = () => {
                             src={`${endpointImg}/${departamento.imagen_departamento}`}
                             top
                             width="100%"
+                            height={225}
+                            style={{ objectFit: "fill" }}
                         />
-                        <CardBody>
+                        <CardBody className="d-flex flex-column justify-content-between">
                             <CardTitle tag="h5">{departamento.nombre_departamento}</CardTitle>
                             {departamento.contratos && departamento.contratos.length > 0 && (
                                 <div>

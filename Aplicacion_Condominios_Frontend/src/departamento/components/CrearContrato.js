@@ -361,12 +361,12 @@ class CrearContrato extends Component {
                                 </FormGroup >
 
                                 <Label className="label-custom">Residentes</Label>
-                                <ul>
+                                
                                     {residentesSeleccionados.map((residente, index) => (
-                                        <Row className="d-flex align-items-center customCard" key={index}>
+                                        <Row className="d-flex align-items-center justify-content-around mt-2 customCard" key={index}>
                                             <Col sm={3} >
                                                 <CardImg
-                                                    style={{ maxWidth: '64px', maxHeight: '64px', margin: '10px', borderRadius: '10px'}}
+                                                   className="cardlistaResidente"
                                                     src={`${endpointImg}/${residente.imagen_residente}`}
                                                     alt={residente.nombre_residente}
                                                 />
@@ -375,7 +375,7 @@ class CrearContrato extends Component {
                                                 <li style={{ fontWeight: 'bold', fontSize: '0.9rem'}}>{residente.nombre_residente} {residente.apellidos_residente}
                                                 </li>
                                             </Col>
-                                            <Col sm={3}>
+                                            <Col sm={4}>
                                                 <Input
                                                     type="select"
                                                     className="customInput"
@@ -383,16 +383,16 @@ class CrearContrato extends Component {
                                                     id="tipo_residente"
                                                     onChange={(e) => this.handleInputTipo(e, index)}
                                                 >
-                                                    <option disabled selected>{" "}Seleccione un tipo de residente</option>
+                                                    <option disabled selected>{" "}Tipo de residente</option>
                                                     {this.state.tipo_contrato === "Venta" && <option value="Propietario">Propietario</option>}
                                                     {(this.state.tipo_contrato === "Alquiler" || this.state.tipo_contrato === "Anticretico") && <option value="Titular">Titular</option>}
                                                     <option value="Residente">Residente</option>
                                                 </Input>
                                                 {(this.state.residentesSeleccionados[index].tipo_residente === '' || this.state.residentesSeleccionados[index].tipo_residente === "ninguno") && ( 
-                                                    <span style={{ color: 'red', fontSize: '0.9rem', marginLeft: "0.5rem" }}>Seleccione un tipo</span>    
+                                                    <span style={{ color: 'red', fontSize: '0.9rem', marginLeft: "0.7rem"}}>Seleccione un tipo</span>    
                                                 )}
                                             </Col>
-                                            <Col sm={3}>
+                                            <Col className="d-flex justify-content-end mr-4"sm={2}>
                                                 <Button className="botoncardContr" type="button" onClick={() => this.eliminarListaResidente(residente.id)} >
                                                     <FontAwesomeIcon icon={faTrashAlt} className="iconContr" />
                                                 </Button>
@@ -401,7 +401,7 @@ class CrearContrato extends Component {
 
 
                                     ))}
-                                </ul>
+                                
                                 {this.state.errors.residentesSeleccionados && (
                                     <span style={{ color: 'red', fontSize: '0.9rem' }}>{this.state.errors.residentesSeleccionados}</span> 
                                 )}

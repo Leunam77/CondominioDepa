@@ -1,13 +1,21 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect } from 'react';
 
 const GestionCobro = () => {
-   
-    const equipos = [
-        { id: 1, nombre: 'Depa 1', descripcion: 'Descripción 1', cantidad: 1000 },
-        { id: 2, nombre: 'Depa 2', descripcion: 'Descripción 2', cantidad: 2000 },
-        { id: 3, nombre: 'Depa 3', descripcion: 'Descripción 3', cantidad: 1500 },
-    ];
+    const endpoint = "http://localhost:8000/api";
+    const [departamentos, setDepartamentos] = useState([]);
+
+    useEffect(() => {
+        fetch(`${endpoint}/obtener-departamentos`)
+            .then(response => response.json())
+            .then(data => {
+                // Convertimos el objeto en un array de objetos
+                const departamentosArray = Object.entries(data).map(([id, nombre]) => ({ id, nombre }));
+                setDepartamentos(departamentosArray);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     return (
         <div className="container">
@@ -17,17 +25,14 @@ const GestionCobro = () => {
                     <tr>
                         <th>ID</th>
                         <th>Departamento</th>
-                        <th>Descripción cobro</th>
-                        <th>Cantidad</th>
+                        <th>Generar formulario pre-aviso</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {equipos.map(equipo => (
-                        <tr key={equipo.id}>
-                            <td>{equipo.id}</td>
-                            <td>{equipo.nombre}</td>
-                            <td>{equipo.descripcion}</td>
-                            <td>{equipo.cantidad}</td>
+                    {departamentos.map(departamento => (
+                        <tr key={departamento.id}>
+                            <td>{departamento.id}</td>
+                            <td>{departamento.nombre}</td>
                         </tr>
                     ))}
                 </tbody>

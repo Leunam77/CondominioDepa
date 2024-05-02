@@ -18,7 +18,7 @@ class CreateBloquesTable extends Migration
             $table->string('nombre_bloque');
             $table->string('direccion_bloque');
             $table->string('descripcion_bloque');
-            $table->string('imagen_bloque')->nullable();
+            $table->string('imagen_bloque');
         });
     }
 

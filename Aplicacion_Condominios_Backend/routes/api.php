@@ -23,6 +23,8 @@ use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
 
 
 use App\Http\Controllers\Empleados\ContractController;
+use App\Http\Controllers\Mantenimiento\EstadoController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -129,6 +131,9 @@ Route::get('/registro-solicitud/{id}', [RegistroSolicitudController::class,'getR
 Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'insertRegistroSolicitud']);
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
+
+Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
+Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);
 
 
 //Cobro_Servicios

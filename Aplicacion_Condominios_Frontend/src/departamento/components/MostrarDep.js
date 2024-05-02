@@ -171,7 +171,7 @@ const MostrarDep = () => {
                 {departamentos.map((departamento) => (
                     
                     
-                    <Card className="cardDepa" key={departamento.id}>
+                    <Card className="cardDepa" key={departamento.id} onClick={() => handleClickInfo(departamento.id)}>
                         
                         <CardImg
                             alt="Card image cap"
@@ -198,16 +198,18 @@ const MostrarDep = () => {
                                 </div>
                                 
                             )}
-                            <p>Modalidad de oferta:</p>
-                            {departamento.ofertado_venta ? <span>Venta</span> : null}
-                            {departamento.ofertado_alquiler ? <span>Alquiler</span> : null}
-                            {departamento.ofertado_anticretico ? <span>Anticretico</span> : null}
+                            <div id="datosCard">
+                                <span>Modalidad de oferta: </span>
+                                {departamento.ofertado_venta ? <span>Venta</span> : null}
+                                {departamento.ofertado_alquiler ? <span>Alquiler</span> : null}
+                                {departamento.ofertado_anticretico ? <span>Anticretico</span> : null}
+                            </div>
                             <div className="botones">
-                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
-                                <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
-                                <Button className="botoncard" onClick={() => handleClickInfo(departamento.id)} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
+                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); deleteDepartment(departamento.id); }}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
+                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); handleClickEditar(departamento.id); }} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
+                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); handleClickInfo(departamento.id); }} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
                                 {departamento.contratos && !departamento.contratos.some(contrato => contrato.tipo_contrato === "Alquiler" || contrato.tipo_contrato === "Anticretico") ? (
-                                    <label className="switch">
+                                    <label className="switch" onClick={(e) => e.stopPropagation()}>
                                         <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { handleBotonSwitch(departamento.id); }} />
                                         <span className="slider"></span>
                                     </label>

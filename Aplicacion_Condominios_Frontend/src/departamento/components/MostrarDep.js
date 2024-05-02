@@ -7,6 +7,7 @@ import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardImg, CardBody, CardTitle , Button } from 'reactstrap';
 import ModalConfirm from "./ModalConfirm";
+import ModalDisponible from "./PopUPSelectOferta";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight, faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -126,18 +127,8 @@ const MostrarDep = () => {
     };
     
     const handleBotonSwitch = (idDepa) => {
-        if (!switchStates[idDepa]) {
-            //axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
-            //disponibilidad: 1,
-            //});
-            setEstadoIdDepa(idDepa);
-            setIsOpenModal1(true);
-        } else {
-            //cookies.set('idDepa', idDepa);
-            //window.location.href = '/dashboard/crearContrato';
-            setEstadoIdDepa(idDepa);
-            setIsOpenModal1(true);
-        }
+        setEstadoIdDepa(idDepa);
+        setIsOpenModal1(true);
     }
 
     const handleConfirm = (idDepa) => {
@@ -147,9 +138,12 @@ const MostrarDep = () => {
         }));
 
         if (!switchStates[idDepa]) {
+            
             axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
                 disponibilidad: 1,
-                });
+            });
+            setIsOpenModal2(true);
+            
         } else {
             cookies.set('idDepa', idDepa);
             window.location.href = '/dashboard/crearContrato';
@@ -165,6 +159,12 @@ const MostrarDep = () => {
                 toggle={() => setIsOpenModal1(false)}
                 confirm={() => handleConfirm(estadoIdDepa)}
                 message="¿Está seguro de que deseas cambiar el estado de este departamento?"
+            />
+            <ModalDisponible
+                isOpen={isOpenModal2}
+                toggle={() => setIsOpenModal2(false)}
+                //confirm={() => handleConfirm()}
+                idDep={estadoIdDepa}
             />
             <h1 className="title">Departamentos</h1>
             <div className= "lista">

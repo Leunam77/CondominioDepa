@@ -12,6 +12,7 @@
 #checkPU{
     margin-inline: 2.2rem;
     margin-top: 0.9rem;
+    text-align: center;
 }
 .checkboxContainerPU{
     display: flex;
@@ -27,4 +28,8 @@
 .confirmBoton:hover{
     background-color: rgb(32, 63, 75); 
     border-color: rgba(32, 63, 75);
+}
+.checkModal.form-check-input{
+    box-shadow: none;
+    border: 1px solid rgb(63, 63, 63);
 }

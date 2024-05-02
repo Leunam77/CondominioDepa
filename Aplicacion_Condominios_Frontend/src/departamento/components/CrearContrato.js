@@ -375,7 +375,7 @@ class CrearContrato extends Component {
                                                 <li style={{ fontWeight: 'bold', fontSize: '0.9rem'}}>{residente.nombre_residente} {residente.apellidos_residente}
                                                 </li>
                                             </Col>
-                                            <Col sm={4}>
+                                            <Col sm={3}>
                                                 <Input
                                                     type="select"
                                                     className="customInput"
@@ -392,7 +392,7 @@ class CrearContrato extends Component {
                                                     <span style={{ color: 'red', fontSize: '0.9rem', marginLeft: "0.7rem"}}>Seleccione un tipo</span>    
                                                 )}
                                             </Col>
-                                            <Col className="d-flex justify-content-end mr-4"sm={2}>
+                                            <Col className="d-flex justify-content-center mr-2"sm={3}>
                                                 <Button className="botoncardContr" type="button" onClick={() => this.eliminarListaResidente(residente.id)} >
                                                     <FontAwesomeIcon icon={faTrashAlt} className="iconContr" />
                                                 </Button>

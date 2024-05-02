@@ -56,13 +56,18 @@ class ReservationController extends Controller
             'end_time' => $end_time,
             'reason' => $reason,
             'number_of_people' => $number_people,
-            'title' => $title
+            'title' => $title,
+            'reserva_pagada' => 0 // Establecer el valor predeterminado a 0
         ]);
-
-
-        return response()->json(['message' => 'Reservacion creada correctamente'], 201);
+    
+        return response()->json(['message' => 'Reservación creada correctamente'], 201);
     }
 
+
+
+
+
+    
     public function show(Reservation $reservation)
     {
         //

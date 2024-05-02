@@ -21,7 +21,7 @@ class CreateReservationsTable extends Migration
             $table->time('end_time');
             $table->text('reason');
             $table->integer('number_of_people');
-
+            $table->boolean('reserva_pagada')->default(0);
             $table->unsignedBigInteger('id_common_area');
 
             $table->foreign('id_common_area')->references('id_common_area')->on('common_areas');

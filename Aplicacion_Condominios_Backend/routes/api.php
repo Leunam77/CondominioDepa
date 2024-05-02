@@ -135,12 +135,14 @@ Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::c
 Route::controller(EquipamientosController::class)->group(function(){
     Route::post('/agregarEquipo', [EquipamientosController::class, 'store']);
     Route::get('/obtenerAreasComunes', [EquipamientosController::class, 'getAllCommonAreas']);
+    Route::get('/obtenerAreasComunesID',[EquipamientosController::class,'getAllCommonAreasID']);
     Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
     Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
 });
 
+Route::get('/common-areas/{id}/reservaPagada', [CommonAreaController::class, 'reservaPagada']);
 
 Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);

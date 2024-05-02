@@ -27,7 +27,7 @@ import CrearContrato from "../departamento/components/CrearContrato";
 
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
-
+import PagoAreaComun from "../cobro_servicios/components/PagoAreaComun";
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
 import CobrosLayout from "../pages/dashboard/CobrosLayout";
 
@@ -44,7 +44,7 @@ import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
 import CalendarPage from "../common-areas/pages/calendar-page/CalendarPage";
 import ReservationPage from "../common-areas/pages/reservation-page/ReservationPage";
-
+import FormularioPagoArea from "../cobro_servicios/components/FormularioPagoArea";
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
@@ -54,7 +54,7 @@ import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroSer
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
-
+import TablaReservas from "../cobro_servicios/components/TablaReservas";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
@@ -181,6 +181,29 @@ const appRoutes: RouteType[] = [
         path: "/cobros/generar-preaviso/:departamento_id",
         element: <GenerarPreAviso/>,
         state: "cobros.generar-pre-aviso",
+        
+        
+      },
+      {
+        path:"/cobros/pagar-reserva/",
+        element:<PagoAreaComun/>,
+        state: "cobros.pago-areacomun",
+        sidebarProps: {
+          displayText: "Pagar reserva",
+        },
+      },
+      {
+        path: "/cobros/pagar-reserva/:id",
+        element: <TablaReservas/>,
+        state: "cobros.tabla.reservas",
+        
+        
+      },
+      {
+        path: "/cobros/pagar-reserva-area/:id",
+        element: <FormularioPagoArea/>,
+        state: "cobros.formulario.pago",
+        
         
       },
     ],

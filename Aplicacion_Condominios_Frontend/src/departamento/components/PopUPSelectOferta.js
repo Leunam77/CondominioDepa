@@ -12,18 +12,36 @@ const SeleccionarOferta = (props) => {
     const [alquilerChecked, setAlquilerChecked] = useState(false);
     const [anticreticoChecked, setAnticreticoChecked] = useState(false);
     const [departamentoModal, setDepartamentoModal] = useState({});
-    
+    const [checkboxEstado, setCheckBoxEstado] = useState("");
+    const [errors, setErrors] = useState({});
+    const validarCheckboxes = () => {
+        if (!ventaChecked && !alquilerChecked && !anticreticoChecked) {
+            return "Seleccionar al menos una modalidad de oferta."
+        } else {
+            return "";
+        }
+    }
+
     const updateModalidad = async () => {
+        let validationErrors = {};
         try {
-            await axios.put(`${endpoint}/departamentoAct/${departamentoModal.id}/actualizarOfertados`, {
-                ofertado_venta: ventaChecked ? '1' : '0',
-                ofertado_alquiler: alquilerChecked ? '1' : '0',
-                ofertado_anticretico: anticreticoChecked ? '1' : '0'
-            });
-            axios.put(`${endpoint}/departamentos/${departamentoModal.id}/actualizarDisp`, {
-                disponibilidad: 1,
-            });
-            toggle();
+            let checkBoxError = validarCheckboxes();
+            if (checkBoxError !== '') {
+                validationErrors.checkboxEstado = checkBoxError;
+            }
+            setErrors(validationErrors);
+
+            if (Object.keys(validationErrors).length === 0) {
+                await axios.put(`${endpoint}/departamentoAct/${departamentoModal.id}/actualizarOfertados`, {
+                    ofertado_venta: ventaChecked ? '1' : '0',
+                    ofertado_alquiler: alquilerChecked ? '1' : '0',
+                    ofertado_anticretico: anticreticoChecked ? '1' : '0'
+                });
+                axios.put(`${endpoint}/departamentos/${departamentoModal.id}/actualizarDisp`, {
+                    disponibilidad: 1,
+                });
+                toggle(); 
+            }
         } catch (error) {
             console.error('Error al actualizar la modalidad:', error);
         }
@@ -69,6 +87,9 @@ const SeleccionarOferta = (props) => {
                         Anticrético
                     </Label>
                 </FormGroup>
+                {errors.checkboxEstado && <Label
+                    style={{ color: 'red', fontSize: '0.875rem' }}
+                >{errors.checkboxEstado}</Label>}
 			</ModalBody>
 			<ModalFooter id="modalFooterPU">
 				<Button color="primary" className="confirmBoton" onClick={updateModalidad}>Confirmar</Button>{' '}

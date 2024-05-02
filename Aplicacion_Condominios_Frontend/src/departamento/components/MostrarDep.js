@@ -215,12 +215,19 @@ const MostrarDep = () => {
                             <Button className="botoncard" onClick={(e) => { e.stopPropagation(); deleteDepartment(departamento.id); }}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                             <Button className="botoncard" onClick={(e) => { e.stopPropagation(); handleClickEditar(departamento.id); }} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
                             <Button className="botoncard" onClick={(e) => { e.stopPropagation(); handleClickInfo(departamento.id); }} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
-                                {departamento.contratos && !departamento.contratos.some(contrato => contrato.tipo_contrato === "Alquiler" || contrato.tipo_contrato === "Anticretico") ? (
-                                    <label className="switch" onClick={(e) => e.stopPropagation()}>
-                                        <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { handleBotonSwitch(departamento.id); }} />
-                                        <span className="slider"></span>
-                                    </label>
-                                ):null}
+                            <label className="switch" onClick={(e) => e.stopPropagation()}>
+                                <input
+                                    type="checkbox"
+                                    checked={switchStates[departamento.id]}
+                                    onChange={() => {
+                                    if (departamento.contratos && !departamento.contratos.some(contrato => contrato.tipo_contrato === "Alquiler" || contrato.tipo_contrato === "Anticretico")) {
+                                        handleBotonSwitch(departamento.id);
+                                    }
+                                    }}
+                                    disabled={!departamento.contratos || departamento.contratos.some(contrato => contrato.tipo_contrato === "Alquiler" || contrato.tipo_contrato === "Anticretico")}
+                                />
+                                <span className="slider"></span>
+                                </label>
                             </div>
                         </CardBody>
                     </Card>

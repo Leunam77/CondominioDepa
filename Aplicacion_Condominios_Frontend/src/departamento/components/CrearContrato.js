@@ -363,7 +363,7 @@ class CrearContrato extends Component {
                                 <Label className="label-custom">Residentes</Label>
                                 
                                     {residentesSeleccionados.map((residente, index) => (
-                                        <Row className="d-flex align-items-center justify-content-around mt-2 customCard" key={index}>
+                                        <Row className="d-flex align-items-center justify-content-between mt-2 customCard" key={index}>
                                             <Col sm={3} >
                                                 <CardImg
                                                    className="cardlistaResidente"
@@ -392,7 +392,7 @@ class CrearContrato extends Component {
                                                     <span style={{ color: 'red', fontSize: '0.9rem', marginLeft: "0.7rem"}}>Seleccione un tipo</span>    
                                                 )}
                                             </Col>
-                                            <Col className="d-flex justify-content-center mr-2"sm={3}>
+                                            <Col className="d-flex justify-content-center"sm={3}>
                                                 <Button className="botoncardContr" type="button" onClick={() => this.eliminarListaResidente(residente.id)} >
                                                     <FontAwesomeIcon icon={faTrashAlt} className="iconContr" />
                                                 </Button>

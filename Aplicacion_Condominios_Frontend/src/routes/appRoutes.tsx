@@ -24,6 +24,8 @@ import Depa from "../departamento/components/MostrarDep.js";
 import EditarDep from "../departamento/components/EditarDep.js";
 import RegistrarResidente from "../departamento/components/CrearResidente";
 import CrearContrato from "../departamento/components/CrearContrato";
+import InfoDepartamento from "../departamento/components/InfoDepartamento";
+import MostrarResidentes from "../departamento/components/MostrarResidentes";
 
 import Equipos from "../cobro_servicios/components/gestionEquipos.js";
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
@@ -58,6 +60,7 @@ import Changelog from "../pages/changelog/ChangelogPage";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
+
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -71,28 +74,28 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />,
+      icon: <ApartmentIcon />
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index",
+        state: "dashboard.index"
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento",
+          displayText: "Crear Departamento"
         },
       },
       {
-        path: "/dashboard/depa",
+        path: "/dashboard/departamentos",
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento",
+          displayText: "Gestionar Departamento"
         },
       },
       {
@@ -100,7 +103,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Registrar Residente",
+          displayText: "Registrar Residente"
         },
       },
       {
@@ -114,30 +117,35 @@ const appRoutes: RouteType[] = [
         state: "dashboard.depa",
       },
       {
-        path: "/dashboard/default",
-        element: <DefaultPage />,
-        state: "dashboard.default",
-        sidebarProps: {
-          displayText: "Residentes (Ejemplo)",
-        },
+        path: "/dashboard/infoDepartamento",
+        element: <InfoDepartamento />,
+        state: "dashboard.depa",
       },
       {
-        path: "/dashboard/analytics",
-        element: <AnalyticsPage />,
-        state: "dashboard.analytics",
+        path: "/dashboard/residentes",
+        element: <MostrarResidentes />,
+        state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Habitaciones",
+          displayText: "Residentes"
         },
       },
-      {
-        path: "/dashboard/saas",
-        element: <SaasPage />,
-        state: "dashboard.saas",
-        sidebarProps: {
-          displayText: "Parqueos",
-        },
-      },
-    ],
+      // {
+      //   path: "/dashboard/analytics",
+      //   element: <AnalyticsPage />,
+      //   state: "dashboard.analytics",
+      //   sidebarProps: {
+      //     displayText: "Habitaciones"
+      //   }
+      // },
+      // {
+      //   path: "/dashboard/saas",
+      //   element: <SaasPage />,
+      //   state: "dashboard.saas",
+      //   sidebarProps: {
+      //     displayText: "Parqueos"
+      //   }
+      // }
+    ]
   },
   {
     path: "/cobros",

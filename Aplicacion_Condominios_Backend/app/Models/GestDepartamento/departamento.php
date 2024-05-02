@@ -28,4 +28,8 @@ class departamento extends Model
     {
         return $this->belongsTo(edificio::class);
     }
+    public function contratos()
+    {
+        return $this->hasMany(Contrato::class, 'id');
+    }
 }

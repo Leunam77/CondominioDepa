@@ -17,7 +17,8 @@ class Reservation extends Model
         'end_time',
         'reason',
         'number_of_people',
-        'title'
+        'title',
+        'reserva_pagada'
     ];
 
     public function commonArea()

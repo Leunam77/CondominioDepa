@@ -83,7 +83,7 @@ class AgregarEquipo extends Component {
         tipo_equipo_danado: this.state.tipo_equipo_danado, // Incluir el nuevo estado en los datos
       };
       
-      const url2 = `${endpoint}/CategoriaServicio/insert`;
+      const url2 = `${endpoint}/agregarEquipo`;
       const data2 = {
         catnombre: this.state.nombre_equipo,
         catdescripcion: this.state.descripcion_equipo,

@@ -32,6 +32,8 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::delete('/departamento/{id}','destroy')->name('departamento.destroy');
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
+    Route::put('/departamentoAct/{id}/actualizarOfertados','actualizarOfertados')->name('departamento.actualizarOfertados');
+    
 });
 
 Route::controller(BloqueController::class)->group(function(){

@@ -170,10 +170,7 @@ const MostrarDep = () => {
             <h1 className="title">Departamentos</h1>
             <div className= "lista">
                 {departamentos.map((departamento) => (
-                    
-                    
                     <Card className="cardDepa" key={departamento.id} onClick={() => handleClickInfo(departamento.id)}>
-                        
                         <CardImg
                             alt="Card image cap"
                             src={`${endpointImg}/${departamento.imagen_departamento}`}

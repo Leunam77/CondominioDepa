@@ -20,7 +20,7 @@ use App\Http\Controllers\Cobro_Servicios\PreAvisoController;
 use App\Models\Mantenimiento\CategoriaServicio;
 use App\Http\Controllers\Mantenimiento\PersonalExternoController;
 use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
-
+use App\Http\Controllers\Empleados\WorkingHourController;
 
 use App\Http\Controllers\Empleados\ContractController;
 /*
@@ -114,8 +114,11 @@ Route::delete('/delete_employee/{id}', [EmployeeController::class, 'delete']);
 Route::get('/get_employee/{id}', [EmployeeController::class, 'getById']);
 Route::post('/update_employee/{id}', [EmployeeController::class, 'update']);
 Route::post('/updateContractStatus/{id}', [EmployeeController::class, 'updateContractStatus']);
+Route::get('/get_employee_with_contract', [EmployeeController::class, 'getEmployeeWithContract']);
 
 Route::post('/add_contract', [ContractController::class, 'store']);
+
+Route::post('/add_working_hour', [WorkingHourController::class, 'store']);
 
 // MANTENIMIENTO
 Route::get('/CategoriaServicio', [CategoriaServicioController::class,'getCategoriaServicio']);

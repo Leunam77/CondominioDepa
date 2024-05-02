@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Cobro_Servicios;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cobro_Servicios\PreAvisoModel;
-use App\Models\Cobro_Servicios\ExpensaModel;
+
 use App\Models\GestDepartamento\Departamento;
 
 class PreAvisoController extends Controller
@@ -17,18 +17,29 @@ class PreAvisoController extends Controller
     }
     public function store(Request $request)
     {
-        $expensa = new ExpensaModel();
-        $expensa->departamento_id = $request->departamento_id;
-        $expensa->fecha = $request->fecha;
-        $expensa->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
-        $expensa->descripcion_servicios = $request->descripcion_servicios;
-        $expensa->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
-        $expensa->monto = $request->monto;
-        $expensa->save();
+       
+        $departamento = Departamento::findOrFail($request->departamento_id);
+    
+        $nombre_residente = $departamento->contrato ? $departamento->contrato->residente->nombre_residente : null;
+        if ($nombre_residente) {
+            $nombre_residente = $residente->nombre_residente;
+        } else {
+            // Si no se encuentra un residente, establece un valor predeterminado
+            $nombre_residente = 'Sin residente';
+        }
+
+        $preaviso = new PreAvisoModel();
+        $preaviso->departamento_id = $request->departamento_id;
+        $preaviso->fecha = $request->fecha;
+        $preaviso->propietario_pagar = $nombre_residente; 
+        $preaviso->descripcion_servicios = $request->descripcion_servicios;
+        $preaviso->servicio_pagar = $request->servicio_pagar;
+        $preaviso->monto = $request->monto;
+        $preaviso->save();
         
         return response()->json([
             'status' => 200,
-            'message' => 'Expensa generada existosamente',
+            'message' => 'Preaviso generada existosamente',
         ]);
     }
     

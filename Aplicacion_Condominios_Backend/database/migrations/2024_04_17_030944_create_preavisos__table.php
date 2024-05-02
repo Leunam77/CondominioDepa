@@ -16,10 +16,12 @@ class CreatePreavisosTable extends Migration
         Schema::create('preavisos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('departamento_id');
-            $table->foreign('departamento_id')->references('id')->on('departamentos');
-            $table->text('descripcion');
+            $table->foreign('departamento_id')->references('id')->on('departamentos')->onDelete('cascade');
+            $table->string('propietario_pagar');
+            $table->date('fecha'); 
+            $table->string('descripcion_servicios'); 
+            $table->string('servicio_pagar'); 
             $table->decimal('monto', 10, 2);
-            $table->date('fecha_cobro');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ class CreatePreavisosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('preavisos_');
+        Schema::dropIfExists('preavisos');
     }
 }

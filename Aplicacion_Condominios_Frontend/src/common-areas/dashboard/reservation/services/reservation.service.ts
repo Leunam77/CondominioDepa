@@ -3,6 +3,7 @@ import {
   CreateReservationDTO,
   Reservation,
 } from "../interfaces/reservations";
+import { Resident } from "../interfaces/residents";
 
 const API_URL = "http://localhost:8000/api/";
 
@@ -33,4 +34,11 @@ export async function createReservation(reservation: CreateReservationDTO) {
   if (!response.ok) {
     throw data;
   }
+}
+
+export async function getResidents(): Promise<Resident[]> {
+  const response = await fetch(`${API_URL}residentes`);
+  const data: Resident[] = await response.json();
+
+  return data;
 }

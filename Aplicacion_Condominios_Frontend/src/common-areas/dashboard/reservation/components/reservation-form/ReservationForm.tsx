@@ -16,11 +16,14 @@ export default function ReservationForm({
     endTime,
     reason,
     numberPeople,
+    residents,
+    selectedResident,
     handleTitleChange,
     handleDateChange,
     handleStartTimeChange,
     handleEndTimeChange,
     handleReasonChange,
+    handleResidentChange,
     handleNumberPeopleChange,
     errorMessage,
     errors,
@@ -95,10 +98,18 @@ export default function ReservationForm({
 
       <div className="form-group">
         <label htmlFor="residente">Residente</label>
-        <select id="residente" name="residente">
-          <option value="1">Residente 1</option>
-          <option value="2">Residente 2</option>
-          <option value="3">Residente 3</option>
+        <select
+          id="residente"
+          name="residente"
+          value={selectedResident}
+          onChange={handleResidentChange}
+        >
+          <option value="">Selecciones una opción</option>
+          {residents.map((resident) => (
+            <option key={resident.id} value={resident.id}>
+              {resident.name}
+            </option>
+          ))}
         </select>
       </div>
 

@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { CreateReservationDTO } from "../interfaces/reservations";
-import { createReservation } from "../services/reservation.service";
+import {
+  createReservation,
+  getResidents,
+} from "../services/reservation.service";
 
 interface Props {
   idCommonArea: number;
@@ -16,6 +19,13 @@ export default function useCreateReservation({ idCommonArea }: Props) {
   const [endTime, setEndTime] = useState<string>("");
   const [reason, setReason] = useState<string>("");
   const [numberPeople, setNumberPeople] = useState<string>("");
+  const [residents, setResidents] = useState<
+    {
+      id: number;
+      name: string;
+    }[]
+  >([]);
+  const [selectedResident, setSelectedResident] = useState<number>(0);
 
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
@@ -23,6 +33,16 @@ export default function useCreateReservation({ idCommonArea }: Props) {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getResidents().then((data) => {
+      const res = data.map((resident) => ({
+        id: resident.id,
+        name: `${resident.nombre_residente} ${resident.apellidos_residente}`,
+      }));
+      setResidents(res);
+    });
+  }, []);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -51,14 +71,20 @@ export default function useCreateReservation({ idCommonArea }: Props) {
   const handleNumberPeopleChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(event.target.value);
     setNumberPeople(event.target.value);
+  };
+
+  const handleResidentChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedResident(parseInt(event.target.value, 10));
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data: CreateReservationDTO = {
+      idResident: selectedResident,
       idCommonArea,
       title,
       reservationDate: date,
@@ -85,6 +111,7 @@ export default function useCreateReservation({ idCommonArea }: Props) {
 
       navigate(`/areas-comunes/calendario/${idCommonArea}`);
     } catch (error: any) {
+      console.error(error);
       setErrorMessage(error.message);
       setErrors(error.errors);
     } finally {
@@ -108,12 +135,15 @@ export default function useCreateReservation({ idCommonArea }: Props) {
     endTime,
     reason,
     numberPeople,
+    residents,
+    selectedResident,
     handleTitleChange,
     handleDateChange,
     handleStartTimeChange,
     handleEndTimeChange,
     handleReasonChange,
     handleNumberPeopleChange,
+    handleResidentChange,
     onSubmit,
     errorMessage,
     errors,

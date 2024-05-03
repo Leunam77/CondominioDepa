@@ -18,6 +18,7 @@ export interface Reservation {
 }
 
 export interface CreateReservationDTO {
+  idResident: number;
   idCommonArea: number;
   reservationDate: string;
   startTime: string;

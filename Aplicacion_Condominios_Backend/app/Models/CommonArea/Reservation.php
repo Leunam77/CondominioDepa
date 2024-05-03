@@ -2,6 +2,7 @@
 
 namespace App\Models\CommonArea;
 
+use App\Models\GestDepartamento\Residente;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,11 +18,18 @@ class Reservation extends Model
         'end_time',
         'reason',
         'number_of_people',
-        'title'
+        'title',
+        'id_common_area',
+        'id_resident'
     ];
 
     public function commonArea()
     {
         return $this->belongsTo(CommonArea::class, 'id_common_area');
+    }
+
+    public function resident()
+    {
+        return $this->belongsTo(Residente::class, 'id_resident', 'id');
     }
 }

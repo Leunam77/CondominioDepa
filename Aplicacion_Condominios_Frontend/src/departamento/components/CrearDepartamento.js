@@ -34,6 +34,9 @@ class CrearDepartamento extends Component {
             superficie: 0,
             disponibilidad: true,
             amoblado: false,
+            ofertado_venta: false,
+            ofertado_alquiler: false,
+            ofertado_anticretico: false,
             descripcion_departamento: "",
             errors: {},
             bloques: [],
@@ -44,7 +47,8 @@ class CrearDepartamento extends Component {
             pisoSeleccionado: '',
             imagenDep: "",
             modalOpen: false,
-            imagen_departamento: null
+            imagen_departamento: null,
+            checkBoxOferta: '',
         };
     }
 
@@ -114,6 +118,12 @@ class CrearDepartamento extends Component {
     changeChecked = (name) => {
         this.setState({ [name]: !this.state[name] }); // Cambiar el estado del atributo específico
     };
+    validarCheckboxes = () => {
+        if (!this.state.ofertado_venta && !this.state.ofertado_alquiler && !this.state.ofertado_anticretico) {
+            return 'Selecciona al menos una oferta.';
+        }
+        return '';
+    };
 
     storeDepartment = async (e) => {
         e.preventDefault();
@@ -167,6 +177,10 @@ class CrearDepartamento extends Component {
             validationErrors.superficie =
                 "Ingrese una superficie válida";
         }
+        let checkBoxError = this.validarCheckboxes();
+        if (checkBoxError !== '') {
+            validationErrors.checkBoxOferta = checkBoxError;
+        }
 
         if (!this.state.pisoSeleccionado) {
             validationErrors.pisoSeleccionado = "Debe seleccionar un piso";
@@ -210,6 +224,9 @@ class CrearDepartamento extends Component {
             data.append("superficie", this.state.superficie);
             data.append("disponibilidad", this.state.disponibilidad ? '1' : '0');
             data.append("amoblado", this.state.amoblado ? '1' : '0');
+            data.append("ofertado_venta", this.state.ofertado_venta ? '1' : '0');
+            data.append("ofertado_alquiler", this.state.ofertado_alquiler ? '1' : '0');
+            data.append("ofertado_anticretico", this.state.ofertado_anticretico ? '1' : '0');
             data.append("descripcion_departamento", this.state.descripcion_departamento);
             data.append("piso", this.state.pisoSeleccionado);
             if (this.state.imagenDep) {
@@ -229,7 +246,7 @@ class CrearDepartamento extends Component {
 
             axios.post(url, data).then((res) => {
                 console.log(res);
-                window.location.href = "./depa";
+                window.location.href = "./departamentos";
             });
 
         }
@@ -315,7 +332,7 @@ class CrearDepartamento extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Superficie
+                                                Superficie(m²)
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
@@ -332,7 +349,7 @@ class CrearDepartamento extends Component {
                                     
                                 </FormGroup>
                                 
-                                <Row className="mb-4">
+                                <Row className="mb-3">
 
                                     <Col sm={6}>
 
@@ -344,6 +361,7 @@ class CrearDepartamento extends Component {
                                             {' '}
                                             <Input
                                                 type="checkbox"
+                                                className="customCheckbox"
                                                 id="checkBoxAmoblado"
                                                 onChange={() => this.changeChecked('amoblado')}
                                             />
@@ -352,6 +370,65 @@ class CrearDepartamento extends Component {
 
                                     </Col>
                                 </Row>
+
+                                <FormGroup className="mb-3">
+                                    <Label
+                                        className="label-custom"
+
+                                    >
+                                        Ofertar como:
+
+                                    </Label>
+                                    <Row className="mb-3 mt-1">
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Venta
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    onChange={() => this.changeChecked('ofertado_venta')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Alquiler
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    id="checkBoxAlquiler"
+                                                    onChange={() => this.changeChecked('ofertado_alquiler')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Anticretico
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    id="checkBoxAnticretico"
+                                                    onChange={() => this.changeChecked('ofertado_anticretico')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        {this.state.errors.checkBoxOferta && <Label
+                                            style={{color: 'red', fontSize: '0.875rem'}}
+                                        >{this.state.errors.checkBoxOferta}</Label>}
+                                    </Row>
+                                </FormGroup>
 
                                 <FormGroup className="mb-4">
                                     <Row>

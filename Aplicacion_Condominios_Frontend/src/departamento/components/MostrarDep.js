@@ -177,7 +177,7 @@ const MostrarDep = () => {
                         <CardImg
                             alt="Card image cap"
                             src={`${endpointImg}/${departamento.imagen_departamento}`}
-                            style={{ objectFit: "fill", width: "100%", maxHeight: "225px"}}
+                            style={{ objectFit: "cover", width: "100%", height: "250px"}}
                         />
                         <CardBody className="d-flex flex-column justify-content-between">
                             <CardTitle tag="h5">{departamento.nombre_departamento}</CardTitle>

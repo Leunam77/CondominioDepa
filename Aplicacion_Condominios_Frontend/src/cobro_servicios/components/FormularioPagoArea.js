@@ -1,127 +1,162 @@
-// Importa las librerías y los componentes necesarios
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from "reactstrap";
-import QRCode from "qrcode.react"; // Importa la librería qrcode.react
+import { useParams } from "react-router-dom";
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import QRCode from "qrcode.react";
+import Swal from "sweetalert2"; 
 
 const endpoint = "http://localhost:8000/api";
 
-// Define el componente FormularioPagoArea
 const FormularioPagoArea = () => {
-  // Define los estados necesarios
-  const [monto, setMonto] = useState("");
-  const [formaPago, setFormaPago] = useState("");
-  const [errors, setErrors] = useState({});
-  const [showQR, setShowQR] = useState(false); // Estado para mostrar u ocultar el QR
+    const { id } = useParams();
+    const [monto, setMonto] = useState("");
+    const [formaPago, setFormaPago] = useState("");
+    const [efectivo, setEfectivo] = useState(""); 
+    const [errors, setErrors] = useState({});
+    const [showQR, setShowQR] = useState(false);
+    const [cambio, setCambio] = useState(0);
+    const [pagoRealizado, setPagoRealizado] = useState(false);
 
-  // Efecto para imprimir un mensaje cuando el componente se monta
-  useEffect(() => {
-    console.log("Componente FormularioPagoArea montado");
-  }, []);
+    useEffect(() => {
+        console.log("Componente FormularioPagoArea montado");
+    }, []);
 
-  // Función para manejar cambios en los campos de entrada
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "monto":
-        setMonto(value);
-        break;
-      case "formaPago":
-        setFormaPago(value);
-        break;
-      default:
-        break;
-    }
-  };
+    const handleInput = (e) => {
+        const { name, value } = e.target;
+        switch (name) {
+            case "monto":
+                setMonto(value);
+                break;
+            case "formaPago":
+                setFormaPago(value);
+                break;
+            case "efectivo": 
+                setEfectivo(value);
+                break;
+            default:
+                break;
+        }
+    };
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = {};
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const validationErrors = {};
 
-    // Validar campos
-    if (!monto.trim()) {
-      validationErrors.monto = "Este campo es obligatorio";
-    }
+        if (!monto.trim()) {
+            validationErrors.monto = "Este campo es obligatorio";
+        }
 
-    if (!formaPago.trim()) {
-      validationErrors.formaPago = "Seleccione una forma de pago";
-    }
+        if (!formaPago.trim()) {
+            validationErrors.formaPago = "Seleccione una forma de pago";
+        }
 
-    // Establecer errores
-    setErrors(validationErrors);
+        setErrors(validationErrors);
 
-    // Si no hay errores, manejar la lógica de pago
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Monto:", monto);
-      console.log("Forma de pago:", formaPago);
-      if (formaPago === "qr") {
+        if (Object.keys(validationErrors).length === 0) {
+            console.log("Monto:", monto);
+            console.log("Forma de pago:", formaPago);
+            axios.put(`${endpoint}/common-areas/${id}/pagarReserva`)
+                .then(response => {
+                    console.log(response.data);
+                    setShowQR(formaPago === "qr");
+                    setPagoRealizado(true);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Pago realizado con éxito!'
+                    }).then(() => {
+                        window.location.href = "/cobros/pagar-reserva";
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al pagar la reserva:', error);
+                });
+
+            if (formaPago === "efectivo") {
+                const cambioCalculado = parseFloat(efectivo) - parseFloat(monto);
+                setCambio(cambioCalculado > 0 ? cambioCalculado : 0);
+            }
+        }
+    };
+
+    const handleGenerateQR = () => {
+        const qrData = `Monto: ${monto}`;
         setShowQR(true);
-      }
-    }
-  };
+    };
 
-  // Retornar el componente JSX
-  return (
-    <Container className="custom-form">
-      <Row>
-        <Col sm={12}>
-          <h2 className="text-center mb-5">Pagar Área Común</h2>
-          <Form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label for="monto">Monto:</Label>
-              <Input
-                type="number"
-                name="monto"
-                id="monto"
-                value={monto}
-                onChange={handleInput}
-                required
-              />
-              {errors.monto && <span>{errors.monto}</span>}
-            </FormGroup>
-            <FormGroup>
-              <Label for="formaPago">Forma de Pago:</Label>
-              <Input
-                type="select"
-                name="formaPago"
-                id="formaPago"
-                value={formaPago}
-                onChange={handleInput}
-                required
-              >
-                <option value="">Seleccione una opción</option>
-                <option value="efectivo">Efectivo</option>
-                <option value="tarjeta">Tarjeta de crédito</option>
-                <option value="transferencia">Transferencia bancaria</option>
-                <option value="qr">Pago por QR</option>
-              </Input>
-              {errors.formaPago && <span>{errors.formaPago}</span>}
-            </FormGroup>
-            <Button type="submit" color="primary">
-              Pagar
-            </Button>
-          </Form>
-          {showQR && (
-            <div className="text-center mt-3">
-              <h3>Escanea el siguiente código QR para realizar el pago:</h3>
-              <QRCode value="https://www.example.com" />
-            </div>
-          )}
-        </Col>
-      </Row>
-    </Container>
-  );
+    return (
+        <Container className="custom-form">
+            <Row>
+                <Col sm={12}>
+                    <h2 className="text-center mb-5">Pagar Área Común</h2>
+                    <Form onSubmit={handleSubmit}>
+                        <FormGroup>
+                            <Label for="monto">Monto:</Label>
+                            <Input
+                                type="number"
+                                name="monto"
+                                id="monto"
+                                value={monto}
+                                onChange={handleInput}
+                                required
+                            />
+                            {errors.monto && <span>{errors.monto}</span>}
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="formaPago">Forma de Pago:</Label>
+                            <Input
+                                type="select"
+                                name="formaPago"
+                                id="formaPago"
+                                value={formaPago}
+                                onChange={handleInput}
+                                required
+                            >
+                                <option value="">Seleccione una opción</option>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="qr">Pago por QR</option>
+                            </Input>
+                            {errors.formaPago && <span>{errors.formaPago}</span>}
+                        </FormGroup>
+                        {formaPago === "efectivo" && ( 
+                            <FormGroup>
+                                <Label for="efectivo">Efectivo:</Label>
+                                <Input
+                                    type="number"
+                                    name="efectivo"
+                                    id="efectivo"
+                                    value={efectivo}
+                                    onChange={handleInput}
+                                    required
+                                />
+                            </FormGroup>
+                        )}
+                        <Button type="submit" color="primary">
+                            Pagar
+                        </Button>
+                        {formaPago === "qr" && (
+                            <Button color="info" onClick={handleGenerateQR}>Generar QR</Button>
+                        )}
+                    </Form>
+                    {showQR && ( 
+                        <div className="text-center mt-3">
+                            <h3>Escanea el siguiente código QR para realizar el pago:</h3>
+                            <QRCode value={`Monto: ${monto}`} />
+                        </div>
+                    )}
+                    {formaPago === "efectivo" && cambio > 0 && ( 
+                        <div className="text-center mt-3">
+                            <h4>Cambio: {cambio.toFixed(2)}</h4>
+                        </div>
+                    )}
+                    {pagoRealizado && (
+                        <div className="text-center mt-3 text-success">
+                            <h4>Pago realizado con éxito</h4>
+                        </div>
+                    )}
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
-// Exportar el componente FormularioPagoArea
 export default FormularioPagoArea;

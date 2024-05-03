@@ -156,10 +156,14 @@ Route::controller(EquipamientosController::class)->group(function(){
 });
 
 Route::get('/common-areas/{id}/reservaPagada', [CommonAreaController::class, 'reservaPagada']);
+Route::put('/common-areas/{id}/pagarReserva', [CommonAreaController::class, 'pagarReserva']);
 
 Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
+    Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
+
+
 });
 
 // Notificaciones

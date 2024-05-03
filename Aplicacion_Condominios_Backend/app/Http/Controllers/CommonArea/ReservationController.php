@@ -65,19 +65,24 @@ class ReservationController extends Controller
                 'reason' => $reason,
                 'number_of_people' => $number_people,
                 'title' => $title,
+                'reserva_pagada' => 0, // Establecer el valor predeterminado a 0,
                 'id_common_area' => $id_common_area,
                 'id_resident' => $id_resident
             ]);
-        } catch (\Exception $e) {
+            } catch (\Exception $e) {
             return response()->json(['message' => 'Error al crear la reservacion.',"errors" => [
                 $e->getMessage()
             ]], 500);
         }
 
-
-        return response()->json(['message' => 'Reservacion creada correctamente'], 201);
+        return response()->json(['message' => 'Reservación creada correctamente'], 201);
     }
 
+
+
+
+
+    
     public function show(Reservation $reservation)
     {
         //

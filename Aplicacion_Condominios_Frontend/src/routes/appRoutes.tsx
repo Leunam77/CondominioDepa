@@ -18,7 +18,7 @@ import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
 
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
-
+import PagoAreaComun from "../cobro_servicios/components/PagoAreaComun";
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
 import CobrosLayout from "../pages/dashboard/CobrosLayout";
 
@@ -38,7 +38,7 @@ import UpdatePage from "../common-areas/dashboard/common-area/pages/update-page/
 import CalendarPage from "../common-areas/dashboard/common-area/pages/calendar-page/CalendarPage";
 import ReservationPage from "../common-areas/dashboard/reservation/pages/create-page/CreatePage";
 import InventoryPage from "../common-areas/dashboard/equipment/pages/inventory-page/InventoryPage";
-
+import FormularioPagoArea from "../cobro_servicios/components/FormularioPagoArea";
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
@@ -48,10 +48,11 @@ import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroSer
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
-
+import TablaReservas from "../cobro_servicios/components/TablaReservas";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
+import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
 
 const appRoutes: RouteType[] = [
   {
@@ -157,6 +158,14 @@ const appRoutes: RouteType[] = [
         },
       },
       {
+        path: "/cobros/pre-avisoExpensas",
+        element: <PreAvisoExpensas />,
+        state: "cobros.alertita",
+        sidebarProps: {
+          displayText: "Pre-aviso de expensas",
+        },
+      },
+      {
         path: "/cobros/agregar-equipo",
         element: <AgregarEquipo />,
         state: "component.button",
@@ -181,6 +190,29 @@ const appRoutes: RouteType[] = [
         path: "/cobros/generar-preaviso/:departamento_id",
         element: <GenerarPreAviso />,
         state: "cobros.generar-pre-aviso",
+        
+      },
+      {
+        path:"/cobros/pagar-reserva/",
+        element:<PagoAreaComun/>,
+        state: "cobros.pago-areacomun",
+        sidebarProps: {
+          displayText: "Pagar reserva",
+        },
+      },
+      {
+        path: "/cobros/pagar-reserva/:id",
+        element: <TablaReservas/>,
+        state: "cobros.tabla.reservas",
+        
+        
+      },
+      {
+        path: "/cobros/pagar-reserva-area/:id",
+        element: <FormularioPagoArea/>,
+        state: "cobros.formulario.pago",
+        
+        
       },
     ],
   },

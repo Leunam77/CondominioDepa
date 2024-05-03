@@ -32,7 +32,6 @@ export default function CalendarPage() {
       return (
         <div className="event-card">
           <div>{props.event.title}</div>
-
           <div>{props.event.reason}</div>
         </div>
       );
@@ -43,16 +42,13 @@ export default function CalendarPage() {
     getReservationsByCommonAreaId(Number(id)).then(
       (reservations: Reservation[]) => {
         const events: Event[] = reservations.map((reservation) => ({
-          title: reservation.title,
-          start: dayjs(
-            `${reservation.reservationDate}T${reservation.startTime}`
-          ).toDate(),
-          end: dayjs(
-            `${reservation.reservationDate}T${reservation.endTime}`
-          ).toDate(),
+          title: `${reservation.title} - ${reservation.reserva_pagada === 1 ? "Pagado" : "No Pagado"}`,
+          start: dayjs(`${reservation.reservationDate}T${reservation.startTime}`).toDate(),
+          end: dayjs(`${reservation.reservationDate}T${reservation.endTime}`).toDate(),
           reason: reservation.reason,
+          
         }));
-
+        
         setEvents(events);
       }
     );
@@ -82,7 +78,7 @@ export default function CalendarPage() {
   return (
     <section className="calendar-container">
       <header>
-        <h1>Calendario - Area Común {commonAreaName}</h1>
+        <h1>Calendario - Área Común {commonAreaName}</h1>
       </header>
 
       <div className="calendar-content">

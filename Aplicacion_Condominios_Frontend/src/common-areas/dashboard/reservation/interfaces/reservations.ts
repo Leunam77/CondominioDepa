@@ -15,6 +15,7 @@ export interface Reservation {
   reason: string;
   numberPeople: number;
   title: string;
+  reserva_pagada: number;
 }
 
 export interface CreateReservationDTO {
@@ -26,4 +27,6 @@ export interface CreateReservationDTO {
   reason: string;
   numberPeople: number;
   title: string;
+ // reserva_pagada: number; // O el tipo de dato correcto para indicar si la reserva está pagada o no
+
 }

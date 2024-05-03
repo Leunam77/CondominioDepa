@@ -10,7 +10,7 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id_reservation';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'reserved_date',
@@ -19,6 +19,7 @@ class Reservation extends Model
         'reason',
         'number_of_people',
         'title',
+        'reserva_pagada',
         'id_common_area',
         'id_resident'
     ];

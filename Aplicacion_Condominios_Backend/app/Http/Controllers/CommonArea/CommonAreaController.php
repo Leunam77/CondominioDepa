@@ -11,6 +11,7 @@ use App\Http\Resources\CommonArea\CommonAreaResource;
 use App\Http\Resources\CommonArea\ReservationCollection;
 use App\Models\CommonArea\CommonArea;
 use App\Models\CommonArea\Policy;
+use App\Models\CommonArea\Reservation;
 use App\Models\CommonArea\Schedule;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cobro_Servicios\EquipamientosModel;
@@ -166,6 +167,43 @@ class CommonAreaController extends Controller
         return response()->json(['data' => [
             'reservations' => new ReservationCollection($reservations)
         ]], 200);
+    }
+
+
+    public function reservaPagada($idCommonArea) {
+        $commonArea = CommonArea::find($idCommonArea);
+        if(!$commonArea){
+            return response()->json(['message' => 'Area comun no encontrada'], 404);
+        }
+        $reservations = $commonArea->reservations->map(function ($reservation) {
+            return [
+                'id' => $reservation->id,
+                'reserved_date' => $reservation->reserved_date,
+                'start_time' => $reservation->start_time,
+                'end_time' => $reservation->end_time,
+                'reason' => $reservation->reason,
+                'number_of_people' => $reservation->number_of_people,
+                'reserva_pagada' => $reservation->reserva_pagada
+            ];
+        });
+        return response()->json(['data' => [
+            'reservations' => $reservations
+        ]], 200);
+    }
+
+
+
+    public function pagarReserva($idReserva) {
+        $reservation = Reservation::find($idReserva);
+        
+        if(!$reservation){
+            return response()->json(['message' => 'Reserva no encontrada'], 404);
+        }
+        
+        $reservation->reserva_pagada = 1;
+        $reservation->save();
+        
+        return response()->json(['message' => 'Reserva pagada exitosamente'], 200);
     }
 
     public function dummyMessage() {

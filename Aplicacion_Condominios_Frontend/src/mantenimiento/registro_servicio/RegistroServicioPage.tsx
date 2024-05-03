@@ -29,6 +29,11 @@ const place = [
   },
 ];
 
+interface Place {
+  value: number;
+  label: string;
+}
+
 interface Servicio {
   id: number;
   catnombre: string;
@@ -81,6 +86,30 @@ export default function PersonalPage() {
   const [bloque, setBloque] = useState<Bloque[]>();
   const [edificio, setEdificio] = useState<Edificio[]>();
   const [departamento, setDepartamento] = useState<Departamento[]>();
+  const [placesList, setPlacesList] = useState<Place[]>([
+    {
+      value: 1,
+      label: "Departamento",
+    },
+    {
+      value: 2,
+      label: "Áreas comunes",
+    },
+    {
+      value: 3,
+      label: "Infraestructura",
+    },
+    {
+      value: 4,
+      label: "otro",
+    },
+  ]);
+
+  const [currentDestino, setCurrentDestino] = useState<number>(1);
+
+  const [showBloque, setShowBloque] = useState<boolean>(false);
+  const [showEdificio, setShowEdificio] = useState<boolean>(false);
+  const [showDepartamento, setShowDepartamento] = useState<boolean>(false);
 
   const [servicioList, setServicioList] = useState<Servicio[]>([]);
   const [solicitud, setSolicitud] = useState<Solicitud>({
@@ -157,8 +186,11 @@ export default function PersonalPage() {
               label="Destino de Servicio"
               defaultValue="1"
               helperText="Por favor seleccione el tipo de servicio"
+              onChange={(event) => {
+                setCurrentDestino(parseInt(event.target.value));
+              }}
             >
-              {place.map((option) => (
+              {placesList.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -187,6 +219,7 @@ export default function PersonalPage() {
               id="outlined-select-currency"
               select
               label="Bloque"
+              disabled={currentDestino > 1 ? true : false}
               //defaultValue="1"
               helperText="Por favor seleccione el bloque"
             >
@@ -202,6 +235,7 @@ export default function PersonalPage() {
               select
               label="Edificio"
               //defaultValue="1"
+              disabled={currentDestino > 1 ? true : false}
               helperText="Por favor seleccione el edificio"
             >
               {edificio?.map((option) => (
@@ -215,6 +249,7 @@ export default function PersonalPage() {
               id="outlined-select-currency"
               select
               label="Piso"
+              disabled={currentDestino > 1 ? true : false}
               // defaultValue="1"
               helperText="Por favor seleccione el número de piso"
             >

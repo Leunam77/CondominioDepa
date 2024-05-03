@@ -11,18 +11,22 @@ class ExpensasController extends Controller
     
     public function store(Request $request)
     {
+        $preaviso = PreAvisoModel::findOrFail($request->departamento_id);
+
         $expensa = new ExpensaModel();
-        $expensa->preaviso_id = $request->departamento_id; // Aquí cambiamos 'departamento_id' por 'preaviso_id'
-        $expensa->fecha = $request->fecha;
-        $expensa->propietario_pagar = $request->propietario_pagar;
-        $expensa->descripcion_servicios = $request->descripcion_servicios;
-        $expensa->servicio_pagar = $request->servicio_pagar;
-        $expensa->monto = $request->monto;
+
+        $expensa->departamento_id = $preaviso->departamento_id;
+        $expensa->fecha = $preaviso->fecha;
+        $expensa->propietario_pagar = $preaviso->propietario_pagar;
+        $expensa->descripcion_servicios = $preaviso->descripcion_servicios;
+        $expensa->servicio_pagar = $preaviso->servicio_pagar;
+        $expensa->monto = $preaviso->monto;
+
         $expensa->save();
 
         return response()->json([
             'status' => 200,
-            'message' => 'Expensa generada existosamente',
+            'message' => 'Expensa generada exitosamente',
         ]);
     }
 }

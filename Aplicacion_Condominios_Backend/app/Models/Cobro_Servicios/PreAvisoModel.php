@@ -29,4 +29,5 @@ class PreAvisoModel extends Model
             $preaviso->propietario_pagar = $nombre_residente;
         });
     }
+    
 }

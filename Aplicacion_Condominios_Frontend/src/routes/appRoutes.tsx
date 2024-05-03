@@ -41,6 +41,7 @@ import ContractRegister from "../empleados/pages/contract_register";
 import AssignContract from "../empleados/pages/assign_contract";
 import AssignTurn from "../empleados/pages/assign_turn";
 import TurnRegister from "../empleados/pages/turn_register";
+import TurnRegisterCleaning from "../empleados/pages/turn_register_cleaning";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
@@ -391,6 +392,13 @@ const appRoutes: RouteType[] = [
         element: <TurnRegister/>,
         state: "employee.analytics",
       },
+
+      {
+        path: "/employees/turnRegisterCleaning",
+        element: <TurnRegisterCleaning/>,
+        state: "employee.analytics",
+      },
+
     ],
   },
 ];

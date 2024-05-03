@@ -17,7 +17,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import '../css/contract_register_style.css'
 const cookies = new Cookies();
-function TurnRegister() {
+function TurnRegisterCleaning() {
 
     const empleado = cookies.get('empleado_seleccionado');
 
@@ -192,7 +192,7 @@ function TurnRegister() {
                                   type="time"
                                   id={"hora1" + dia}
                                   name={dia}
-                                  onBlur={cambiarHorarioInferior}
+                                  onChange={cambiarHorarioInferior}
                                 />
                                 {errors[dia + "_inferior"] && (
                                   <span className="advertencia-creEve">
@@ -206,7 +206,7 @@ function TurnRegister() {
                                   type="time"
                                   id={"hora2" + dia}
                                   name={dia}
-                                  onBlur={cambiarHorarioSuperior}
+                                  onChange={cambiarHorarioSuperior}
                                 />
                                 {errors[dia + "_superior"] && (
                                   <span className="advertencia-creEve">
@@ -259,4 +259,4 @@ function TurnRegister() {
     );
   }
   
-  export default TurnRegister;
+  export default TurnRegisterCleaning;

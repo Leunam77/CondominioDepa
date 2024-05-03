@@ -50,8 +50,8 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::put('/departamentoAct/{id}/actualizarOfertados','actualizarOfertados')->name('departamento.actualizarOfertados');
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
-    
-    
+
+
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -158,6 +158,7 @@ Route::controller(EquipamientosController::class)->group(function(){
 Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
+    Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
 });
 
 // Notificaciones

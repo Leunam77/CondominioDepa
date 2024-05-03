@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import Loader from "../Loader/Loader";
+import Loader from "../../../../components/Loader/Loader";
 import useCreateCommonArea from "../../hooks/useCreateCommonArea";
 
 import "./common-area.css";

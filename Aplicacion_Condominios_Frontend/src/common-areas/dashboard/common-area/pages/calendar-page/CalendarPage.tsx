@@ -4,9 +4,9 @@ import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 
-import { Reservation } from "../../interfaces/reservations";
+import { Reservation } from "../../../reservation/interfaces/reservations";
 import { getNameCommonAreaById } from "../../services/common-area.service";
-import { getReservationsByCommonAreaId } from "../../services/reservation.service";
+import { getReservationsByCommonAreaId } from "../../../reservation/services/reservation.service";
 
 import "./calendar-page.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";

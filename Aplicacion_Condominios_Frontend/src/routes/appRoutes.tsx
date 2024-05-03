@@ -43,12 +43,12 @@ import AssignTurn from "../empleados/pages/assign_turn";
 import TurnRegister from "../empleados/pages/turn_register";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
-import CreatePage from "../common-areas/pages/create-page/CreatePage";
-import ListPage from "../common-areas/pages/list-page/ListPage";
-import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
-import CalendarPage from "../common-areas/pages/calendar-page/CalendarPage";
-import ReservationPage from "../common-areas/pages/reservation-page/ReservationPage";
-import InventoryPage from "../common-areas/pages/inventory-page/InventoryPage";
+import CreatePage from "../common-areas/dashboard/common-area/pages/create-page/CreatePage";
+import ListPage from "../common-areas/dashboard/common-area/pages/list-page/ListPage";
+import UpdatePage from "../common-areas/dashboard/common-area/pages/update-page/UpdatePage";
+import CalendarPage from "../common-areas/dashboard/common-area/pages/calendar-page/CalendarPage";
+import ReservationPage from "../common-areas/dashboard/reservation/pages/create-page/CreatePage";
+import InventoryPage from "../common-areas/dashboard/equipment/pages/inventory-page/InventoryPage";
 
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
@@ -64,7 +64,6 @@ import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 
-
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -78,20 +77,20 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />
+      icon: <ApartmentIcon />,
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index"
+        state: "dashboard.index",
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento"
+          displayText: "Crear Departamento",
         },
       },
       {
@@ -99,7 +98,7 @@ const appRoutes: RouteType[] = [
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento"
+          displayText: "Gestionar Departamento",
         },
       },
       {
@@ -107,7 +106,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Registrar Residente"
+          displayText: "Registrar Residente",
         },
       },
       {
@@ -130,7 +129,7 @@ const appRoutes: RouteType[] = [
         element: <MostrarResidentes />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Residentes"
+          displayText: "Residentes",
         },
       },
       // {
@@ -149,7 +148,7 @@ const appRoutes: RouteType[] = [
       //     displayText: "Parqueos"
       //   }
       // }
-    ]
+    ],
   },
   {
     path: "/cobros",
@@ -191,9 +190,8 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/cobros/generar-preaviso/:departamento_id",
-        element: <GenerarPreAviso/>,
+        element: <GenerarPreAviso />,
         state: "cobros.generar-pre-aviso",
-        
       },
     ],
   },
@@ -394,10 +392,9 @@ const appRoutes: RouteType[] = [
         state: "employee.analytics",
       },
 
-
       {
         path: "/employees/turnRegister",
-        element: <TurnRegister/>,
+        element: <TurnRegister />,
         state: "employee.analytics",
       },
     ],

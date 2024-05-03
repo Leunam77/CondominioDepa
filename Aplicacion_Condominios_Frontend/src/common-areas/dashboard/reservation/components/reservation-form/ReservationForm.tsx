@@ -1,5 +1,5 @@
 import useCreateReservation from "../../hooks/useCreateReservation";
-import Loader from "../Loader/Loader";
+import Loader from "../../../../components/Loader/Loader";
 import "./reservation-form.css";
 
 interface ReservationFormProps {

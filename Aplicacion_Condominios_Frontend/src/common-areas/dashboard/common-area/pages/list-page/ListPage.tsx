@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { CommonArea } from "../../interfaces/common-areas";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../../../components/Loader/Loader";
 import CardCommonArea from "../../components/card-common-area/CardCommonArea";
 
 import "./list-page.css";

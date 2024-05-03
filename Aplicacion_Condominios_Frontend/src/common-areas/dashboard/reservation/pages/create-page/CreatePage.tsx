@@ -2,9 +2,9 @@ import { Link, useParams } from "react-router-dom";
 
 import ReservationForm from "../../components/reservation-form/ReservationForm";
 
-import "./reservation-page.css";
+import "./create-page.css";
 import { useEffect, useState } from "react";
-import { getNameCommonAreaById } from "../../services/common-area.service";
+import { getNameCommonAreaById } from "../../../common-area/services/common-area.service";
 
 export default function ReservationPage() {
   const { id } = useParams<{ id: string }>();

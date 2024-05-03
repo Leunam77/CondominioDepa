@@ -33,9 +33,18 @@ class PreAvisoController extends Controller
     }
 
 
+    /*public function obtenerTodosPreAvisos()
+    {
+        $preAvisos = ExpensaModel::all()->toArray(); // Convertimos los resultados a un array
+        return response()->json([
+            'status' => 200,
+            'preAvisos' => $preAvisos,
+        ]);
+    }*/
+
     public function obtenerTodosPreAvisos()
 {
-    $preAvisos = ExpensaModel::all();
+    $preAvisos = ExpensaModel::with('departamento:id,nombre_departamento')->get()->toArray();
     return response()->json([
         'status' => 200,
         'preAvisos' => $preAvisos,

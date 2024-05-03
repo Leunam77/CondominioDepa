@@ -6,6 +6,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 import Box from "@mui/material/Box";
 import {
+  deleteSolicitudServicio,
   getAllSolicitudServicio,
   updateSolicitudServicio,
 } from "../services/maintenance/solicitudMantenimientoService";
@@ -119,6 +120,13 @@ export default function PersonalPage() {
     setShowModal(false);
   };
 
+  const handleDelete = async (id: number) => {
+    console.log("🚀 ~ handleDelete ~ id:", id);
+
+    await deleteSolicitudServicio(id);
+    window.location.reload();
+  };
+
   const handleChangeEncargado = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -151,7 +159,7 @@ export default function PersonalPage() {
       dataToSend.idRegistroSolicitud,
       dataToSend
     );
-    console.log("🚀 ~ handleClickGuardar ~ response:", response);
+
     window.location.reload();
   };
 
@@ -212,7 +220,12 @@ export default function PersonalPage() {
                               fontSize="large"
                             />
                           </button>
-                          <button type="button">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDelete(solicitud.idRegistroSolicitud)
+                            }
+                          >
                             <DeleteOutlinedIcon
                               className="c-dark-blue "
                               fontSize="large"
@@ -265,6 +278,7 @@ export default function PersonalPage() {
                       <TextField
                         id="outlined-select-currency"
                         value={servicioActual?.idCategoria}
+                        disabled={true}
                         select
                       >
                         {categoryService?.map((option, index) => (
@@ -287,6 +301,7 @@ export default function PersonalPage() {
                         id="outlined"
                         placeholder="Ingrese la descripción del servicio"
                         value={servicioActual?.descripcion}
+                        disabled={true}
                         multiline
                       />
                     </div>
@@ -304,6 +319,7 @@ export default function PersonalPage() {
                         id="outlined"
                         placeholder="Ingrese Nombre del Propietario"
                         value={servicioActual?.nombrePropietario}
+                        disabled={true}
                       />
                     </div>
                   </div>
@@ -319,6 +335,7 @@ export default function PersonalPage() {
                         type="number"
                         placeholder="Ingrese telefono"
                         value={servicioActual?.numerReferencia}
+                        disabled={true}
                       />
                     </div>
                   </div>

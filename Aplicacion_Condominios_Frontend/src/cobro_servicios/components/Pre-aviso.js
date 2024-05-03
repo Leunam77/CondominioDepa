@@ -49,18 +49,34 @@ const PreAviso = () => {
     const fetchPropietarios = async () => {
       try {
         const response = await axios.get(`${endpoint}/residentes`);
-        // Extraer solo los nombres de los residentes
-        const nombresPropietarios = response.data.map(
-          (residente) => residente.nombre_residente
-        );
-        setPropietarios(nombresPropietarios);
+        const contratoDepResponse = await axios.get(`${endpoint}/contratoDep/${departamento_id}`);
+        const contratoDepId = contratoDepResponse.data.contratos[0].id;
+        console.log("id del contrato encontrado " + contratoDepId);
+        const propietariosByContratoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contratoDepId}`);
+  
+        if (propietariosByContratoResponse.data.message !== "No tiene propietario") {
+          // Si hay propietario, mostrar solo ese propietario
+          const nombrePropietario = propietariosByContratoResponse.data.residente.nombre_residente;
+          console.log(nombrePropietario);
+          setPropietarios([nombrePropietario]);
+        } else {
+          // Si no hay propietario, obtener los residentes por la otra ruta
+          const residentesByContratoResponse = await axios.get(`${endpoint}/residentes-by-contrato/${contratoDepId}`);
+          console.log(residentesByContratoResponse);
+          const nombresResidentes = residentesByContratoResponse.data.map(residente => residente.nombre_residente);
+          setPropietarios(nombresResidentes);
+        }
       } catch (error) {
         console.error("Error al obtener la lista de propietarios:", error);
       }
     };
-
+  
     fetchPropietarios();
   }, []);
+  
+  
+  
+  
   const handleInput = (e) => {
     const { name, value } = e.target;
     switch (name) {

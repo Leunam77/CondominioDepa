@@ -144,21 +144,34 @@ Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'res
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
 
+
+Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
+Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
+Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
+Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
+Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
+
+
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){
     Route::post('/agregarEquipo', [EquipamientosController::class, 'store']);
     Route::get('/obtenerAreasComunes', [EquipamientosController::class, 'getAllCommonAreas']);
+    Route::get('/obtenerAreasComunesID',[EquipamientosController::class,'getAllCommonAreasID']);
     Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
     Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
 });
 
+Route::get('/common-areas/{id}/reservaPagada', [CommonAreaController::class, 'reservaPagada']);
+Route::put('/common-areas/{id}/pagarReserva', [CommonAreaController::class, 'pagarReserva']);
 
 Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
     Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
+
+
 });
 
 // Notificaciones

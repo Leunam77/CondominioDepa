@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Equipment } from "../../interfaces/equipment";
+import Swal from "sweetalert2";
 
 export interface ListElementProps {
   showForm: (product?: Equipment) => void;
@@ -17,8 +18,7 @@ export const ListEquipmentPage: React.FC<ListElementProps> = ({ showForm }) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data.equipamientos);
-        // setEquipment(data);
+        setEquipment(data.equipamientos);
       })
       .catch((error) => console.log("Error", error));
   }
@@ -26,7 +26,7 @@ export const ListEquipmentPage: React.FC<ListElementProps> = ({ showForm }) => {
   useEffect(() => fetchEquipment(), []);
 
   function deleteProduct(id: number) {
-    fetch(`http://localhost:3004/equipment/${id}`, {
+    fetch(`http://localhost:8000/api/eliminar-equipo/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
@@ -83,7 +83,21 @@ export const ListEquipmentPage: React.FC<ListElementProps> = ({ showForm }) => {
                     Editar
                   </button>
                   <button
-                    onClick={() => deleteProduct(equipments.id)}
+                    onClick={() => {
+                      Swal.fire({
+                        title: "¿Estás seguro?",
+                        text: "No podrás revertir esto",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Sí, eliminar",
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          deleteProduct(equipments.id);
+                        }
+                      });
+                    }}
                     type="button"
                     className="btn btn-danger btn-sm"
                   >

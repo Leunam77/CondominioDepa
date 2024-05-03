@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Equipment } from "../../interfaces/equipment";
+import Swal from "sweetalert2";
 
 export interface FormElementProps {
   showList: () => void;
@@ -10,25 +11,41 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
   showList,
   product,
 }) => {
-  const [idCounter, setIdCounter] = useState<number>(0);
+  // const [idCounter, setIdCounter] = useState<number>(0);
 
+  const [commonAreas, setCommonAreas] = useState<string[]>([]);
   useEffect(() => {
-    fetch("http://localhost:3004/equipment")
-      .then((response) => response.json())
-      .then((data: { id: string }[]) => {
-        const maxId = data.reduce(
-          (max: number, item: { id: string }) =>
-            Math.max(max, parseInt(item.id)),
-          0
-        );
-        setIdCounter(maxId + 1);
-      });
+    const getCommonAreas = async () => {
+      const response = await fetch("http://localhost:8000/api/common-areas");
+      const data = await response.json();
+      return data;
+    };
+    getCommonAreas().then((response) => {
+      const { data } = response;
+      const { commonAreas } = data;
+      const commonAreasFormatted = commonAreas.map((area: any) => area.name);
+      setCommonAreas(commonAreasFormatted);
+    });
   }, []);
-  const generateSequentialId = () => {
-    const sequentialId = idCounter.toString();
-    setIdCounter(idCounter + 1);
-    return sequentialId;
-  };
+
+  // useEffect(() => {
+  //   fetch("http://localhost:3004/equipment")
+  //     .then((response) => response.json())
+  //     .then((data: { id: string }[]) => {
+  //       const maxId = data.reduce(
+  //         (max: number, item: { id: string }) =>
+  //           Math.max(max, parseInt(item.id)),
+  //         0
+  //       );
+  //       setIdCounter(maxId + 1);
+  //     });
+  // }, []);
+
+  // const generateSequentialId = () => {
+  //   const sequentialId = idCounter.toString();
+  //   setIdCounter(idCounter + 1);
+  //   return sequentialId;
+  // };
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,26 +53,32 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
     const formData = new FormData(event.currentTarget);
 
     const element = Object.fromEntries(formData.entries());
-    if (!element.id) {
-      element.id = generateSequentialId();
-    }
+    // if (!element.id) {
+    //   element.id = generateSequentialId();
+    // }
 
     if (
       !(
-        element.id ||
-        element.nombre ||
-        element.descripcion ||
-        element.costo ||
-        element.area_comun_id ||
-        element.area_comun_nombre
+        // element.id ||
+        (
+          element.nombre ||
+          element.descripcion ||
+          element.costo ||
+          element.area_comun_id
+        )
+        // || element.area_comun_nombre
       )
     ) {
-      console.log("Todos los datos son requeridos");
+      // console.log("Todos los datos son requeridos");
+      Swal.fire({
+        icon: "error",
+        title: "Todos los datos son requeridos",
+      });
       return;
     }
 
     if (product?.id) {
-      fetch(`http://localhost:3004/equipment/${product?.id}`, {
+      fetch(`http://localhost:8000/api/editar-equipo/${product?.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +98,7 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
           console.log("Error", error);
         });
     } else {
-      fetch("http://localhost:3004/equipment", {
+      fetch("http://localhost:8000/api/agregarEquipo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +127,7 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
       <div className="row">
         <div className="col-lg-6 mx-auto">
           <form onSubmit={(event) => handleSubmit(event)}>
-            {product?.id && (
+            {/* {product?.id && (
               <div className="row mb-3">
                 <label className="col-sm-4 col-form-label"> ID </label>
                 <div className="col-sm-8">
@@ -116,7 +139,7 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
                   />
                 </div>
               </div>
-            )}
+            )} */}
             <div className="row mb-3">
               <label className="col-sm-4 col-form-label"> Nombre </label>
               <div className="col-sm-8">
@@ -147,7 +170,7 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
                 />
               </div>
             </div>
-            <div className="row mb-3">
+            {/* <div className="row mb-3">
               <label className="col-sm-4 col-form-label"> area_comun_id </label>
               <div className="col-sm-8">
                 <input
@@ -156,17 +179,24 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
                   defaultValue={product ? product.area_comun_id : ""}
                 />
               </div>
-            </div>
+            </div> */}
             <div className="row mb-3">
               <label className="col-sm-4 col-form-label"> Área común </label>
               <div className="col-sm-8">
                 <select
                   className="form-select"
                   name="area_comun_nombre"
-                  defaultValue={product ? product.area_comun_nombre : ""}
+                  value={product?.area_comun_nombre}
                 >
-                  <option value="Sala de juegos">Sala de juegos</option>
-                  <option value="Cafeteria">Cafeteria</option>
+                  <option value="">Seleccione una opción</option>
+
+                  {commonAreas.map((area, index) => {
+                    return (
+                      <option key={index} value={area}>
+                        {area}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             </div>

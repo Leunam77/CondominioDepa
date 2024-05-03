@@ -1,22 +1,12 @@
 import DashboardPageLayout from "../pages/dashboard/DashboardPageLayout";
 import HomePage from "../pages/home/HomePage";
 import { RouteType } from "./config";
-import DefaultPage from "../pages/dashboard/DefaultPage";
 import DashboardIndex from "../pages/dashboard/DashboardIndex";
-import ChangelogPage from "../pages/changelog/ChangelogPage";
-import AnalyticsPage from "../pages/dashboard/AnalyticsPage";
-import SaasPage from "../pages/dashboard/SaasPage";
-import ComponentPageLayout from "../pages/component/ComponentPageLayout";
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import AlertPage from "../pages/component/AlertPage";
-import ButtonPage from "../pages/component/ButtonPage";
-import DocumentationPage from "../pages/documentation/DocumentationPage";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import BuildIcon from "@mui/icons-material/Build";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationPage from "../pages/notifications/NotificationPage";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import EmployePage from "../pages/employes/EmployePage";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
@@ -27,7 +17,6 @@ import CrearContrato from "../departamento/components/CrearContrato";
 import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
 
-import Equipos from "../cobro_servicios/components/gestionEquipos.js";
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
 
 import Cobros from "../cobro_servicios/components/gestionCobros.js";

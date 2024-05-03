@@ -160,10 +160,19 @@ Route::get('/common-areas/{id}/reservaPagada', [CommonAreaController::class, 're
 Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
+    Route::get('/obtener-preavisos', [PreAvisoController::class, 'index']);
+    Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
+    Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
+    Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
+
 });
 Route::controller(ExpensasController::class)->group(function(){
     
     Route::post('/generar-expensa', [ExpensasController::class, 'store']);
+    Route::get('/obtener-expensas', [ExpensasController::class, 'index']);
+    Route::get('/obtener-expensas/{id}', [ExpensasController::class, 'show']);
+    Route::put('/editar-expensas/{id}', [ExpensasController::class, 'update']);
+    Route::delete('/eliminar-expensas/{id}', [ExpensasController::class, 'destroy']);
 });
 
 

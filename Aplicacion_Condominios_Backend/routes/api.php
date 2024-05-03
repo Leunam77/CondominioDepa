@@ -50,8 +50,8 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::put('/departamentoAct/{id}/actualizarOfertados','actualizarOfertados')->name('departamento.actualizarOfertados');
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
-    
-    
+
+
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -143,6 +143,14 @@ Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::c
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
+
+
+Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
+Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
+Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
+Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
+Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
+
 
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){

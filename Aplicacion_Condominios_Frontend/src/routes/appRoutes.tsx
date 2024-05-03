@@ -48,6 +48,7 @@ import ListPage from "../common-areas/pages/list-page/ListPage";
 import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
 import CalendarPage from "../common-areas/pages/calendar-page/CalendarPage";
 import ReservationPage from "../common-areas/pages/reservation-page/ReservationPage";
+import InventoryPage from "../common-areas/pages/inventory-page/InventoryPage";
 
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
@@ -235,6 +236,14 @@ const appRoutes: RouteType[] = [
         path: "/areas-comunes/reservar/:id",
         element: <ReservationPage />,
         state: "areas-comunes.reservar",
+      },
+      {
+        path: "/areas-comunes/inventario",
+        element: <InventoryPage />,
+        state: "areas-comunes.inventario",
+        sidebarProps: {
+          displayText: "Inventario",
+        },
       },
     ],
   },

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import QRCode from "qrcode.react";
 import Swal from "sweetalert2"; 
-
+import jsPDF from "jspdf";
 const endpoint = "http://localhost:8000/api";
 
 const FormularioPagoArea = () => {
@@ -20,7 +20,38 @@ const FormularioPagoArea = () => {
     useEffect(() => {
         console.log("Componente FormularioPagoArea montado");
     }, []);
+    const generatePDF = () => {
+        try {
+            const doc = new jsPDF();
+            doc.text("Administracion",20,10);
+            doc.text("-------------------",20,20);
+            doc.text("Recibo de Pago", 20, 30);
+            doc.text("-------------------",20,40);
 
+            // Verificar que los valores estén definidos antes de usarlos en el PDF
+            if (monto) {
+                doc.text(`Monto: ${monto}`, 20, 50);
+            }
+            if (formaPago) {
+                doc.text(`Forma de Pago: ${formaPago}`, 20, 60);
+            }
+            if (formaPago === "efectivo" && efectivo) {
+                doc.text(`Efectivo: ${efectivo}`, 20, 70);
+                if (cambio > 0) {
+                    doc.text(`Cambio: ${cambio.toFixed(2)}`, 20, 80);
+                }
+            }
+
+
+            doc.save("recibo_pago.pdf");
+        } catch (error) {
+           console.log(monto);
+           console.log(formaPago);
+           console.log(cambio);
+           console.log(error);
+        }
+    };
+    
     const handleInput = (e) => {
         const { name, value } = e.target;
         switch (name) {
@@ -41,17 +72,17 @@ const FormularioPagoArea = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const validationErrors = {};
-
+    
         if (!monto.trim()) {
             validationErrors.monto = "Este campo es obligatorio";
         }
-
+    
         if (!formaPago.trim()) {
             validationErrors.formaPago = "Seleccione una forma de pago";
         }
-
+    
         setErrors(validationErrors);
-
+    
         if (Object.keys(validationErrors).length === 0) {
             console.log("Monto:", monto);
             console.log("Forma de pago:", formaPago);
@@ -60,24 +91,30 @@ const FormularioPagoArea = () => {
                     console.log(response.data);
                     setShowQR(formaPago === "qr");
                     setPagoRealizado(true);
+    
                     Swal.fire({
                         icon: 'success',
                         title: '¡Pago realizado con éxito!'
                     }).then(() => {
                         window.location.href = "/cobros/pagar-reserva";
+    
                     });
+    
                 })
                 .catch(error => {
                     console.error('Error al pagar la reserva:', error);
                 });
-
+    
             if (formaPago === "efectivo") {
                 const cambioCalculado = parseFloat(efectivo) - parseFloat(monto);
                 setCambio(cambioCalculado > 0 ? cambioCalculado : 0);
             }
+
+            generatePDF();
+
         }
     };
-
+    
     const handleGenerateQR = () => {
         const qrData = `Monto: ${monto}`;
         setShowQR(true);
@@ -113,6 +150,7 @@ const FormularioPagoArea = () => {
                             >
                                 <option value="">Seleccione una opción</option>
                                 <option value="efectivo">Efectivo</option>
+
                                 <option value="qr">Pago por QR</option>
                             </Input>
                             {errors.formaPago && <span>{errors.formaPago}</span>}

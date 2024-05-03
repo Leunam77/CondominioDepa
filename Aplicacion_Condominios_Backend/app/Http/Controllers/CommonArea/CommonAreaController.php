@@ -233,7 +233,8 @@ class CommonAreaController extends Controller
     public function showEquipment($id)
     {
         $equipment = EquipamientosModel::findOrFail($id);
-        return new EquipamientoResource($equipment);
+        // return new EquipamientoResource($equipment);
+        return response()->json(['data' => $equipment], 200);
     }
 
 }

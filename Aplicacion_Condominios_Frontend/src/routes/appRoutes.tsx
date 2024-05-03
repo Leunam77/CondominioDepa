@@ -42,6 +42,7 @@ import AssignContract from "../empleados/pages/assign_contract";
 import AssignTurn from "../empleados/pages/assign_turn";
 import TurnRegister from "../empleados/pages/turn_register";
 import TurnRegisterCleaning from "../empleados/pages/turn_register_cleaning";
+import MarcarHora from "../empleados/pages/marcar_hora";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/pages/create-page/CreatePage";
@@ -371,6 +372,15 @@ const appRoutes: RouteType[] = [
         state: "employee.analytics",
         sidebarProps: {
           displayText: "Asignar turnos",
+        },
+      },
+
+      {
+        path: "/employees/marcar_hora",
+        element: <MarcarHora />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Marcar Hora",
         },
       },
 

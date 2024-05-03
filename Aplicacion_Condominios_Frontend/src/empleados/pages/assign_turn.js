@@ -9,7 +9,9 @@ import '../css/contract_register_style.css'
 import AddIcon from '@mui/icons-material/Add';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+import ClearIcon from '@mui/icons-material/Clear';
 const cookies = new Cookies();
 
 function AssignTurn() {
@@ -56,13 +58,11 @@ function AssignTurn() {
 
     cookies.set("empleado_seleccionado", empleado, { path: "/" });
 
-    if(empleado.contracts[0].area === "Seguridad"){
-      
+
+
       window.location.href = "./turnRegister";
 
-    }else{
-      window.location.href = "./turnRegisterCleaning";
-    }
+
   }
 
   const manejarBuscador = (e) => {
@@ -202,6 +202,16 @@ function AssignTurn() {
     setErrors(validationErrors);
   }
 
+  const despejarFechas = (e)  => {
+    document.querySelectorAll(".empleado").forEach(empleado =>{
+
+      empleado.classList.remove("filtro")
+
+    })
+    document.querySelector("#primera_fecha").value = '';
+    document.querySelector("#segunda_fecha").value = '';
+  }
+
   return (
     <>
       <Row className="d-flex align-items-center justify-content-center">
@@ -242,8 +252,9 @@ function AssignTurn() {
         <Col
           xs={5}
           className="d-flex align-items-center justify-content-center"
+          
         >
-          <div className="entradaBuscador-admin">
+          <div className="entradaBuscador-admin" >
             <input
               type="date"
               id="primera_fecha"
@@ -264,6 +275,19 @@ function AssignTurn() {
             />
           </div>
         </Col>
+
+        <Col
+          xs={1}
+          className="d-flex align-items-center justify-content-center"
+        >
+          <Button
+                      variant="danger"
+                      onClick={despejarFechas}
+                    >
+                      <CloseIcon />
+                    </Button>{" "}
+        </Col>
+
       </Row>
 
       <Row className="d-flex justify-content-center align-items-center">

@@ -32,4 +32,8 @@ class Employee extends Model
         return $this->hasMany(WorkingHour::class, 'empleado', 'id');
 
     }
+
+    public function asistencias(){
+        return $this->hasMany(Asistencia::class, 'id_empleado', 'id');
+    }
 }

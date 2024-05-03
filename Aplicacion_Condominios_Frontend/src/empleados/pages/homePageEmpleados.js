@@ -126,9 +126,6 @@ function EmployeHomePage() {
 
   return (
     <>
-    <Row>
-    {ctime}
-    </Row>
       <Row className="d-flex align-items-center justify-content-center">
         <Col className="d-flex align-items-center justify-content-center">
           <h2>Lista de Empleados</h2>
@@ -162,7 +159,7 @@ function EmployeHomePage() {
             <tr>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Correo</th>
+              <th>CI</th>
               <th>Estado de Contrato</th>
               <th>Funciones</th>
             </tr>
@@ -173,7 +170,7 @@ function EmployeHomePage() {
                 <tr className="empleado">
                   <td className="empleado_nombre">{empleado.nombre}</td>
                   <td>{empleado.apellido}</td>
-                  <td>{empleado.correo}</td>
+                  <td>{empleado.ci}</td>
                   <td className="tipo_contrato">{empleado.estado_contrato}</td>
                   <td>
                     <Button

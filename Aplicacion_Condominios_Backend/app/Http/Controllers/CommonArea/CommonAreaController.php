@@ -11,6 +11,7 @@ use App\Http\Resources\CommonArea\CommonAreaResource;
 use App\Http\Resources\CommonArea\ReservationCollection;
 use App\Models\CommonArea\CommonArea;
 use App\Models\CommonArea\Policy;
+use App\Models\CommonArea\Reservation;
 use App\Models\CommonArea\Schedule;
 use Illuminate\Support\Facades\DB;
 

@@ -20,15 +20,25 @@ class PreAvisoController extends Controller
         $expensa = new ExpensaModel();
         $expensa->departamento_id = $request->departamento_id;
         $expensa->fecha = $request->fecha;
-        $expensa->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
+        $expensa->propietario_pagar = $request->propietario_pagar; 
         $expensa->descripcion_servicios = $request->descripcion_servicios;
-        $expensa->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
+        $expensa->servicio_pagar = $request->servicio_pagar;
         $expensa->monto = $request->monto;
         $expensa->save();
         
         return response()->json([
             'status' => 200,
-            'message' => 'Expensa generada existosamente',
+            'message' => 'Pre aviso de Expensa generado existosamente',
         ]);
     }
+
+
+    public function obtenerTodosPreAvisos()
+{
+    $preAvisos = ExpensaModel::all();
+    return response()->json([
+        'status' => 200,
+        'preAvisos' => $preAvisos,
+    ]);
+}
 }

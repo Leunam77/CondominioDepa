@@ -211,7 +211,6 @@ const MostrarDep = () => {
                             <div className="botones">
                             <Button className="botoncard" onClick={(e) => { e.stopPropagation(); deleteDepartment(departamento.id); }}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
                             <Button className="botoncard" onClick={(e) => { e.stopPropagation(); handleClickEditar(departamento.id); }} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
-                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); handleClickInfo(departamento.id); }} ><FontAwesomeIcon icon={faArrowCircleRight} className="iconos"/></Button>
                             <label className="switch" onClick={(e) => e.stopPropagation()}>
                                 <input
                                     type="checkbox"

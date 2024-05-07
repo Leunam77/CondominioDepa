@@ -24,6 +24,7 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
+use App\Http\Controllers\Mantenimiento\InsumoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,12 +135,20 @@ Route::get('/personal-externo/{id}', [PersonalExternoController::class,'getPerso
 Route::post('/personal-externo/insert', [PersonalExternoController::class,'insertPersonalExterno']);
 Route::put('/personal-externo/update/{id}', [PersonalExternoController::class,'updatePersonalExterno']);
 Route::delete('/personal-externo/delete/{id}', [PersonalExternoController::class,'deletePersonalExterno']);
+Route::get('/personal-externo-by-categoria/{id}', [PersonalExternoController::class,'getPersonalExternoByCategoria']);
 
 Route::get('/registro-solicitud', [RegistroSolicitudController::class,'getRegistroSolicitud']);
 Route::get('/registro-solicitud/{id}', [RegistroSolicitudController::class,'getRegistroSolicitudId']);
 Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'insertRegistroSolicitud']);
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
+Route::get('/solicitudes-by-encargado/{id}', [RegistroSolicitudController::class,'getSolicitudByPersonalExterno']);
+
+Route::get('/insumo', [InsumoController::class,'getInsumo']);
+Route::get('/insumo/{id}', [InsumoController::class,'getInsumoId']);
+Route::post('/insumo/insert', [InsumoController::class,'insertInsumo']);
+Route::put('/insumo/update/{id}', [InsumoController::class,'updateInsumo']);
+Route::delete('/insumo/delete/{id}', [InsumoController::class,'deleteInsumo']);
 
 Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
 Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);

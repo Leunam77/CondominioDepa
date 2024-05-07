@@ -63,7 +63,6 @@ import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 
-
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -77,20 +76,20 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />
+      icon: <ApartmentIcon />,
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index"
+        state: "dashboard.index",
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento"
+          displayText: "Crear Departamento",
         },
       },
       {
@@ -98,7 +97,7 @@ const appRoutes: RouteType[] = [
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento"
+          displayText: "Gestionar Departamento",
         },
       },
       {
@@ -106,7 +105,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Registrar Residente"
+          displayText: "Registrar Residente",
         },
       },
       {
@@ -129,7 +128,7 @@ const appRoutes: RouteType[] = [
         element: <MostrarResidentes />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Residentes"
+          displayText: "Residentes",
         },
       },
       // {
@@ -148,7 +147,7 @@ const appRoutes: RouteType[] = [
       //     displayText: "Parqueos"
       //   }
       // }
-    ]
+    ],
   },
   {
     path: "/cobros",
@@ -190,9 +189,8 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/cobros/generar-preaviso/:departamento_id",
-        element: <GenerarPreAviso/>,
+        element: <GenerarPreAviso />,
         state: "cobros.generar-pre-aviso",
-        
       },
     ],
   },
@@ -253,7 +251,7 @@ const appRoutes: RouteType[] = [
         element: <Changelog />,
         state: "changelog.servicio",
         sidebarProps: {
-          displayText: "Registrar servicio",
+          displayText: "Administrar categoria de servicio",
         },
       },
       {
@@ -261,7 +259,7 @@ const appRoutes: RouteType[] = [
         element: <PersonalPage />,
         state: "changelog.personal",
         sidebarProps: {
-          displayText: "Personal",
+          displayText: "Administrar personal",
         },
       },
       {
@@ -269,7 +267,7 @@ const appRoutes: RouteType[] = [
         element: <RegistroServicioPage />,
         state: "changelog.registro",
         sidebarProps: {
-          displayText: "Registro",
+          displayText: "Registrar solicitud de mantenimiento",
         },
       },
       {
@@ -277,7 +275,7 @@ const appRoutes: RouteType[] = [
         element: <ListaSolicitudServicioPage />,
         state: "changelog.solicitud",
         sidebarProps: {
-          displayText: "Solicitud",
+          displayText: "Todas las solicitudes de mantenimiento",
         },
       },
     ],
@@ -385,10 +383,9 @@ const appRoutes: RouteType[] = [
         state: "employee.analytics",
       },
 
-
       {
         path: "/employees/turnRegister",
-        element: <TurnRegister/>,
+        element: <TurnRegister />,
         state: "employee.analytics",
       },
     ],

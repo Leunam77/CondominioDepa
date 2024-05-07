@@ -113,7 +113,7 @@ export default function PersonalPage() {
 
   const [currentDestino, setCurrentDestino] = useState<number>(1);
 
-  //const [showBloque, setShowBloque] = useState<boolean>(false);
+  const [ubicacion, setUbicacion] = useState<string>("");
 
   const [currentEdificios, setCurrentEdificios] = useState<Edificio[]>();
   const [currentDepartamentos, setCurrentDepartamentos] =
@@ -157,9 +157,6 @@ export default function PersonalPage() {
   const handleChangeTelefono = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSolicitud({ ...solicitud, numerReferencia: e.target.value });
   };
-  const handleChangeUbicacion = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSolicitud({ ...solicitud, ubicacion: e.target.value });
-  };
 
   const handleClickRegistrar = async () => {
     const currentDate = new Date();
@@ -168,20 +165,39 @@ export default function PersonalPage() {
     const year = currentDate.getFullYear();
     const formatedDate = `${year}-${month}-${day}`;
 
-    const dataToSend = { ...solicitud, fechaSoicitud: formatedDate };
+    const dataToSend = {
+      ...solicitud,
+      fechaSoicitud: formatedDate,
+      ubicacion: ubicacion,
+    };
     console.log("🚀 ~ handleClickRegistrar ~ dataToSend:", dataToSend);
 
     const response = await createSolicitudServicio(dataToSend);
 
     console.log(response);
+    window.location.reload();
   };
 
   const handleChangeBloque = async (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setCurrentDepartamentos([]);
+    setUbicacion("");
 
     const bloqueId = parseInt(e.target.value);
+
+    const ubicacionData = bloque?.find((element) => {
+      if (element.id === bloqueId) {
+        return element.direccion_bloque;
+      } else {
+        return "";
+      }
+    });
+
+    if (ubicacionData !== undefined) {
+      setUbicacion(ubicacion.concat(ubicacionData.direccion_bloque + "/"));
+    }
+
     const edificiosData = await getEdificiosByBloqueId(bloqueId);
     if (edificiosData !== null) {
       setCurrentEdificios(edificiosData);
@@ -192,11 +208,43 @@ export default function PersonalPage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const edificioId = parseInt(e.target.value);
+
+    const ubicacionData = edificio?.find((element) => {
+      if (element.id === edificioId) {
+        return element.nombre_edificio;
+      } else {
+        return "";
+      }
+    });
+    //! posible bug
+    if (ubicacionData !== undefined) {
+      setUbicacion(ubicacion.concat(ubicacionData.nombre_edificio + "/"));
+    }
+
     const departamentosData = await getDepartamentoByEdificioId(edificioId);
     if (departamentosData !== null) {
       setCurrentDepartamentos(departamentosData);
     }
   };
+
+  const handleChangeDepartamento = async (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const departamentoId = parseInt(e.target.value);
+
+    const ubicacionData = currentDepartamentos?.find((element) => {
+      if (element.id === departamentoId) {
+        return element.nombre_departamento;
+      } else {
+        return "";
+      }
+    });
+    //! posible bug
+    if (ubicacionData !== undefined) {
+      setUbicacion(ubicacion.concat(ubicacionData.nombre_departamento + "/"));
+    }
+  };
+
   return (
     <>
       <Box
@@ -282,6 +330,7 @@ export default function PersonalPage() {
               disabled={currentDestino > 1 ? true : false}
               // defaultValue="1"
               helperText="Por favor seleccione el número de piso"
+              onChange={(event) => handleChangeDepartamento(event)}
             >
               {currentDepartamentos?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>

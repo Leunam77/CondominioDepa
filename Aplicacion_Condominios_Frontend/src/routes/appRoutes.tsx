@@ -190,7 +190,6 @@ const appRoutes: RouteType[] = [
         path: "/cobros/generar-preaviso/:departamento_id",
         element: <GenerarPreAviso />,
         state: "cobros.generar-pre-aviso",
-        
       },
       {
         path:"/cobros/pagar-reserva/",
@@ -281,7 +280,7 @@ const appRoutes: RouteType[] = [
         element: <Changelog />,
         state: "changelog.servicio",
         sidebarProps: {
-          displayText: "Registrar servicio",
+          displayText: "Administrar categoria de servicio",
         },
       },
       {
@@ -289,7 +288,7 @@ const appRoutes: RouteType[] = [
         element: <PersonalPage />,
         state: "changelog.personal",
         sidebarProps: {
-          displayText: "Personal",
+          displayText: "Administrar personal",
         },
       },
       {
@@ -297,7 +296,7 @@ const appRoutes: RouteType[] = [
         element: <RegistroServicioPage />,
         state: "changelog.registro",
         sidebarProps: {
-          displayText: "Registro",
+          displayText: "Registrar solicitud de mantenimiento",
         },
       },
       {
@@ -305,7 +304,7 @@ const appRoutes: RouteType[] = [
         element: <ListaSolicitudServicioPage />,
         state: "changelog.solicitud",
         sidebarProps: {
-          displayText: "Solicitud",
+          displayText: "Todas las solicitudes de mantenimiento",
         },
       },
     ],

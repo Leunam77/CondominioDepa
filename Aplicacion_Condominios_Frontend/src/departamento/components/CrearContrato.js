@@ -392,7 +392,7 @@ class CrearContrato extends Component {
                                                     <span style={{ color: 'red', fontSize: '0.9rem', marginLeft: "0.7rem"}}>Seleccione un tipo</span>    
                                                 )}
                                             </Col>
-                                            <Col className="d-flex justify-content-center"sm={3}>
+                                            <Col className="d-flex justify-content-center" sm={3}>
                                                 <Button className="botoncardContr" type="button" onClick={() => this.eliminarListaResidente(residente.id)} >
                                                     <FontAwesomeIcon icon={faTrashAlt} className="iconContr" />
                                                 </Button>

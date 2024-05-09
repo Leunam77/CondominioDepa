@@ -170,7 +170,7 @@ input[type="date"].customInput{
 .cardImgResidente{
 	width: 100%;
 	height: 14em;
-	object-fit: fill;
+	object-fit: cover;
 }
 .labelResidente.form-label{
 	font-size: 0.8rem;

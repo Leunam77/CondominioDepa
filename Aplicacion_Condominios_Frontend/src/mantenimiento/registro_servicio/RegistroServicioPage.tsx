@@ -16,6 +16,7 @@ import {
   getAllDepartamentos,
   getDepartamentoByEdificioId,
 } from "../services/departamento/departamentoService";
+import { getResidenteByDepartamentoId } from "../services/departamento/residenteService";
 const place = [
   {
     value: "1",
@@ -164,12 +165,19 @@ export default function PersonalPage() {
     const month = currentDate.getMonth() + 1;
     const year = currentDate.getFullYear();
     const formatedDate = `${year}-${month}-${day}`;
-
-    const dataToSend = {
+    let dataToSend = {
       ...solicitud,
       fechaSoicitud: formatedDate,
       ubicacion: ubicacion,
     };
+
+    if (currentDestino > 1) {
+      dataToSend = {
+        ...solicitud,
+        ubicacion: placesList[currentDestino - 1].label,
+      };
+    }
+
     console.log("🚀 ~ handleClickRegistrar ~ dataToSend:", dataToSend);
 
     const response = await createSolicitudServicio(dataToSend);
@@ -239,10 +247,30 @@ export default function PersonalPage() {
         return "";
       }
     });
+
+    const propietario = await getResidenteByDepartamentoId(departamentoId);
+    if (propietario !== null) {
+      const residente =
+        propietario?.nombre_residente + " " + propietario?.apellidos_residente;
+      const newSolicitud = {
+        ...solicitud,
+        nombrePropietario: residente,
+        numerReferencia: propietario.telefono_residente,
+      };
+
+      setSolicitud(newSolicitud);
+    }
+
     //! posible bug
     if (ubicacionData !== undefined) {
       setUbicacion(ubicacion.concat(ubicacionData.nombre_departamento + "/"));
     }
+  };
+
+  const handleDestinoServicioSelect = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setCurrentDestino(parseInt(event.target.value));
   };
 
   return (
@@ -264,7 +292,7 @@ export default function PersonalPage() {
               defaultValue="1"
               helperText="Por favor seleccione el tipo de servicio"
               onChange={(event) => {
-                setCurrentDestino(parseInt(event.target.value));
+                handleDestinoServicioSelect(event);
               }}
             >
               {placesList.map((option) => (

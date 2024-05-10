@@ -123,7 +123,7 @@ export default function PersonalPage() {
   const handleDelete = async (id: number) => {
     console.log("🚀 ~ handleDelete ~ id:", id);
     await deleteSolicitudServicio(id);
-    window.location.reload();
+    //window.location.reload();
   };
 
   const handleChangeEncargado = (

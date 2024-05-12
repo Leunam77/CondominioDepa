@@ -16,71 +16,80 @@ class ParqueoController extends Controller
     public function index()
     {
         //
+        return Parqueo::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
+        $parqueo = new Parqueo();
+        $validatedData = $request->validate([
+            'nombre_parqueo' => 'required',
+            'departamento_id' => 'required'
+        ]);
+        $parqueo->fill($validatedData);
+        try{
+            $parqueo->save();
+            $parqueoId = $parqueo->id;
+            return response()->json([
+                'status' => 200,
+                'message' => 'Parqueo creado exitosamente',
+                'parqueo_id' => $parqueoId
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al crear el parqueo',
+                'parqueo_id' => null
+            ], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\GestDepartamento\Parqueo  $parqueo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Parqueo $parqueo)
+    public function show($idParqueo)
     {
         //
+        $parqueo = Parqueo::find($idParqueo);
+        return $parqueo;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\GestDepartamento\Parqueo  $parqueo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Parqueo $parqueo)
+    public function update(Request $request,$idParqueo)
     {
         //
+        $parqueo = Parqueo::find($idParqueo);
+        $validatedData = $request->validate([
+            'nombre_parqueo' => 'required',
+            'departamento_id' => 'required'
+        ]);
+        $parqueo->fill($validatedData);
+        try{
+            $parqueo->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Parqueo actualizado exitosamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al actualizar el parqueo'
+            ], 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\GestDepartamento\Parqueo  $parqueo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Parqueo $parqueo)
+    public function destroy($idParqueo)
     {
         //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\GestDepartamento\Parqueo  $parqueo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Parqueo $parqueo)
-    {
-        //
+        try{
+            $parqueo = Parqueo::find($idParqueo);
+            $parqueo->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Parqueo eliminado exitosamente'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al eliminar el parqueo'
+            ]);
+        }
     }
 }

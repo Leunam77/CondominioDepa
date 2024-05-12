@@ -9,7 +9,7 @@ use App\Models\Mantenimiento\Insumo;
 class InsumoController extends Controller
 {
     public function getInsumo() {
-        $insumo = Insumo::with('solicitud')->get();
+        $insumo = Insumo::with('solicitud.categoria')->get();
         return response()->json($insumo, 200);
     }
     

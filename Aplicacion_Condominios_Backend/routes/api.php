@@ -8,6 +8,7 @@ use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Departamento\ResidenteController;
 use App\Http\Controllers\Departamento\ContratoController;
 use App\Http\Controllers\Departamento\VisitaController;
+use App\Http\Controllers\Departamento\ParqueoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,4 +98,13 @@ Route::controller(VisitaController::class)->group(function(){
     Route::post('/visita','store')->name('visita.store');
     Route::put('/visitaDes/{id}/desactivar','desactivarVisita')->name('visita.desactivarVisita');
     Route::delete('/visita/{id}','destroy')->name('visita.destroy');
+});
+
+Route::controller(ParqueoController::class)->group(function(){
+    Route::get('/parqueos','index')->name('parqueo.index');
+    Route::post('/parqueo','store')->name('parqueo.store');
+    Route::get('/parqueo/{id}','show')->name('parqueo.show');
+    Route::put('/parqueoupd/{id}','update')->name('parqueo.update');
+    Route::delete('/parqueo/{id}','destroy')->name('parqueo.destroy');
+    Route::get('/parqueo-by-departamento/{id}', 'getParqueoByDepartamento')->name('parqueo.getParqueoByDepartamento');
 });

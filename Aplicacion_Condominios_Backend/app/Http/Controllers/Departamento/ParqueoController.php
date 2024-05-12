@@ -92,4 +92,10 @@ class ParqueoController extends Controller
             ]);
         }
     }
+    public function getParqueosByDepartamento($idDepartamento)
+    {
+        $parqueos = Parqueo::where('departamento_id', $idDepartamento)->get();
+        return $parqueos;
+    }
+
 }

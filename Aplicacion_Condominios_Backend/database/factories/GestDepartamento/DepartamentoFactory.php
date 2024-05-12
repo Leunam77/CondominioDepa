@@ -27,7 +27,7 @@ class DepartamentoFactory extends Factory
         $imagePath = $imageName ? $ruta . '/' . $imageName : 'departamento/images/departamentos/departamento_pred.jpeg';
         $nombreDepa = $this->faker->word;
         //quiero agregar la palabra departamento al nombre del departamento
-        $nombreDepa = 'Dep. '.$nombreDepa;
+        $nombreDepa = 'Dep '.$nombreDepa;
         //quiero agregar un numero a en nombre del departamento
         $nombreDepa = $nombreDepa.' '.$this->faker->numberBetween(1,100);
         //quiero agregar una letra de la A a la Z al nombre del departamento en mayuscula

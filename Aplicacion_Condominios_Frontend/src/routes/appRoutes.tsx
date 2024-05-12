@@ -26,6 +26,8 @@ import RegistrarResidente from "../departamento/components/CrearResidente"
 import CrearContrato from "../departamento/components/CrearContrato";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
 import InfoDepartamento from "../departamento/components/InfoDepartamento";
+import GestionVisitas from "../departamento/components/GestionVisitas";
+import RegistrarVisita from "../departamento/components/RegistrarVisita";
 
 const appRoutes: RouteType[] = [
   {
@@ -95,22 +97,19 @@ const appRoutes: RouteType[] = [
           displayText: "Residentes"
         },
       },
-      // {
-      //   path: "/dashboard/analytics",
-      //   element: <AnalyticsPage />,
-      //   state: "dashboard.analytics",
-      //   sidebarProps: {
-      //     displayText: "Habitaciones"
-      //   }
-      // },
-      // {
-      //   path: "/dashboard/saas",
-      //   element: <SaasPage />,
-      //   state: "dashboard.saas",
-      //   sidebarProps: {
-      //     displayText: "Parqueos"
-      //   }
-      // }
+      {
+        path: "/dashboard/visitas",
+        element: <GestionVisitas />,
+        state: "dashboard.depa",
+        sidebarProps: {
+          displayText: "Visitas"
+        },
+      },
+      {
+        path: "/dashboard/registrarVisita",
+        element: <RegistrarVisita />,
+        state: "dashboard.depa",
+      },
     ]
   },
   {

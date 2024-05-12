@@ -7,6 +7,7 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Departamento\ResidenteController;
 use App\Http\Controllers\Departamento\ContratoController;
+use App\Http\Controllers\Departamento\VisitaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,4 +89,12 @@ Route::controller(ContratoController::class)->group(function(){
     Route::get('/contratoDep/{valorDepartamento}', 'buscarContratoPorDepartamento')->name('contrato.buscarContratoPorDepartamento');
     Route::get('/contratoDepS/{idDepartament}', 'getContratByDepShort')->name('contrato.getContratByDepShort');
     Route::put('/contratoNoVig/{id}/anularContrato','anularContrato')->name('contrato.anularContrato');
+});
+
+Route::controller(VisitaController::class)->group(function(){
+    Route::get('/visitas','index')->name('visita.index');
+    Route::get('/visita/{id}','show')->name('visita.show');
+    Route::post('/visita','store')->name('visita.store');
+    Route::put('/visitaDes/{id}/desactivar','desactivarVisita')->name('visita.desactivarVisita');
+    Route::delete('/visita/{id}','destroy')->name('visita.destroy');
 });

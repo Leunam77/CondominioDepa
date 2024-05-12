@@ -12,6 +12,7 @@ function FormularioCobro() {
   const [residents, setResidents] = useState([]);
   const [selectedResident, setSelectedResident] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [serverResponse, setServerResponse] = useState('');
 
   useEffect(() => {
     fetchResidents();
@@ -48,10 +49,11 @@ function FormularioCobro() {
         mensaje,
         selectedResident
       });
-      setMensaje(response.data.message);
+      setServerResponse(response.data.message); // Mensaje de éxito
       setError(null);
+      setMensaje(''); // Limpiar el mensaje del formulario
     } catch (error) {
-      setError('Ocurrió un error al procesar el pago.');
+      setError('Ocurrió un error al procesar el pago.'); // Mensaje de error
     }
   };
 
@@ -64,65 +66,61 @@ function FormularioCobro() {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        {/* Sección izquierda */}
-        <div className="col-md-6">
-          <h2>Cobrar Servicio</h2>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          {mensaje && <p style={{ color: 'green' }}>{mensaje}</p>}
-          <Button variant='primary' onClick={openModal} style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Seleccionar Residente</Button>
-          <Modal show={isModalOpen} onHide={closeModal} centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Seleccionar Residente</Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-              {residents.map((resident) => (
-                <div key={resident.id} style={{ marginBottom: '5px' }}>
-                  <Button
-                    variant={selectedResident && selectedResident.id === resident.id ? 'success' : 'secondary'}
-                    onClick={() => handleResidentSelectionChange(resident)}
-                    style={{ width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                  >
-                    {resident.nombre_residente} {resident.apellidos_residente}
-                  </Button>
-                </div>
-              ))}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant='secondary' onClick={closeModal}>Cerrar</Button>
-            </Modal.Footer>
-          </Modal>
-          <div style={{ marginTop: '20px' }}>
-            <label htmlFor="correo">Correo electrónico:</label>
-            <input
-                id="correo"
-                type="email"
-                className="form-control"
-                value={correo}
-                onChange={(e) => setCorreo(e.target.value)}
-                readOnly // Hace que el campo sea solo de lectura
-            />
+    <div>
+      <h2>Cobrar Servicio</h2>
+      {/* Mostrar mensaje de error */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {/* Mostrar mensaje de respuesta del servidor */}
+      {serverResponse && <p style={{ color: 'green' }}>{serverResponse}</p>}
+      
+      <Button variant='primary' onClick={openModal} style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Seleccionar Residente</Button>
+      <Modal show={isModalOpen} onHide={closeModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Seleccionar Residente</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+          {residents.map((resident) => (
+            <div key={resident.id} style={{ marginBottom: '5px' }}>
+              <Button
+                variant={selectedResident && selectedResident.id === resident.id ? 'success' : 'secondary'}
+                onClick={() => handleResidentSelectionChange(resident)}
+                style={{ width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+              >
+                {resident.nombre_residente} {resident.apellidos_residente}
+              </Button>
+            </div>
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={closeModal}>Cerrar</Button>
+        </Modal.Footer>
+      </Modal>
+      <form onSubmit={handleSubmit} style={{ marginTop: '20px', display: 'grid', gap: '10px' }}>
+        <div className="row">
+            <div className="col-md-6">
+            <div style={{ display: 'grid', gap: '10px' }}>
+                <label htmlFor="correo" style={{ alignSelf: 'center' }}>Correo electrónico:</label>
+                <input id="correo" type="email" className="form-control" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+            </div>
+            </div>
+            <div className="col-md-6">
+            <div style={{ display: 'grid', gap: '10px' }}>
+                <label htmlFor="titulo" style={{ alignSelf: 'center' }}>Título:</label>
+                <input id="titulo" type="text" className="form-control" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+            </div>
+            <div style={{ display: 'grid', gap: '10px' }}>
+                <label htmlFor="monto" style={{ alignSelf: 'center' }}>Monto a cobrar:</label>
+                <input id="monto" type="number" className="form-control" value={monto} onChange={(e) => setMonto(e.target.value)} />
+            </div>
+            <div style={{ display: 'grid', gap: '10px' }}>
+                <label htmlFor="mensaje" style={{ alignSelf: 'center' }}>Detalle:</label>
+                <textarea id="mensaje" className="form-control" value={mensaje} onChange={(e) => setMensaje(e.target.value)} />
+            </div>
             </div>
         </div>
+        <button type="submit" className="btn btn-primary" style={{ justifySelf: 'end' }}>Cobrar</button>
+        </form>
 
-        {/* Sección derecha */}
-        <div className="col-md-6">
-          <div style={{ marginTop: '20px' }}>
-            <label htmlFor="titulo">Título:</label>
-            <input id="titulo" type="text" className="form-control" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
-          </div>
-          <div style={{ marginTop: '20px' }}>
-            <label htmlFor="monto">Monto a cobrar:</label>
-            <input id="monto" type="number" className="form-control" value={monto} onChange={(e) => setMonto(e.target.value)} />
-          </div>
-          <div style={{ marginTop: '20px' }}>
-            <label htmlFor="mensaje">Mensaje adicional:</label>
-            <textarea id="mensaje" className="form-control" value={mensaje} onChange={(e) => setMensaje(e.target.value)} />
-          </div>
-          <button type="submit" className="btn btn-primary" style={{ marginTop: '20px' }}>Cobrar</button>
-        </div>
-      </div>
     </div>
   );
 }

@@ -14,16 +14,18 @@ class ContactanosMailable extends Mailable
 
     public $titulo;
     public $monto;
+    public $mensajeAdicional;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($titulo, $monto)
+    public function __construct($titulo, $monto, $mensajeAdicional) // Modify the constructor to accept the new parameter
     {
         $this->titulo = $titulo;
         $this->monto = $monto;
+        $this->mensajeAdicional = $mensajeAdicional; // Assign the new parameter
     }
 
     /**

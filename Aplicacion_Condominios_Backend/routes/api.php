@@ -26,6 +26,8 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
 
+
+use App\Http\Controllers\CorreoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -207,4 +209,4 @@ Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEq
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
 
 
-
+    Route::post('/cobrar-servicio', [CorreoController::class, 'enviarCorreo']);

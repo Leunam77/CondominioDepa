@@ -230,17 +230,16 @@ function NotificationEmail() {
                         </Button>
                     </div>
                     {residents.map((resident) => (
-                        <div key={resident.id} >
-                            <input
-                                style={{ marginRight: '3%' }}
-                                type='checkbox'
-                                id={`resident-${resident.id}`}
-                                checked={selectedResidents[resident.id]}
-                                onChange={() => handleResidentSelectionChange(resident.id)}
-                            />
-                            <label htmlFor={`resident-${resident.id}`}>{resident.nombre_residente} {resident.apellidos_residente}</label>
-                        </div>
-                    ))}
+                    <div key={resident.id} style={{ marginBottom: '5px' }}>
+                        <Button
+                            variant={selectedResidents[resident.id] ? 'success' : 'secondary'}
+                            onClick={() => handleResidentSelectionChange(resident.id)} // Pass the ID instead of the object
+                            style={{ width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        >
+                            {resident.nombre_residente} {resident.apellidos_residente}
+                        </Button>
+                    </div>
+                ))}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant='secondary' onClick={closeModal}>

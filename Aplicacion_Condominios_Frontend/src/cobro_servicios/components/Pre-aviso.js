@@ -1,249 +1,130 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from "reactstrap";
-import { useParams } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
-const endpoint = "http://localhost:8000/api";
-
-const PreAviso = () => {
-  const { departamento_id } = useParams();
-  const [fecha, setFecha] = useState("");
-  const [descripcion_servicios, setdescripcion_servicios] = useState("");
-  const [monto, setMonto] = useState("");
-  const [errors, setErrors] = useState({});
-  const [tipoServicio, setTipoServicio] = useState("");
-  const [tiposServicio, setTiposServicio] = useState([]);
-  const [propietarios, setPropietarios] = useState([]);
-  const [propietarioSeleccionado, setPropietarioSeleccionado] = useState("");
-  const [servicioPagar, setServicioPagar] = useState("");
+function FormularioCobro() {
+  const [titulo, setTitulo] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [monto, setMonto] = useState('');
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState(null);
+  const [residents, setResidents] = useState([]);
+  const [selectedResident, setSelectedResident] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    console.log("ID del departamento:", departamento_id);
-  }, [departamento_id]);
-
-  useEffect(() => {
-    const fetchTiposServicio = async () => {
-      try {
-        const response = await axios.get(`${endpoint}/CategoriaServicio`);
-        const nombresServicio = response.data.map((item) => item.catnombre);
-        setTiposServicio(nombresServicio);
-      } catch (error) {
-        console.error("Error al obtener los tipos de servicio:", error);
-      }
-    };
-
-    fetchTiposServicio();
+    fetchResidents();
   }, []);
 
-  useEffect(() => {
-    const fetchPropietarios = async () => {
-      try {
-        const response = await axios.get(`${endpoint}/residentes`);
-        const contratoDepResponse = await axios.get(`${endpoint}/contratoDep/${departamento_id}`);
-        const contratoDepId = contratoDepResponse.data.contratos[0].id;
-        console.log("id del contrato encontrado " + contratoDepId);
-        const propietariosByContratoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contratoDepId}`);
-  
-        if (propietariosByContratoResponse.data.message !== "No tiene propietario") {
-          // Si hay propietario, mostrar solo ese propietario
-          const nombrePropietario = propietariosByContratoResponse.data.residente.nombre_residente;
-          console.log(nombrePropietario);
-          setPropietarios([nombrePropietario]);
-        } else {
-          // Si no hay propietario, obtener los residentes por la otra ruta
-          const residentesByContratoResponse = await axios.get(`${endpoint}/residentes-by-contrato/${contratoDepId}`);
-          console.log(residentesByContratoResponse);
-          const nombresResidentes = residentesByContratoResponse.data.map(residente => residente.nombre_residente);
-          setPropietarios(nombresResidentes);
-        }
-      } catch (error) {
-        console.error("Error al obtener la lista de propietarios:", error);
-      }
-    };
-  
-    fetchPropietarios();
-  }, []);
-  
-  
-  
-  
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "fecha":
-        setFecha(value);
-        break;
-      case "descripcion_servicios":
-        setdescripcion_servicios(value);
-        break;
-      case "monto":
-        setMonto(value);
-        break;
-        case "tipo_servicio": // Cambiado de "tipoServicio" a "tipo_servicio"
-        setServicioPagar(value);
-       // console.log("el servicio seleccionado es: "+value);
-        break;
-      default:
-        break;
+  const fetchResidents = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/residentes');
+      setResidents(response.data);
+    } catch (error) {
+      console.error(error);
+      alert('Failed to fetch residents.');
+    }
+  };
+
+  const handleResidentSelectionChange = (resident) => {
+    if (selectedResident && selectedResident.id === resident.id) {
+      setSelectedResident(null);
+      setCorreo('');
+    } else {
+      setSelectedResident(resident);
+      setCorreo(resident.email_residente);
     }
   };
 
   const handleSubmit = async (e) => {
-    console.log("empiezo a enviar");
     e.preventDefault();
-    const validationErrors = {};
-
-    if (!fecha.trim()) {
-      validationErrors.fecha = "Este campo es obligatorio";
-      console.log("Error de fecha");
-    }
     
-    if (!descripcion_servicios.trim()) {
-      validationErrors.descripcion_servicios = "Este campo es obligatorio";
-      console.log("Error de descripción de servicios");
-    }
-    
-    if (!monto.trim()) {
-      validationErrors.monto = "Este campo es obligatorio";
-      console.log("Error de monto");
-    }
-    
-    if (!servicioPagar.trim()) {
-      validationErrors.tipo_servicio = "Seleccione un servicio a pagar";
-      console.log(servicioPagar);
-      console.log("Error de tipo de servicio");
-    }
-
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      const url = `${endpoint}/generar-preaviso`;
-      const data = {
-        departamento_id,
-        fecha,
-        propietario_pagar: propietarioSeleccionado,
-        descripcion_servicios,
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/cobrar-servicio', {
+        titulo,
+        correo,
         monto,
-        servicio_pagar: servicioPagar,
-      };
-
-      try {
-        console.log(data);
-        const response = await axios.post(url, data);
-        console.log("Preaviso guardado exitosamente:", response.data);
-        window.location.href = "/cobros/pre-aviso";
-      } catch (error) {
-        console.error("Error al guardar el preaviso:", error);
-        console.log(data);
-      }
-      console.log("no envie nada");
+        mensaje,
+        selectedResident
+      });
+      setMensaje(response.data.message);
+      setError(null);
+    } catch (error) {
+      setError('Ocurrió un error al procesar el pago.');
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <Container className="custom-form">
-      <Row>
-        <Col sm={12}>
-          <h2 className="text-center mb-5">Crear Preaviso de expensa</h2>
-          <h3 className="text-center mb-5">Departamento:{departamento_id}</h3>
-          <Form onSubmit={handleSubmit}>
-            {/* Agrega un nuevo campo desplegable para seleccionar el propietario */}
-            <FormGroup className="mb-4">
-              <Label className="label-custom">Propietario</Label>
-              <Input
-                type="select"
-                name="propietario"
-                onChange={(e) => setPropietarioSeleccionado(e.target.value)}
-                value={propietarioSeleccionado}
-              >
-                <option value="">Seleccionar propietario</option>
-                {propietarios.map((propietario) => (
-                  <option key={propietario} value={propietario}>
-                    {propietario}
-                  </option>
-                ))}
-              </Input>
-            </FormGroup>
+    <div className="container">
+      <div className="row">
+        {/* Sección izquierda */}
+        <div className="col-md-6">
+          <h2>Cobrar Servicio</h2>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {mensaje && <p style={{ color: 'green' }}>{mensaje}</p>}
+          <Button variant='primary' onClick={openModal} style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Seleccionar Residente</Button>
+          <Modal show={isModalOpen} onHide={closeModal} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Seleccionar Residente</Modal.Title>
+            </Modal.Header>
+            <Modal.Body style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+              {residents.map((resident) => (
+                <div key={resident.id} style={{ marginBottom: '5px' }}>
+                  <Button
+                    variant={selectedResident && selectedResident.id === resident.id ? 'success' : 'secondary'}
+                    onClick={() => handleResidentSelectionChange(resident)}
+                    style={{ width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                  >
+                    {resident.nombre_residente} {resident.apellidos_residente}
+                  </Button>
+                </div>
+              ))}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant='secondary' onClick={closeModal}>Cerrar</Button>
+            </Modal.Footer>
+          </Modal>
+          <div style={{ marginTop: '20px' }}>
+            <label htmlFor="correo">Correo electrónico:</label>
+            <input
+                id="correo"
+                type="email"
+                className="form-control"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                readOnly // Hace que el campo sea solo de lectura
+            />
+            </div>
+        </div>
 
-            <FormGroup className="mb-4">
-              <Label className="label-custom">Fecha de envio</Label>
-              <Input
-                type="date"
-                name="fecha"
-                onChange={handleInput}
-                value={fecha}
-              />
-              {errors.fecha && <span>{errors.fecha}</span>}
-            </FormGroup>
-
-            <FormGroup className="mb-4">
-              <Label className="label-custom">
-                Descripcion de los servicios
-              </Label>
-              <Input
-                type="text"
-                name="descripcion_servicios"
-                placeholder="Ingrese la descripcion de los servicios"
-                onChange={handleInput}
-                value={descripcion_servicios}
-              />
-              {errors.descripcion_servicios && (
-                <span>{errors.descripcion_servicios}</span>
-              )}
-            </FormGroup>
-
-            <FormGroup className="mb-4">
-              <Label className="label-custom">Servicio a pagar</Label>
-              <Input
-                type="select"
-                name="tipo_servicio"
-                onChange={(e) => setServicioPagar(e.target.value)}
-                value={servicioPagar}
-              >
-                <option value="">Seleccionar servicio</option>
-                {tiposServicio.map((tipo, index) => (
-                  <option key={index} value={tipo}>
-                    {tipo}
-                  </option>
-                ))}
-              </Input>
-            </FormGroup>
-
-            <FormGroup className="mb-4">
-              <Label className="label-custom">Monto</Label>
-              <Input
-                type="number"
-                name="monto"
-                placeholder="Ingrese el monto"
-                onChange={handleInput}
-                value={monto}
-              />
-              {errors.monto && <span>{errors.monto}</span>}
-            </FormGroup>
-            <Button
-              size="lg"
-              type="submit"
-              className="custom-button mx-auto d-block"
-              style={{ fontWeight: "bold" }}
-              onClick={handleSubmit}
-            >
-              Guardar Preaviso
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+        {/* Sección derecha */}
+        <div className="col-md-6">
+          <div style={{ marginTop: '20px' }}>
+            <label htmlFor="titulo">Título:</label>
+            <input id="titulo" type="text" className="form-control" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <label htmlFor="monto">Monto a cobrar:</label>
+            <input id="monto" type="number" className="form-control" value={monto} onChange={(e) => setMonto(e.target.value)} />
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <label htmlFor="mensaje">Mensaje adicional:</label>
+            <textarea id="mensaje" className="form-control" value={mensaje} onChange={(e) => setMensaje(e.target.value)} />
+          </div>
+          <button type="submit" className="btn btn-primary" style={{ marginTop: '20px' }}>Cobrar</button>
+        </div>
+      </div>
+    </div>
   );
-};
+}
 
-export default PreAviso;
+export default FormularioCobro;

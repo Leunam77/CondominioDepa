@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
+import Swal from 'sweetalert2';
 
 import {
     MDBBtn,
@@ -17,6 +18,13 @@ import {
   from 'mdb-react-ui-kit';
 
 function EmployeeRegister() {
+  
+  
+  const [errors, setErrors] = useState({});
+
+  useEffect(()=>{
+
+  }, []);
 
   const [values, setValues] = useState({
     nombre: "",
@@ -24,7 +32,7 @@ function EmployeeRegister() {
     correo : "",
     celular : "",
     genero : "",
-    fecha_contratacion : "",
+    ci : "",
   });
 
   const handleInput = (e) => {
@@ -38,85 +46,156 @@ function EmployeeRegister() {
 
   const handleSubmit =  async (e) => {
     e.preventDefault(); 
-    console.log(values)
-    console.log("sds")
+    const validationErrors = {};
 
-    const data = new FormData();
+    if(!values.nombre.trim()){
+        validationErrors.nombre = "Este campo es obligatorio"
+    }
 
-    data.append("nombre", values.nombre);
-    data.append("apellido", values.apellido);
-    data.append("correo", values.correo);
-    data.append("celular", values.celular);
-    data.append("genero", values.genero);
-    data.append("fecha_contratacion", values.fecha_contratacion);
+    if(!values.apellido.trim()){
+        validationErrors.apellido = "Este campo es obligatorio"
+    }
 
-    const res = await axios.post(`http://127.0.0.1:8000/api/add_employee`, data);
+    if(!values.correo.trim()){
+        validationErrors.correo = "Este campo es obligatorio"
+    }
 
-    if (res.data.status === 200) {
-      console.log(res);
-      setValues({
-        nombre: "",
-        apellido: "",
-        correo: "",
-        celular: "",
-        genero: "",
-        fecha_contratacion: "",
-      });
-      window.location.href = "./";
+    if (values.genero !== "F" && values.genero !== "M"){
+      validationErrors.genero = "Debe escoger un genero"
+    }
+
+    if (!values.celular.trim()) {
+        validationErrors.celular = "Este campo es obligatorio";
+    }else if (!/^[6-7]\d{7}$/.test(values.celular)) {
+        validationErrors.celular = "El número de celular debe comenzar con 6 o 7 y tener exactamente 8 dígitos";
+    }
+
+    if(!values.ci.trim()){
+      validationErrors.ci = "Este campo es obligatorio"
+    }
+
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+
+        const data = new FormData();
+
+        data.append("nombre", values.nombre);
+        data.append("apellido", values.apellido);
+        data.append("correo", values.correo);
+        data.append("celular", values.celular);
+        data.append("genero", values.genero);
+        data.append("ci", values.ci);
+        data.append("estado_contrato", "Sin contrato");
+        const res = await axios.post(`http://127.0.0.1:8000/api/add_employee`, data);
+        Swal.fire('Registro con exito','','success');
+        window.location.href = "./";
     }
     
-  };
+  }
 
   return (
     <MDBContainer fluid>
       <MDBRow className="justify-content-center align-items-center m-5">
         <MDBCard>
           <MDBCardBody className="px-4">
+          <div className="text-center"> 
             <h3 className="fw-bold mb-4 pb-2 pb-md-0 mb-md-5">
-              Registro de Empleado
+              Registrar Informacion de Empleado
             </h3>
+          </div>
 
-            <MDBRow>
+            <MDBRow className="mb-3">
               <MDBCol md="6">
+              
+                  <label htmlFor="form1" className="form-label fw-bold">Nombre(s):</label>
                 <MDBInput
                   name="nombre"
-                  wrapperClass="mb-4"
-                  label="Nombre(s)"
                   size="lg"
                   id="form1"
                   type="text"
                   onBlur={handleInput}
                 />
+                 {errors.nombre && (
+                    <span className="advertencia-creEve">{errors.nombre}</span>
+                  )}
               </MDBCol>
+             
 
               <MDBCol md="6">
+             
+                <label htmlFor="form2" className="form-label fw-bold" >Apellido(s):</label>
+                
+            
                 <MDBInput
                   name="apellido"
-                  wrapperClass="mb-4"
-                  label="Apellido(s)"
                   size="lg"
                   id="form2"
                   type="text"
                   onBlur={handleInput}
                 />
+                 {errors.apellido && (
+                           <span className="advertencia-creEve">{errors.apellido}</span>
+                  )}
               </MDBCol>
             </MDBRow>
 
-            <MDBRow>
+            <MDBRow className="mb-3">
               <MDBCol md="6">
+                  <label htmlFor="form4" className="form-label fw-bold" >Celular:</label>
+                  <MDBInput
+                    name="celular"
+                    size="lg"
+                    id="form4"
+                    type="number"
+                    onBlur={handleInput}
+                  />
+                  {errors.celular && (
+                            <span className="advertencia-creEve">{errors.celular}</span>
+                    )}
+                </MDBCol>
+              <MDBCol md="6">
+                <label htmlFor="form3" className="form-label fw-bold" >Correo:</label>
                 <MDBInput
                   name="correo"
-                  wrapperClass="mb-4"
-                  label="Correo"
                   size="lg"
                   id="form3"
                   type="text"
                   onBlur={handleInput}
                 />
+                 {errors.correo && (
+                           <span className="advertencia-creEve">{errors.correo}</span>
+                  )}
+
               </MDBCol>
 
+              
+            </MDBRow>
+
+            <MDBRow className="mb-3">
+
+
+              <MDBCol md="6">
+              
+                <label htmlFor="form5" className="form-label fw-bold" >C.I.:</label>
+                
+              
+                <MDBInput
+                  name="ci"
+                  size="lg"
+                  id="form5"
+                  type="number"
+                  onBlur={handleInput}
+                />
+                {errors.ci && (
+                           <span className="advertencia-creEve">{errors.ci}</span>
+                  )}
+              </MDBCol>
               <MDBCol md="6" className="mb-4">
-                <h6 className="fw-bold">Genero: </h6>
+                
+                  <h6 className="fw-bold" style={{ paddingBottom: '15px' }}>Genero: </h6>
+                  
+                
                 <MDBRadio
                   name="genero"
                   id="inlineRadio1"
@@ -133,43 +212,23 @@ function EmployeeRegister() {
                   inline
                   onBlur={handleInput}
                 />
+               {errors.genero && (
+                           <span className="advertencia-creEve">{errors.genero}</span>
+                  )}
               </MDBCol>
+
+
             </MDBRow>
-
-            <MDBRow>
-              <MDBCol md="6">
-                <MDBInput
-                  name="celular"
-                  wrapperClass="mb-4"
-                  label="Celular"
-                  size="lg"
-                  id="form4"
-                  type="number"
-                  onBlur={handleInput}
-                />
-              </MDBCol>
-
-              <MDBCol md="6">
-                <MDBInput
-                  name="fecha_contratacion"
-                  wrapperClass="mb-4"
-                  label="fecha_contratacion"
-                  size="lg"
-                  id="form5"
-                  type="date"
-                  onBlur={handleInput}
-                />
-              </MDBCol>
-            </MDBRow>
-
-            <Button block variant="warning" onClick={handleSubmit}>
-              Registrar
-            </Button>
+            <div className="text-center"> 
+              <Button block onClick={handleSubmit} style={{ backgroundColor: '#65B8A6', borderColor: '#65B8A6' }}>
+                Registrar
+              </Button>
+            </div>
           </MDBCardBody>
         </MDBCard>
       </MDBRow>
     </MDBContainer>
   );
-}
 
+};
 export default EmployeeRegister;

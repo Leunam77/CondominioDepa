@@ -28,8 +28,7 @@ function EmployeeEdit() {
   const id = cookies.get('id_empleado_seleccionado');
 
   const [empleado, setEmpleado] = useState([]);
-
-  let nombre_empleado = "";
+  const [errors, setErrors] = useState({});
 
   const [values, setValues] = useState({
     nombre: "",
@@ -37,12 +36,12 @@ function EmployeeEdit() {
     correo : "",
     celular : "",
     genero : "",
+    ci:"",
     fecha_contratacion : "",
   });
 
   useEffect(()=>{
     getEmpleado();
-    console.log(id)
   }, []);
 
   const getEmpleado =  async (e) => {
@@ -53,16 +52,13 @@ function EmployeeEdit() {
         correo : respuesta.data.empleado.correo,
         celular : respuesta.data.empleado.celular,
         genero : respuesta.data.empleado.genero,
+        ci : respuesta.data.empleado.ci,
         fecha_contratacion : respuesta.data.empleado.fecha_contratacion,
     });
-    console.log(values)
-    nombre_empleado = respuesta.data.empleado.nombre
-    console.log(respuesta.data)
     setEmpleado(respuesta.data.empleado)
    };
 
   const handleInput = (e) => {
-    console.log("ASASS")
     const {name, value} = e.target;
     setValues({
         ...values,
@@ -72,34 +68,40 @@ function EmployeeEdit() {
 
   const guardarInformacion =  async (e) => {
     e.preventDefault(); 
-    console.log(values)
+    const validationErrors = {};
 
-    const data = new FormData();
-
-    data.append("nombre", values.nombre);
-    data.append("apellido", values.apellido);
-    data.append("correo", values.correo);
-    data.append("celular", values.celular);
-    data.append("genero", "M");
-    data.append("fecha_contratacion", values.fecha_contratacion);
-
-    const res = await axios.post(`http://127.0.0.1:8000/api/update_employee/${id}`, data);
-
-    if (res.data.status === 200) {
-      console.log(res);
-      /* 
-      setValues({
-        nombre: "",
-        apellido: "",
-        correo: "",
-        celular: "",
-        genero: "",
-        fecha_contratacion: "",
-      });
-      */
-      window.location.href = "./";
+    if(!values.correo.trim()){
+      validationErrors.correo = "Este campo es obligatorio"
     }
-    
+
+    if (!values.celular.trim()) {
+      validationErrors.celular = "Este campo es obligatorio";
+    } else if (!/^[6-7]\d{7}$/.test(values.celular)) {
+      validationErrors.celular =
+        "El número de celular debe comenzar con 6 o 7 y tener exactamente 8 dígitos";
+    }
+
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      const data = new FormData();
+
+      data.append("nombre", values.nombre);
+      data.append("apellido", values.apellido);
+      data.append("correo", values.correo);
+      data.append("celular", values.celular);
+      data.append("genero", "M");
+
+      const res = await axios.post(
+        `http://127.0.0.1:8000/api/update_employee/${id}`,
+        data
+      );
+
+      if (res.data.status === 200) {
+        console.log(res);
+        window.location.href = "./";
+      }
+    }
   };
 
   return (
@@ -107,54 +109,97 @@ function EmployeeEdit() {
       <MDBRow className="justify-content-center align-items-center m-5">
         <MDBCard>
           <MDBCardBody className="px-4">
-            <h3 className="fw-bold mb-4 pb-2 pb-md-0 mb-md-5">
-              Editar de Informacion
-            </h3>
+            <div className="text-center">
+              <h3 className="fw-bold mb-4 pb-2 pb-md-0 mb-md-5">
+                Editar Informacion de Empleado
+              </h3>
+            </div>
 
-            <MDBRow>
+            <MDBRow className="mb-4">
               <MDBCol md="6">
+                <label htmlFor="form1" className="form-label fw-bold">
+                  Nombre(s):
+                </label>
                 <MDBInput
                   name="nombre"
-                  wrapperClass="mb-4"
-                  label="Nombre(s)"
                   size="lg"
                   id="form1"
                   type="text"
                   onChange={handleInput}
-                  value={values.nombre}
+                  value={empleado.nombre}
                 />
               </MDBCol>
 
               <MDBCol md="6">
+                <label htmlFor="form2" className="form-label fw-bold">
+                  Apellido(s):
+                </label>
                 <MDBInput
                   name="apellido"
-                  wrapperClass="mb-4"
-                  label="Apellido(s)"
                   size="lg"
                   id="form2"
                   type="text"
                   onChange={handleInput}
-                  value={values.apellido}
+                  value={empleado.apellido}
                 />
               </MDBCol>
             </MDBRow>
 
-            <MDBRow>
+            <MDBRow className="mb-4">
               <MDBCol md="6">
+                <label htmlFor="form3" className="form-label fw-bold">
+                  Celular:
+                </label>
                 <MDBInput
-                  name="correo"
-                  wrapperClass="mb-4"
-                  label="Correo"
+                  name="celular"
                   size="lg"
                   id="form3"
                   type="text"
                   onChange={handleInput}
+                  value={values.celular}
+                />
+                {errors.celular && (
+                  <span className="advertencia-creEve">{errors.celular}</span>
+                )}
+              </MDBCol>
+
+              <MDBCol md="6">
+                <label htmlFor="form4" className="form-label fw-bold">
+                  Correo:
+                </label>
+                <MDBInput
+                  name="correo"
+                  size="lg"
+                  id="form4"
+                  type="text"
+                  onChange={handleInput}
                   value={values.correo}
+                />
+                {errors.correo && (
+                  <span className="advertencia-creEve">{errors.correo}</span>
+                )}
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow className="mb-4">
+              <MDBCol md="6">
+                <label htmlFor="form5" className="form-label fw-bold">
+                  C.I.:
+                </label>
+                <MDBInput
+                  name="ci"
+                  size="lg"
+                  id="form4"
+                  type="number"
+                  onChange={handleInput}
+                  value={empleado.ci}
                 />
               </MDBCol>
 
-              <MDBCol md="6" className="mb-4">
-                <h6 className="fw-bold">Genero: </h6>
+              <MDBCol md="6">
+                <h6 className="mb-2 fw-bold" style={{ paddingBottom: "15px" }}>
+                  Genero:{" "}
+                </h6>
                 <MDBRadio
                   name="genero"
                   id="inlineRadio1"
@@ -174,37 +219,15 @@ function EmployeeEdit() {
               </MDBCol>
             </MDBRow>
 
-            <MDBRow>
-              <MDBCol md="6">
-                <MDBInput
-                  name="celular"
-                  wrapperClass="mb-4"
-                  label="Celular"
-                  size="lg"
-                  id="form4"
-                  type="number"
-                  onChange={handleInput}
-                  value={values.celular}
-                />
-              </MDBCol>
-
-              <MDBCol md="6">
-                <MDBInput
-                  name="fecha_contratacion"
-                  wrapperClass="mb-4"
-                  label="fecha_contratacion"
-                  size="lg"
-                  id="form5"
-                  type="date"
-                  onChange={handleInput}
-                  value={values.fecha_contratacion}
-                />
-              </MDBCol>
-            </MDBRow>
-
-            <Button block variant="warning" onClick={guardarInformacion}>
-              Guardar
-            </Button>
+            <div className="text-center">
+              <Button
+                block
+                onClick={guardarInformacion}
+                style={{ backgroundColor: "#65B8A6", borderColor: "#65B8A6" }}
+              >
+                Guardar
+              </Button>
+            </div>
           </MDBCardBody>
         </MDBCard>
       </MDBRow>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
@@ -8,13 +8,17 @@ interface CategoryListProps {
   categories: { id: number; catnombre: string; catdescripcion: string }[];
   flag: boolean;
   setFlag: (flag: boolean) => void;
+  isEditing: boolean;
 }
 
 const CategoryList: React.FC<CategoryListProps> = ({
   categories,
   flag,
   setFlag,
+  isEditing,
 }) => {
+  useEffect(() => {}, [isEditing]);
+
   const handleDelete = (id: number) => {
     deleteItem(id);
   };
@@ -34,7 +38,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
         <table className="table table-striped">
           <thead>
             <tr>
-              <th className="left">Nombre de la categoría</th>
+              <th className="left">Nombre de la categoríaaaaaa</th>
               <th className="left">Descripción</th>
               <th className="righ">Acciones</th>
             </tr>

@@ -16,7 +16,8 @@ class EmployeeController extends Controller
         $empleado-> correo = $request -> correo;
         $empleado-> celular = $request -> celular;
         $empleado-> genero = $request -> genero;
-        $empleado-> fecha_contratacion = $request -> fecha_contratacion;
+        $empleado-> ci = $request -> ci;
+        $empleado-> estado_contrato = $request -> estado_contrato;
 
         $empleado -> save();
 
@@ -58,13 +59,35 @@ class EmployeeController extends Controller
         $empleado-> apellido = $request -> apellido;
         $empleado-> correo = $request -> correo;
         $empleado-> celular = $request -> celular;
-        $empleado-> genero = $request -> genero;
-        $empleado-> fecha_contratacion = $request -> fecha_contratacion;
 
         $empleado -> update();
 
         return response()->json([
             'status' => 200,
             'message' =>'Empleado actualizado exitosamente']);
+    }
+
+    public function updateContractStatus(Request $request, $id){
+
+        $empleado = Employee::find($id);
+
+        $empleado-> estado_contrato = $request -> estado_contrato;
+
+        $empleado -> update();
+
+        return response()->json([
+            'status' => 200,
+            'message' =>'Estado contrato actualizado exitosamente']);
+    }
+
+    public function getEmployeeWithContract(){
+
+        $empleadosConContrato = Employee::has('contracts')->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' =>'Empleados con contrato obtenidos exitosamente',
+            'empleados' => $empleadosConContrato
+        ]);
     }
 }

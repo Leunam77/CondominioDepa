@@ -48,10 +48,10 @@ const PreAviso = () => {
   useEffect(() => {
     const fetchPropietarios = async () => {
       try {
-        const response = await axios.get(`${endpoint}/residentes`);
         const contratoDepResponse = await axios.get(`${endpoint}/contratoDep/${departamento_id}`);
         const contratoDepId = contratoDepResponse.data.contratos[0].id;
         console.log("id del contrato encontrado " + contratoDepId);
+        
         const propietariosByContratoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contratoDepId}`);
   
         if (propietariosByContratoResponse.data.message !== "No tiene propietario") {
@@ -59,13 +59,24 @@ const PreAviso = () => {
           const nombrePropietario = propietariosByContratoResponse.data.residente.nombre_residente;
           console.log(nombrePropietario);
           setPropietarios([nombrePropietario]);
-        } else {
-          // Si no hay propietario, obtener los residentes por la otra ruta
-          const residentesByContratoResponse = await axios.get(`${endpoint}/residentes-by-contrato/${contratoDepId}`);
-          console.log(residentesByContratoResponse);
-          const nombresResidentes = residentesByContratoResponse.data.map(residente => residente.nombre_residente);
-          setPropietarios(nombresResidentes);
-        }
+      } else {
+          // Si no hay propietario, obtener los titulares por la otra ruta
+          const titularesByContratoResponse = await axios.get(`${endpoint}/titular-by-contrato/${contratoDepId}`);
+          console.log(titularesByContratoResponse);
+          
+          if (Array.isArray(titularesByContratoResponse.data)) {
+              const nombresTitulares = titularesByContratoResponse.data.map(titular => titular.nombre_residente);
+              setPropietarios(nombresTitulares);
+          } else if (titularesByContratoResponse.data.message === "Titular encontrado") {
+              // Si se encuentra un titular pero no es un array, mostrar solo ese titular
+              const nombreTitular = titularesByContratoResponse.data.residente.nombre_residente;
+              console.log(nombreTitular);
+              setPropietarios([nombreTitular]);
+          } else {
+              console.error("La respuesta de la API no es válida:", titularesByContratoResponse.data);
+          }
+      }
+      
       } catch (error) {
         console.error("Error al obtener la lista de propietarios:", error);
       }
@@ -73,7 +84,7 @@ const PreAviso = () => {
   
     fetchPropietarios();
   }, []);
-  
+
   
   
   

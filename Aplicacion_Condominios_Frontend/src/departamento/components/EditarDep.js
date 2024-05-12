@@ -44,6 +44,9 @@ class EditarDep extends Component {
             superficie: 0,
             disponibilidad: true,
             amoblado: false,
+            ofertado_venta: false,
+            ofertado_alquiler: false,
+            ofertado_anticretico: false,
             descripcion_departamento: "",
             errors: {},
             bloques: [],
@@ -55,9 +58,21 @@ class EditarDep extends Component {
             imagenDep: "",
             nuevaImagen: "",
             modalOpen: false,
+<<<<<<< HEAD
             nuevaImagenMostrar:"",
+=======
+            nuevaImagenMostrar: "",
+            checkBoxOferta: '',
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         };
     }
+    validarCheckboxes = () => {
+        if (!this.state.ofertado_venta && !this.state.ofertado_alquiler && !this.state.ofertado_anticretico) {
+            return 'Selecciona al menos una oferta.';
+        }
+        return '';
+    };
+
     obtenerDatosDepartamento = async (idDepartamento) => {
         try {
             const response = await axios.get(`${endpoint}/departamento/${idDepartamento}`);
@@ -82,6 +97,12 @@ class EditarDep extends Component {
                 superficie: departamento.superficie,
                 disponibilidad: departamento.disponibilidad === 1 ? true : false,
                 amoblado: departamento.amoblado === 1 ? true : false,
+<<<<<<< HEAD
+=======
+                ofertado_venta: departamento.ofertado_venta === 1 ? true : false,
+                ofertado_alquiler: departamento.ofertado_alquiler === 1 ? true : false,
+                ofertado_anticretico: departamento.ofertado_anticretico === 1 ? true : false,
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                 descripcion_departamento: departamento.descripcion_departamento,
                 pisoSeleccionado: departamento.piso,
                 edificioSeleccionado: departamento.edificio_id,
@@ -207,6 +228,13 @@ class EditarDep extends Component {
         ) {
             validationErrors.superficie =
                 "Ingrese una superficie válida";
+<<<<<<< HEAD
+=======
+        }
+        let checkBoxError = this.validarCheckboxes();
+        if (checkBoxError !== '') {
+            validationErrors.checkBoxOferta = checkBoxError;
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         }
 
         if (this.state.nuevaImagen.name) {
@@ -238,6 +266,9 @@ class EditarDep extends Component {
             data.append("superficie", this.state.superficie);
             data.append("disponibilidad", this.state.disponibilidad ? '1' : '0');
             data.append("amoblado", this.state.amoblado ? '1' : '0');
+            data.append("ofertado_venta", this.state.ofertado_venta ? '1' : '0');
+            data.append("ofertado_alquiler", this.state.ofertado_alquiler ? '1' : '0');
+            data.append("ofertado_anticretico", this.state.ofertado_anticretico ? '1' : '0');
             data.append("descripcion_departamento", this.state.descripcion_departamento);
             data.append("piso", this.state.pisoSeleccionado);
             if (this.state.nuevaImagen) {
@@ -252,7 +283,11 @@ class EditarDep extends Component {
 
             await axios.post(`${endpoint}/departamentoupd/${idDep}`, data);
             cookies.remove('idDepa');
+<<<<<<< HEAD
             window.location.href = "./depa";
+=======
+            window.location.href = "./departamentos";
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
 
         }
@@ -341,7 +376,7 @@ class EditarDep extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-                                                Superficie
+                                                Superficie(m²)
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
@@ -359,7 +394,11 @@ class EditarDep extends Component {
                                     
                                 </FormGroup>
 
+<<<<<<< HEAD
                                 <Row className="mb-4">
+=======
+                                <Row className="mb-3">
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                     <Col sm={6}>
 
                                         <Label
@@ -369,6 +408,10 @@ class EditarDep extends Component {
                                             Amoblado{' '}
                                             <Input
                                                 type="checkbox"
+<<<<<<< HEAD
+=======
+                                                className="customCheckbox"
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                                 id="checkBoxAmoblado"
                                                 checked={this.state.amoblado}
                                                 onChange={() => this.changeChecked('amoblado')}
@@ -377,6 +420,7 @@ class EditarDep extends Component {
                                         </Label>
                                     </Col>
                                 </Row>
+<<<<<<< HEAD
                                 <FormGroup className="mb-4">
                                     <Label
                                         className="label-custom"
@@ -406,6 +450,101 @@ class EditarDep extends Component {
                                     )}
                                 </FormGroup>
 
+=======
+
+                                <FormGroup className="mb-3">
+                                    <Label
+                                        className="label-custom"
+
+                                    >
+                                        Ofertar como:
+
+                                    </Label>
+                                    <Row className="mb-3 mt-1">
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Venta
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    id="checkBoxVenta"
+                                                    checked={this.state.ofertado_venta}
+                                                    onChange={() => this.changeChecked('ofertado_venta')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Alquiler
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    id="checkBoxAlquiler"
+                                                    checked={this.state.ofertado_alquiler}
+                                                    onChange={() => this.changeChecked('ofertado_alquiler')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Anticretico
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    id="checkBoxAnticretico"
+                                                    checked={this.state.ofertado_anticretico}
+                                                    onChange={() => this.changeChecked('ofertado_anticretico')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        {this.state.errors.checkBoxOferta && <Label
+                                            style={{ color: 'red', fontSize: '0.875rem' }}
+                                        >{this.state.errors.checkBoxOferta}</Label>}
+                                    </Row>
+                                </FormGroup>
+
+                                <FormGroup className="mb-4">
+                                    <Label
+                                        className="label-custom"
+                                    >
+                                        Subir una imagen
+                                    </Label>
+                                    <Input
+                                        type="file"
+                                        className="customImage"
+                                        name="nuevaImagen"
+                                        id="nuevaImagen"
+                                        onChange={this.handleChange}
+                                        style={this.state.errors.nuevaImagen ? { borderColor: 'red' } : {}}
+                                    />
+                                    {this.state.imagenDep && (
+                                    <div className="d-flex justify-content-center">
+                                            <CardImg
+                                                width="100%"
+                                                src={this.state.nuevaImagenMostrar ? this.state.nuevaImagenMostrar : this.state.imagenDep}
+                                                alt="Vista previa"
+                                                style={{ width: '200px', height: '200px', marginTop: '25px', borderRadius: '10px' }}
+                                            />
+                                    </div>
+                                    )}
+                                    {this.state.errors.nuevaImagen && (
+                                        <div style={{color: 'red'}}>{this.state.errors.nuevaImagen}</div>
+                                    )}
+                                </FormGroup>
+
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                 <FormGroup className="mb-5">
                                     <Label
                                         className="label-custom"

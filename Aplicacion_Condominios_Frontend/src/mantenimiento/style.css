@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #content {
   display: flex;
   flex-direction: column;
@@ -7,3 +8,14 @@
   gap: 2em;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
 }
+=======
+#content {
+  display: flex;
+  flex-direction: column;
+  /* border: solid 2px #233044; */
+  border-radius: 11px;
+  padding: 2em;
+  gap: 2em;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+}
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af

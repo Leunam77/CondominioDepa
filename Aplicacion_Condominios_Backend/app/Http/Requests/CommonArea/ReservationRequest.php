@@ -16,6 +16,10 @@ class ReservationRequest extends FormRequest
     public function rules()
     {
         return [
+<<<<<<< HEAD
+=======
+            'idResident' => ['required', 'integer', 'exists:residentes,id'],
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             'idCommonArea' => ['required', 'integer', 'exists:common_areas,id_common_area'],
             'reservationDate' => ['required', 'date'],
             'startTime' => ['required', 'date_format:H:i', 'before:endTime'],
@@ -28,6 +32,10 @@ class ReservationRequest extends FormRequest
 
     public function messages() {
         return [
+<<<<<<< HEAD
+=======
+            'idResident.required' => 'El id del residente es requerido',
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             'reservationDate.required' => 'La fecha de la reservación es requerida',
             'reservationDate.date' => 'La fecha de la reservación debe ser una fecha',
             'startTime.required' => 'La hora de inicio es requerida',

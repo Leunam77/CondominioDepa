@@ -8,17 +8,21 @@ use Illuminate\Http\Request;
 
 class ContratoController extends Controller
 {
+<<<<<<< HEAD
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+=======
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     public function index()
     {
         //
         return Contrato::all();
     }
 
+<<<<<<< HEAD
     /**
      * Show the form for creating a new resource.
      *
@@ -35,13 +39,45 @@ class ContratoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+=======
+    public function contratosVigentes()
+    {
+        try {
+            $contratos = Contrato::where('vigente_contrato', true)->get();
+
+            if ($contratos->isEmpty()) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Contratos vigentes no encontrados',
+                    'contratos' => []
+                ]);
+            }
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contratos vigentes encontrados',
+                'contratos' => $contratos
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar los contratos vigentes'
+            ], 500);
+        }
+    }
+
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     public function store(Request $request)
     {
         //
         $contrato = new Contrato();
         $validatedData = $request->validate([
             'fecha_inicio_contrato' => 'required|date',
+<<<<<<< HEAD
             'fecha_fin_contrato' => 'required|date',
+=======
+            'fecha_fin_contrato' => 'nullable|date',
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             'precio_contrato' => 'required|numeric',
             'tipo_contrato' => 'required|string',
             'vigente_contrato' => 'required|boolean',
@@ -74,8 +110,14 @@ class ContratoController extends Controller
                 // Si no se encuentran contratos, devolver un mensaje de error
                 return response()->json([
                     'status' => 404,
+<<<<<<< HEAD
                     'message' => 'Contratos no encontrados'
                 ], 404);
+=======
+                    'message' => 'Contratos no encontrados',
+                    'contratos' => []
+                ]);
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             }
     
             // Devolver los contratos encontrados en la respuesta
@@ -92,6 +134,35 @@ class ContratoController extends Controller
             ], 500);
         }
     }
+<<<<<<< HEAD
+=======
+    public function getContratByDepShort($idDepartament){
+        try{
+            $contratos = Contrato::select('id','precio_contrato','tipo_contrato','vigente_contrato','departamento_id')
+                                ->where('departamento_id',$idDepartament)
+                                ->where('vigente_contrato',true)
+                                ->take(2)->get();
+            if($contratos->isEmpty()){
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Contratos no encontrados',
+                    'contratos' => []
+                ]);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Contratos encontrados',
+                'contratos' => $contratos
+            ]);
+        } catch (\Exception $e) {
+            // Manejar cualquier error que ocurra durante la búsqueda de contratos
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error al buscar los contratos'
+            ], 500);
+        }
+    }
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     /* public function show(Contrato $contrato)
     {
         //
@@ -169,4 +240,18 @@ class ContratoController extends Controller
         }
         
     } */
+<<<<<<< HEAD
+=======
+
+    public function anularContrato(Request $request, $id)
+    {
+        $contrato = Contrato::findOrFail($id);
+
+        // Actualiza el atributo específico
+        $contrato->vigente_contrato = $request->input('vigente_contrato');
+        $contrato->save();
+
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+    }
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 }

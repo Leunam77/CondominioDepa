@@ -19,7 +19,13 @@ class ReservationCollection extends ResourceCollection
                 "startTime" => $startTime,
                 "endTime" => $endTime,
                 "reason" => $reservation->reason,
+<<<<<<< HEAD
                 "numberPeople" => $reservation->number_of_people
+=======
+                "numberPeople" => $reservation->number_of_people,
+                'reserva_pagada' => $reservation->reserva_pagada,
+
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             ];
         });
     }

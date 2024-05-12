@@ -34,6 +34,9 @@ class CrearDepartamento extends Component {
             superficie: 0,
             disponibilidad: true,
             amoblado: false,
+            ofertado_venta: false,
+            ofertado_alquiler: false,
+            ofertado_anticretico: false,
             descripcion_departamento: "",
             errors: {},
             bloques: [],
@@ -44,7 +47,12 @@ class CrearDepartamento extends Component {
             pisoSeleccionado: '',
             imagenDep: "",
             modalOpen: false,
+<<<<<<< HEAD
             imagen_departamento: null
+=======
+            imagen_departamento: null,
+            checkBoxOferta: '',
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         };
     }
 
@@ -114,6 +122,12 @@ class CrearDepartamento extends Component {
     changeChecked = (name) => {
         this.setState({ [name]: !this.state[name] }); // Cambiar el estado del atributo específico
     };
+    validarCheckboxes = () => {
+        if (!this.state.ofertado_venta && !this.state.ofertado_alquiler && !this.state.ofertado_anticretico) {
+            return 'Selecciona al menos una oferta.';
+        }
+        return '';
+    };
 
     storeDepartment = async (e) => {
         e.preventDefault();
@@ -167,6 +181,13 @@ class CrearDepartamento extends Component {
             validationErrors.superficie =
                 "Ingrese una superficie válida";
         }
+<<<<<<< HEAD
+=======
+        let checkBoxError = this.validarCheckboxes();
+        if (checkBoxError !== '') {
+            validationErrors.checkBoxOferta = checkBoxError;
+        }
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
         if (!this.state.pisoSeleccionado) {
             validationErrors.pisoSeleccionado = "Debe seleccionar un piso";
@@ -210,6 +231,9 @@ class CrearDepartamento extends Component {
             data.append("superficie", this.state.superficie);
             data.append("disponibilidad", this.state.disponibilidad ? '1' : '0');
             data.append("amoblado", this.state.amoblado ? '1' : '0');
+            data.append("ofertado_venta", this.state.ofertado_venta ? '1' : '0');
+            data.append("ofertado_alquiler", this.state.ofertado_alquiler ? '1' : '0');
+            data.append("ofertado_anticretico", this.state.ofertado_anticretico ? '1' : '0');
             data.append("descripcion_departamento", this.state.descripcion_departamento);
             data.append("piso", this.state.pisoSeleccionado);
             if (this.state.imagenDep) {
@@ -229,7 +253,7 @@ class CrearDepartamento extends Component {
 
             axios.post(url, data).then((res) => {
                 console.log(res);
-                window.location.href = "./depa";
+                window.location.href = "./departamentos";
             });
 
         }
@@ -315,7 +339,11 @@ class CrearDepartamento extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
+<<<<<<< HEAD
                                                 Superficie
+=======
+                                                Superficie(m²)
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                             </Label>
                                             <Input
                                                 id="inputRegistro"
@@ -332,7 +360,11 @@ class CrearDepartamento extends Component {
                                     
                                 </FormGroup>
                                 
+<<<<<<< HEAD
                                 <Row className="mb-4">
+=======
+                                <Row className="mb-3">
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
                                     <Col sm={6}>
 
@@ -344,6 +376,7 @@ class CrearDepartamento extends Component {
                                             {' '}
                                             <Input
                                                 type="checkbox"
+                                                className="customCheckbox"
                                                 id="checkBoxAmoblado"
                                                 onChange={() => this.changeChecked('amoblado')}
                                             />
@@ -352,6 +385,138 @@ class CrearDepartamento extends Component {
 
                                     </Col>
                                 </Row>
+
+<<<<<<< HEAD
+                                <FormGroup className="mb-4">
+                                    <Row>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Bloque
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="bloque_id"
+                                                id="bloque_id"
+                                                onChange={this.handleBloqueSeleccionado}
+                                                invalid={this.state.errors.bloqueSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected >
+                                                    {" "}Seleccionar bloque</option>
+                                                {this.state.bloques.map(bloque => (
+                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                                ))}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.bloqueSeleccionado}</FormFeedback>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Edificio
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="edificio_id"
+                                                id="edificio_id"
+                                                onChange={this.handleEdificioSeleccionado}
+                                                invalid={this.state.errors.edificioSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar edificio</option>
+                                                {this.state.edificios.map(edificio => (
+                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
+                                                ))}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.edificioSeleccionado}</FormFeedback>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Piso
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="piso"
+                                                id="piso"
+                                                onChange={(e) => this.setState({ pisoSeleccionado: e.target.value })}
+                                                invalid={this.state.errors.pisoSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar piso</option>
+                                                {pisosOptions}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.pisoSeleccionado}</FormFeedback>
+                                        </Col>
+                                    </Row>
+                                    
+                                </FormGroup>
+
+                                <FormGroup className="mb-4">
+=======
+                                <FormGroup className="mb-3">
+                                    <Label
+                                        className="label-custom"
+
+                                    >
+                                        Ofertar como:
+
+                                    </Label>
+                                    <Row className="mb-3 mt-1">
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Venta
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    onChange={() => this.changeChecked('ofertado_venta')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Alquiler
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    id="checkBoxAlquiler"
+                                                    onChange={() => this.changeChecked('ofertado_alquiler')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        <Col sm={4}>
+                                            <Label
+                                                check
+                                                className="label-custom"
+                                            >   
+                                                Anticretico
+                                                {' '}
+                                                <Input
+                                                    type="checkbox"
+                                                    className="customCheckbox"
+                                                    id="checkBoxAnticretico"
+                                                    onChange={() => this.changeChecked('ofertado_anticretico')}
+                                                />
+                                            </Label>
+                                        </Col>
+                                        {this.state.errors.checkBoxOferta && <Label
+                                            style={{color: 'red', fontSize: '0.875rem'}}
+                                        >{this.state.errors.checkBoxOferta}</Label>}
+                                    </Row>
+                                </FormGroup>
 
                                 <FormGroup className="mb-4">
                                     <Row>
@@ -424,6 +589,7 @@ class CrearDepartamento extends Component {
                                 </FormGroup>
 
                                 <FormGroup className="mb-4">
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                     <Label
                                         className="label-custom"
                                     >

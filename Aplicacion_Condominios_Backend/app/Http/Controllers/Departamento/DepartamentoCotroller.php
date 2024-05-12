@@ -111,6 +111,22 @@ class DepartamentoCotroller extends Controller
         return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
     }
 
+<<<<<<< HEAD
+=======
+    public function actualizarOfertados(Request $request, $id)
+    {
+        $departamento = Departamento::findOrFail($id);
+
+        // Actualiza el atributo específico
+        $departamento->ofertado_venta = $request->input('ofertado_venta');
+        $departamento->ofertado_alquiler = $request->input('ofertado_alquiler');
+        $departamento->ofertado_anticretico = $request->input('ofertado_anticretico');
+        $departamento->save();
+
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+    }
+
+>>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     //funcion para mantenimiento
     public function getDepartamentosByEdificios($id)
     {

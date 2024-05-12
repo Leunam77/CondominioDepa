@@ -44,29 +44,29 @@ class CrearEdificio extends Component {
         let imagen_edificio = this.state.imagen_edificio;
         let cantidad_pisos = this.state.cantidad_pisos;
         let bloque_seleccionado = this.state.bloque_seleccionado;
-        let errors = {};
+        let validationErrors = {};
         let isValid = true;
-        if (!nombre_edificio) {
+        if (!nombre_edificio.trim()) {
             isValid = false;
-            errors["nombre_edificio"] = "Por favor ingrese el nombre del edificio.";
+            validationErrors.nombre_edificio = "Por favor ingrese el nombre del edificio.";
         }
-        if (!descripcion_edificio) {
+        if (!descripcion_edificio.trim()) {
             isValid = false;
-            errors["descripcion_edificio"] = "Por favor ingrese la descripcion del edificio.";
+            validationErrors.descripcion_edificio = "Por favor ingrese la descripcion del edificio.";
         }
         if (!imagen_edificio) {
             isValid = false;
-            errors["imagen_edificio"] = "Por favor ingrese la imagen del edificio.";
-        }
+/*             errors["imagen_edificio"] = "Por favor ingrese la imagen del edificio.";
+ */        }
         if (!cantidad_pisos) {
             isValid = false;
-            errors["cantidad_pisos"] = "Por favor ingrese la cantidad de pisos del edificio.";
+            validationErrors.cantidad_pisos = "Por favor ingrese la cantidad de pisos del edificio.";
         }
-        if (!bloque_seleccionado) {
+        if (!bloque_seleccionado.trim()) {
             isValid = false;
-            errors["bloque_seleccionado"] = "Por favor seleccione el bloque al que pertenece el edificio.";
+            validationErrors.bloque_seleccionado = "Por favor seleccione el bloque al que pertenece el edificio.";
         }
-        this.setState({ errors: errors });
+        this.setState({ errors: validationErrors });
         return isValid;
     }
 }

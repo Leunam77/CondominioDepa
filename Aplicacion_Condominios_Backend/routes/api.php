@@ -13,6 +13,7 @@ use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
+use App\Http\Controllers\Notificaciones\AvisosController;
 use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
@@ -195,6 +196,15 @@ Route::controller(TelegramNotificationController::class)->group(function() {
     Route::post('/telegram/notifications', 'sendNoticeToMany');
 });Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
 
+Route::get("/avisos",[AvisosController::class,"index"]);
+Route::post("/avisos",[AvisosController::class,"store"]);
+Route::get("/avisos/{id}",[AvisosController::class,"show"]);
+Route::put("/avisos/{id}",[AvisosController::class,"update"]);
+Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]); 
+
 Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
+
+
+

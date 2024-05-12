@@ -58,12 +58,8 @@ class EditarDep extends Component {
             imagenDep: "",
             nuevaImagen: "",
             modalOpen: false,
-<<<<<<< HEAD
-            nuevaImagenMostrar:"",
-=======
             nuevaImagenMostrar: "",
             checkBoxOferta: '',
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         };
     }
     validarCheckboxes = () => {
@@ -97,12 +93,9 @@ class EditarDep extends Component {
                 superficie: departamento.superficie,
                 disponibilidad: departamento.disponibilidad === 1 ? true : false,
                 amoblado: departamento.amoblado === 1 ? true : false,
-<<<<<<< HEAD
-=======
                 ofertado_venta: departamento.ofertado_venta === 1 ? true : false,
                 ofertado_alquiler: departamento.ofertado_alquiler === 1 ? true : false,
                 ofertado_anticretico: departamento.ofertado_anticretico === 1 ? true : false,
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                 descripcion_departamento: departamento.descripcion_departamento,
                 pisoSeleccionado: departamento.piso,
                 edificioSeleccionado: departamento.edificio_id,
@@ -184,7 +177,7 @@ class EditarDep extends Component {
         if (!this.state.nombre_departamento.trim()) {
             validationErrors.nombre_departamento = "Este campo es obligatorio";
         } else if (
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú]$/.test(
+            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s0-9]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(
                 this.state.nombre_departamento
             )
         ) {
@@ -228,13 +221,10 @@ class EditarDep extends Component {
         ) {
             validationErrors.superficie =
                 "Ingrese una superficie válida";
-<<<<<<< HEAD
-=======
         }
         let checkBoxError = this.validarCheckboxes();
         if (checkBoxError !== '') {
             validationErrors.checkBoxOferta = checkBoxError;
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         }
 
         if (this.state.nuevaImagen.name) {
@@ -283,11 +273,7 @@ class EditarDep extends Component {
 
             await axios.post(`${endpoint}/departamentoupd/${idDep}`, data);
             cookies.remove('idDepa');
-<<<<<<< HEAD
-            window.location.href = "./depa";
-=======
             window.location.href = "./departamentos";
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
 
         }
@@ -394,11 +380,7 @@ class EditarDep extends Component {
                                     
                                 </FormGroup>
 
-<<<<<<< HEAD
-                                <Row className="mb-4">
-=======
                                 <Row className="mb-3">
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                     <Col sm={6}>
 
                                         <Label
@@ -408,10 +390,7 @@ class EditarDep extends Component {
                                             Amoblado{' '}
                                             <Input
                                                 type="checkbox"
-<<<<<<< HEAD
-=======
                                                 className="customCheckbox"
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                                 id="checkBoxAmoblado"
                                                 checked={this.state.amoblado}
                                                 onChange={() => this.changeChecked('amoblado')}
@@ -420,37 +399,6 @@ class EditarDep extends Component {
                                         </Label>
                                     </Col>
                                 </Row>
-<<<<<<< HEAD
-                                <FormGroup className="mb-4">
-                                    <Label
-                                        className="label-custom"
-                                    >
-                                        Subir una imagen
-                                    </Label>
-                                    <Input
-                                        type="file"
-                                        className="customImage"
-                                        name="nuevaImagen"
-                                        id="nuevaImagen"
-                                        onChange={this.handleChange}
-                                        style={this.state.errors.nuevaImagen ? { borderColor: 'red' } : {}}
-                                    />
-                                    {this.state.imagenDep && (
-                                    <div className="d-flex justify-content-center">
-                                            <CardImg
-                                                width="100%"
-                                                src={this.state.nuevaImagenMostrar ? this.state.nuevaImagenMostrar : this.state.imagenDep}
-                                                alt="Vista previa"
-                                                style={{ width: '200px', height: '200px', marginTop: '25px', borderRadius: '10px' }}
-                                            />
-                                    </div>
-                                    )}
-                                    {this.state.errors.nuevaImagen && (
-                                        <div style={{color: 'red'}}>{this.state.errors.nuevaImagen}</div>
-                                    )}
-                                </FormGroup>
-
-=======
 
                                 <FormGroup className="mb-3">
                                     <Label
@@ -544,7 +492,6 @@ class EditarDep extends Component {
                                     )}
                                 </FormGroup>
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                 <FormGroup className="mb-5">
                                     <Label
                                         className="label-custom"

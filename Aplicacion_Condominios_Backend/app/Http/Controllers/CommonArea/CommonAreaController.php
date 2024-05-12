@@ -168,8 +168,6 @@ class CommonAreaController extends Controller
             'reservations' => new ReservationCollection($reservations)
         ]], 200);
     }
-<<<<<<< HEAD
-=======
 
 
     public function reservaPagada($idCommonArea) {
@@ -277,5 +275,4 @@ class CommonAreaController extends Controller
         return response()->json(['data' => $equipment], 200);
     }
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 }

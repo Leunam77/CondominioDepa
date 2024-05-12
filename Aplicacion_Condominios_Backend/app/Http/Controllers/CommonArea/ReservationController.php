@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CommonArea\ReservationRequest;
 use App\Models\CommonArea\CommonArea;
 use App\Models\CommonArea\Reservation;
-<<<<<<< HEAD
-=======
 use App\Models\GestDepartamento\Residente;
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 use App\Services\CommonArea\CommonAreaService;
 use Illuminate\Http\Request;
 
@@ -33,10 +30,7 @@ class ReservationController extends Controller
     public function store(ReservationRequest $request)
     {
         [
-<<<<<<< HEAD
-=======
             "idResident" => $id_resident,
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             "idCommonArea" => $id_common_area,
             "reservationDate" => $reserved_date,
             "startTime" => $start_time,
@@ -53,30 +47,12 @@ class ReservationController extends Controller
         }
 
         $commonArea = CommonArea::find($id_common_area);
-<<<<<<< HEAD
-=======
         $resident = Residente::find($id_resident);
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
         if(!$commonArea){
             return response()->json(['message' => 'Area comun no encontrada',"errors" => []], 404);
         }
 
-<<<<<<< HEAD
-        $commonArea->reservations()->create([
-            'reserved_date' => $reserved_date,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
-            'reason' => $reason,
-            'number_of_people' => $number_people,
-            'title' => $title
-        ]);
-
-
-        return response()->json(['message' => 'Reservacion creada correctamente'], 201);
-    }
-
-=======
         if(!$resident){
             return response()->json(['message' => 'Residente no encontrado',"errors" => []], 404);
         }
@@ -107,7 +83,6 @@ class ReservationController extends Controller
 
 
     
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     public function show(Reservation $reservation)
     {
         //

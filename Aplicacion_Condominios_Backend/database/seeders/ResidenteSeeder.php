@@ -15,9 +15,6 @@ class ResidenteSeeder extends Seeder
     public function run()
     {
         //
-<<<<<<< HEAD
-        Residente::factory()->count(8)->create();
-=======
         //Residente::truncate();
         Residente::factory()->count(8)->create();
         /* $residenteData = [
@@ -112,6 +109,5 @@ class ResidenteSeeder extends Seeder
         } */
         // Crear los residentes utilizando createMany()
         //Residente::createMany($residenteData);
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     }
 }

@@ -52,8 +52,6 @@ class EquipamientosController extends Controller
     ]);
 }
 
-<<<<<<< HEAD
-=======
 
 public function getAllCommonAreasID()
 {
@@ -61,7 +59,6 @@ public function getAllCommonAreasID()
     return response()->json($common_areas);
 }
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 public function edit(Request $request, $id)
 {
     $request->validate([

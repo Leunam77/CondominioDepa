@@ -14,9 +14,6 @@ class ContratoSeeder extends Seeder
     public function run()
     {
         //
-<<<<<<< HEAD
-        Contrato::factory()->count(7)->create();
-=======
         /* $contratoData = [
             [
                 'fecha_inicio_contrato' => '2023-01-01',
@@ -77,6 +74,5 @@ class ContratoSeeder extends Seeder
 
         //$this->call(ResidenteSeeder::class);
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     }
 }

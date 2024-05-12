@@ -5,22 +5,13 @@ namespace App\Http\Controllers\Cobro_Servicios;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cobro_Servicios\PreAvisoModel;
-<<<<<<< HEAD
-use App\Models\GestDepartamento\Departamento;
-=======
 use App\Models\Cobro_Servicios\ExpensaModel;
 use App\Models\GestDepartamento\departamento;
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
 class PreAvisoController extends Controller
 {
     public function obtenerNombresDepartamentos()
     {
-<<<<<<< HEAD
-        $departamentos = Departamento::pluck('nombre_departamento','id');
-        return $departamentos;
-    }
-=======
         $departamentos = departamento::pluck('nombre_departamento','id');
         return $departamentos;
     }
@@ -59,5 +50,4 @@ class PreAvisoController extends Controller
         'preAvisos' => $preAvisos,
     ]);
 }
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 }

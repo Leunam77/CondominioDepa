@@ -25,11 +25,7 @@ class CrearResidente extends Component {
             cedula_residente: "",
             telefono_residente: 0,
             fecha_nacimiento_residente: "",
-<<<<<<< HEAD
-            tipo_residente: "Residente",
-=======
             tipo_residente: "ninguno",
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             nacionalidad_residente: "",
             email_residente: "",
             genero_residente: "",
@@ -72,11 +68,7 @@ class CrearResidente extends Component {
         if (!this.state.nombre_residente.trim()) {
             validationErrors.nombre_residente = "Este campo es obligatorio";
         } else if (
-<<<<<<< HEAD
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú]$/.test(
-=======
             !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{0,59}[A-Za-zÑñáéíóú]$/.test(
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                 this.state.nombre_residente
             )
         ) {
@@ -86,11 +78,7 @@ class CrearResidente extends Component {
         if (!this.state.apellidos_residente.trim()) {
             validationErrors.apellidos_residente = "Este campo es obligatorio";
         } else if (
-<<<<<<< HEAD
-            !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú]$/.test(
-=======
             !/^[A-Za-zÑñáéíóú][A-Za-zÑñáéíóú\s]{0,59}[A-Za-zÑñáéíóú]$/.test(
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                 this.state.apellidos_residente
             )
         ) {
@@ -201,11 +189,7 @@ class CrearResidente extends Component {
 
             axios.post(url, data).then((res) => {
                 console.log(res);
-<<<<<<< HEAD
-                window.location.href = "./depa";
-=======
                 window.location.href = "./departamentos";
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             });
 
         }
@@ -231,11 +215,7 @@ class CrearResidente extends Component {
                                             <Label
                                                 className="label-custom"
                                             >
-<<<<<<< HEAD
-                                                Nombre
-=======
                                                 Nombres
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                             </Label>
                                             <Input
                                                 id="inputRegistro"

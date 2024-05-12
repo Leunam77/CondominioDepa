@@ -79,8 +79,6 @@ class EmployeeController extends Controller
             'status' => 200,
             'message' =>'Estado contrato actualizado exitosamente']);
     }
-<<<<<<< HEAD
-=======
 
     public function getEmployeeWithContract(){
 
@@ -92,5 +90,4 @@ class EmployeeController extends Controller
             'empleados' => $empleadosConContrato
         ]);
     }
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 }

@@ -8,38 +8,12 @@ use Illuminate\Http\Request;
 
 class ContratoController extends Controller
 {
-<<<<<<< HEAD
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-=======
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     public function index()
     {
         //
         return Contrato::all();
     }
 
-<<<<<<< HEAD
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-=======
     public function contratosVigentes()
     {
         try {
@@ -66,18 +40,13 @@ class ContratoController extends Controller
         }
     }
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     public function store(Request $request)
     {
         //
         $contrato = new Contrato();
         $validatedData = $request->validate([
             'fecha_inicio_contrato' => 'required|date',
-<<<<<<< HEAD
-            'fecha_fin_contrato' => 'required|date',
-=======
             'fecha_fin_contrato' => 'nullable|date',
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             'precio_contrato' => 'required|numeric',
             'tipo_contrato' => 'required|string',
             'vigente_contrato' => 'required|boolean',
@@ -110,14 +79,9 @@ class ContratoController extends Controller
                 // Si no se encuentran contratos, devolver un mensaje de error
                 return response()->json([
                     'status' => 404,
-<<<<<<< HEAD
-                    'message' => 'Contratos no encontrados'
-                ], 404);
-=======
                     'message' => 'Contratos no encontrados',
                     'contratos' => []
                 ]);
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
             }
     
             // Devolver los contratos encontrados en la respuesta
@@ -134,8 +98,6 @@ class ContratoController extends Controller
             ], 500);
         }
     }
-<<<<<<< HEAD
-=======
     public function getContratByDepShort($idDepartament){
         try{
             $contratos = Contrato::select('id','precio_contrato','tipo_contrato','vigente_contrato','departamento_id')
@@ -162,7 +124,6 @@ class ContratoController extends Controller
             ], 500);
         }
     }
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     /* public function show(Contrato $contrato)
     {
         //
@@ -240,8 +201,6 @@ class ContratoController extends Controller
         }
         
     } */
-<<<<<<< HEAD
-=======
 
     public function anularContrato(Request $request, $id)
     {
@@ -253,5 +212,4 @@ class ContratoController extends Controller
 
         return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
     }
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 }

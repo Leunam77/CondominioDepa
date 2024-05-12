@@ -30,8 +30,6 @@ const ChangelogPage = (props: Props) => {
     setCategories([...categories, { id, catnombre, catdescripcion }]);
   };
 
-<<<<<<< HEAD
-=======
   const handleEditCategory = (
     id: number,
     catnombre: string,
@@ -47,22 +45,14 @@ const ChangelogPage = (props: Props) => {
     }
   };
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
   const handleDelete = (id: number) => {
     deleteItem(id);
   };
 
   const deleteItem = async (id: number) => {
     try {
-<<<<<<< HEAD
-      console.log("Flag antes:", flag);
       deleteCategory(id);
       setFlag(!flag);
-      console.log("Flag despues:", flag);
-=======
-      deleteCategory(id);
-      setFlag(!flag);
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     } catch (error) {}
   };
 
@@ -93,9 +83,6 @@ const ChangelogPage = (props: Props) => {
     <>
       <h2>CATEGORÍAS DE SERVICIOS</h2>
       <div id="content">
-<<<<<<< HEAD
-        <CategoryForm onRegister={handleRegisterCategory} />
-=======
         <CategoryForm
           onRegister={handleRegisterCategory}
           isEditing={isEditing}
@@ -104,7 +91,6 @@ const ChangelogPage = (props: Props) => {
           setDataToEdit={setDataToEdit}
           handleEditCategory={handleEditCategory}
         />
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         <div className="row">
           <div className="col">
             <table className="table table-striped">
@@ -121,14 +107,10 @@ const ChangelogPage = (props: Props) => {
                     <td>{category.catnombre}</td>
                     <td>{category.catdescripcion}</td>
                     <td className="actions">
-<<<<<<< HEAD
-                      <button type="button">
-=======
                       <button
                         type="button"
                         onClick={() => handleEdit(category)}
                       >
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                         <CreateOutlinedIcon fontSize="large" />
                       </button>
                       <button

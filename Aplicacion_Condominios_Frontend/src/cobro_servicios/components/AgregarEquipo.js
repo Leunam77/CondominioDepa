@@ -11,11 +11,7 @@ import {
   Button,
 } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-<<<<<<< HEAD
-/// prueba para subir al segundo repo
-=======
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 const endpoint = "http://localhost:8000/api";
 
 class AgregarEquipo extends Component {
@@ -26,10 +22,7 @@ class AgregarEquipo extends Component {
       descripcion_equipo: "",
       costo_equipo: "",
       area_comun_nombre: "",
-<<<<<<< HEAD
-=======
       tipo_equipo_danado: "", // Nuevo estado para el checkbox
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
       areasComunes: [], // Inicializamos como un array vacío
       errors: {},
     };
@@ -50,15 +43,10 @@ class AgregarEquipo extends Component {
   };
 
   handleInput = (e) => {
-<<<<<<< HEAD
-    this.setState({
-      [e.target.name]: e.target.value,
-=======
     const { name, value, type } = e.target;
     const val = type === 'checkbox' ? (e.target.checked ? value : '') : value.trim(); // Limpiar la selección si es un checkbox
     this.setState({
       [name]: val,
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     });
   };
 
@@ -82,10 +70,7 @@ class AgregarEquipo extends Component {
       validationErrors.area_comun_nombre = "Por favor seleccione un área común";
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     this.setState({ errors: validationErrors });
 
     if (Object.keys(validationErrors).length === 0) {
@@ -95,15 +80,6 @@ class AgregarEquipo extends Component {
         descripcion: this.state.descripcion_equipo,
         costo: this.state.costo_equipo,
         area_comun_nombre: this.state.area_comun_nombre,
-<<<<<<< HEAD
-      };
-
-      try {
-        const response = await axios.post(url, data);
-        console.log("Equipo guardado exitosamente:", response.data);
-        window.location.href = "./pre-aviso"; // Reemplaza "./otra-pestaña" con la URL a la que deseas redirigir
-
-=======
         tipo_equipo_danado: this.state.tipo_equipo_danado, // Incluir el nuevo estado en los datos
       };
       
@@ -124,7 +100,6 @@ class AgregarEquipo extends Component {
           console.log("Equipo guardado exitosamente:", response.data);
           window.location.href = "./gestion-equipo"; // Reemplaza "./otra-pestaña" con la URL a la que deseas redirigir
         }
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
       } catch (error) {
         console.error("Error al guardar el equipo:", error);
       }
@@ -137,11 +112,7 @@ class AgregarEquipo extends Component {
         <Row>
           <Col sm={12}>
             <h2 className="text-center mb-5">Agregar equipo dañado</h2>
-<<<<<<< HEAD
-            <Form onSubmit={this.handleSubmit}>
-=======
             <Form onSubmit={this.handleSubmit}> 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
               <FormGroup className="mb-4">
                 <Label className="label-custom">Nombre del equipo dañado</Label>
                 <Input
@@ -167,9 +138,6 @@ class AgregarEquipo extends Component {
                 )}
               </FormGroup>
               <FormGroup className="mb-4">
-<<<<<<< HEAD
-                <Label className="label-custom">Costo del arreglo (Bs)</Label>
-=======
                 <Label className="label-custom">Tipo de Equipo Dañado</Label>
                 <FormGroup check>
                   <Label check>
@@ -199,7 +167,6 @@ class AgregarEquipo extends Component {
               {this.state.tipo_equipo_danado === "Reposición" && (
               <FormGroup className="mb-4">
                 <Label className="label-custom">Costo de la reposición (Bs)</Label>
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                 <Input
                   type="number"
                   name="costo_equipo"
@@ -210,8 +177,6 @@ class AgregarEquipo extends Component {
                   <span>{this.state.errors.costo_equipo}</span>
                 )}
               </FormGroup>
-<<<<<<< HEAD
-=======
             )}
             {this.state.tipo_equipo_danado === "Mantenimiento" && (
               <FormGroup className="mb-4">
@@ -227,7 +192,6 @@ class AgregarEquipo extends Component {
                 )}
               </FormGroup>
             )}
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
               <FormGroup className="mb-4">
                 <Label className="label-custom">Área Común</Label>
                 <Input

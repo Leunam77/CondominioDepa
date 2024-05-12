@@ -6,15 +6,10 @@ import { Link } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardImg, CardBody, CardTitle , Button } from 'reactstrap';
-<<<<<<< HEAD
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-=======
 import ModalConfirm from "./ModalConfirm";
 import ModalDisponible from "./PopUPSelectOferta";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight, faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
 const endpoint = 'http://localhost:8000/api';
 const endpointImg = 'http://localhost:8000';
@@ -22,13 +17,10 @@ const cookies = new Cookies();
 const MostrarDep = () => {
     const [departamentos, setDepartamentos] = useState ([]);
     const [switchStates, setSwitchStates] = useState({});
-<<<<<<< HEAD
-=======
     const [isOpenModal1, setIsOpenModal1] = useState(false);
     const [isOpenModal2, setIsOpenModal2] = useState(false);
     const [estadoIdDepa, setEstadoIdDepa] = useState('');
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
     useEffect(() => {
         getAllDepartments();
@@ -43,11 +35,7 @@ const MostrarDep = () => {
             initialSwitchStates[departamento.id]  = departamento.disponibilidad;
         });
         setSwitchStates(initialSwitchStates);
-<<<<<<< HEAD
-    }
-=======
     } */
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
     const getAllDepartments = async () => {
         try {
@@ -129,14 +117,6 @@ const MostrarDep = () => {
     }
 
     const handleClickEditar = (idDepa) => {
-<<<<<<< HEAD
-        cookies.set('idDepa', idDepa); // Guarda el ID del departamento en una cookie llamada 'idDepa'
-        // Lógica para redirigir a la página de edición
-        window.location.href = '/dashboard/editarDepa'; // Redirige a la página de edición
-      };
-    
-    const handleBotonSwitch = (idDepa) => {
-=======
         cookies.set('idDepa', idDepa);
         window.location.href = '/dashboard/editarDepa'; 
       };
@@ -152,29 +132,19 @@ const MostrarDep = () => {
     }
 
     const handleConfirm = (idDepa) => {
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         setSwitchStates(prevState => ({
             ...prevState,
             [idDepa]: !prevState[idDepa]
         }));
 
         if (!switchStates[idDepa]) {
-<<<<<<< HEAD
-            axios.put(`${endpoint}/departamentos/${idDepa}/actualizarDisp`, {
-            disponibilidad: 1,
-        });
-=======
             setIsOpenModal2(true);
             
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
         } else {
             cookies.set('idDepa', idDepa);
             window.location.href = '/dashboard/crearContrato';
         }
-<<<<<<< HEAD
-=======
         setIsOpenModal1(false);
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     }
 
     return(
@@ -200,11 +170,7 @@ const MostrarDep = () => {
             <h1 className="title">Departamentos</h1>
             <div className= "lista">
                 {departamentos.map((departamento) => (
-<<<<<<< HEAD
-                    <Card className="cardDepa" key={departamento.id}>
-=======
                     <Card className="cardDepa" key={departamento.id} onClick={() => handleClickInfo(departamento.id)}>
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                         <CardImg
                             alt="Card image cap"
                             src={`${endpointImg}/${departamento.imagen_departamento}`}
@@ -215,14 +181,6 @@ const MostrarDep = () => {
                         />
                         <CardBody className="d-flex flex-column justify-content-between">
                             <CardTitle tag="h5">{departamento.nombre_departamento}</CardTitle>
-<<<<<<< HEAD
-                            <div className="botones">
-                                <Button className="botoncard" onClick={() => deleteDepartment(departamento.id)}><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
-                                <Button className="botoncard" onClick={() => handleClickEditar(departamento.id)} ><FontAwesomeIcon icon={faPenToSquare} className="iconos"/></Button>
-                                <label className="switch">
-                                    <input type="checkbox" checked={switchStates[departamento.id]} onChange={() => { setSwitchStates(!switchStates); handleBotonSwitch(departamento.id); }} />
-                                    <span className="slider"></span>
-=======
                             {departamento.contratos && departamento.contratos.length > 0 && (
                                 <div>
                                     {departamento.contratos.map(contrato => (
@@ -267,12 +225,8 @@ const MostrarDep = () => {
                                     disabled={!departamento.contratos || departamento.contratos.some(contrato => contrato.tipo_contrato === "Alquiler" || contrato.tipo_contrato === "Anticretico")}
                                 />
                                 <span className="slider"></span>
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                                 </label>
                             </div>
-                            
-                            
-
                         </CardBody>
                     </Card>
                 ))}

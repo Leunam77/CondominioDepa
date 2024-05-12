@@ -111,8 +111,6 @@ class DepartamentoCotroller extends Controller
         return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
     }
 
-<<<<<<< HEAD
-=======
     public function actualizarOfertados(Request $request, $id)
     {
         $departamento = Departamento::findOrFail($id);
@@ -126,7 +124,6 @@ class DepartamentoCotroller extends Controller
         return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
     }
 
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
     //funcion para mantenimiento
     public function getDepartamentosByEdificios($id)
     {

@@ -5,18 +5,9 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Cookies from 'universal-cookie';
-<<<<<<< HEAD
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-=======
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import '../css/homePageEmpleados_style.css'
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 
 const cookies = new Cookies();
 
@@ -154,11 +145,7 @@ function EmployeHomePage() {
               <th>Nombre</th>
               <th>Apellido</th>
               <th>Correo</th>
-<<<<<<< HEAD
-              <th>Celular</th>
-=======
               <th>Estado de Contrato</th>
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
               <th>Funciones</th>
             </tr>
           </thead>
@@ -169,11 +156,6 @@ function EmployeHomePage() {
                   <td className="empleado_nombre">{empleado.nombre}</td>
                   <td>{empleado.apellido}</td>
                   <td>{empleado.correo}</td>
-<<<<<<< HEAD
-                  <td>{empleado.celular}</td>
-                  <td><Button variant="danger" onClick={() => eliminarEmpleado(empleado.id)}><DeleteIcon/></Button> {}
-                  <Button variant="info" onClick={() => editarInformacionEmpleado(empleado.id)} style={{ backgroundColor: '#65B8A6', borderColor: '#65B8A6' }}><ModeEditIcon/></Button>
-=======
                   <td className="tipo_contrato">{empleado.estado_contrato}</td>
                   <td>
                     <Button
@@ -193,7 +175,6 @@ function EmployeHomePage() {
                     >
                       <ModeEditIcon />
                     </Button>
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
                   </td>
                 </tr>
               );

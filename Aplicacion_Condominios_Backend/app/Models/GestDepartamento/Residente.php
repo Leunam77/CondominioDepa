@@ -2,10 +2,7 @@
 
 namespace App\Models\GestDepartamento;
 
-<<<<<<< HEAD
-=======
 use App\Models\CommonArea\Reservation;
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,12 +26,9 @@ class Residente extends Model
     public function contrato(){
         return $this->belongsTo(Contrato::class);
     }
-<<<<<<< HEAD
-=======
 
     public function reservations()
     {
         return $this->hasMany(Reservation::class, 'id_resident', 'id');
     }
->>>>>>> 2f4ed784a9fa4803a19c1be88b2d024cefb478af
 }

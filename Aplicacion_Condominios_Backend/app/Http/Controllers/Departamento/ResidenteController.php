@@ -132,13 +132,21 @@ class ResidenteController extends Controller
 
     public function actualizarEstadoResidente(Request $request, $id)
     {
-        $usuario = Residente::findOrFail($id);
+        $residente = Residente::findOrFail($id);
 
-        // Actualiza el atributo específico
-        $usuario->estado_residente = $request->input('estado_residente');
-        $usuario->save();
+        // Verifica si el residente tiene contrato_id null antes de modificar los atributos
+        if ($residente->contrato_id === null) {
+            $usuario->estado_residente = $request->input('estado_residente');
+            
+        }else{
+            $residente->contrato_id = null;
+            $residente->estado_residente = $request->input('estado_residente');
+            $residente->tipo_residente = "ninguno";
+        }
 
-        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+        $residente->save();
+
+        return response()->json(['mensaje' => 'Atributos actualizados correctamente']);
     }
 
     /**

@@ -93,15 +93,19 @@ const InfoDepartamento = () => {
                             <div className="contenedorContratoinf">
                             {contratos.map((contrato) => (
                                
-                                <Card className="contratoinf" key={contrato.id} onClick={() => handleClickEdit(contrato.id)}>
-                                    <span id="tupla">
-                                        <h2 id="text-infDep"><b>Fecha inicio: </b>{formatDate(contrato.fecha_inicio_contrato)}</h2>
-                                        <h2 id="text-infDep"><b>Fecha fin:</b>{formatDate(contrato.fecha_fin_contrato)}</h2>
-                                    </span>
-                                    <span id="tupla">
-                                        <h2 id="text-infDep"><b>Monto: </b>{contrato.precio_contrato} $</h2>
-                                        <h2 id="text-infDep"><b>Tipo de contrato: </b>{contrato.tipo_contrato}</h2>
-                                    </span>
+                                <Card className="contratoinf" key={contrato.id}>
+                                    <a className="linkContrato" onClick={() => handleClickEdit(contrato.id)}>
+                                        <div className="selectContrato">
+                                            <span id="tupla">
+                                                <h2 id="text-infDep"><b>Fecha inicio: </b>{formatDate(contrato.fecha_inicio_contrato)}</h2>
+                                                <h2 id="text-infDep"><b>Fecha fin:</b>{formatDate(contrato.fecha_fin_contrato)}</h2>
+                                            </span>
+                                            <span id="tupla">
+                                                <h2 id="text-infDep"><b>Monto: </b>{contrato.precio_contrato} $</h2>
+                                                <h2 id="text-infDep"><b>Tipo de contrato: </b>{contrato.tipo_contrato}</h2>
+                                            </span>
+                                        </div>
+                                    </a>
                                     {residentes[contrato.id] && residentes[contrato.id].length > 0 && (
                                 <div>
                                     <h1 id="text-subtit"><b>Residentes:</b></h1>

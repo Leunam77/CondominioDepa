@@ -35,8 +35,8 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::put('/departamentoAct/{id}/actualizarOfertados','actualizarOfertados')->name('departamento.actualizarOfertados');
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
-    
-    
+
+    Route::get('/depart-disponible','getDepDisponible')->name('departamento.getDepDisponible');
 });
 
 Route::controller(BloqueController::class)->group(function(){

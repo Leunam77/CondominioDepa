@@ -50,7 +50,7 @@ class ResidenteFactory extends Factory
                 }
                 if ($contrato->vigente_contrato === false){
                     // Si el contrato no está vigente, devolver null
-                    $tipo_residente = 'ninguno';
+                    $tipo_residente = 'ninguno'; 
                     return null;
                 }
                 // Devolver el id del contrato

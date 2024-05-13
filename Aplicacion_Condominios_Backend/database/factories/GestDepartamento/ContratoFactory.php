@@ -24,24 +24,16 @@ class ContratoFactory extends Factory
             'precio_contrato' => $this->faker->randomFloat(2, 1000, 10000),
             'tipo_contrato' => $this->faker->randomElement(['Alquiler', 'Anticretico','Venta']),
             'departamento_id' => function() use (&$esVigente){
-                // Obtener un departamento aleatorio
-                $departamento = Departamento::all()->random();
-                // Verificar si el departamento está disponible
-                if($departamento->disponibilidad === false){
-                    //en vigente contrato se pone false
+                $departamento= Departamento::where('disponibilidad',true)->get()->first();
+                $res = null;
+                if($departamento){
                     $esVigente = false;
-                    // Si no está disponible, devolver null
-
-                    return null;
-                    
-                }
-                if ($departamento->disponibilidad === true) {
-                    // Si está disponible, establecer la disponibilidad del departamento como "no disponible"
                     $departamento->disponibilidad = false;
+                    $res=$departamento->id;
                     $departamento->save();
-                    // Devolver el id del departamento
-                    return $departamento->id;
                 }
+                return $res;
+
             },
             'vigente_contrato' => $esVigente,
             

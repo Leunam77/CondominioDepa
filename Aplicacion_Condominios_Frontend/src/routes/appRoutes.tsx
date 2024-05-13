@@ -28,6 +28,7 @@ import MostrarResidentes from "../departamento/components/MostrarResidentes";
 import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import GestionVisitas from "../departamento/components/GestionVisitas";
 import RegistrarVisita from "../departamento/components/RegistrarVisita";
+import EditarContrato from "../departamento/components/EditarContrato";
 
 const appRoutes: RouteType[] = [
   {
@@ -82,6 +83,11 @@ const appRoutes: RouteType[] = [
       {
         path: "/dashboard/crearContrato",
         element: <CrearContrato />,
+        state: "dashboard.depa",
+      },
+      {
+        path: "/dashboard/editContrato",
+        element: <EditarContrato />,
         state: "dashboard.depa",
       },
       {

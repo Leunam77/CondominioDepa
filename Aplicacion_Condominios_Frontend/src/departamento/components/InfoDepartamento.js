@@ -18,6 +18,7 @@ const InfoDepartamento = () => {
     const [residentes, setResidentes] = useState ([]);
     useEffect(() => {
         const idDep = cookies.get('idDepa');
+        cookies.remove('idContrato');
         obtenerDatosDepartamento(idDep);
     }, []);
 
@@ -29,43 +30,47 @@ const InfoDepartamento = () => {
     
         return `${day}-${month}-${year}`;
     }
-
-const  obtenerDatosDepartamento = async (idDepartamento) => {
-        try {
-            const response = await axios.get(`${endpoint}/departamento/${idDepartamento}`);
-            const departamentoSelec = response.data;
-            setDepartamentos(departamentoSelec);
-
-            const contrato = await axios.get(`${endpoint}/contratoDep/${idDepartamento}`);
-            const contratoSelec = contrato.data;
-            console.log("contratos", contratoSelec)
-            setContratos(contratoSelec.contratos);
-
-            const edificio = departamentoSelec.edificio_id;
-            console.log("edificio id ", edificio)
-            const edificioBus = await axios.get(`${endpoint}/edificio/${edificio}`);
-            const edificioSelect = edificioBus.data;
-            setEdificios(edificioSelect);
-
-            const bloque = edificioSelect.bloque_id;
-            console.log("bloque id ", bloque)
-            const bloqueBus = await axios.get(`${endpoint}/bloque/${bloque}`);
-            const bloqueSelect = bloqueBus.data;
-            setBloques(bloqueSelect);
-
-
-            const residentesPorContratoData = {};
-            for (const contrato of contratoSelec.contratos) {
-                const responseResidentes = await axios.get(`${endpoint}/residentes-by-contrato/${contrato.id}`);
-                residentesPorContratoData[contrato.id] = responseResidentes.data;
-            }
-            setResidentes(residentesPorContratoData);
-
-
-        } catch (error) {
-            console.error('Error al obtener datos del departamento:', error);
-        }
+    const handleClickEdit = (idContrato) => {
+        cookies.set('idContrato', idContrato);
+        window.location.href = '/dashboard/editContrato';
     };
+
+    const  obtenerDatosDepartamento = async (idDepartamento) => {
+            try {
+                const response = await axios.get(`${endpoint}/departamento/${idDepartamento}`);
+                const departamentoSelec = response.data;
+                setDepartamentos(departamentoSelec);
+
+                const contrato = await axios.get(`${endpoint}/contratoDep/${idDepartamento}`);
+                const contratoSelec = contrato.data;
+                console.log("contratos", contratoSelec)
+                setContratos(contratoSelec.contratos);
+
+                const edificio = departamentoSelec.edificio_id;
+                console.log("edificio id ", edificio)
+                const edificioBus = await axios.get(`${endpoint}/edificio/${edificio}`);
+                const edificioSelect = edificioBus.data;
+                setEdificios(edificioSelect);
+
+                const bloque = edificioSelect.bloque_id;
+                console.log("bloque id ", bloque)
+                const bloqueBus = await axios.get(`${endpoint}/bloque/${bloque}`);
+                const bloqueSelect = bloqueBus.data;
+                setBloques(bloqueSelect);
+
+
+                const residentesPorContratoData = {};
+                for (const contrato of contratoSelec.contratos) {
+                    const responseResidentes = await axios.get(`${endpoint}/residentes-by-contrato/${contrato.id}`);
+                    residentesPorContratoData[contrato.id] = responseResidentes.data;
+                }
+                setResidentes(residentesPorContratoData);
+
+
+            } catch (error) {
+                console.error('Error al obtener datos del departamento:', error);
+            }
+        };
         return (
             <div>
             <div className="background-image"></div>
@@ -88,7 +93,7 @@ const  obtenerDatosDepartamento = async (idDepartamento) => {
                             <div className="contenedorContratoinf">
                             {contratos.map((contrato) => (
                                
-                                <Card className="contratoinf" key={contrato.id}>
+                                <Card className="contratoinf" key={contrato.id} onClick={() => handleClickEdit(contrato.id)}>
                                     <span id="tupla">
                                         <h2 id="text-infDep"><b>Fecha inicio: </b>{formatDate(contrato.fecha_inicio_contrato)}</h2>
                                         <h2 id="text-infDep"><b>Fecha fin:</b>{formatDate(contrato.fecha_fin_contrato)}</h2>

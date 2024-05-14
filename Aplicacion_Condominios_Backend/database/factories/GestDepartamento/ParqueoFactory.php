@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\app\Http\Models\GestDepartamento;
+namespace Database\Factories\GestDepartamento;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\GestDepartamento\departamento;

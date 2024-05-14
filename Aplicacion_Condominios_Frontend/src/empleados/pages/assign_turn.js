@@ -42,18 +42,6 @@ function AssignTurn() {
     setEmpleados(respuesta.data.empleados)
   }
 
-  const eliminarEmpleado = (id) => {
-    console.log(id);
-
-    const url = `http://127.0.0.1:8000/api/delete_employee/${id}`; 
-      axios.delete(url).then(respuesta => {
-        if(respuesta.data.status === 200){
-          console.log(respuesta);
-          window.location.reload();
-        }
-    })
-  }
-
   const asignarTurnos = (empleado)  => {
 
     cookies.set("empleado_seleccionado", empleado, { path: "/" });

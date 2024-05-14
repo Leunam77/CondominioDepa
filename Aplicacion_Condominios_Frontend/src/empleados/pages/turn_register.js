@@ -163,16 +163,6 @@ function TurnRegister() {
       setSelectedHorario(radioB);
     };
   
-    const [values, setValues] = useState({
-        tipo_contrato: "",
-        fecha_inicio : "",
-        fecha_final : "",
-        area : "",
-        cargo : "",
-        beneficios : "",
-        salario : "",
-      });
-
       const [dias, setDias] = useState([
         "Lunes",
         "Martes",
@@ -183,26 +173,10 @@ function TurnRegister() {
         "Domingo"
       ]);
 
-    const handleInput = (e) => {
-        const { name, value } = e.target;
-        setValues({
-          ...values,
-          [name]: value,
-        });
 
-        if (e.target.name === "tipo_contrato") {
-          if (e.target.value === "Fijo") {
-            document.getElementById("fecha_final").disabled = true;
-          } else {
-            document.getElementById("fecha_final").disabled = false;
-          }
-        }
-    };
-    
     const handleSubmit =  async (e) => {
         e.preventDefault(); 
         const validationErrors = {};
-        console.log(empleado.id)
 
         for (let i = 0; i < dias.length; i++) {
           let confirmacionDia = document.getElementById(dias[i]);

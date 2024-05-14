@@ -54,6 +54,9 @@ import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
 
+import NotiPreaviso from "../cobro_servicios/components/NotiPreaviso";
+
+
 const appRoutes: RouteType[] = [
   {
     index: true,
@@ -163,6 +166,14 @@ const appRoutes: RouteType[] = [
         state: "cobros.alertita",
         sidebarProps: {
           displayText: "Pre-aviso de expensas",
+        },
+      },
+      {
+        path: "/cobros/notiPreaviso",
+        element: <NotiPreaviso />,
+        state: "cobros.alert",
+        sidebarProps: {
+          displayText: "Generar notificacion",
         },
       },
       {

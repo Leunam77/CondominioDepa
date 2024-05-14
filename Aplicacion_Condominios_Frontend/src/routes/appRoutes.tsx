@@ -28,6 +28,10 @@ import MostrarResidentes from "../departamento/components/MostrarResidentes";
 import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import GestionVisitas from "../departamento/components/GestionVisitas";
 import RegistrarVisita from "../departamento/components/RegistrarVisita";
+import EditarContrato from "../departamento/components/EditarContrato";
+import MostrarEdificio from "../departamento/components/MostrarEdificios";
+import RegistrarParqueo from "../departamento/components/RegistrarParqueo";
+import CrearEdificio from "../departamento/components/CrearEdificio";
 
 const appRoutes: RouteType[] = [
   {
@@ -85,6 +89,11 @@ const appRoutes: RouteType[] = [
         state: "dashboard.depa",
       },
       {
+        path: "/dashboard/editContrato",
+        element: <EditarContrato />,
+        state: "dashboard.depa",
+      },
+      {
         path: "/dashboard/infoDepartamento",
         element: <InfoDepartamento />,
         state: "dashboard.depa",
@@ -109,6 +118,30 @@ const appRoutes: RouteType[] = [
         path: "/dashboard/registrarVisita",
         element: <RegistrarVisita />,
         state: "dashboard.depa",
+      },
+      {
+        path: "/dashboard/edificios",
+        element: <MostrarEdificio />,
+        state: "dashboard.crearDepa",
+        sidebarProps: {
+          displayText: "Edificios"
+        },
+      },
+      {
+        path: "/dashboard/parqueo",
+        element: <RegistrarParqueo />,
+        state: "dashboard.crearDepa",
+        sidebarProps: {
+          displayText: "Parqueo"
+        },
+      },
+      {
+        path: "/dashboard/crearEdificio",
+        element: <CrearEdificio />,
+        state: "dashboard.crearDepa",
+        sidebarProps: {
+          displayText: "Crear Edificio"
+        },
       },
     ]
   },

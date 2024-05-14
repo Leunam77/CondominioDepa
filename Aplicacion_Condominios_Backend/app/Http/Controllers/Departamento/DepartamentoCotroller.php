@@ -130,4 +130,8 @@ class DepartamentoCotroller extends Controller
         $departamentos = departamento::where('edificio_id', $id)->get();
         return $departamentos;
     } 
+    public function getDepDisponible(){
+        $departamento= Departamento::where('disponibilidad',true)->inRandomOrder()->first();
+        return $departamento;
+    }
 }

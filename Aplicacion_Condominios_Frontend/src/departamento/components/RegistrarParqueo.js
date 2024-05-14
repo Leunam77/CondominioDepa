@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { input, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const endpoint = "http://localhost:8000/api";
 
@@ -62,7 +62,7 @@ class RegistrarParqueo extends Component {
     storeParqueo = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${endpoint}/parqueos`, {
+            const response = await axios.post(`${endpoint}/parqueo`, {
                 nombre_parqueo: this.state.nombre_parqueo,
                 departamento_id: this.state.departamento_seleccionado
             });
@@ -77,7 +77,7 @@ class RegistrarParqueo extends Component {
                 <Form>
                     <FormGroup>
                         <Label for="nombre_parqueo">Nombre del parqueo</Label>
-                        <Input type="text" name="nombre_parqueo" id="nombre_parqueo" onChange={this.handleInput} /* invalid={this.state.nombre_parqueo ? true:false} *//>
+                        <Input type="text" name="nombre_parqueo" id="nombre_parqueo" onChange={this.handleInput} invalid={this.state.nombre_parqueo ? true:false}/>
                         <span style={{ color: "red" }}>{this.state.errors["nombre_parqueo"]}</span>
                     </FormGroup>
                     <FormGroup>

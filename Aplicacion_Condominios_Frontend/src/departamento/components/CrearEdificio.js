@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { input, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, CardImg } from "reactstrap";
 
 const endpoint = "http://localhost:8000/api";
 class CrearEdificio extends Component {
@@ -9,7 +9,8 @@ class CrearEdificio extends Component {
         this.state = {
             nombre_edificio: "",
             descripcion_edificio: "",
-            imagen_edificio: "",
+            imagen_edif: "",
+            imagen_edificio: null,
             cantidad_pisos: 0,
             bloques: [],
             bloque_seleccionado: '',
@@ -35,6 +36,12 @@ class CrearEdificio extends Component {
     toggleModal = () => {
         this.setState({ modal_open: !this.state.modal_open });
     }
+    handleChange = (event) => {
+        this.setState({ imagen_edif: event.target.files[0] });
+        if(event.target.name === "imagen_edificio"){
+            this.setState({ imagen_edificio: URL.createObjectURL(event.target.files[0]) });
+        }
+    }
     handleConfirm = (e) => {
         if (this.validacion()) {
             this.storeEdificio(e);
@@ -46,7 +53,7 @@ class CrearEdificio extends Component {
     validacion = () => {
         let nombre_edificio = this.state.nombre_edificio;
         let descripcion_edificio = this.state.descripcion_edificio;
-        let imagen_edificio = this.state.imagen_edificio;
+        let imagen_edif = this.state.imagen_edif;
         let cantidad_pisos = this.state.cantidad_pisos;
         let bloque_seleccionado = this.state.bloque_seleccionado;
         let validationErrors = {};
@@ -81,10 +88,10 @@ class CrearEdificio extends Component {
             validationErrors.bloque_seleccionado = "El bloque seleccionado debe ser un numero entre 1 y 99.";
         }
         
-        if (!imagen_edificio.name) {
+        if (!imagen_edif.name) {
             isValid = false;
             const extensiones = ["png", "PNG", "jpg", "jpeg"];
-            let nombre_imagen = imagen_edificio.name;
+            let nombre_imagen = imagen_edif.name;
             const extension = nombre_imagen.substring(
                 nombre_imagen.lastIndexOf(".") + 1,
                 nombre_imagen.length
@@ -92,8 +99,8 @@ class CrearEdificio extends Component {
             if (!extensiones.includes(extension)) {
                 document.getElementsByClassName("imagen_input").value = "";
 
-                this.setState({ imagenDep: "" });
-                validationErrors.imagenDep =
+                this.setState({ imagen_edif: "" });
+                validationErrors.imagen_edif =
                     "La imagen debe tener formato PNG, JPG o JPEG";
             } 
         }
@@ -107,13 +114,13 @@ class CrearEdificio extends Component {
         
             data.append("nombre_edificio", this.state.nombre_edificio);
             data.append("descripcion_edificio", this.state.descripcion_edificio);
-            if(this.state.imagen_edificio){
+            if(this.state.imagen_edif){
                 data.append("imagen_edificio", this.state.imagen_edificio);
             }
             data.append("cantidad_pisos", this.state.cantidad_pisos);
             data.append("bloque_id", this.state.bloque_seleccionado);
             try {
-                const response = await axios.post(`${endpoint}/edificios`, data).then((response) => {
+                const response = await axios.post(`${endpoint}/edificio`, data).then((response) => {
                     window.location.href = "./edificios"; //deberia redirigir a la vista de edificios
                 });
                 console.log(response);
@@ -122,6 +129,60 @@ class CrearEdificio extends Component {
                 console.error(error);
             }
         
+    }
+
+    render() {
+        return (
+            <div>
+                <h2>Crear Edificio</h2>
+                <Form>
+                    <FormGroup>
+                        <Label for="nombre_edificio">Nombre del Edificio</Label>
+                        <Input type="text" name="nombre_edificio" id="nombre_edificio" onChange={this.handleInput} />
+                        <span style={{ color: "red" }}>{this.state.errors.nombre_edificio}</span>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="descripcion_edificio">Descripcion del Edificio</Label>
+                        <Input type="text" name="descripcion_edificio" id="descripcion_edificio" onChange={this.handleInput} />
+                        <span style={{ color: "red" }}>{this.state.errors.descripcion_edificio}</span>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="imagen_edificio">Imagen del Edificio</Label>
+                        <Input type="file" name="imagen_edificio" id="imagen_edificio" className="imagen_input" onChange={this.handleChange} />
+                        <span style={{ color: "red" }}>{this.state.errors.imagen_edificio}</span>
+                        {this.state.imagen_edificio && (
+                            <div className="d-flex justify-content-center">
+                                <CardImg
+                                    width="100%"
+                                    src={this.state.imagen_edificio}
+                                    alt="Vista previa"
+                                    style={{ width: '200px', height: '200px', marginTop: '25px', borderRadius: '10px'}}
+                                />
+                            </div>
+                        )}
+                        {this.state.errors.imagen_edif && (
+                            <div style={{ color: 'red', fontSize: '0.875rem' }}>{this.state.errors.imagen_edif}</div>
+                        )}
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="cantidad_pisos">Cantidad de Pisos</Label>
+                        <Input type="number" name="cantidad_pisos" id="cantidad_pisos" onChange={this.handleInput} />
+                        <span style={{ color: "red" }}>{this.state.errors.cantidad_pisos}</span>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="bloque_seleccionado">Bloque</Label>
+                        <Input type="select" name="bloque_seleccionado" id="bloque_seleccionado" onChange={this.handleSelect}>
+                            <option value="">Seleccione un bloque</option>
+                            {this.state.bloques.map((bloque) => (
+                                <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                            ))}
+                        </Input>
+                        <span style={{ color: "red" }}>{this.state.errors.bloque_seleccionado}</span>
+                    </FormGroup>
+                    <Button onClick={this.handleConfirm}>Crear Edificio</Button>
+                </Form>
+            </div>
+        );
     }
 
 }

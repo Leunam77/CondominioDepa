@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './DepartamentosCss.css';
+import './customs.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, CardBody , Button } from 'reactstrap';
+import { Row, Col, Button, Container, Label } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 
 const endpoint = 'http://localhost:8000/api';
-const endpointImg = 'http://localhost:8000';
+// const endpointImg = 'http://localhost:8000';
 
 const GestionVisitas = () => {
     const [visitas, setVisitas] = useState ([]);
@@ -45,29 +45,40 @@ const GestionVisitas = () => {
 
     return(
         
-        <div className="Deps">         
-            <h1 className="title">Visitas</h1>
-            <div>
-                <Button className="botoncard" onClick={registrarVisita}>Marcar Ingreso</Button>
-            </div>
-            <div className= "lista">
-                {visitas.map((visita) => (
-                    <div key={visita.id}>
-                    {visita.activo_visita && 
-                        <div>
-                            <h3>{visita.nombre_visita}</h3>
-                            <h3>{visita.apellidos_visita}</h3>
-                            <h3>{visita.cedula_visita}</h3>
-                            <h3>{visita.telefono_visita}</h3>
-                            <h3>Ingreso: {moment(visita.created_at).format('DD/MM/YYYY HH:mm')}</h3>
-                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); desactivarVisita(visita.id); }}>Marcar Salida</Button>
-                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); deleteVisita(visita.id); }} ><FontAwesomeIcon icon={faTrashAlt} className="iconos"/></Button>
+        <>         
+            <Container>
+                <Row>
+                    <Col>
+                        <Row>
+                            <Label className="text-center mb-5 titulosForms">Gestión de visitas</Label>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button type="button" className="custom-button" onClick={registrarVisita}>Marcar Ingreso</Button>
+                            </Col>
+                        </Row>
+                        <div className="lista">
+                            {visitas.map((visita) => (
+                                <div key={visita.id}>
+                                    {visita.activo_visita &&
+                                        <div>
+                                            <h3>{visita.nombre_visita}</h3>
+                                            <h3>{visita.apellidos_visita}</h3>
+                                            <h3>{visita.cedula_visita}</h3>
+                                            <h3>{visita.telefono_visita}</h3>
+                                            <h3>Ingreso: {moment(visita.created_at).format('DD/MM/YYYY HH:mm')}</h3>
+                                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); desactivarVisita(visita.id); }}>Marcar Salida</Button>
+                                            <Button className="botoncard" onClick={(e) => { e.stopPropagation(); deleteVisita(visita.id); }} ><FontAwesomeIcon icon={faTrashAlt} className="iconos" /></Button>
+                                        </div>
+                                    }
+                                </div>
+                            ))}
                         </div>
-                    }
-                    </div>
-                ))}
-            </div>
-        </div>
+                    </Col>
+                </Row>
+            </Container>
+            
+        </>
     )
 }
 

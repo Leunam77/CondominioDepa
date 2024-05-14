@@ -11,7 +11,6 @@ import ModalConfirm from "./ModalConfirm";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import "./customs.css";
-import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 const endpointImg = 'http://localhost:8000';
@@ -24,7 +23,7 @@ class CrearContrato extends Component {
         console.log("id dep",idDep);
 
         try {
-            const response = await axios.post(`${endpoint}/residentes/actualizar-estado-contrato`);
+            //const response = await axios.post(`${endpoint}/residentes/actualizar-estado-contrato`);
             const departamento = await axios.get(`${endpoint}/departamento/${idDep}`);
             const depa = departamento.data
             this.setState({

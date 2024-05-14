@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-    Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback, CardImg
+    Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback
 } from "reactstrap";
 import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
-import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 class RegistrarVisita extends Component {
@@ -31,7 +30,7 @@ class RegistrarVisita extends Component {
             telefono_visita: "",
             activo_visita: true,
             departamentos: [],
-            departamentoSeleccionado:0,
+            departamentoSeleccionado: 0,
             errors: {},
             modalOpen: false,
         };
@@ -141,14 +140,14 @@ class RegistrarVisita extends Component {
                     isOpen={this.state.modalOpen}
                     toggle={this.toggleModal}
                     confirm={this.handleConfirm}
-                    message="¿Está seguro de que desea registrar esta visita?"
+                    message="¿Está seguro de que agregar la visita?"
                 />
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>
                             <h2 className="text-center mb-5 titulosForms">Registrar visita</h2>
                             <form onSubmit={this.storeVisita}>
-                            <FormGroup className="mb-4">
+                                <FormGroup className="mb-4">
                                     <Row>
                                         <Col sm={6}>
                                             <Label
@@ -161,7 +160,7 @@ class RegistrarVisita extends Component {
                                                 className="customInput"
                                                 type="text"
                                                 name="nombre_visita"
-                                                placeholder="Ingrese nombre"
+                                                placeholder="Ingrese nombres"
                                                 onChange={this.handleInput}
                                                 invalid={this.state.errors.nombre_visita ? true : false}
                                             />
@@ -247,10 +246,10 @@ class RegistrarVisita extends Component {
                                             <FormFeedback>{this.state.errors.departamentoSeleccionado}</FormFeedback>
                                         </Col>
                                     </Row>
-                                    
+
                                 </FormGroup>
 
-                                <Button size="lg" type="button" className="custom-button mx-auto d-block"
+                                <Button size="lg" type="button" className="mt-5 custom-button mx-auto d-block"
                                     style={{ fontWeight: 'bold' }}
                                     onClick={this.toggleModal}
                                 >

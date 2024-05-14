@@ -44,8 +44,10 @@
   border: none;
   padding: 0;
 }
-/* modal */
-.block {
+
+/*  */
+
+.block-servicio {
   width: 143px;
   height: 39px;
   background-color: #2a98cc;
@@ -59,18 +61,18 @@
   }
 }
 
-.align-right-inputs {
+.align-right-inputs-servicio {
   margin: auto 0px;
   text-align: right;
 }
-.margin-x-auto {
+.margin-x-auto-servicio {
   margin: 0 auto;
 }
-.width-80 {
+.width-80-servicio {
   width: 80%;
 }
 
-.modal {
+.modal-servicio {
   display: block;
   position: fixed;
   z-index: 1;
@@ -81,13 +83,10 @@
   background-color: rgba(0, 0, 0, 0.5);
   overflow: auto;
 }
-.modal-content {
+.modal-content-servicio {
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 40%;
-}
-.close-btn:hover {
-  cursor: pointer;
 }

@@ -1,22 +1,12 @@
 import DashboardPageLayout from "../pages/dashboard/DashboardPageLayout";
 import HomePage from "../pages/home/HomePage";
 import { RouteType } from "./config";
-import DefaultPage from "../pages/dashboard/DefaultPage";
 import DashboardIndex from "../pages/dashboard/DashboardIndex";
-import ChangelogPage from "../pages/changelog/ChangelogPage";
-import AnalyticsPage from "../pages/dashboard/AnalyticsPage";
-import SaasPage from "../pages/dashboard/SaasPage";
-import ComponentPageLayout from "../pages/component/ComponentPageLayout";
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import AlertPage from "../pages/component/AlertPage";
-import ButtonPage from "../pages/component/ButtonPage";
-import DocumentationPage from "../pages/documentation/DocumentationPage";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import BuildIcon from "@mui/icons-material/Build";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationPage from "../pages/notifications/NotificationPage";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import EmployePage from "../pages/employes/EmployePage";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
@@ -27,9 +17,8 @@ import CrearContrato from "../departamento/components/CrearContrato";
 import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
 
-import Equipos from "../cobro_servicios/components/gestionEquipos.js";
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
-
+import PagoAreaComun from "../cobro_servicios/components/PagoAreaComun";
 import Cobros from "../cobro_servicios/components/gestionCobros.js";
 import CobrosLayout from "../pages/dashboard/CobrosLayout";
 
@@ -45,12 +34,13 @@ import TurnRegisterCleaning from "../empleados/pages/turn_register_cleaning";
 import MarcarHora from "../empleados/pages/marcar_hora";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
-import CreatePage from "../common-areas/pages/create-page/CreatePage";
-import ListPage from "../common-areas/pages/list-page/ListPage";
-import UpdatePage from "../common-areas/pages/update-page/UpdatePage";
-import CalendarPage from "../common-areas/pages/calendar-page/CalendarPage";
-import ReservationPage from "../common-areas/pages/reservation-page/ReservationPage";
-
+import CreatePage from "../common-areas/dashboard/common-area/pages/create-page/CreatePage";
+import ListPage from "../common-areas/dashboard/common-area/pages/list-page/ListPage";
+import UpdatePage from "../common-areas/dashboard/common-area/pages/update-page/UpdatePage";
+import CalendarPage from "../common-areas/dashboard/common-area/pages/calendar-page/CalendarPage";
+import ReservationPage from "../common-areas/dashboard/reservation/pages/create-page/CreatePage";
+import InventoryPage from "../common-areas/dashboard/equipment/pages/inventory-page/InventoryPage";
+import FormularioPagoArea from "../cobro_servicios/components/FormularioPagoArea";
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
@@ -60,11 +50,11 @@ import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroSer
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
-
+import TablaReservas from "../cobro_servicios/components/TablaReservas";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
-
+import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
 
 const appRoutes: RouteType[] = [
   {
@@ -79,20 +69,20 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />
+      icon: <ApartmentIcon />,
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index"
+        state: "dashboard.index",
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento"
+          displayText: "Crear Departamento",
         },
       },
       {
@@ -100,7 +90,7 @@ const appRoutes: RouteType[] = [
         element: <Depa />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Gestionar Departamento"
+          displayText: "Gestionar Departamento",
         },
       },
       {
@@ -108,7 +98,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Registrar Residente"
+          displayText: "Registrar Residente",
         },
       },
       {
@@ -131,7 +121,7 @@ const appRoutes: RouteType[] = [
         element: <MostrarResidentes />,
         state: "dashboard.depa",
         sidebarProps: {
-          displayText: "Residentes"
+          displayText: "Residentes",
         },
       },
       // {
@@ -150,7 +140,7 @@ const appRoutes: RouteType[] = [
       //     displayText: "Parqueos"
       //   }
       // }
-    ]
+    ],
   },
   {
     path: "/cobros",
@@ -167,6 +157,14 @@ const appRoutes: RouteType[] = [
         state: "cobros.alert",
         sidebarProps: {
           displayText: "Generar pre-aviso",
+        },
+      },
+      {
+        path: "/cobros/pre-avisoExpensas",
+        element: <PreAvisoExpensas />,
+        state: "cobros.alertita",
+        sidebarProps: {
+          displayText: "Pre-aviso de expensas",
         },
       },
       {
@@ -192,8 +190,30 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/cobros/generar-preaviso/:departamento_id",
-        element: <GenerarPreAviso/>,
+        element: <GenerarPreAviso />,
         state: "cobros.generar-pre-aviso",
+        
+      },
+      {
+        path:"/cobros/pagar-reserva/",
+        element:<PagoAreaComun/>,
+        state: "cobros.pago-areacomun",
+        sidebarProps: {
+          displayText: "Pagar reserva",
+        },
+      },
+      {
+        path: "/cobros/pagar-reserva/:id",
+        element: <TablaReservas/>,
+        state: "cobros.tabla.reservas",
+        
+        
+      },
+      {
+        path: "/cobros/pagar-reserva-area/:id",
+        element: <FormularioPagoArea/>,
+        state: "cobros.formulario.pago",
+        
         
       },
     ],
@@ -237,6 +257,14 @@ const appRoutes: RouteType[] = [
         path: "/areas-comunes/reservar/:id",
         element: <ReservationPage />,
         state: "areas-comunes.reservar",
+      },
+      {
+        path: "/areas-comunes/inventario",
+        element: <InventoryPage />,
+        state: "areas-comunes.inventario",
+        sidebarProps: {
+          displayText: "Inventario",
+        },
       },
     ],
   },
@@ -294,20 +322,20 @@ const appRoutes: RouteType[] = [
       icon: <NotificationsActiveIcon />,
     },
     child: [
-      {
+      /*{
         path: "/notifications/registrar",
         element: <RegistrarPersona />,
         state: "usuario.registrar",
         sidebarProps: {
           displayText: "Registro Persona",
         },
-      },
+      },*/
       {
         path: "/notifications/list",
         element: <NotificationsList />,
         state: "notificacion.lista",
         sidebarProps: {
-          displayText: "Lista de Notificaciones",
+          displayText: "Lista de Avisos",
         },
       },
       {
@@ -396,10 +424,9 @@ const appRoutes: RouteType[] = [
         state: "employee.analytics",
       },
 
-
       {
         path: "/employees/turnRegister",
-        element: <TurnRegister/>,
+        element: <TurnRegister />,
         state: "employee.analytics",
       },
 

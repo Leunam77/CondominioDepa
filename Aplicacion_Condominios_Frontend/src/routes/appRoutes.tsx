@@ -342,20 +342,20 @@ const appRoutes: RouteType[] = [
       icon: <NotificationsActiveIcon />,
     },
     child: [
-      {
+      /*{
         path: "/notifications/registrar",
         element: <RegistrarPersona />,
         state: "usuario.registrar",
         sidebarProps: {
           displayText: "Registro Persona",
         },
-      },
+      },*/
       {
         path: "/notifications/list",
         element: <NotificationsList />,
         state: "notificacion.lista",
         sidebarProps: {
-          displayText: "Lista de Notificaciones",
+          displayText: "Lista de Avisos",
         },
       },
       {

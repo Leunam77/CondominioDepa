@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cobro_Servicios\PreAvisoModel;
 use App\Models\Cobro_Servicios\ExpensaModel;
-use App\Models\GestDepartamento\Departamento;
+use App\Models\GestDepartamento\departamento;
 
 class PreAvisoController extends Controller
 {
     public function obtenerNombresDepartamentos()
     {
-        $departamentos = Departamento::pluck('nombre_departamento','id');
+        $departamentos = departamento::pluck('nombre_departamento','id');
         return $departamentos;
     }
     public function store(Request $request)
@@ -25,7 +25,7 @@ class PreAvisoController extends Controller
         $expensa->servicio_pagar = $request->servicio_pagar;
         $expensa->monto = $request->monto;
         $expensa->save();
-        
+
         return response()->json([
             'status' => 200,
             'message' => 'Pre aviso de Expensa generado existosamente',

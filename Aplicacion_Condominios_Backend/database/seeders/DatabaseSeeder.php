@@ -20,5 +20,12 @@ class DatabaseSeeder extends Seeder
         $this->call(ContratoSeeder::class);
         $this->call(ResidenteSeeder::class);
         $this->call(CommonAreaSeeder::class);
+
+        //Mantenimiento
+        $this->call(EstadoSeeder::class);
+        $this->call(CategoriaServicioSeeder::class);
+        $this->call(PersonalExternoSeeder::class);
+        $this->call(RegistroSolicitudSeeder::class);
+        $this->call(InsumoSeeder::class);
     }
 }

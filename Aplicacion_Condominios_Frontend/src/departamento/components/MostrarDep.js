@@ -155,7 +155,7 @@ const MostrarDep = () => {
             )}
             
             <h1 className="title">Departamentos</h1>
-            <div className= "row lista">
+            <div className= "row">
                 {departamentos.map((departamento) => (
                     <div className="col-sm-12 col-md-12 col-lg-6 col-xl-4" key={departamento.id}>
                     <div className="d-flex h-100">

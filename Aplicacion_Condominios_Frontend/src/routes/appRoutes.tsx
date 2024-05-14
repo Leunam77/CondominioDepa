@@ -29,6 +29,7 @@ import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import GestionVisitas from "../departamento/components/GestionVisitas";
 import RegistrarVisita from "../departamento/components/RegistrarVisita";
 import EditarContrato from "../departamento/components/EditarContrato";
+import MostrarEdificio from "../departamento/components/MostrarEdificios";
 
 const appRoutes: RouteType[] = [
   {
@@ -115,6 +116,14 @@ const appRoutes: RouteType[] = [
         path: "/dashboard/registrarVisita",
         element: <RegistrarVisita />,
         state: "dashboard.depa",
+      },
+      {
+        path: "/dashboard/edificios",
+        element: <MostrarEdificio />,
+        state: "dashboard.crearDepa",
+        sidebarProps: {
+          displayText: "Edificios"
+        },
       },
     ]
   },

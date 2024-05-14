@@ -8,15 +8,9 @@
     color: black;
     font-weight: bold;
     text-align: center;
-    margin-top: 0.7em;
-    margin-bottom: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 1.4em;
     font-size: 2rem;
-}
-
-.lista {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .cardDepa.card {
@@ -127,6 +121,9 @@ input:checked + .slider:before {
 }
 #contenidoCard {
 	font-size: 0.97rem;
-	font-weight:normal;
-	margin-bottom: 0.6rem;
+	margin-bottom: 0.5rem;
+}
+#infoEdifcio {
+	font-size: 0.95rem;
+	margin-bottom: 0.25rem;
 }

@@ -1,4 +1,3 @@
-// Importa useState y useEffect
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -27,6 +26,7 @@ const PreAviso = () => {
   const [propietarios, setPropietarios] = useState([]);
   const [propietarioSeleccionado, setPropietarioSeleccionado] = useState("");
   const [servicioPagar, setServicioPagar] = useState("");
+  const [propietarioSeleccionadoID, setPropietarioSeleccionadoID] = useState("");
 
   useEffect(() => {
     console.log("ID del departamento:", departamento_id);
@@ -49,20 +49,53 @@ const PreAviso = () => {
   useEffect(() => {
     const fetchPropietarios = async () => {
       try {
-        const response = await axios.get(`${endpoint}/residentes`);
-        // Extraer solo los nombres de los residentes
-        const nombresPropietarios = response.data.map(
-          (residente) => residente.nombre_residente
-        );
-        setPropietarios(nombresPropietarios);
+        const contratoDepResponse = await axios.get(`${endpoint}/contratoDep/${departamento_id}`);
+        const contratoDepId = contratoDepResponse.data.contratos[0].id;
+        console.log("id del contrato encontrado " + contratoDepId);
+        
+        const propietariosByContratoResponse = await axios.get(`${endpoint}/propietario-by-contrato/${contratoDepId}`);
+  
+        if (propietariosByContratoResponse.data.message !== "No tiene propietario") {
+          // Si hay propietario, mostrar solo ese propietario
+          const nombrePropietario = propietariosByContratoResponse.data.residente.nombre_residente;
+          const idPropietario = propietariosByContratoResponse.data.residente.id;
+          console.log(nombrePropietario);
+          setPropietarios([nombrePropietario]);
+          setPropietarioSeleccionadoID(idPropietario);
+      } else {
+          // Si no hay propietario, obtener los titulares por la otra ruta
+          const titularesByContratoResponse = await axios.get(`${endpoint}/titular-by-contrato/${contratoDepId}`);
+          console.log(titularesByContratoResponse);
+          
+          if (Array.isArray(titularesByContratoResponse.data)) {
+              const nombresTitulares = titularesByContratoResponse.data.map(titular => titular.nombre_residente);
+              setPropietarios(nombresTitulares);
+          } else if (titularesByContratoResponse.data.message === "Titular encontrado") {
+              // Si se encuentra un titular pero no es un array, mostrar solo ese titular
+              const nombreTitular = titularesByContratoResponse.data.residente.nombre_residente;
+              const idTitular = titularesByContratoResponse.data.residente.id;
+
+              console.log(nombreTitular);
+              setPropietarios([nombreTitular]);
+              setPropietarioSeleccionadoID(idTitular);
+
+          } else {
+              console.error("La respuesta de la API no es válida:", titularesByContratoResponse.data);
+              
+          }
+      }
+      
       } catch (error) {
         console.error("Error al obtener la lista de propietarios:", error);
       }
     };
-
+  
     fetchPropietarios();
   }, []);
 
+  
+  
+  
   const handleInput = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -75,29 +108,39 @@ const PreAviso = () => {
       case "monto":
         setMonto(value);
         break;
+        case "tipo_servicio": // Cambiado de "tipoServicio" a "tipo_servicio"
+        setServicioPagar(value);
+       // console.log("el servicio seleccionado es: "+value);
+        break;
       default:
         break;
     }
   };
 
   const handleSubmit = async (e) => {
+    console.log("empiezo a enviar");
     e.preventDefault();
     const validationErrors = {};
 
     if (!fecha.trim()) {
       validationErrors.fecha = "Este campo es obligatorio";
+      console.log("Error de fecha");
     }
-
+    
     if (!descripcion_servicios.trim()) {
       validationErrors.descripcion_servicios = "Este campo es obligatorio";
+      console.log("Error de descripción de servicios");
     }
-
+    
     if (!monto.trim()) {
       validationErrors.monto = "Este campo es obligatorio";
+      console.log("Error de monto");
     }
-
-    if (!tipoServicio.trim()) {
+    
+    if (!servicioPagar.trim()) {
       validationErrors.tipo_servicio = "Seleccione un servicio a pagar";
+      console.log(servicioPagar);
+      console.log("Error de tipo de servicio");
     }
 
     setErrors(validationErrors);
@@ -110,10 +153,12 @@ const PreAviso = () => {
         propietario_pagar: propietarioSeleccionado,
         descripcion_servicios,
         monto,
-        servicio_pagar: servicioPagar, // Asegúrate de incluir servicioPagar aquí
+        servicio_pagar: servicioPagar,
+        id_propietarioPagar:propietarioSeleccionadoID,
       };
 
       try {
+        console.log(data);
         const response = await axios.post(url, data);
         console.log("Preaviso guardado exitosamente:", response.data);
         window.location.href = "/cobros/pre-aviso";
@@ -121,6 +166,7 @@ const PreAviso = () => {
         console.error("Error al guardar el preaviso:", error);
         console.log(data);
       }
+      console.log("no envie nada");
     }
   };
 
@@ -209,6 +255,7 @@ const PreAviso = () => {
               type="submit"
               className="custom-button mx-auto d-block"
               style={{ fontWeight: "bold" }}
+              onClick={handleSubmit}
             >
               Guardar Preaviso
             </Button>

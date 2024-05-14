@@ -25,6 +25,9 @@ use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
 use App\Http\Controllers\Empleados\WorkingHourController;
 
 use App\Http\Controllers\Empleados\ContractController;
+use App\Http\Controllers\Mantenimiento\EstadoController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -52,8 +55,8 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     Route::put('/departamentoAct/{id}/actualizarOfertados','actualizarOfertados')->name('departamento.actualizarOfertados');
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
-    
-    
+
+
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -122,6 +125,8 @@ Route::post('/add_contract', [ContractController::class, 'store']);
 
 Route::post('/add_working_hour', [WorkingHourController::class, 'store']);
 
+Route::post('marcar_hora_empleado',[EmployeeController::class, 'marcarHora']);
+
 // MANTENIMIENTO
 Route::get('/CategoriaServicio', [CategoriaServicioController::class,'getCategoriaServicio']);
 Route::get('/CategoriaServicio/{id}', [CategoriaServicioController::class,'getCategoriaId']);
@@ -141,10 +146,21 @@ Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'i
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
 
+Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
+Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);
+
 // COMMON AREAS
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
+
+
+Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
+Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
+Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
+Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
+Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
+
 
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){
@@ -158,11 +174,12 @@ Route::controller(EquipamientosController::class)->group(function(){
 });
 
 Route::get('/common-areas/{id}/reservaPagada', [CommonAreaController::class, 'reservaPagada']);
+Route::put('/common-areas/{id}/pagarReserva', [CommonAreaController::class, 'pagarReserva']);
 
 Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
-    Route::get('/obtener-preavisos', [PreAvisoController::class, 'index']);
+    Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
     Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
     Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
     Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);

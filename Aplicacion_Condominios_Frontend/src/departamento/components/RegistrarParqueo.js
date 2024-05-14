@@ -90,9 +90,10 @@ class RegistrarParqueo extends Component {
                         </Input>
                         <span style={{ color: "red" }}>{this.state.errors["departamento_seleccionado"]}</span>
                     </FormGroup>
-                    <Button onClick={this.toggleModal}>Registrar Parqueo</Button>
+                    <Button onClick={this.handleConfirm}>Registrar Parqueo</Button>
                 </Form>
             </div>
         );
     }
 }
+export default RegistrarParqueo;

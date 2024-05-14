@@ -30,6 +30,8 @@ import GestionVisitas from "../departamento/components/GestionVisitas";
 import RegistrarVisita from "../departamento/components/RegistrarVisita";
 import EditarContrato from "../departamento/components/EditarContrato";
 import MostrarEdificio from "../departamento/components/MostrarEdificios";
+import RegistrarParqueo from "../departamento/components/RegistrarParqueo";
+import CrearEdificio from "../departamento/components/CrearEdificio";
 
 const appRoutes: RouteType[] = [
   {
@@ -123,6 +125,22 @@ const appRoutes: RouteType[] = [
         state: "dashboard.crearDepa",
         sidebarProps: {
           displayText: "Edificios"
+        },
+      },
+      {
+        path: "/dashboard/parqueo",
+        element: <RegistrarParqueo />,
+        state: "dashboard.crearDepa",
+        sidebarProps: {
+          displayText: "Parqueo"
+        },
+      },
+      {
+        path: "/dashboard/crearEdificio",
+        element: <CrearEdificio />,
+        state: "dashboard.crearDepa",
+        sidebarProps: {
+          displayText: "Crear Edificio"
         },
       },
     ]

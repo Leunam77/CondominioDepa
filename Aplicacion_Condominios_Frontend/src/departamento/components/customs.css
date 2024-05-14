@@ -40,6 +40,26 @@ li {
 	background-color: rgb(11, 79, 110);
 	border-color: rgb(22, 101, 138);
 }
+.custom-buttonVisita {
+	background-color: rgb(25, 118, 162);
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+.custom-buttonVisita:hover {
+	background-color: rgb(11, 79, 110);
+}
+
+.iconVisita {
+	color: rgb(25, 118, 162);
+	font-size: 1.6rem;
+}
+
+.iconVisita:hover {
+	color: rgb(11, 79, 110);
+}
+.iconVisita:active {
+	color: rgb(22, 101, 138);
+}
 .custom-form {
 	background-color: #FFFEF6;
 	border: none;
@@ -196,6 +216,13 @@ input[type="date"].customInput{
 	object-fit: fill;
 	margin: 6px;
 	border-radius: 5px ;
+}
+.visitasTabla{
+	font-size: 0.95rem;
+}
+td.celdaVisita{
+	vertical-align: middle;
+	text-align: center;
 }
 
 

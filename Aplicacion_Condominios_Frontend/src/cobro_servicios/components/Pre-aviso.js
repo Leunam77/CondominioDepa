@@ -26,6 +26,7 @@ const PreAviso = () => {
   const [propietarios, setPropietarios] = useState([]);
   const [propietarioSeleccionado, setPropietarioSeleccionado] = useState("");
   const [servicioPagar, setServicioPagar] = useState("");
+  const [propietarioSeleccionadoID, setPropietarioSeleccionadoID] = useState("");
 
   useEffect(() => {
     console.log("ID del departamento:", departamento_id);
@@ -57,8 +58,10 @@ const PreAviso = () => {
         if (propietariosByContratoResponse.data.message !== "No tiene propietario") {
           // Si hay propietario, mostrar solo ese propietario
           const nombrePropietario = propietariosByContratoResponse.data.residente.nombre_residente;
+          const idPropietario = propietariosByContratoResponse.data.residente.id;
           console.log(nombrePropietario);
           setPropietarios([nombrePropietario]);
+          setPropietarioSeleccionadoID(idPropietario);
       } else {
           // Si no hay propietario, obtener los titulares por la otra ruta
           const titularesByContratoResponse = await axios.get(`${endpoint}/titular-by-contrato/${contratoDepId}`);
@@ -70,10 +73,15 @@ const PreAviso = () => {
           } else if (titularesByContratoResponse.data.message === "Titular encontrado") {
               // Si se encuentra un titular pero no es un array, mostrar solo ese titular
               const nombreTitular = titularesByContratoResponse.data.residente.nombre_residente;
+              const idTitular = titularesByContratoResponse.data.residente.id;
+
               console.log(nombreTitular);
               setPropietarios([nombreTitular]);
+              setPropietarioSeleccionadoID(idTitular);
+
           } else {
               console.error("La respuesta de la API no es válida:", titularesByContratoResponse.data);
+              
           }
       }
       
@@ -146,6 +154,7 @@ const PreAviso = () => {
         descripcion_servicios,
         monto,
         servicio_pagar: servicioPagar,
+        id_propietarioPagar:propietarioSeleccionadoID,
       };
 
       try {

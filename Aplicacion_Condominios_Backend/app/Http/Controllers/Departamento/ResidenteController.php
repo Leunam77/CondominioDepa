@@ -57,6 +57,7 @@ class ResidenteController extends Controller
             'estado_residente' => 'required',
             'imagen_residente' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
             'contrato_id' => 'nullable',
+            'monto_pagar'=>'nullable',
         ]);
         //Residente::create($validate);
         $residente = new Residente($validate);

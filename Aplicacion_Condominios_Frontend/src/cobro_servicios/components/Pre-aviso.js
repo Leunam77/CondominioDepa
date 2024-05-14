@@ -149,6 +149,7 @@ const PreAviso = () => {
       };
 
       try {
+        console.log(data);
         const response = await axios.post(url, data);
         console.log("Preaviso guardado exitosamente:", response.data);
         window.location.href = "/cobros/pre-aviso";

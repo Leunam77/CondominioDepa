@@ -23,6 +23,9 @@ use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
 use App\Http\Controllers\Empleados\WorkingHourController;
 
 use App\Http\Controllers\Empleados\ContractController;
+use App\Http\Controllers\Mantenimiento\EstadoController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -120,6 +123,8 @@ Route::post('/add_contract', [ContractController::class, 'store']);
 
 Route::post('/add_working_hour', [WorkingHourController::class, 'store']);
 
+Route::post('marcar_hora_empleado',[EmployeeController::class, 'marcarHora']);
+
 // MANTENIMIENTO
 Route::get('/CategoriaServicio', [CategoriaServicioController::class,'getCategoriaServicio']);
 Route::get('/CategoriaServicio/{id}', [CategoriaServicioController::class,'getCategoriaId']);
@@ -138,6 +143,9 @@ Route::get('/registro-solicitud/{id}', [RegistroSolicitudController::class,'getR
 Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'insertRegistroSolicitud']);
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
+
+Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
+Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);
 
 // COMMON AREAS
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);

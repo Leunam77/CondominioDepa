@@ -84,6 +84,15 @@ export const getSolicitudServicioById = async (
   }
 };
 
+export const getSolicitudByEncargadoId = async(encargadoId: number): Promise<SolicitudServicioResponse[]> =>{
+  try {
+    const response: AxiosResponse<SolicitudServicioResponse[]> = await api.get(`/solicitudes-by-encargado/${encargadoId}`);
+    return response.data;
+  } catch (error) {
+    return [];
+  }
+}
+
 //* to update an existing solicitud servicio
 export const updateSolicitudServicio = async (
   solicitudId: number,

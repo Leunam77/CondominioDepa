@@ -24,6 +24,7 @@ class PreAvisoController extends Controller
         $expensa->descripcion_servicios = $request->descripcion_servicios;
         $expensa->servicio_pagar = $request->servicio_pagar;
         $expensa->monto = $request->monto;
+        $expensa->id_propietarioPagar = $request->id_propietarioPagar;
         $expensa->save();
 
         return response()->json([

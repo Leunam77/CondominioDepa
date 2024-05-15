@@ -22,11 +22,11 @@ class RegistrarParqueo extends Component {
             validationErrors: {},
             parqueos: [],
             estadoModal: false,
+            estadoModalPar: false,
             idParqueo: '',
 
         }
     }
-
 
     async componentDidMount() {
         try {
@@ -50,7 +50,7 @@ class RegistrarParqueo extends Component {
     handleSelect = (event) => {
         this.setState({ departamento_seleccionado: event.target.value });
     }
-    
+
     handleConfirm = (e) => {
         this.validacion();
         if (Object.keys(this.state.validationErrors).length === 0) {
@@ -68,7 +68,7 @@ class RegistrarParqueo extends Component {
         let validationErrors = {};
         if (!nombre_parqueo.trim()) {
             validationErrors.nombre_parqueo = "Este campo es obligatorio";
-        } else if (!/^[a-zA-ZÑñáéíóú][a-zA-ZÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(nombre_parqueo)) {
+        } else if (!/^[a-zA-ZÑñáéíóú][a-zA-ZÑñáéíóú0-9\s-]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(nombre_parqueo)) {
             validationErrors.nombre_parqueo = "El nombre del parqueo debe contener solo letras y numeros.";
         }
         if (!departamento_seleccionado.trim()) {
@@ -76,6 +76,7 @@ class RegistrarParqueo extends Component {
         }
         this.setState({ errors: validationErrors });
     }
+    
     storeParqueo = async (e) => {
         e.preventDefault();
         try {
@@ -90,26 +91,51 @@ class RegistrarParqueo extends Component {
             console.error(error);
         }
     }
+
     handleModal = () => {
         this.setState({ estadoModal: !this.state.estadoModal });
     }
-    handleModalPar = (id) => {
-        this.setState({ idParqueo: id });
+    handleModalPar = () => {
         this.setState({ modal_open: !this.state.modal_open });
-
     }
-    deleteVisita = async (id) => {
+    deleteParqueo = async (id) => {
         await axios.delete(`${endpoint}/parqueo/${id}`);
         window.location.reload();
     }
+    confirmDelete = () => {
+        this.deleteParqueo(this.state.idParqueo);
+        this.handleModalConfPar();
+    }    
+    handleModalConfPar = () => {
+        this.setState({ estadoModalPar: !this.state.estadoModalPar });
+    }
+    setIdParqueo = (id) => {
+        this.setState({ idParqueo: id });
+    }
+    updateParqueo = async (parqueo) => {
+        try {
+            await axios.put(`${endpoint}/parqueoupd/${parqueo.id}`, {
+                nombre_parqueo: parqueo.nombre_parqueo,
+                departamento_id: parqueo.departamento_id
+            });
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
+    manejoEnvio = (parqueo) => {
+        this.updateParqueo(parqueo);
+        this.handleModalPar();
+    }
 
     render() {
         return (
             <>
                 <ModalCon isOpen={this.state.estadoModal} toggle={this.handleModal} confirm={this.handleConfirm} message="¿Está seguro que desea crear un parqueo?" />
+                <ModalCon isOpen={this.state.estadoModalPar} toggle={this.handleModalConfPar} confirm={this.confirmDelete} message="¿Está seguro que desea eliminar el parqueo?" />
                 
-                <ModalPar isOpen={this.state.modal_open} toggle={this.handleModalPar} idParqueo={this.idParqueo} />
+                <ModalPar isOpen={this.state.modal_open} onSubmit={this.manejoEnvio} toggle={this.handleModalPar} idParqueo={this.state.idParqueo} parqueos={this.state.parqueos} departamentos={this.state.departamentos} />
                 <Row>
                     <Label className="text-center mb-4 titulosForms">Registrar Parqueo</Label>
                 </Row>
@@ -127,8 +153,8 @@ class RegistrarParqueo extends Component {
                                 <Col sm={5}>
                                     <FormGroup>
                                         <Label className="label-custom" for="departamento_seleccionado">Departamento</Label>
-                                        <Input className="customInput" type="select" name="departamento_seleccionado" id="departamento_seleccionado" onChange={this.handleSelect} invalid={this.state.errors.departamento_seleccionado ? true : false}>
-                                            <option value="">Seleccione un departamento</option>
+                                        <Input className="customInput" type="select" name="departamento_seleccionado" id="departamento_seleccionado" onChange={this.handleSelect} invalid={this.state.errors.departamento_seleccionado ? true : false } value={this.state.departamento_seleccionado}>
+                                            <option disabled value=''>Seleccione un departamento</option>
                                             {this.state.departamentos.map((departamento) => (
                                                 <option key={departamento.id} value={departamento.id}>{departamento.nombre_departamento}</option>
                                             ))}
@@ -144,7 +170,7 @@ class RegistrarParqueo extends Component {
                                     </Button>
                                 </Col>
                             </Row>
-                            <Table striped bordered responsive className="mt-5">
+                            <Table striped bordered responsive className="mt-4">
                                 <thead className="text-center">
                                     <tr>
                                         <th>Nombre</th>
@@ -160,10 +186,10 @@ class RegistrarParqueo extends Component {
                                             <td>
                                                 <Row className="w-100">
                                                     <Col className="d-flex justify-content-end" >
-                                                        <div onClick={(e) => { e.stopPropagation(); this.handleModalPar(parqueo.id) }} > <FontAwesomeIcon icon={faEdit} className="iconVisita" /> </div>
+                                                        <div onClick={(e) => { e.stopPropagation(); this.setIdParqueo(parqueo.id) ; this.handleModalPar() }} > <FontAwesomeIcon icon={faEdit} className="iconVisita" /> </div>
                                                     </Col>
                                                     <Col >
-                                                        <div onClick={(e) => { e.stopPropagation(); this.deleteVisita(parqueo.id); }} > <FontAwesomeIcon icon={faTrashAlt} className="iconVisita" /> </div>
+                                                        <div onClick={(e) => { e.stopPropagation(); this.setIdParqueo(parqueo.id);  this.handleModalConfPar(); }} > <FontAwesomeIcon icon={faTrashAlt} className="iconVisita" /> </div>
 
                                                     </Col>
                                                 </Row>

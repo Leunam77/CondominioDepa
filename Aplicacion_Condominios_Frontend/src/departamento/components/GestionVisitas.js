@@ -38,7 +38,7 @@ const GestionVisitas = () => {
             console.error("Error al obtener las visitas:", error);
         }
     }
-    
+
 
     const deleteVisita = async (id) => {
         await axios.delete(`${endpoint}/visita/${id}`);
@@ -92,8 +92,8 @@ const GestionVisitas = () => {
                                     <th>Apellidos</th>
                                     <th>Cédula</th>
                                     <th>Celular</th>
-                                    <th>Ingreso</th>
                                     <th>Departamento</th>
+                                    <th>Ingreso</th>
                                     <th>Salida</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -113,8 +113,9 @@ const GestionVisitas = () => {
                                         <td className="celdaVisita">{visita.apellidos_visita}</td>
                                         <td className="celdaVisita">{visita.cedula_visita}</td>
                                         <td className="celdaVisita">{visita.telefono_visita}</td>
-                                        <td className="celdaVisita">{moment(visita.created_at).format('DD/MM/YYYY HH:mm')}</td>
                                         <td className="celdaVisita">{visita.nombreDepa}</td>
+                                        <td className="celdaVisita">{moment(visita.created_at).format('DD/MM/YYYY HH:mm')}</td>
+
                                         <td className="text-center celdaVisita">
                                             <Button type="button" className="custom-buttonVisita" onClick={(e) => { e.stopPropagation(); desactivarVisita(visita.id); }}>Marcar Salida</Button>
                                         </td>

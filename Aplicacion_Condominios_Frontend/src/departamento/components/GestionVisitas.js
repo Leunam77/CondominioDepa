@@ -57,7 +57,7 @@ const GestionVisitas = () => {
                 <Row>
                     <Col>
                         <Row>
-                            <Label className="text-center mb-5 titulosForms">Gestión de visitas</Label>
+                            <Label className="text-center mb-4 titulosForms">Gestión de visitas</Label>
                         </Row>
                         <Row >
                             <Col sm={7}>

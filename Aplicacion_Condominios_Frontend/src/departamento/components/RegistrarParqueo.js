@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, FormFeedback, Row, Col } from "reactstrap";
+import "./customs.css";
 
 const endpoint = "http://localhost:8000/api";
 
@@ -13,6 +14,7 @@ class RegistrarParqueo extends Component {
             departamento_seleccionado: '',
             modal_open: false,
             errors: {},
+            validationErrors: {},
         }
     }
     async componentDidMount() {
@@ -44,20 +46,15 @@ class RegistrarParqueo extends Component {
         let nombre_parqueo = this.state.nombre_parqueo;
         let departamento_seleccionado = this.state.departamento_seleccionado;
         let validationErrors = {};
-        let isValid = true;
         if (!nombre_parqueo.trim()) {
-            isValid = false;
             validationErrors.nombre_parqueo = "Por favor ingrese el nombre del parqueo.";
         } else if (!/^[a-zA-ZÑñáéíóú][a-zA-ZÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(nombre_parqueo)) {
-            isValid = false;
             validationErrors.nombre_parqueo = "El nombre del parqueo debe contener solo letras y numeros.";
         }
         if (!departamento_seleccionado.trim()) {
-            isValid = false;
             validationErrors.departamento_seleccionado = "Por favor seleccione un departamento.";
         }
         this.setState({ errors: validationErrors });
-        return isValid;
     }
     storeParqueo = async (e) => {
         e.preventDefault();
@@ -71,28 +68,44 @@ class RegistrarParqueo extends Component {
             console.error(error);
         }
     }
+
     render() {
         return (
-            <div>
+            <>
+                <Row>
+                    <Label className="text-center mb-4 titulosForms">Registrar Parqueo</Label>
+                </Row>
                 <Form>
-                    <FormGroup>
-                        <Label for="nombre_parqueo">Nombre del parqueo</Label>
-                        <Input type="text" name="nombre_parqueo" id="nombre_parqueo" onChange={this.handleInput} invalid={this.state.nombre_parqueo ? true:false}/>
-                        <span style={{ color: "red" }}>{this.state.errors["nombre_parqueo"]}</span>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="departamento_seleccionado">Departamento</Label>
-                        <Input type="select" name="departamento_seleccionado" id="departamento_seleccionado" onChange={this.handleSelect}>
-                            <option value="">Seleccione un departamento</option>
-                            {this.state.departamentos.map((departamento) => (
-                                <option key={departamento.id} value={departamento.id}>{departamento.nombre_departamento}</option>
-                            ))}
-                        </Input>
-                        <span style={{ color: "red" }}>{this.state.errors["departamento_seleccionado"]}</span>
-                    </FormGroup>
-                    <Button onClick={this.handleConfirm}>Registrar Parqueo</Button>
+                    <Row >
+                        <Col  sm={4}>
+                            <FormGroup>
+                                <Label className="label-custom" for="nombre_parqueo">Nombre</Label>
+                                <Input className="customInput" type="text" name="nombre_parqueo" id="nombre_parqueo" placeholder="Ingrese el nombre del parqueo" onChange={this.handleInput} invalid={this.state.errors.nombre_parqueo ? true : false} />
+                                <FormFeedback>{this.state.errors.nombre_parqueo}</FormFeedback>
+                            </FormGroup>
+                        </Col>
+                        <Col  sm={5}>
+                            <FormGroup>
+                                <Label className="label-custom" for="departamento_seleccionado">Departamento</Label>
+                                <Input className="customInput" type="select" name="departamento_seleccionado" id="departamento_seleccionado" onChange={this.handleSelect} invalid={this.state.errors.departamento_seleccionado}>
+                                    <option value="">Seleccione un departamento</option>
+                                    {this.state.departamentos.map((departamento) => (
+                                        <option key={departamento.id} value={departamento.id}>{departamento.nombre_departamento}</option>
+                                    ))}
+                                </Input>
+                                <FormFeedback>{this.state.errors.departamento_seleccionado}</FormFeedback>
+                            </FormGroup>
+                        </Col>
+                        <Col style={{marginTop: "22px"}} sm={3}>
+                            <Button size="md" type="button" className="custom-button "
+                                style={{ fontWeight: 'bold' }}
+                                onClick={this.handleConfirm}>
+                                Registrar Parqueo
+                            </Button>
+                        </Col>
+                    </Row>  
                 </Form>
-            </div>
+            </>
         );
     }
 }

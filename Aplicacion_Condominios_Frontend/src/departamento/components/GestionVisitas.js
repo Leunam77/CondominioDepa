@@ -24,11 +24,21 @@ const GestionVisitas = () => {
             let visitas = response.data;
             visitas = visitas.filter(visita => visita.activo_visita !== 0);
             visitas.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            const responseDepartamentos = await axios.get(`${endpoint}/departamentos`);
+            const departamentos = responseDepartamentos.data;
+
+            visitas = visitas.map(visita => {
+                const departamento = departamentos.find(departamento => departamento.id === visita.departamento_id);
+                return { ...visita, nombreDepa: departamento ? departamento.nombre_departamento : 'N/A' };
+            });
+
             setVisitas(visitas);
+
         } catch (error) {
             console.error("Error al obtener las visitas:", error);
         }
     }
+    
 
     const deleteVisita = async (id) => {
         await axios.delete(`${endpoint}/visita/${id}`);
@@ -38,7 +48,7 @@ const GestionVisitas = () => {
     const desactivarVisita = async (id) => {
         await axios.put(`${endpoint}/visitaDes/${id}/desactivar`, {
             activo_visita: false,
-            
+
         });
         getVisitas();
     }
@@ -62,7 +72,7 @@ const GestionVisitas = () => {
                         <Row >
                             <Col sm={7}>
                                 <InputGroup >
-                                    <Input placeholder="Buscar visitante..." onChange={manejarBusqueda} 
+                                    <Input placeholder="Buscar visitante..." onChange={manejarBusqueda}
                                         style={{
                                             borderRadius: "15px",
                                             border: "1px solid rgba(0, 0, 0, 0.3)",
@@ -83,6 +93,7 @@ const GestionVisitas = () => {
                                     <th>Cédula</th>
                                     <th>Celular</th>
                                     <th>Ingreso</th>
+                                    <th>Departamento</th>
                                     <th>Salida</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -99,10 +110,11 @@ const GestionVisitas = () => {
                                     (visita.activo_visita && visita.activo_visita !== 0) &&
                                     <tr key={visita.id}>
                                         <td className="celdaVisita">{visita.nombre_visita}</td>
-                                            <td className="celdaVisita">{visita.apellidos_visita}</td>
-                                            <td className="celdaVisita">{visita.cedula_visita}</td>
-                                            <td className="celdaVisita">{visita.telefono_visita}</td>
-                                            <td className="celdaVisita">{moment(visita.created_at).format('DD/MM/YYYY HH:mm')}</td>
+                                        <td className="celdaVisita">{visita.apellidos_visita}</td>
+                                        <td className="celdaVisita">{visita.cedula_visita}</td>
+                                        <td className="celdaVisita">{visita.telefono_visita}</td>
+                                        <td className="celdaVisita">{moment(visita.created_at).format('DD/MM/YYYY HH:mm')}</td>
+                                        <td className="celdaVisita">{visita.nombreDepa}</td>
                                         <td className="text-center celdaVisita">
                                             <Button type="button" className="custom-buttonVisita" onClick={(e) => { e.stopPropagation(); desactivarVisita(visita.id); }}>Marcar Salida</Button>
                                         </td>

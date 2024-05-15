@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Form, FormGroup, Label, Input, FormFeedback, Row, Col } from "reactstrap";
+import { Button, FormGroup, Label, Input, FormFeedback, Row, Col, Table, Container } from "reactstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import "./customs.css";
+import ModalCon from "./ModalConfirm";
+import ModalPar from "./ModalParqueo";
 
 const endpoint = "http://localhost:8000/api";
 
@@ -15,12 +20,26 @@ class RegistrarParqueo extends Component {
             modal_open: false,
             errors: {},
             validationErrors: {},
+            parqueos: [],
+            estadoModal: false,
+            idParqueo: '',
+
         }
     }
+
+
     async componentDidMount() {
         try {
             const response = await axios.get(`${endpoint}/departamentos`);
             this.setState({ departamentos: response.data }); //luego puedo usar una llamada mas amigable a la API
+            const responseParqueos = await axios.get(`${endpoint}/parqueos`);
+            let parqueos = responseParqueos.data;
+            parqueos = parqueos.map(parqueo => {
+                const departamento = this.state.departamentos.find(departamento => departamento.id === parqueo.departamento_id);
+                return { ...parqueo, nombreDepa: departamento.id ? departamento.nombre_departamento : 'N/A' };
+            });
+            this.setState({ parqueos: parqueos });
+
         } catch (error) {
             console.error(error);
         }
@@ -31,28 +50,29 @@ class RegistrarParqueo extends Component {
     handleSelect = (event) => {
         this.setState({ departamento_seleccionado: event.target.value });
     }
-    toggleModal = () => {
-        this.setState({ modal_open: !this.state.modal_open });
-    }
+    
     handleConfirm = (e) => {
-        if (this.validacion()) {
+        this.validacion();
+        if (Object.keys(this.state.validationErrors).length === 0) {
+            this.handleModal();
             this.storeParqueo(e);
-            this.toggleModal();
         } else {
             console.log("Formulario invalido");
+            this.handleModal();
         }
     }
+
     validacion = () => {
         let nombre_parqueo = this.state.nombre_parqueo;
         let departamento_seleccionado = this.state.departamento_seleccionado;
         let validationErrors = {};
         if (!nombre_parqueo.trim()) {
-            validationErrors.nombre_parqueo = "Por favor ingrese el nombre del parqueo.";
+            validationErrors.nombre_parqueo = "Este campo es obligatorio";
         } else if (!/^[a-zA-ZÑñáéíóú][a-zA-ZÑñáéíóú\s]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(nombre_parqueo)) {
             validationErrors.nombre_parqueo = "El nombre del parqueo debe contener solo letras y numeros.";
         }
         if (!departamento_seleccionado.trim()) {
-            validationErrors.departamento_seleccionado = "Por favor seleccione un departamento.";
+            validationErrors.departamento_seleccionado = "Este campo es obligatorio";
         }
         this.setState({ errors: validationErrors });
     }
@@ -63,48 +83,99 @@ class RegistrarParqueo extends Component {
                 nombre_parqueo: this.state.nombre_parqueo,
                 departamento_id: this.state.departamento_seleccionado
             });
+            window.location.reload();
             console.log(response);
+
         } catch (error) {
             console.error(error);
         }
     }
+    handleModal = () => {
+        this.setState({ estadoModal: !this.state.estadoModal });
+    }
+    handleModalPar = (id) => {
+        this.setState({ idParqueo: id });
+        this.setState({ modal_open: !this.state.modal_open });
+
+    }
+    deleteVisita = async (id) => {
+        await axios.delete(`${endpoint}/parqueo/${id}`);
+        window.location.reload();
+    }
+
 
     render() {
         return (
             <>
+                <ModalCon isOpen={this.state.estadoModal} toggle={this.handleModal} confirm={this.handleConfirm} message="¿Está seguro que desea crear un parqueo?" />
+                
+                <ModalPar isOpen={this.state.modal_open} toggle={this.handleModalPar} idParqueo={this.idParqueo} />
                 <Row>
                     <Label className="text-center mb-4 titulosForms">Registrar Parqueo</Label>
                 </Row>
-                <Form>
-                    <Row >
-                        <Col  sm={4}>
-                            <FormGroup>
-                                <Label className="label-custom" for="nombre_parqueo">Nombre</Label>
-                                <Input className="customInput" type="text" name="nombre_parqueo" id="nombre_parqueo" placeholder="Ingrese el nombre del parqueo" onChange={this.handleInput} invalid={this.state.errors.nombre_parqueo ? true : false} />
-                                <FormFeedback>{this.state.errors.nombre_parqueo}</FormFeedback>
-                            </FormGroup>
-                        </Col>
-                        <Col  sm={5}>
-                            <FormGroup>
-                                <Label className="label-custom" for="departamento_seleccionado">Departamento</Label>
-                                <Input className="customInput" type="select" name="departamento_seleccionado" id="departamento_seleccionado" onChange={this.handleSelect} invalid={this.state.errors.departamento_seleccionado}>
-                                    <option value="">Seleccione un departamento</option>
-                                    {this.state.departamentos.map((departamento) => (
-                                        <option key={departamento.id} value={departamento.id}>{departamento.nombre_departamento}</option>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Row >
+                                <Col sm={4}>
+                                    <FormGroup>
+                                        <Label className="label-custom" for="nombre_parqueo">Nombre</Label>
+                                        <Input className="customInput" type="text" name="nombre_parqueo" id="nombre_parqueo" placeholder="Ingrese el nombre del parqueo" onChange={this.handleInput} invalid={this.state.errors.nombre_parqueo ? true : false} />
+                                        <FormFeedback>{this.state.errors.nombre_parqueo}</FormFeedback>
+                                    </FormGroup>
+                                </Col>
+                                <Col sm={5}>
+                                    <FormGroup>
+                                        <Label className="label-custom" for="departamento_seleccionado">Departamento</Label>
+                                        <Input className="customInput" type="select" name="departamento_seleccionado" id="departamento_seleccionado" onChange={this.handleSelect} invalid={this.state.errors.departamento_seleccionado ? true : false}>
+                                            <option value="">Seleccione un departamento</option>
+                                            {this.state.departamentos.map((departamento) => (
+                                                <option key={departamento.id} value={departamento.id}>{departamento.nombre_departamento}</option>
+                                            ))}
+                                        </Input>
+                                        <FormFeedback>{this.state.errors.departamento_seleccionado}</FormFeedback>
+                                    </FormGroup>
+                                </Col>
+                                <Col style={{ marginTop: "22px" }} sm={3}>
+                                    <Button size="md" type="button" className="custom-button "
+                                        style={{ fontWeight: 'bold' }}
+                                        onClick={this.handleModal}>
+                                        Registrar Parqueo
+                                    </Button>
+                                </Col>
+                            </Row>
+                            <Table striped bordered responsive className="mt-5">
+                                <thead className="text-center">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Departamento</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="visitasTabla">
+                                    {this.state.parqueos.map((parqueo) => (
+                                        <tr key={parqueo.id}>
+                                            <td className="celdaVisita">{parqueo.nombre_parqueo}</td>
+                                            <td className="celdaVisita">{parqueo.nombreDepa}</td>
+                                            <td>
+                                                <Row className="w-100">
+                                                    <Col className="d-flex justify-content-end" >
+                                                        <div onClick={(e) => { e.stopPropagation(); this.handleModalPar(parqueo.id) }} > <FontAwesomeIcon icon={faEdit} className="iconVisita" /> </div>
+                                                    </Col>
+                                                    <Col >
+                                                        <div onClick={(e) => { e.stopPropagation(); this.deleteVisita(parqueo.id); }} > <FontAwesomeIcon icon={faTrashAlt} className="iconVisita" /> </div>
+
+                                                    </Col>
+                                                </Row>
+
+                                            </td>
+                                        </tr>
                                     ))}
-                                </Input>
-                                <FormFeedback>{this.state.errors.departamento_seleccionado}</FormFeedback>
-                            </FormGroup>
+                                </tbody>
+                            </Table>
                         </Col>
-                        <Col style={{marginTop: "22px"}} sm={3}>
-                            <Button size="md" type="button" className="custom-button "
-                                style={{ fontWeight: 'bold' }}
-                                onClick={this.handleConfirm}>
-                                Registrar Parqueo
-                            </Button>
-                        </Col>
-                    </Row>  
-                </Form>
+                    </Row>
+                </Container>
             </>
         );
     }

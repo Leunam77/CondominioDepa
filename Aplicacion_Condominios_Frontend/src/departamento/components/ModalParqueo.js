@@ -4,9 +4,9 @@ import "./customs.css";
 import "./PopUpCss.css";
 
 const ModalParqueo = (props) => {
-	const { isOpen, toggle, confirm, message } = props;
+	const { isOpen, toggle, idParqueo, } = props;
     const [nombre, setNombre] = useState('');
-    const [departamento, setDepartamento] = useState('');
+    const [departamento, setDepartamento] = useState([]);
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const ModalParqueo = (props) => {
         }
     
         if (Object.keys(validationErrors).length === 0) {
-            confirm(nombre, departamento);
+           
         } else {
             setErrors(validationErrors);
         }

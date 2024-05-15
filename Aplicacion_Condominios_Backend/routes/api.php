@@ -104,7 +104,7 @@ Route::controller(ParqueoController::class)->group(function(){
     Route::get('/parqueos','index')->name('parqueo.index');
     Route::post('/parqueo','store')->name('parqueo.store');
     Route::get('/parqueo/{id}','show')->name('parqueo.show');
-    Route::put('/parqueoupd/{id}','update')->name('parqueo.update');
+    Route::post('/parqueoupd/{id}','update')->name('parqueo.update');
     Route::delete('/parqueo/{id}','destroy')->name('parqueo.destroy');
     Route::get('/parqueo-by-departamento/{id}', 'getParqueosByDepartamento')->name('parqueo.getParqueosByDepartamento');
 });

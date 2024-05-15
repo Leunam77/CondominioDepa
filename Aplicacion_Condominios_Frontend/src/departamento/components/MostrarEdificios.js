@@ -10,33 +10,48 @@ const endpoint = 'http://localhost:8000/api';
 const endpointImg = 'http://localhost:8000';
 const cookies = new Cookies();
 const MostrarEdificios = () => {
-    const [isOpenModal1, setIsOpenModal1] = useState(false);
-    const [isOpenModal2, setIsOpenModal2] = useState(false);
+    const [edificios, setEdificios] = useState ([]);
 
-    const handleClickInfo = () => {
+    useEffect(() => {
+        getAllEdificios();
+        cookies.remove('idEdif');
+        cookies.remove('idDepa');
+    }, []);
+
+    const getAllEdificios = async () => {
+        try {
+            const response = await axios.get(`${endpoint}/edificios`);
+            const edificios = response.data;
+            setEdificios(edificios);
+        } catch (error) {
+            console.error("Error al obtener edificios:", error);
+        }
+    }
+
+    const handleClickDepartamentos = (idEdif) => {
+        cookies.set('idEdif', idEdif);
         window.location.href = '/dashboard/departamentos';
-    }; //se deberia mostrar los departamentos del edificio?
+    };
 
     return(
         <>
         <Container>
             <h1 className="title">Edificios</h1>
             <div className= "row">
-                {[...Array(5)].map((_, index) => (
-                    <div className="col-sm-12 col-md-6 col-lg-4 col-xl-3" >
+                {edificios.map((edificio) => (
+                    <div className="col-sm-12 col-md-6 col-lg-4 col-xl-3" key={edificio.id}>
                     <div className="d-flex h-100">
-                        <Card className="mt-3 mb-3 flex-fill cardDepa" onClick={handleClickInfo}>
+                        <Card className="mt-3 mb-3 flex-fill cardDepa" onClick={() => handleClickDepartamentos(edificio.id)}>
                             <CardImg
                                 alt="Card image cap"
-                                src={imgPrueba}
+                                src={`${endpointImg}/${edificio.imagen_edificio}`}
                                 style={{ objectFit: "cover", width: "100%", height: "235px", borderBottomLeftRadius: 0, borderBottomRightRadius: 0}}
                             />
                             <CardBody className="d-flex flex-column justify-content-between align-items-stretch">
                                 <CardText>
-                                    <p id="infoEdifcio">Edificio</p>
-                                    <p id="infoEdifcio">N° de pisos:</p>
-                                    <p id="infoEdifcio">Bloque:</p>
-                                    <p id="infoEdifcio">Descripción:</p>
+                                    <p id="infoEdifcio">Edificio: {edificio.nombre_edificio}</p>
+                                    <p id="infoEdifcio">N° de pisos: {edificio.cantidad_pisos}</p>
+                                    <p id="infoEdifcio">Descripción: {edificio.descripcion_edificio}</p>
                                 </CardText>
                             </CardBody>
                         </Card>

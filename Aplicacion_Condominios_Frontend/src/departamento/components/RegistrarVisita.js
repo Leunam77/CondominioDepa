@@ -223,7 +223,7 @@ class RegistrarVisita extends Component {
 
                                 <FormGroup className="mb-4">
                                     <Row>
-                                        <Col sm={4}>
+                                        <Col sm={6}>
                                             <Label
                                                 className="label-custom"
                                             >
@@ -248,7 +248,6 @@ class RegistrarVisita extends Component {
                                     </Row>
 
                                 </FormGroup>
-
                                 <Button size="lg" type="button" className="mt-5 custom-button mx-auto d-block"
                                     style={{ fontWeight: 'bold' }}
                                     onClick={this.toggleModal}

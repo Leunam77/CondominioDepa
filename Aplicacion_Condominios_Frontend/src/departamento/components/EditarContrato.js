@@ -171,7 +171,7 @@ class EditarContrato extends Component {
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>
-                            <h2 className="text-center mb-5 titulosForms">Crear contrato</h2>
+                            <h2 className="text-center mb-5 titulosForms">Editar contrato</h2>
                             <form onSubmit={this.storeResident}>
                                 <FormGroup className="mb-4">
                                     <Row>

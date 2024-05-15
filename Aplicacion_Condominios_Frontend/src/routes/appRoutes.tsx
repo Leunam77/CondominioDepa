@@ -55,6 +55,14 @@ const appRoutes: RouteType[] = [
         state: "dashboard.index"
       },
       {
+        path: "/dashboard/crearEdificio",
+        element: <CrearEdificio />,
+        state: "dashboard.crearEdificio",
+        sidebarProps: {
+          displayText: "Crear Edificio"
+        },
+      },
+      {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
@@ -63,17 +71,22 @@ const appRoutes: RouteType[] = [
         },
       },
       {
+        path: "/dashboard/edificios",
+        element: <MostrarEdificio />,
+        state: "dashboard.edificios",
+        sidebarProps: {
+          displayText: "GestionarDepartamento"
+        },
+      },
+      {
         path: "/dashboard/departamentos",
         element: <Depa />,
-        state: "dashboard.depa",
-        sidebarProps: {
-          displayText: "Gestionar Departamento"
-        },
+        state: "dashboard.departamentos",
       },
       {
         path: "/dashboard/RegResidente",
         element: <RegistrarResidente />,
-        state: "dashboard.depa",
+        state: "dashboard.regResidente",
         sidebarProps: {
           displayText: "Registrar Residente"
         },
@@ -81,27 +94,27 @@ const appRoutes: RouteType[] = [
       {
         path: "/dashboard/editarDepa",
         element: <EditarDep />,
-        state: "dashboard.depa",
+        state: "dashboard.editDepa",
       },
       {
         path: "/dashboard/crearContrato",
         element: <CrearContrato />,
-        state: "dashboard.depa",
+        state: "dashboard.crearContrato",
       },
       {
         path: "/dashboard/editContrato",
         element: <EditarContrato />,
-        state: "dashboard.depa",
+        state: "dashboard.editContrato",
       },
       {
         path: "/dashboard/infoDepartamento",
         element: <InfoDepartamento />,
-        state: "dashboard.depa",
+        state: "dashboard.infoDepartamento",
       },
       {
         path: "/dashboard/residentes",
         element: <MostrarResidentes />,
-        state: "dashboard.depa",
+        state: "dashboard.residentes",
         sidebarProps: {
           displayText: "Residentes"
         },
@@ -109,7 +122,7 @@ const appRoutes: RouteType[] = [
       {
         path: "/dashboard/visitas",
         element: <GestionVisitas />,
-        state: "dashboard.depa",
+        state: "dashboard.visitas",
         sidebarProps: {
           displayText: "Visitas"
         },
@@ -117,30 +130,14 @@ const appRoutes: RouteType[] = [
       {
         path: "/dashboard/registrarVisita",
         element: <RegistrarVisita />,
-        state: "dashboard.depa",
-      },
-      {
-        path: "/dashboard/edificios",
-        element: <MostrarEdificio />,
-        state: "dashboard.crearDepa",
-        sidebarProps: {
-          displayText: "Edificios"
-        },
+        state: "dashboard.registrarVisita",
       },
       {
         path: "/dashboard/parqueo",
         element: <RegistrarParqueo />,
-        state: "dashboard.crearDepa",
+        state: "dashboard.parqueo",
         sidebarProps: {
           displayText: "Parqueo"
-        },
-      },
-      {
-        path: "/dashboard/crearEdificio",
-        element: <CrearEdificio />,
-        state: "dashboard.crearDepa",
-        sidebarProps: {
-          displayText: "Crear Edificio"
         },
       },
     ]

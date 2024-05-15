@@ -15,6 +15,7 @@ const endpointImg = 'http://localhost:8000';
 const cookies = new Cookies();
 const MostrarDep = () => {
     const [departamentos, setDepartamentos] = useState ([]);
+    const [edificioSel, setEdificioSel] = useState([]);
     const [switchStates, setSwitchStates] = useState({});
     const [isOpenModal1, setIsOpenModal1] = useState(false);
     const [isOpenModal2, setIsOpenModal2] = useState(false);
@@ -22,15 +23,19 @@ const MostrarDep = () => {
 
 
     useEffect(() => {
-        getAllDepartments();
         cookies.remove('idDepa');
+        const idEdif = cookies.get('idEdif');
+        getAllDepartments(idEdif);
     }, []);
 
-    const getAllDepartments = async () => {
+    const getAllDepartments = async (idEdif) => {
         try {
-            const response = await axios.get(`${endpoint}/departamentos`);
+            const response = await axios.get(`${endpoint}/departamentos-by-edificios/${idEdif}`);
             const departamentos = response.data;
             setDepartamentos(departamentos);
+            const edificioBus = await axios.get(`${endpoint}/edificio/${idEdif}`);
+            const edifNombre = edificioBus.data;
+            setEdificioSel(edifNombre);
             const initialSwitchStates = {};
             // Iterar sobre cada departamento
             for (const departamento of departamentos) {
@@ -154,7 +159,7 @@ const MostrarDep = () => {
                 />
             )}
             
-            <h1 className="title">Departamentos</h1>
+            <h1 className="title">Departamentos del edificio: {edificioSel.nombre_edificio}</h1>
             <div className= "row">
                 {departamentos.map((departamento) => (
                     <div className="col-sm-12 col-md-12 col-lg-6 col-xl-4" key={departamento.id}>

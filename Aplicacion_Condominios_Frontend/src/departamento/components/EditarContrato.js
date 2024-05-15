@@ -188,6 +188,7 @@ class EditarContrato extends Component {
                                                 name="precio_contrato"
                                                 value={this.state.precio_contrato}
                                                 readOnly
+                                                disabled
                                             />
                                         </Col>
                                         <Col sm={6}>
@@ -204,6 +205,7 @@ class EditarContrato extends Component {
                                                 id="tipo_contrato"
                                                 value={this.state.tipo_contrato}
                                                 readOnly
+                                                disabled
                                             >
                                             </Input>
 
@@ -225,6 +227,7 @@ class EditarContrato extends Component {
                                                 name="fecha_inicio_contrato"
                                                 value={this.state.fecha_inicio_contrato}
                                                 readOnly
+                                                disabled
                                             />
                                         </Col>
                                         <Col sm={6}>
@@ -240,7 +243,7 @@ class EditarContrato extends Component {
                                                 name="fecha_fin_contrato"
                                                 value={this.state.fecha_fin_contrato}
                                                 readOnly
-                                                disabled={this.state.fecha_fin_contrato_disabled}
+                                                disabled
                                             />
                                         </Col>
                                     </Row>

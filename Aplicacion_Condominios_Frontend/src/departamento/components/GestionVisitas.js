@@ -6,6 +6,7 @@ import { Row, Col, Button, Container, Label, Table, InputGroup, Input } from 're
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+import ModalCon from './ModalConfirm';
 
 const endpoint = 'http://localhost:8000/api';
 // const endpointImg = 'http://localhost:8000';
@@ -13,7 +14,10 @@ const endpoint = 'http://localhost:8000/api';
 const GestionVisitas = () => {
     const [visitas, setVisitas] = useState([]);
     const [busqueda, setBusqueda] = useState('');
-
+    const [modalDeleteConf, setModalDeleteConf] = useState(false);
+    const [idVisita, setIdVisita] = useState('');
+    const [modalMarcarConf, setModalMarcarConf] = useState(false);
+    const [horaSalida,setHoraSalida] = useState('');
     useEffect(() => {
         getVisitas();
     }, []);
@@ -38,8 +42,21 @@ const GestionVisitas = () => {
             console.error("Error al obtener las visitas:", error);
         }
     }
+    const toggleModalMarcarConf = () => {
+        setModalMarcarConf(!modalMarcarConf);
+    }
+    const handleMarcar = () => {
+        desactivarVisita(idVisita);
+        toggleModalMarcarConf();
+    }
+    const toggleModalDeleteConf = () => {
+        setModalDeleteConf(!modalDeleteConf);
 
-
+    }
+    const handleDelete = () => {
+        deleteVisita(idVisita);
+        toggleModalDeleteConf();
+    }
     const deleteVisita = async (id) => {
         await axios.delete(`${endpoint}/visita/${id}`);
         getVisitas();
@@ -48,7 +65,6 @@ const GestionVisitas = () => {
     const desactivarVisita = async (id) => {
         await axios.put(`${endpoint}/visitaDes/${id}/desactivar`, {
             activo_visita: false,
-
         });
         getVisitas();
     }
@@ -59,10 +75,26 @@ const GestionVisitas = () => {
     const manejarBusqueda = async (e) => {
         setBusqueda(e.target.value);
     }
+    const setMarcarSalida = (id) => {
+        setIdVisita(id);
+        setHoraSalida(moment().format('DD/MM/YYYY HH:mm'));
+    }
 
     return (
 
         <>
+            <ModalCon
+                isOpen={modalDeleteConf}
+                toggle={toggleModalDeleteConf}
+                confirm={handleDelete}
+                message={"¿Está seguro de eliminar la visita?"}
+            />
+            <ModalCon
+                isOpen={modalMarcarConf}
+                toggle={toggleModalMarcarConf}
+                confirm={handleMarcar}
+                message={"¿Está seguro marcar la salida a la fecha y hora: " + horaSalida + " ?" }
+            />
             <Container>
                 <Row>
                     <Col>
@@ -117,10 +149,10 @@ const GestionVisitas = () => {
                                         <td className="celdaVisita">{moment(visita.created_at).format('DD/MM/YYYY HH:mm')}</td>
 
                                         <td className="text-center celdaVisita">
-                                            <Button type="button" className="custom-buttonVisita" onClick={(e) => { e.stopPropagation(); desactivarVisita(visita.id); }}>Marcar Salida</Button>
+                                                <Button type="button" className="custom-buttonVisita" onClick={(e) => { e.stopPropagation(); setMarcarSalida(visita.id); toggleModalMarcarConf(); }}>Marcar Salida</Button>
                                         </td>
                                         <td className="text-center celdaVisita">
-                                            <div onClick={(e) => { e.stopPropagation(); deleteVisita(visita.id); }} ><FontAwesomeIcon icon={faTrashAlt} className="iconVisita" /></div>
+                                                <div onClick={(e) => { e.stopPropagation(); setIdVisita(visita.id) ; toggleModalDeleteConf(); }} ><FontAwesomeIcon icon={faTrashAlt} className="iconVisita" /></div>
                                         </td>
                                     </tr>
                                 ))}
@@ -132,5 +164,4 @@ const GestionVisitas = () => {
         </>
     )
 }
-
 export default GestionVisitas;

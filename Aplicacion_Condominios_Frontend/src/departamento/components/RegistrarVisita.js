@@ -41,6 +41,7 @@ class RegistrarVisita extends Component {
             modalOpen: !prevState.modalOpen
         }));
     }
+
     handleConfirm = (e) => {
         console.log('Usuario confirmó la acción');
         this.storeVisita(e);
@@ -142,6 +143,7 @@ class RegistrarVisita extends Component {
                     confirm={this.handleConfirm}
                     message="¿Está seguro de que agregar la visita?"
                 />
+                
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>

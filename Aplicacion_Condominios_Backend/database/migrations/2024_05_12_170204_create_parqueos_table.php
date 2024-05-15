@@ -17,7 +17,7 @@ class CreateParqueosTable extends Migration
             $table->id();
             $table->string('nombre_parqueo');
             $table->foreignId('departamento_id')->constrained('departamentos');
-            //$table->timestamps(); // No se necesita
+            $table->timestamps(); // No se necesita
         });
     }
 

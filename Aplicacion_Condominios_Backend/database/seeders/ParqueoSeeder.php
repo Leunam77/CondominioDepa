@@ -13,6 +13,6 @@ class ParqueoSeeder extends Seeder
      */
     public function run()
     {
-        Parqueo::factory()->withoutTimestamps()->count(5)->create();
+        Parqueo::factory()->count(5)->create();
     }
 }

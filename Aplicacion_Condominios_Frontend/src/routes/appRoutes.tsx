@@ -30,6 +30,8 @@ import ContractRegister from "../empleados/pages/contract_register";
 import AssignContract from "../empleados/pages/assign_contract";
 import AssignTurn from "../empleados/pages/assign_turn";
 import TurnRegister from "../empleados/pages/turn_register";
+import TurnRegisterCleaning from "../empleados/pages/turn_register_cleaning";
+import MarcarHora from "../empleados/pages/marcar_hora";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/dashboard/common-area/pages/create-page/CreatePage";
@@ -413,6 +415,15 @@ const appRoutes: RouteType[] = [
       },
 
       {
+        path: "/employees/marcar_hora",
+        element: <MarcarHora />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Marcar Hora",
+        },
+      },
+
+      {
         path: "/employees/employeeEdit",
         element: <EmployeeEdit />,
         state: "employee.analytics",
@@ -429,6 +440,13 @@ const appRoutes: RouteType[] = [
         element: <TurnRegister />,
         state: "employee.analytics",
       },
+
+      {
+        path: "/employees/turnRegisterCleaning",
+        element: <TurnRegisterCleaning/>,
+        state: "employee.analytics",
+      },
+
     ],
   },
 ];

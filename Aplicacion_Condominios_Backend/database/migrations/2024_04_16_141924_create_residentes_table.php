@@ -27,6 +27,7 @@ class CreateResidentesTable extends Migration
             $table->boolean('estado_residente');
             $table->string('imagen_residente');
             $table->unsignedBigInteger('contrato_id')->nullable(); //todavia no se si va a ser nullable
+            $table->unsignedInteger('monto_pagar')->nullable();
             $table->foreign('contrato_id')->references('id')->on('contratos')->onDelete('set null');
             $table->timestamps();
         });

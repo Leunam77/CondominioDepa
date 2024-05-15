@@ -27,6 +27,7 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -123,6 +124,8 @@ Route::get('/get_employee_with_contract', [EmployeeController::class, 'getEmploy
 Route::post('/add_contract', [ContractController::class, 'store']);
 
 Route::post('/add_working_hour', [WorkingHourController::class, 'store']);
+
+Route::post('marcar_hora_empleado',[EmployeeController::class, 'marcarHora']);
 
 // MANTENIMIENTO
 Route::get('/CategoriaServicio', [CategoriaServicioController::class,'getCategoriaServicio']);

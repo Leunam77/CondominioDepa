@@ -5,14 +5,31 @@ namespace App\Models\Cobro_Servicios;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\GestDepartamento\departamento;
+use App\Models\GestDepartamento\Residente;
+
 class ExpensaModel extends Model
 {
     use HasFactory;
     protected $table = 'expensas';
 
-    protected $fillable = [ 'departamento_id','propietario_pagar','fecha','descripcion_servicios','servicio_pagar','monto','id_propietarioPagar'];
+    protected $fillable = [
+        'departamento_id',
+        'propietario_pagar',
+        'fecha',
+        'descripcion_servicios',
+        'servicio_pagar',
+        'monto',
+        'id_propietarioPagar'
+    ];
+
     public function departamento()
     {
         return $this->belongsTo(departamento::class, 'departamento_id');
+    }
+
+    // Define la relación con el modelo Residente
+    public function residentePagar()
+    {
+        return $this->belongsTo(Residente::class, 'id_propietarioPagar');
     }
 }

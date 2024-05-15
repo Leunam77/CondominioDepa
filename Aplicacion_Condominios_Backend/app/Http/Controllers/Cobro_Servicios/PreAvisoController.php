@@ -28,14 +28,14 @@ class PreAvisoController extends Controller
 
     public function store(Request $request)
     {
-        $expensa = new ExpensaModel();
-        $expensa->departamento_id = $request->departamento_id;
-        $expensa->fecha = $request->fecha;
-        $expensa->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
-        $expensa->descripcion_servicios = $request->descripcion_servicios;
-        $expensa->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
-        $expensa->monto = $request->monto;
-        $expensa->save();
+        $preaviso = new PreAvisoModel();
+        $preaviso->departamento_id = $request->departamento_id;
+        $preaviso->fecha = $request->fecha;
+        $preaviso->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
+        $preaviso->descripcion_servicios = $request->descripcion_servicios;
+        $preaviso->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
+        $preaviso->monto = $request->monto;
+        $preaviso->save();
         
         return response()->json([
             'status' => 200,

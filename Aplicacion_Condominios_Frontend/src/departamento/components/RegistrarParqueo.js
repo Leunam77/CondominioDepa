@@ -34,12 +34,12 @@ class RegistrarParqueo extends Component {
             this.setState({ departamentos: response.data }); //luego puedo usar una llamada mas amigable a la API
             const responseParqueos = await axios.get(`${endpoint}/parqueos`);
             let parqueos = responseParqueos.data;
+            parqueos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
             parqueos = parqueos.map(parqueo => {
                 const departamento = this.state.departamentos.find(departamento => departamento.id === parqueo.departamento_id);
                 return { ...parqueo, nombreDepa: departamento.id ? departamento.nombre_departamento : 'N/A' };
             });
             this.setState({ parqueos: parqueos });
-
         } catch (error) {
             console.error(error);
         }

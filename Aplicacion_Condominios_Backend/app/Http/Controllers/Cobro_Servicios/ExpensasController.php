@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Cobro_Servicios;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cobro_Servicios\ExpensaModel;
-
+use App\Models\Cobro_Servicios\PreAvisoModel;
 class ExpensasController extends Controller
 {
     public function index()
@@ -19,19 +19,23 @@ class ExpensasController extends Controller
     }
     public function store(Request $request)
     {
+    
         $request->validate([
-            'departamento_id' => 'required|exists:App\Models\GestDepartamento\Departamento,id',
+            'preaviso_id' => 'required|exists:App\Models\Cobro_Servicios\PreAvisoModel,id',
         ]);
-        $preaviso = PreAvisoModel::findOrFail($request->departamento_id);
+        $preaviso = PreAvisoModel::findOrFail($request->preaviso_id); // Aquí deberías usar $request->preaviso_id
 
         $expensa = new ExpensaModel();
 
-        $expensa->departamento_id = $preaviso->departamento_id;
+        //$expensa->departamento_id = $preaviso->departamento_id;
+        $expensa->preaviso_id = $preaviso->id;
+
         $expensa->fecha = $preaviso->fecha;
         $expensa->propietario_pagar = $preaviso->propietario_pagar;
         $expensa->descripcion_servicios = $preaviso->descripcion_servicios;
         $expensa->servicio_pagar = $preaviso->servicio_pagar;
         $expensa->monto = $preaviso->monto;
+        $expensa->id_propietarioPagar = $preaviso ->id_propietarioPagar;
 
         $expensa->save();
 

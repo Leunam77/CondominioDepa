@@ -15,8 +15,8 @@ class CreateExpensasTable extends Migration
 {
     Schema::create('expensas', function (Blueprint $table) {
         $table->id();
-        $table->unsignedBigInteger('departamento_id');
-        $table->foreign('departamento_id')->references('id')->on('departamentos')->onDelete('cascade');
+        $table->unsignedBigInteger('preaviso_id'); 
+        $table->foreign('preaviso_id')->references('id')->on('preavisos')->onDelete('cascade');
         $table->text('propietario_pagar');
         $table->date('fecha'); 
         $table->text('descripcion_servicios'); 

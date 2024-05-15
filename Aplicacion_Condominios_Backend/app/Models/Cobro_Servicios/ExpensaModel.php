@@ -4,7 +4,8 @@ namespace App\Models\Cobro_Servicios;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\GestDepartamento\departamento;
+use App\Models\Cobro_Servicios\PreAvisoModel;
+
 use App\Models\GestDepartamento\Residente;
 
 class ExpensaModel extends Model
@@ -24,7 +25,7 @@ class ExpensaModel extends Model
 
     public function departamento()
     {
-        return $this->belongsTo(departamento::class, 'departamento_id');
+        return $this->belongsTo(PreAvisoModel::class, 'preaviso_id');
     }
 
     // Define la relación con el modelo Residente

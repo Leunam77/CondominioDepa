@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -9,13 +8,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export const NotificationsList = () => {
   const [notices, setNotices] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [title, setTitle] = useState('');
-  const [subject, setSubject] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/avisos')
       .then(response => {
-        setNotices(response.data);
+        if (Array.isArray(response.data.avisos)) {
+          setNotices(response.data.avisos);
+        } else {
+          console.error('Expected an array but got:', response.data);
+        }
       })
       .catch(error => {
         console.error('Error fetching notices:', error);
@@ -25,17 +28,17 @@ export const NotificationsList = () => {
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => {
     setShowModal(false);
-    setTitle('');
-    setSubject('');
+    setTitulo('');
+    setDescripcion('');
   };
 
-  const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleSubjectChange = (e) => setSubject(e.target.value);
+  const handleTituloChange = (e) => setTitulo(e.target.value);
+  const handleDescripcionChange = (e) => setDescripcion(e.target.value);
 
   const handleSaveNotice = () => {
     const newNotice = {
-      title: title,
-      description: subject,
+      titulo: titulo,
+      descripcion: descripcion,
     };
 
     axios.post('http://127.0.0.1:8000/api/avisos', newNotice)
@@ -71,11 +74,11 @@ export const NotificationsList = () => {
           <Form>
             <Form.Group controlId="formNoticeTitle">
               <Form.Label>Título</Form.Label>
-              <Form.Control type="text" placeholder="Ingrese el título" value={title} onChange={handleTitleChange} />
+              <Form.Control type="text" placeholder="Ingrese el título" value={titulo} onChange={handleTituloChange} />
             </Form.Group>
             <Form.Group controlId="formNoticeSubject">
               <Form.Label>Asunto</Form.Label>
-              <Form.Control type="text" placeholder="Ingrese el asunto" value={subject} onChange={handleSubjectChange} />
+              <Form.Control type="text" placeholder="Ingrese el asunto" value={descripcion} onChange={handleDescripcionChange} />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -90,18 +93,14 @@ export const NotificationsList = () => {
           <tr>
             <th>Título</th>
             <th>Descripción</th>
-            <th>Enviar</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {notices.map((notice) => (
+          {Array.isArray(notices) && notices.map((notice) => (
             <tr key={notice.id}>
-              <td>{notice.title}</td>
-              <td>{notice.description}</td>
-              <td>
-                <Link to={'/notifications/send/telegram'} className='btn btn-primary' onClick={() => console.log('Sending notice', notice)}>Telegram</Link>
-              </td>
+              <td>{notice.titulo}</td>
+              <td>{notice.descripcion}</td>
               <td>
                 <Button variant="danger" onClick={() => handleDeleteNotice(notice.id)}>Eliminar</Button>
               </td>

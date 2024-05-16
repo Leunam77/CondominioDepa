@@ -88,8 +88,7 @@ class CrearEdificio extends Component {
             validationErrors.bloque_seleccionado = "El bloque seleccionado debe ser un numero entre 1 y 99.";
         }
         
-        if (!imagen_edif.name) {
-            isValid = false;
+        if (imagen_edif.name) {
             const extensiones = ["png", "PNG", "jpg", "jpeg"];
             let nombre_imagen = imagen_edif.name;
             const extension = nombre_imagen.substring(
@@ -98,10 +97,10 @@ class CrearEdificio extends Component {
             );
             if (!extensiones.includes(extension)) {
                 document.getElementsByClassName("imagen_input").value = "";
-
+                
                 this.setState({ imagen_edif: "" });
                 validationErrors.imagen_edif =
-                    "La imagen debe tener formato PNG, JPG o JPEG";
+                "La imagen debe tener formato PNG, JPG o JPEG";
             } 
         }
         

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Form, FormGroup, Label, Input, CardImg } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, CardImg, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
@@ -136,22 +136,44 @@ class CrearEdificio extends Component {
 
     render() {
         return (
-            <div>
-                <h2>Crear Edificio</h2>
+            <>
+                <Container className="custom-form">
+                <h2 className="text-center mb-5 titulosForms">Crear Edificio</h2>
                 <Form>
                     <FormGroup>
-                        <Label for="nombre_edificio">Nombre del Edificio</Label>
-                        <Input type="text" name="nombre_edificio" id="nombre_edificio" onChange={this.handleInput} />
+                        <Label className="label-custom" for="nombre_edificio">Nombre del Edificio</Label>
+                        <Input 
+                            className="customInput" 
+                            type="text" 
+                            name="nombre_edificio" 
+                            placeholder="Ingrese el nombre del edificio"
+                            id="nombre_edificio" 
+                            onChange={this.handleInput} 
+                        />
                         <span style={{ color: "red" }}>{this.state.errors.nombre_edificio}</span>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="descripcion_edificio">Descripcion del Edificio</Label>
-                        <Input type="text" name="descripcion_edificio" id="descripcion_edificio" onChange={this.handleInput} />
+                        <Label className="label-custom" for="descripcion_edificio">Descripcion del Edificio</Label>
+                        <Input 
+                            className="customInput" 
+                            type="text" 
+                            name="descripcion_edificio" 
+                            placeholder="Ingrese una descripción del edificio"
+                            id="descripcion_edificio" 
+                            onChange={this.handleInput} 
+                        />
                         <span style={{ color: "red" }}>{this.state.errors.descripcion_edificio}</span>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="imagen_edificio">Imagen del Edificio</Label>
-                        <Input type="file" name="imagen_edificio" id="imagen_edificio" className="imagen_input" onChange={this.handleChange} />
+                        <Label className="label-custom" for="imagen_edificio">Imagen del Edificio</Label>
+                        <Input 
+                            type="file" 
+                            name="imagen_edificio" 
+                            placeholder="Ingrese una imagen"
+                            id="imagen_edificio" 
+                            className="customImage" 
+                            onChange={this.handleChange} 
+                        />
                         <span style={{ color: "red" }}>{this.state.errors.imagen_edificio}</span>
                         {this.state.imagen_edificio && (
                             <div className="d-flex justify-content-center">
@@ -168,13 +190,27 @@ class CrearEdificio extends Component {
                         )}
                     </FormGroup>
                     <FormGroup>
-                        <Label for="cantidad_pisos">Cantidad de Pisos</Label>
-                        <Input type="number" name="cantidad_pisos" id="cantidad_pisos" onChange={this.handleInput} />
+                        <Label className="label-custom" for="cantidad_pisos">Cantidad de Pisos</Label>
+                        <Input 
+                            className="customInput" 
+                            type="number" 
+                            name="cantidad_pisos" 
+                            placeholder="Ingrese la cantidad de pisos"
+                            id="cantidad_pisos" 
+                            onChange={this.handleInput} 
+                        />
                         <span style={{ color: "red" }}>{this.state.errors.cantidad_pisos}</span>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="bloque_seleccionado">Bloque</Label>
-                        <Input type="select" name="bloque_seleccionado" id="bloque_seleccionado" onChange={this.handleSelect}>
+                        <Label className="label-custom" for="bloque_seleccionado">Bloque</Label>
+                        <Input 
+                            className="customInput" 
+                            type="select" 
+                            name="bloque_seleccionado" 
+                            placeholder="Selecione un bloque"
+                            id="bloque_seleccionado" 
+                            onChange={this.handleSelect}
+                        >
                             <option value="">Seleccione un bloque</option>
                             {this.state.bloques.map((bloque) => (
                                 <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
@@ -182,9 +218,10 @@ class CrearEdificio extends Component {
                         </Input>
                         <span style={{ color: "red" }}>{this.state.errors.bloque_seleccionado}</span>
                     </FormGroup>
-                    <Button onClick={this.handleConfirm}>Crear Edificio</Button>
+                    <Button className="custom-button mx-auto d-block" onClick={this.handleConfirm}>Crear Edificio</Button>
                 </Form>
-            </div>
+                </Container>
+            </>
         );
     }
 

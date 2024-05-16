@@ -37,7 +37,9 @@ class CrearEdificio extends Component {
         this.setState({ bloque_seleccionado: event.target.value });
     }
     toggleModal = () => {
-        this.setState({ modal_open: !this.state.modal_open });
+        this.setState(prevState => ({
+            modalOpen: !prevState.modalOpen
+        }));
     }
     handleChange = (event) => {
         this.setState({ imagen_edif: event.target.files[0] });
@@ -137,6 +139,12 @@ class CrearEdificio extends Component {
     render() {
         return (
             <>
+                <ModalConfirm
+                    isOpen={this.state.modalOpen}
+                    toggle={this.toggleModal}
+                    confirm={this.handleConfirm}
+                    message="¿Está seguro de que deseas guardar el departamento?"
+                />
                 <Container className="custom-form">
                 <h2 className="text-center mb-5 titulosForms">Crear Edificio</h2>
                 <Form>
@@ -218,7 +226,7 @@ class CrearEdificio extends Component {
                         </Input>
                         <span style={{ color: "red" }}>{this.state.errors.bloque_seleccionado}</span>
                     </FormGroup>
-                    <Button className="custom-button mx-auto d-block" onClick={this.handleConfirm}>Crear Edificio</Button>
+                    <Button className="custom-button mx-auto d-block" onClick={this.toggleModal}>Crear Edificio</Button>
                 </Form>
                 </Container>
             </>

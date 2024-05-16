@@ -16,13 +16,14 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 import "./style.css";
 import { getAllCategories } from "../services/maintenance/categoryService";
-import { getAllPersonal } from "../services/maintenance/personalExternoService";
+import { getAllPersonal, getPersonalByCategory } from "../services/maintenance/personalExternoService";
 import { getAllEstados } from "../services/maintenance/estadoService";
 
 interface SolicitudServicioResponse {
   idRegistroSolicitud: number;
   idCategoria: number;
   idEstado: number;
+  idPersonalExterno:number;
   descripcion: string;
   nombrePropietario: string;
   ubicacion: string;
@@ -68,6 +69,7 @@ export default function PersonalPage() {
     useState<SolicitudServicioResponse>({
       idRegistroSolicitud: 0,
       idCategoria: 0,
+      idPersonalExterno: 0,
       idEstado: 0,
       descripcion: "",
       nombrePropietario: "",
@@ -99,13 +101,24 @@ export default function PersonalPage() {
       const categoryService = await getAllCategories();
       console.log("🚀 ~ loadData ~ categoryService:", categoryService);
       setCategoryService(categoryService);
-      const personal = await getAllPersonal();
-      setPersonalExterno(personal);
+     // const personal = await getPersonalByCategory(servicioActual.idCategoria);
+     // console.log("🚀 ~ loadData ~ personal:", personal)
+      // setPersonalExterno(personal);
       const estadoData = await getAllEstados();
       setEstados(estadoData);
     } catch (error) {}
   };
 
+  useEffect(()=>{
+    const allPersonalExterno =async()=>{
+      const personal = await getPersonalByCategory(servicioActual.idCategoria);
+      console.log("🚀 ~ allPersonalExterno ~ personal:", personal)
+      setPersonalExterno(personal);
+    } 
+    allPersonalExterno();
+  },[servicioActual])
+
+  
   const handleOpenModal = (solicitudServicio: SolicitudServicioResponse) => {
     if (solicitudServicio.idEstado == 3) {
       alert("Este servicio ya se ha finalizado y no se puede modificar");
@@ -137,7 +150,7 @@ export default function PersonalPage() {
       }
     });
     if (encargado !== undefined) {
-      setServicioActual({ ...servicioActual, encargado: encargado.nombre });
+      setServicioActual({ ...servicioActual, encargado: encargado.nombre, idPersonalExterno: encargado.idPersonalExterno });
     }
   };
 
@@ -348,6 +361,7 @@ export default function PersonalPage() {
                     <div className="col">
                       <TextField
                         id="outlined-select-currency"
+                        value={servicioActual.idPersonalExterno}
                         onChange={(event) => handleChangeEncargado(event)}
                         select
                       >

@@ -71,8 +71,10 @@ export default function RegistroInsumo() {
     setPersonalList(response);
   }
 
-  const allSolicitudList = async (encargadoId: number)=>{
-    const response = await getSolicitudByEncargadoId(encargadoId);
+  const allSolicitudList = async (encargadoId: string)=>{
+    const encargadoIdInt:number = parseInt(encargadoId);
+    const response = await getSolicitudByEncargadoId(encargadoIdInt);
+    console.log("🚀 ~ allSolicitudList ~ response:", response)
     setSolicitudList(response);
   }
 
@@ -134,12 +136,13 @@ export default function RegistroInsumo() {
             <div className="col-8">
               <TextField
                 id="outlined-select-currency"
+                onChange={(event)=>allSolicitudList(event.target.value)}
                 select                    
               >
                 {personalList.map((option)=>(
-                   <MenuItem key={option.idPersonalExterno} value={option.nombre}>
+                  <MenuItem key={option.idPersonalExterno} value={option.idPersonalExterno}>
                    {option.nombre}
-                 </MenuItem>
+                  </MenuItem>
                 ))}
                 </TextField> 
             </div> 
@@ -152,7 +155,13 @@ export default function RegistroInsumo() {
               <TextField
                 id="outlined-select-currency"
                 select                    
-              /> 
+              >
+                {solicitudList.map((option)=>(
+                  <MenuItem key={option.idRegistroSolicitud} value={option.idRegistroSolicitud}>
+                   {option.descripcion}
+                  </MenuItem>
+                ))}
+                </TextField> 
             </div> 
           </div>
           

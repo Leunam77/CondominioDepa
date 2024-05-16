@@ -61,6 +61,51 @@ export const NotificationsList = () => {
       });
   };
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [selectedNotice, setSelectedNotice] = useState({ titulo: '', descripcion: '' });
+
+  const handleSendEmail = (notice) => {
+    setSelectedNotice(notice);
+    handleShow();
+  }
+
+  const sendEmail = async () => {
+    const url = 'http://127.0.0.1:8000/api';
+    const data = await axios.get(`${url}/notificacion-general`);
+    const residentes = data.data.residentes;
+    sendNotificationsToResidents(residentes);
+  }
+
+  const sendNotificationsToResidents= async (residentes) => {
+    const url = 'http://127.0.0.1:8000/api';
+
+    const promises = residentes.map(residente => {
+      const notificationData = {
+        titulo: selectedNotice.titulo,
+        anuncio: selectedNotice.descripcion,
+        email: residente.email_residente,
+      };
+
+      return axios.post(`${url}/v1/send`, notificationData);
+        /*.then(response => {
+          console.log('notificacion enviada');
+        })
+        .catch(error => {
+          console.log('hubo un error');
+        });*/
+    });
+
+    try {
+      await Promise.all(promises);
+      alert('Notificaciones enviadas exitosamente.');
+      handleClose();
+    } catch (error) {
+      alert('Ocurrio un error al enviar los mensajes, intente nuevamente.');
+    }
+  }
+
   return (
     <div>
       <h3>Lista de Notificaciones</h3>
@@ -102,12 +147,35 @@ export const NotificationsList = () => {
               <td>{notice.titulo}</td>
               <td>{notice.descripcion}</td>
               <td>
+                <Button variant='outline-dark' onClick={() => handleSendEmail(notice)}>Email</Button>
                 <Button variant="danger" onClick={() => handleDeleteNotice(notice.id)}>Eliminar</Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Vista Previa</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        {
+          <p>
+            <b>Titulo: </b> {selectedNotice.titulo} <br />
+            <b>Descripcion: </b> {selectedNotice.descripcion}
+          </p>
+        }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='danger' onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button variant='primary' onClick={sendEmail}>
+            Enviar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

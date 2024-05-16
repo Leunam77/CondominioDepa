@@ -11,7 +11,13 @@ import api from "../api";
     updated_at: any
     solicitud: Solicitud
   }
-  
+
+  interface InsumoResponse {
+    idSolicitud: number;
+    nombreInsumo: string;
+    precioInsumo: number;
+    idInsumo: number;
+  }  
   export interface Solicitud {
     idRegistroSolicitud: number
     idCategoria: number
@@ -28,6 +34,12 @@ import api from "../api";
     updated_at: any
     categoria: Categoria
   }
+
+  interface InsumoRequest{
+    idSolicitud: number;
+    nombreInsumo: string;
+    precioInsumo: number;
+  }
   
   export interface Categoria {
     id: number
@@ -37,8 +49,16 @@ import api from "../api";
     updated_at: any
   }
   
+  //* to create insumo
 
-
+  export const createInsumo = async(insumoData: InsumoRequest): Promise<InsumoResponse | null>=>{
+    try {
+      const response:AxiosResponse<InsumoResponse> = await api.post('/insumo/insert', insumoData);
+      return response.data;
+    } catch (error) {
+      return null;
+    }
+  }
 
   
 //* to get all insumos
@@ -54,3 +74,14 @@ export const getAllInsumos = async (): Promise<Insumo[]>=>{
     }
 
 };
+
+//* to delete insumo
+
+export const deleteInsumo = async(insumoId: number): Promise<boolean>=>{
+  try {
+    await api.delete(`/insumo/delete/${insumoId}`);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

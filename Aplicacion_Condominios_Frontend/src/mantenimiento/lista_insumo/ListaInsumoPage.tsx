@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import "./style.css";
-import {Insumo, getAllInsumos} from "../services/maintenance/insumosService"
+import {Insumo, deleteInsumo, getAllInsumos} from "../services/maintenance/insumosService"
 
 
 
@@ -16,11 +16,32 @@ const ListaInsumo: React.FC = () => {
     useEffect(() => {
       const cargarDatos = async () => {
         const datosObtenidos = await getAllInsumos();
-        setDatos(datosObtenidos);
+        console.log("🚀 ~ cargarDatos ~ datosObtenidos:", datosObtenidos)
+
+        const datosFiltered = datosObtenidos.filter(element => {
+            if(element.solicitud.encargado !== null){
+                return element;
+            }
+        })
+
+        setDatos(datosFiltered);
       };
   
       cargarDatos();
     }, []);
+
+    const handleDelete = async (idInsumo:number) =>{
+        const deleted = await deleteInsumo(idInsumo);
+        if(deleted){
+            const newDatos = datos.filter(element => {
+                if(element.idInsumo !== idInsumo){
+                    return element;
+                }
+            })
+            setDatos(newDatos);
+        }
+    }
+
     return(
         <>
             <div className="content__insu">
@@ -46,16 +67,16 @@ const ListaInsumo: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {datos.map((insumos) => (
+                    {datos?.map((insumos) => (
                         <tr key={insumos.idInsumo}>
                             <td>{insumos.idSolicitud}</td>
-                            <td>{insumos.solicitud.categoria.catnombre}</td>
-                            <td>{insumos.solicitud.encargado}</td>
+                            <td>{insumos.solicitud?.categoria.catnombre}</td>
+                            <td>{insumos.solicitud?.encargado}</td>
                             <td className="ajustar__insu">
                                 <button type="button">
                                     <CreateOutlinedIcon fontSize="large" />
                                 </button>
-                                <button type="button">
+                                <button onClick={()=>handleDelete(insumos.idInsumo)} type="button">
                                     <DeleteOutlinedIcon fontSize="large" />
                                 </button>
                             </td>

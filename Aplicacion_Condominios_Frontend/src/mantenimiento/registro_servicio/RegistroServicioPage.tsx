@@ -356,7 +356,6 @@ export default function PersonalPage() {
               select
               label="Piso"
               disabled={currentDestino > 1 ? true : false}
-              // defaultValue="1"
               helperText="Por favor seleccione el número de piso"
               onChange={(event) => handleChangeDepartamento(event)}
             >

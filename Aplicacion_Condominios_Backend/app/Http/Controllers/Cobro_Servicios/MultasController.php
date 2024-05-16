@@ -10,7 +10,7 @@ class MultasController extends Controller
 {
     public function index()
     {
-        $multas = MultasModel::all();
+        $multas = MultasModel::all()->toArray();
         
         return response()->json([
             'status' => 200,

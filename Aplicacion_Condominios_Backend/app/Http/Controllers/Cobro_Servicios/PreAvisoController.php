@@ -28,14 +28,15 @@ class PreAvisoController extends Controller
 
     public function store(Request $request)
     {
-        $preaviso = new PreAvisoModel();
-        $preaviso->departamento_id = $request->departamento_id;
-        $preaviso->fecha = $request->fecha;
-        $preaviso->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
-        $preaviso->descripcion_servicios = $request->descripcion_servicios;
-        $preaviso->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
-        $preaviso->monto = $request->monto;
-        $preaviso->save();
+        $preavisos = new PreAvisoModel();
+        $preavisos->departamento_id = $request->departamento_id;
+        $preavisos->fecha = $request->fecha;
+        $preavisos->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
+        $preavisos->descripcion_servicios = $request->descripcion_servicios;
+        $preavisos->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
+        $preavisos->monto = $request->monto;
+        $preavisos->id_propietarioPagar = $request ->id_propietarioPagar;
+        $preavisos->save();
         
         return response()->json([
             'status' => 200,
@@ -55,7 +56,7 @@ class PreAvisoController extends Controller
 
     public function obtenerTodosPreAvisos()
 {
-    $preAvisos = ExpensaModel::with('departamento:id,nombre_departamento')->get()->toArray();
+    $preAvisos = PreAvisoModel::with('departamento:id,nombre_departamento')->get()->toArray();
     return response()->json([
         'status' => 200,
         'preAvisos' => $preAvisos,

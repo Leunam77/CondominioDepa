@@ -13,6 +13,8 @@ import {
 } from "reactstrap";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaTimes } from "react-icons/fa";  // Importa el icono de react-icons
+
 
 const endpoint = "http://localhost:8000/api";
 
@@ -149,12 +151,23 @@ const PreAviso = () => {
       try {
         const response = await axios.post(url, data);
         console.log("Preaviso guardado exitosamente:", response.data);
+
+        await Promise.all(multas.map(async (multa) => {
+          const multaData = {
+            expensa_id: response.data.id,  
+            descripcion: multa.descripcion,
+            monto: multa.monto,
+            fecha: multa.fecha,
+          };
+          await axios.post(`${endpoint}/agregar-multa`, multaData);
+        }));
         window.location.href = "/cobros/pre-aviso";
       } catch (error) {
         console.error("Error al guardar el preaviso:", error);
       }
     }
   };
+
 
   const handleAddMulta = () => {
     setMultas([...multas, { descripcion: "", monto: "", fecha: "" }]);
@@ -164,6 +177,11 @@ const PreAviso = () => {
     const { name, value } = e.target;
     const updatedMultas = [...multas];
     updatedMultas[index][name] = value;
+    setMultas(updatedMultas);
+  };
+
+  const handleRemoveMulta = (index) => {
+    const updatedMultas = multas.filter((_, i) => i !== index);
     setMultas(updatedMultas);
   };
 
@@ -248,39 +266,44 @@ const PreAviso = () => {
 
             <h4 className="text-center mb-5">Multas</h4>
 
-            {multas.map((multa, index) => (
-              <Row key={index}>
-                <Col sm={4}>
-                  <Label className="label-custom">Descripción</Label>
-                  <Input
-                    type="text"
-                    name="descripcion"
-                    placeholder="Ingrese la descripción"
-                    onChange={(e) => handleMultaChange(index, e)}
-                    value={multa.descripcion}
-                  />
-                </Col>
-                <Col sm={4}>
-                  <Label className="label-custom">Monto</Label>
-                  <Input
-                    type="number"
-                    name="monto"
-                    placeholder="Ingrese el monto"
-                    onChange={(e) => handleMultaChange(index, e)}
-                    value={multa.monto}
-                  />
-                </Col>
-                <Col sm={4}>
-                  <Label className="label-custom">Fecha</Label>
-                  <Input
-                    type="date"
-                    name="fecha"
-                    onChange={(e) => handleMultaChange(index, e)}
-                    value={multa.fecha}
-                  />
-                </Col>
-              </Row>
-            ))}
+              {multas.map((multa, index) => (
+            <Row key={index} className="align-items-center">
+              <Col sm={3}>
+                <Label className="label-custom">Descripción</Label>
+                <Input
+                  type="text"
+                  name="descripcion"
+                  placeholder="Ingrese la descripción"
+                  onChange={(e) => handleMultaChange(index, e)}
+                  value={multa.descripcion}
+                />
+              </Col>
+              <Col sm={3}>
+                <Label className="label-custom">Monto</Label>
+                <Input
+                  type="number"
+                  name="monto"
+                  placeholder="Ingrese el monto"
+                  onChange={(e) => handleMultaChange(index, e)}
+                  value={multa.monto}
+                />
+              </Col>
+              <Col sm={3}>
+                <Label className="label-custom">Fecha</Label>
+                <Input
+                  type="date"
+                  name="fecha"
+                  onChange={(e) => handleMultaChange(index, e)}
+                  value={multa.fecha}
+                />
+              </Col>
+              <Col sm={3} className="d-flex justify-content-end">
+                <Button color="danger" onClick={() => handleRemoveMulta(index)}>
+                  <FaTimes />
+                </Button>
+              </Col>
+            </Row>
+          ))}
 
             <Button
               size="lg"

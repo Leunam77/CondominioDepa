@@ -4,7 +4,7 @@ namespace App\Models\Cobro_Servicios;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Cobro_Servicios\PreAvisoModel;
+use App\Models\Cobro_Servicios\ExpensaModel;
 
 class MultasModel extends Model
 {

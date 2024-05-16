@@ -11,23 +11,23 @@ class PreAvisoModel extends Model
     use HasFactory;
     protected $table = 'preavisos';
 
-    protected $fillable = [ 'departamento_id','propietario_pagar','fecha','descripcion_servicios','servicio_pagar','monto'];
+    protected $fillable = [
+        'departamento_id',
+        'propietario_pagar',
+        'fecha',
+        'descripcion_servicios',
+        'servicio_pagar',
+        'monto',
+        'id_propietarioPagar'
+    ];
     public function departamento()
     {
         return $this->belongsTo(departamento::class, 'departamento_id');
     }
-    
-    protected static function boot()
+    public function residentePagar()
     {
-        parent::boot();
-
-        // Este evento se disparará cuando se esté creando un nuevo preaviso
-        static::creating(function ($preaviso) {
-            // Obtén el nombre del residente asociado al departamento y asígnalo al atributo propietario_pagar
-            $departamento = $preaviso->departamento;
-            $nombre_residente = $departamento->contrato ? $departamento->contrato->residente->nombre_residente : 'Sin residente';
-            $preaviso->propietario_pagar = $nombre_residente;
-        });
+        return $this->belongsTo(Residente::class, 'id_propietarioPagar');
     }
+    
     
 }

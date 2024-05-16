@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getAllCategories } from "../services/maintenance/categoryService";
 import { getPersonalByCategory } from "../services/maintenance/personalExternoService";
 import { getSolicitudByEncargadoId } from "../services/maintenance/solicitudMantenimientoService";
+import { createInsumo } from "../services/maintenance/insumosService";
 
 
 interface Category {
@@ -42,10 +43,19 @@ interface SolicitudServicioResponse {
   };
 }
 
-interface InsumoItem {
-  id: number,
-  nombre: string,
+interface Insumo{
+  id:number;
+  idSolicitud: number;
+  nombreInsumo: string;
+  precioInsumo: number;
 }
+
+interface InsumoRequest{
+  idSolicitud: number;
+  nombreInsumo: string;
+  precioInsumo: number;
+}
+
 
 export default function RegistroInsumo() {
 
@@ -53,8 +63,10 @@ export default function RegistroInsumo() {
   const [personalList, setPersonalList] = useState<PersonalExternoResponse[]>([]);
   const [solicitudList, setSolicitudList] = useState<SolicitudServicioResponse[]>([]);
 
+  const [solicitudActual, setSolicitudActual] = useState<number>(0);
+
   const [nombreInsumo, setNombreInsumo] = useState<string>("");
-  const [insumosList, setInsumosList] = useState<InsumoItem[]>([]);
+  const [insumosList, setInsumosList] = useState<Insumo[]>([]);
 
   useEffect(() => {
     allCategories();
@@ -79,9 +91,9 @@ export default function RegistroInsumo() {
   }
 
 
-  const agregarInsumo = () => {
-    if (nombreInsumo.slice() !== "") {
-      const newInsumo = { id: insumosList.length + 1, nombre: nombreInsumo }
+  const agregarInsumo = () =>{
+    if(nombreInsumo.slice()!==""){
+      const newInsumo = {id: insumosList.length+1,idSolicitud:0, nombreInsumo:nombreInsumo, precioInsumo: 0 }
       const newInsumosList = [...insumosList, newInsumo];
       setInsumosList(newInsumosList);
       setNombreInsumo("");
@@ -98,6 +110,38 @@ export default function RegistroInsumo() {
     setInsumosList(newInsumosList);
   }
 
+  const registerInsumo = async (insumoData:InsumoRequest) =>{
+    const response = await createInsumo(insumoData);
+    if(response === null){
+      alert("Error al guardar")
+    }
+  }
+
+  const handleRegisterInsumos = ()=>{
+    if(insumosList.length !== 0 && solicitudActual != 0){
+      insumosList.map(element => {
+        const {nombreInsumo, precioInsumo} = element;
+        const insumoData = {idSolicitud: solicitudActual, nombreInsumo:nombreInsumo, precioInsumo:precioInsumo};
+        registerInsumo(insumoData)
+        console.log("Insumo", insumoData);
+        
+      })
+      alert("Se ha registrado los insumos");
+      window.location.reload();
+    }else{
+     if(solicitudActual === 0){
+      alert("Seleccione una solicitud")
+     }else{
+      alert("Deben existir insumos")
+     }
+    }
+  }
+
+  const handleChangeSolicitud = (solicitudId: string) => {
+    const  solicitudIdInt:number = parseInt(solicitudId);
+    console.log("🚀 ~ handleChangeSolicitud ~ solicitudIdInt:", solicitudIdInt)
+    setSolicitudActual(solicitudIdInt);
+  }
 
   return (
     <>
@@ -155,6 +199,7 @@ export default function RegistroInsumo() {
             <div className="col-8">
               <TextField
                 id="outlined-select-currency"
+                onChange={(event)=>handleChangeSolicitud(event.target.value)}
                 select                    
               >
                 {solicitudList.map((option)=>(
@@ -210,7 +255,7 @@ export default function RegistroInsumo() {
                 {insumosList.map(element => (
                   <tbody className="tbody__space">
                     <tr className="tr__color">
-                      <td className="der">{element.nombre}</td>
+                      <td className="der">{element.nombreInsumo}</td>
                       <td className="izq">
                         <ClearOutlinedIcon
                           className="c-dark-blue"
@@ -225,7 +270,8 @@ export default function RegistroInsumo() {
               </table>
               <button
                 className="block margin-x-auto"
-                type="submit"
+                type="button"
+                onClick={handleRegisterInsumos}
               >
                 Guardar
               </button>

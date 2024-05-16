@@ -39,7 +39,7 @@ class EdificioController extends Controller
         }
         if (!$request->hasFile('imagen_edificio') || !$edificio->imagen_edificio) {
             // Ruta de la imagen predeterminada
-            $imagenPredeterminada = 'departamento/images/edificios/edificio_pred.jpeg';
+            $imagenPredeterminada = 'departamento/images/edificios/edificio_default.jpg';
             $edificio->imagen_edificio = $imagenPredeterminada;
         }
 

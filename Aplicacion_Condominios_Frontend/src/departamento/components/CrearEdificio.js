@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button, Form, FormGroup, Label, Input, CardImg } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import ModalConfirm from "./ModalConfirm";
+import "./customs.css";
 
 const endpoint = "http://localhost:8000/api";
 class CrearEdificio extends Component {
@@ -88,8 +91,8 @@ class CrearEdificio extends Component {
             validationErrors.bloque_seleccionado = "El bloque seleccionado debe ser un numero entre 1 y 99.";
         }
         
-        if (!imagen_edif.name) {
-            isValid = false;
+        if (imagen_edif.name) {
+            isValid = true;
             const extensiones = ["png", "PNG", "jpg", "jpeg"];
             let nombre_imagen = imagen_edif.name;
             const extension = nombre_imagen.substring(
@@ -115,7 +118,7 @@ class CrearEdificio extends Component {
             data.append("nombre_edificio", this.state.nombre_edificio);
             data.append("descripcion_edificio", this.state.descripcion_edificio);
             if(this.state.imagen_edif){
-                data.append("imagen_edificio", this.state.imagen_edificio);
+                data.append("imagen_edificio", this.state.imagen_edif);
             }
             data.append("cantidad_pisos", this.state.cantidad_pisos);
             data.append("bloque_id", this.state.bloque_seleccionado);

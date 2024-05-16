@@ -56,7 +56,7 @@ const ModalParqueo = (props) => {
 
     return (
         <Modal className="modalContainer" isOpen={isOpen} toggle={toggle} >
-            <ModalHeader toggle={toggle}></ModalHeader>
+            <ModalHeader toggle={toggle} className="modalTitle">Editar</ModalHeader>
             <ModalBody id="modalBodyParqueo">
                 <Form>
                     <Row>

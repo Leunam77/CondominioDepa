@@ -53,6 +53,7 @@ import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
+import Imprimir from "../notificaciones/pages/Imprimir";
 
 const appRoutes: RouteType[] = [
   {
@@ -342,6 +343,14 @@ const appRoutes: RouteType[] = [
         state: "notificacion.email",
         sidebarProps: {
           displayText: "Enviar email",
+        },
+      },
+      {
+        path: "/notifications/imprimir",
+        element: <Imprimir/>,
+        state: "notificacion.imprimir",
+        sidebarProps: {
+          displayText: "Imprimir Notificacion",
         },
       },
       {

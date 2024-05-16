@@ -104,6 +104,7 @@ class CrearEdificio extends Component {
                     "La imagen debe tener formato PNG, JPG o JPEG";
             } 
         }
+        
         this.setState({ errors: validationErrors });
         return isValid;
     }

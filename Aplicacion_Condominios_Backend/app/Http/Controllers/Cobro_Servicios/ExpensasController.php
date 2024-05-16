@@ -36,6 +36,7 @@ class ExpensasController extends Controller
         $expensa->servicio_pagar = $preaviso->servicio_pagar;
         $expensa->monto = $preaviso->monto;
         $expensa->id_propietarioPagar = $preaviso ->id_propietarioPagar;
+        $expensa->pagado = false;
 
         $expensa->save();
 
@@ -70,6 +71,7 @@ class ExpensasController extends Controller
         $expensa->descripcion_servicios = $request->descripcion_servicios;
         $expensa->servicio_pagar = $request->servicio_pagar;
         $expensa->monto = $request->monto;
+        $expensa->pagado = $preaviso->pagado;
 
         // Guardar los cambios en la base de datos
         $expensa->save();

@@ -55,6 +55,7 @@ import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
+import Multas from "../cobro_servicios/components/Multas.js";
 
 const appRoutes: RouteType[] = [
   {
@@ -209,6 +210,7 @@ const appRoutes: RouteType[] = [
         
         
       },
+     
       {
         path: "/cobros/pagar-reserva-area/:id",
         element: <FormularioPagoArea/>,

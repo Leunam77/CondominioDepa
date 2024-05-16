@@ -22,6 +22,7 @@ class CreateExpensasTable extends Migration
         $table->text('descripcion_servicios'); 
         $table->text('servicio_pagar'); 
         $table->decimal('monto', 10, 2);
+        $table->boolean('pagado')->nullable();
         $table->unsignedBigInteger('id_propietarioPagar'); // Cambiado a unsignedBigInteger
         $table->foreign('id_propietarioPagar')->references('id')->on('residentes')->onDelete('cascade'); // Definición de clave foránea
         $table->timestamps();

@@ -15,8 +15,8 @@ class CreateMultasTable extends Migration
     {
         Schema::create('multas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('expensa_id'); 
-            $table->foreign('expensa_id')->references('id')->on('expensas')->onDelete('cascade');
+            $table->unsignedBigInteger('preaviso_id'); 
+            $table->foreign('preaviso_id')->references('id')->on('preavisos')->onDelete('cascade');
             $table->string('descripcion');
             $table->decimal('monto', 8, 2); 
             $table->date('fecha');

@@ -180,9 +180,9 @@ Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
     Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
-    Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
-    Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
-    Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
+    //Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
+    //Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
+    //Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
 
 });
 Route::controller(ExpensasController::class)->group(function(){
@@ -195,8 +195,8 @@ Route::controller(ExpensasController::class)->group(function(){
 });
 
 Route::controller(MultasController::class)->group(function(){
-    Route::post('/agregar-multa', [MultasController::class, 'store']);
-    Route::get('/obtener-expensas', [MultasController::class, 'index']);
+    Route::post('/agregar-multita', [MultasController::class, 'guardoMulta']);
+    Route::get('/obtener-multa', [MultasController::class, 'index']);
     Route::get('/obtener-multa/{id}', [MultasController::class, 'show']);
     Route::put('/editar-multa/{id}', [MultasController::class, 'update']);
     Route::delete('/eliminar-multa/{id}', [MultasController::class, 'destroy']);

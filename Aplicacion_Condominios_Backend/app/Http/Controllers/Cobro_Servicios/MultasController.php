@@ -10,7 +10,7 @@ class MultasController extends Controller
 {
     public function index()
     {
-        $multas = MultasModel::all();
+        $multas = MultasModel::all()->toArray();
         
         return response()->json([
             'status' => 200,
@@ -18,18 +18,13 @@ class MultasController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function guardoMulta(Request $request)
     {
-        $request->validate([
-            'expensa_id' => 'required|exists:expensas,id',
-            'descripcion' => 'required|string',
-            'monto' => 'required|numeric',
-            'fecha' => 'required|date',
-        ]);
+     
 
         $multa = new MultasModel();
 
-        $multa->expensa_id = $request->expensa_id;
+        $multa->preaviso_id = $request->preaviso_id;
         $multa->descripcion = $request->descripcion;
         $multa->monto = $request->monto;
         $multa->fecha = $request->fecha;

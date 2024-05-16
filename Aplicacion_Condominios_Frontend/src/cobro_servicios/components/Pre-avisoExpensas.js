@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { FaFileAlt } from 'react-icons/fa';
 
 const GestionCobro = () => {
@@ -25,9 +26,8 @@ const GestionCobro = () => {
             });
     }, []);
 
-    const handleGenerarExpensa = () => {
-        // Esta función podría contener la lógica para generar la expensa
-        // Por ahora, no hace nada
+    const handleVerMultas = (idPreaviso) => {
+        window.location.href = `/cobros/multas/${idPreaviso}`;
     };
 
     return (
@@ -43,7 +43,8 @@ const GestionCobro = () => {
                         <th>Descripción de Servicios</th>
                         <th>Servicio a Pagar</th>
                         <th>Monto</th>
-                        <th>Generar Expensa</th> {/* Columna para el botón */}
+                        <th>Multas</th>
+                        <th>Generar expensa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,8 +58,8 @@ const GestionCobro = () => {
                             <td>{preaviso.servicio_pagar}</td>
                             <td>{preaviso.monto}</td>
                             <td>
-                                <button className="btn btn-primary" onClick={handleGenerarExpensa}>
-                                    Generar Expensa
+                                <button className="btn btn-primary" onClick={() => handleVerMultas(preaviso.id)}>
+                                    Ver multas
                                 </button>
                             </td>
                         </tr>

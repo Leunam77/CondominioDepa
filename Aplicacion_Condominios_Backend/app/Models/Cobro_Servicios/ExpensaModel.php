@@ -20,6 +20,7 @@ class ExpensaModel extends Model
         'descripcion_servicios',
         'servicio_pagar',
         'monto',
+        'pagado',
         'id_propietarioPagar'
     ];
 

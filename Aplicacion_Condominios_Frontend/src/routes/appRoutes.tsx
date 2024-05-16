@@ -348,14 +348,6 @@ const appRoutes: RouteType[] = [
         },
       },
       {
-        path: "/notifications/imprimir",
-        element: <Imprimir/>,
-        state: "notificacion.imprimir",
-        sidebarProps: {
-          displayText: "Imprimir Notificacion",
-        },
-      },
-      {
         path: "/notifications/send/telegram",
         element: <SendTelegramNotification />,
         state: "telegram.enviar",

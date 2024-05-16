@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Imprimir from "./Imprimir"; // Ajusta la ruta según la ubicación de tu componente Imprimir
+import Imprimir from "./Imprimir";
 
 export const NotificationsList = () => {
   const [notices, setNotices] = useState([]);

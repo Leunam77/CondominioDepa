@@ -17,19 +17,7 @@
 .a-center {
   align-items: center;
 }
-button {
-  width: 143px;
-  height: 39px;
-  background-color: transparent;
-  color: #233044;
-  font-size: 18px;
-  border-radius: 5px;
 
-  &:hover {
-    cursor: pointer;
-    background-color: #bbc1cc;
-  }
-}
 
 .c-dark-blue {
   color: #233044;

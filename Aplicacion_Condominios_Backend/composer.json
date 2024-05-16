@@ -11,8 +11,6 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-       
-        "league/csv": "^8.2.3",
         "skrtdev/novagram": "^1.10"
     },
     "require-dev": {

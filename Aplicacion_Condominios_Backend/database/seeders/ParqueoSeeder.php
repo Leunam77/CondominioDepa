@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\GestDepartamento\departamento;
-class DepartamentoSeeder extends Seeder
+use App\Models\GestDepartamento\Parqueo;
+class ParqueoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,6 @@ class DepartamentoSeeder extends Seeder
      */
     public function run()
     {
-        //
-        Departamento::factory()->withoutTimestamps()->count(5)->create();
+        Parqueo::factory()->count(5)->create();
     }
 }

@@ -9,6 +9,9 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Departamento\ResidenteController;
 use App\Http\Controllers\Departamento\ContratoController;
+use App\Http\Controllers\Departamento\VisitaController;
+use App\Http\Controllers\Departamento\ParqueoController;
+
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
@@ -54,7 +57,7 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
 
-
+    Route::get('/depart-disponible','getDepDisponible')->name('departamento.getDepDisponible');
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -108,6 +111,23 @@ Route::controller(ContratoController::class)->group(function(){
     Route::get('/contratoDep/{valorDepartamento}', 'buscarContratoPorDepartamento')->name('contrato.buscarContratoPorDepartamento');
     Route::get('/contratoDepS/{idDepartament}', 'getContratByDepShort')->name('contrato.getContratByDepShort');
     Route::put('/contratoNoVig/{id}/anularContrato','anularContrato')->name('contrato.anularContrato');
+});
+
+Route::controller(VisitaController::class)->group(function(){
+    Route::get('/visitas','index')->name('visita.index');
+    Route::get('/visita/{id}','show')->name('visita.show');
+    Route::post('/visita','store')->name('visita.store');
+    Route::put('/visitaDes/{id}/desactivar','desactivarVisita')->name('visita.desactivarVisita');
+    Route::delete('/visita/{id}','destroy')->name('visita.destroy');
+});
+
+Route::controller(ParqueoController::class)->group(function(){
+    Route::get('/parqueos','index')->name('parqueo.index');
+    Route::post('/parqueo','store')->name('parqueo.store');
+    Route::get('/parqueo/{id}','show')->name('parqueo.show');
+    Route::put('/parqueoupd/{id}','update')->name('parqueo.update');
+    Route::delete('/parqueo/{id}','destroy')->name('parqueo.destroy');
+    Route::get('/parqueo-by-departamento/{id}', 'getParqueosByDepartamento')->name('parqueo.getParqueosByDepartamento');
 });
 
 // EMPLEADOS

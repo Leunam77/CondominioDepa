@@ -30,8 +30,12 @@ import ContractRegister from "../empleados/pages/contract_register";
 import AssignContract from "../empleados/pages/assign_contract";
 import AssignTurn from "../empleados/pages/assign_turn";
 import TurnRegister from "../empleados/pages/turn_register";
-import TurnRegisterCleaning from "../empleados/pages/turn_register_cleaning";
 import MarcarHora from "../empleados/pages/marcar_hora";
+import ControlRetrasos from "../empleados/pages/retrasos/control_retrasos";
+import ControlFaltas from "../empleados/pages/faltas/control_faltas";
+import InformacionFalta from "../empleados/pages/faltas/informacion_falta";
+import InformacionRetraso from "../empleados/pages/retrasos/informacion_retraso";
+import EditarTurno from "../empleados/pages/turnos/editar_turno";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/dashboard/common-area/pages/create-page/CreatePage";
@@ -413,6 +417,24 @@ const appRoutes: RouteType[] = [
       },
 
       {
+        path: "/employees/control_retrasos",
+        element: <ControlRetrasos />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Control de retrasos",
+        },
+      },
+
+      {
+        path: "/employees/control_faltas",
+        element: <ControlFaltas />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Control de faltas",
+        },
+      },
+
+      {
         path: "/employees/employeeEdit",
         element: <EmployeeEdit />,
         state: "employee.analytics",
@@ -431,11 +453,23 @@ const appRoutes: RouteType[] = [
       },
 
       {
-        path: "/employees/turnRegisterCleaning",
-        element: <TurnRegisterCleaning/>,
+        path: "/employees/informacionFalta",
+        element: <InformacionFalta />,
         state: "employee.analytics",
       },
 
+      {
+        path: "/employees/informacionRetraso",
+        element: <InformacionRetraso />,
+        state: "employee.analytics",
+      },
+
+      {
+        path: "/employees/editarTurno",
+        element: <EditarTurno />,
+        state: "employee.analytics",
+      },
+      
     ],
   },
 ];

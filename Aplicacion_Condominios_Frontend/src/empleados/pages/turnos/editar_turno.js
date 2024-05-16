@@ -15,9 +15,10 @@ import {
 
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import '../css/contract_register_style.css'
+import '../../css/contract_register_style.css'
 const cookies = new Cookies();
-function TurnRegister() {
+
+function EditarTurno() {
 
     const empleado = cookies.get('empleado_seleccionado');
 
@@ -33,11 +34,34 @@ function TurnRegister() {
       Domingo: { hora1: "", hora2: "", checked: false },
     });
 
-    useEffect(()=>{
+    const [horariosAntiguos, setHorariosAntiguos] = useState({});
 
+    useEffect(()=>{
+        modificarHorarios()
     }, []);
 
     const [selectedHorario, setSelectedHorario] = useState("personalizado");
+
+    const modificarHorarios = () => {
+
+      let horarios_alt = {
+        Lunes: { hora1: "", hora2: "", checked: false },
+        Martes: { hora1: "", hora2: "", checked: false },
+        Miercoles: { hora1: "", hora2: "", checked: false },
+        Jueves: { hora1: "", hora2: "", checked: false },
+        Viernes: { hora1: "", hora2: "", checked: false },
+        Sabado: { hora1: "", hora2: "", checked: false },
+        Domingo: { hora1: "", hora2: "", checked: false },
+      };
+
+      for (let i = 0; i < empleado.working_hours.length; i++) {
+
+        horarios_alt[empleado.working_hours[i].dia] = { hora1: empleado.working_hours[i].hora_entrada, hora2: empleado.working_hours[i].hora_salida, checked: true }
+      }
+
+      setHorarios(horarios_alt);
+      setHorariosAntiguos(horarios_alt);
+    };
 
     const cambiarHorario = (dia) => {
       const checkBox = document.getElementById(dia);
@@ -166,6 +190,8 @@ function TurnRegister() {
 
     const handleSubmit =  async (e) => {
         e.preventDefault(); 
+        console.log(horarios);
+        console.log(horariosAntiguos);
         const validationErrors = {};
 
         for (let i = 0; i < dias.length; i++) {
@@ -184,6 +210,8 @@ function TurnRegister() {
 
         if (Object.keys(validationErrors).length === 0) {
 
+            /* 
+
           for (let i = 0; i < dias.length; i++) {
             if(horarios[dias[i]].hora1){
               const data = new FormData();
@@ -201,6 +229,7 @@ function TurnRegister() {
             }
           }
           window.location.href = "./assignTurn";
+          */
         }
     };
 
@@ -231,7 +260,7 @@ function TurnRegister() {
             <MDBCol lg="9" className="my-5">
               <MDBRow>
                 <MDBCol className="d-flex align-items-center justify-content-center">
-                  <h1 class="mb-4">Registro de turno</h1>
+                  <h1 className="mb-4">Edicion de turno</h1>
                 </MDBCol>
               </MDBRow>
 
@@ -371,7 +400,6 @@ function TurnRegister() {
                         {/* Horario de Limepieza */}
                         {empleado.contracts[0].area === "Limpieza" && (
                           <>
-
                             <MDBRadio
                               name="HorariosTrabajo"
                               id="inlineRadio3"
@@ -415,56 +443,58 @@ function TurnRegister() {
 
                     <MDBRow>
                       {dias.map((dia) => {
+
                         return (
                           <>
-                            <MDBRow className="justify-content-center align-items-center mb-2">
-                              <MDBCol md="2">
-                                <h5>{dia}</h5>
-                              </MDBCol>
+                              <MDBRow className="justify-content-center align-items-center mb-2">
+                                <MDBCol md="2">
+                                  <h5>{dia}</h5>
+                                </MDBCol>
 
-                              <MDBCol md="3" className="mb-2">
-                                <MDBInput
-                                  type="time"
-                                  id={"hora1" + dia}
-                                  name={dia}
-                                  onChange={(e) => cambiarHorarioInferior(e)}
-                                  disabled={!horarios[dia].checked}
-                                  value={horarios[dia].hora1}
-                                />
-                                {errors[dia + "_inferior"] && (
-                                  <span className="advertencia-creEve">
-                                    {errors[dia + "_inferior"]}
-                                  </span>
-                                )}
-                              </MDBCol>
+                                <MDBCol md="3" className="mb-2">
+                                  <MDBInput
+                                    type="time"
+                                    id={"hora1" + dia}
+                                    name={dia}
+                                    onChange={(e) => cambiarHorarioInferior(e)}
+                                    disabled={!horarios[dia].checked}
+                                    value={horarios[dia].hora1}
+                                  />
+                                  {errors[dia + "_inferior"] && (
+                                    <span className="advertencia-creEve">
+                                      {errors[dia + "_inferior"]}
+                                    </span>
+                                  )}
+                                </MDBCol>
 
-                              <MDBCol md="3" className="mb-2">
-                                <MDBInput
-                                  type="time"
-                                  id={"hora2" + dia}
-                                  name={dia}
-                                  onChange={(e) => cambiarHorarioSuperior(e)}
-                                  disabled={!horarios[dia].checked}
-                                  value={horarios[dia].hora2}
-                                />
-                                {errors[dia + "_superior"] && (
-                                  <span className="advertencia-creEve">
-                                    {errors[dia + "_superior"]}
-                                  </span>
-                                )}
-                              </MDBCol>
+                                <MDBCol md="3" className="mb-2">
+                                  <MDBInput
+                                    type="time"
+                                    id={"hora2" + dia}
+                                    name={dia}
+                                    onChange={(e) => cambiarHorarioSuperior(e)}
+                                    disabled={!horarios[dia].checked}
+                                    value={horarios[dia].hora2}
+                                  />
+                                  {errors[dia + "_superior"] && (
+                                    <span className="advertencia-creEve">
+                                      {errors[dia + "_superior"]}
+                                    </span>
+                                  )}
+                                </MDBCol>
 
-                              <MDBCol md="1">
-                                <input
-                                  type="checkbox"
-                                  id={dia}
-                                  name="vehicle1"
-                                  value="Bike"
-                                  onClick={() => cambiarHorario(dia)}
-                                  checked={horarios[dia].checked}
-                                />
-                              </MDBCol>
-                            </MDBRow>
+                                <MDBCol md="1">
+                                  <input
+                                    type="checkbox"
+                                    id={dia}
+                                    name="vehicle1"
+                                    value="Bike"
+                                    onClick={() => cambiarHorario(dia)}
+                                    checked={horarios[dia].checked}
+                                  />
+                                </MDBCol>
+                              </MDBRow>
+                            
                           </>
                         );
                       })}
@@ -499,4 +529,4 @@ function TurnRegister() {
     );
   }
   
-  export default TurnRegister;
+  export default EditarTurno;

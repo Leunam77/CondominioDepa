@@ -5,15 +5,18 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Cookies from 'universal-cookie';
-import '../css/contract_register_style.css'
+import '../../css/contract_register_style.css'
 import AddIcon from '@mui/icons-material/Add';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import ClearIcon from '@mui/icons-material/Clear';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+
 const cookies = new Cookies();
 
-function AssignTurn() {
+function ControlRetrasos() {
 
   const [empleados, setEmpleados] = useState([]);
   const [errors, setErrors] = useState({});
@@ -24,7 +27,7 @@ function AssignTurn() {
 
   const getEmpleados = async () => {
 
-    const respuesta = await axios.get(`http://127.0.0.1:8000/api/get_employee_with_contract`);
+    const respuesta = await axios.get(`http://127.0.0.1:8000/api/get_employee_with_contract`); //Aqui obtener los empleados con al menos un retraso
 
     console.log(respuesta.data.empleados)
 
@@ -39,12 +42,6 @@ function AssignTurn() {
     }
 
     setEmpleados(respuesta.data.empleados)
-  }
-
-  const asignarTurnos = (empleado)  => {
-
-    cookies.set("empleado_seleccionado", empleado, { path: "/" });
-    window.location.href = "./turnRegister";
   }
 
   const manejarBuscador = (e) => {
@@ -194,16 +191,18 @@ function AssignTurn() {
     document.querySelector("#segunda_fecha").value = '';
   }
 
-  const editarTurnoEmpleado = (empleado)  => {
+  const redirigirInformacionRetraso = (empleado)  => {
+
     cookies.set("empleado_seleccionado", empleado, { path: "/" });
-    window.location.href = "./editarTurno";
+    window.location.href = "./informacionRetraso";
+
   }
 
   return (
     <>
       <Row className="d-flex align-items-center justify-content-center">
         <Col className="d-flex align-items-center justify-content-center">
-          <h2>Asignacion de Turnos</h2>
+          <h2>Control de retrasos</h2>
         </Col>
       </Row>
 
@@ -305,9 +304,9 @@ function AssignTurn() {
             <tr>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Inicio de Contrato</th>
               <th>Area</th>
-              <th>Turnos</th>
+              <th>Fecha de retraso</th>
+              <th>Mas informacion</th>
             </tr>
           </thead>
           <tbody>
@@ -316,41 +315,27 @@ function AssignTurn() {
                 <tr className="empleado">
                   <td className="empleado_nombre">{empleado.nombre}</td>
                   <td>{empleado.apellido}</td>
-                  <td>{empleado.fecha_convertida}</td>
+                  <td className="empleado_area">
+                    {empleado.contracts[0].area}
+                  </td>
+                  <td>{empleado.fecha_convertida} /*Aqui fecha de retraso */</td>
                   <td
                     className="empleado_fecha_inicio"
                     style={{ display: "none" }}
                   >
-                    {empleado.contracts[0].fecha_inicio}
-                  </td>
-                  <td className="empleado_area">
-                    {empleado.contracts[0].area}
+                    {empleado.contracts[0].fecha_inicio} 
                   </td>
                   <td>
-                    {empleado.working_hours.length > 0 ? (
-                      <Button
-                        variant="info"
-                        onClick={() => editarTurnoEmpleado(empleado)}
-                        style={{
-                          backgroundColor: "#65B8A6",
-                          borderColor: "#65B8A6",
-                        }}
-                      >
-                        <ModeEditIcon />
-                      </Button>
-
-                    ) : (
-                      <Button
-                        variant="danger"
-                        onClick={() => asignarTurnos(empleado)}
-                        style={{
-                          backgroundColor: "#65B8A6",
-                          borderColor: "#65B8A6",
-                        }}
-                      >
-                        <AddIcon />
-                      </Button>
-                    )}
+                  <Button
+                      variant="info"
+                      onClick={() => redirigirInformacionRetraso(empleado)}
+                      style={{
+                        backgroundColor: "#65B8A6",
+                        borderColor: "#65B8A6",
+                      }}
+                    >
+                      <RemoveRedEyeIcon />
+                    </Button>
                   </td>
                 </tr>
               );
@@ -362,4 +347,4 @@ function AssignTurn() {
   );
 }
 
-export default AssignTurn;
+export default ControlRetrasos;

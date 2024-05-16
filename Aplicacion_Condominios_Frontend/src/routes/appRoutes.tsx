@@ -10,12 +10,18 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
-import Depa from "../departamento/components/MostrarDep.js";
-import EditarDep from "../departamento/components/EditarDep.js";
-import RegistrarResidente from "../departamento/components/CrearResidente";
+import Depa from "../departamento/components/MostrarDep.js"
+import EditarDep from "../departamento/components/EditarDep.js"
+import RegistrarResidente from "../departamento/components/CrearResidente"
 import CrearContrato from "../departamento/components/CrearContrato";
-import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
+import InfoDepartamento from "../departamento/components/InfoDepartamento";
+import GestionVisitas from "../departamento/components/GestionVisitas";
+import RegistrarVisita from "../departamento/components/RegistrarVisita";
+import EditarContrato from "../departamento/components/EditarContrato";
+import MostrarEdificio from "../departamento/components/MostrarEdificios";
+import RegistrarParqueo from "../departamento/components/RegistrarParqueo";
+import CrearEdificio from "../departamento/components/CrearEdificio";
 
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
 import PagoAreaComun from "../cobro_servicios/components/PagoAreaComun";
@@ -69,154 +75,101 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />,
+      icon: <ApartmentIcon />
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index",
+        state: "dashboard.index"
+      },
+      {
+        path: "/dashboard/crearEdificio",
+        element: <CrearEdificio />,
+        state: "dashboard.crearEdificio",
+        sidebarProps: {
+          displayText: "Crear Edificio"
+        },
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento",
+          displayText: "Crear Departamento"
+        },
+      },
+      {
+        path: "/dashboard/edificios",
+        element: <MostrarEdificio />,
+        state: "dashboard.edificios",
+        sidebarProps: {
+          displayText: "GestionarDepartamento"
         },
       },
       {
         path: "/dashboard/departamentos",
         element: <Depa />,
-        state: "dashboard.depa",
-        sidebarProps: {
-          displayText: "Gestionar Departamento",
-        },
+        state: "dashboard.departamentos",
       },
       {
         path: "/dashboard/RegResidente",
         element: <RegistrarResidente />,
-        state: "dashboard.depa",
+        state: "dashboard.regResidente",
         sidebarProps: {
-          displayText: "Registrar Residente",
+          displayText: "Registrar Residente"
         },
       },
       {
         path: "/dashboard/editarDepa",
         element: <EditarDep />,
-        state: "dashboard.depa",
+        state: "dashboard.editDepa",
       },
       {
         path: "/dashboard/crearContrato",
         element: <CrearContrato />,
-        state: "dashboard.depa",
+        state: "dashboard.crearContrato",
+      },
+      {
+        path: "/dashboard/editContrato",
+        element: <EditarContrato />,
+        state: "dashboard.editContrato",
       },
       {
         path: "/dashboard/infoDepartamento",
         element: <InfoDepartamento />,
-        state: "dashboard.depa",
+        state: "dashboard.infoDepartamento",
       },
       {
         path: "/dashboard/residentes",
         element: <MostrarResidentes />,
-        state: "dashboard.depa",
+        state: "dashboard.residentes",
         sidebarProps: {
-          displayText: "Residentes",
-        },
-      },
-      // {
-      //   path: "/dashboard/analytics",
-      //   element: <AnalyticsPage />,
-      //   state: "dashboard.analytics",
-      //   sidebarProps: {
-      //     displayText: "Habitaciones"
-      //   }
-      // },
-      // {
-      //   path: "/dashboard/saas",
-      //   element: <SaasPage />,
-      //   state: "dashboard.saas",
-      //   sidebarProps: {
-      //     displayText: "Parqueos"
-      //   }
-      // }
-    ],
-  },
-  {
-    path: "/cobros",
-    element: <CobrosLayout />,
-    state: "component",
-    sidebarProps: {
-      displayText: "Cobro por Servicios",
-      icon: <MonetizationOnIcon />,
-    },
-    child: [
-      {
-        path: "/cobros/pre-aviso",
-        element: <Cobros />,
-        state: "cobros.alert",
-        sidebarProps: {
-          displayText: "Generar pre-aviso",
+          displayText: "Residentes"
         },
       },
       {
-        path: "/cobros/pre-avisoExpensas",
-        element: <PreAvisoExpensas />,
-        state: "cobros.alertita",
+        path: "/dashboard/visitas",
+        element: <GestionVisitas />,
+        state: "dashboard.visitas",
         sidebarProps: {
-          displayText: "Pre-aviso de expensas",
+          displayText: "Visitas"
         },
       },
       {
-        path: "/cobros/agregar-equipo",
-        element: <AgregarEquipo />,
-        state: "component.button",
+        path: "/dashboard/registrarVisita",
+        element: <RegistrarVisita />,
+        state: "dashboard.registrarVisita",
+      },
+      {
+        path: "/dashboard/parqueo",
+        element: <RegistrarParqueo />,
+        state: "dashboard.parqueo",
         sidebarProps: {
-          displayText: "Agregar equipo dañado",
+          displayText: "Parqueo"
         },
       },
-      {
-        path: "/cobros/gestion-equipo",
-        element: <GestionEquipos />,
-        state: "cobros.alerta",
-        sidebarProps: {
-          displayText: "Gestion de equipos dañados",
-        },
-      },
-      {
-        path: "/cobros/edicion-equipo/:id",
-        element: <EditarEquipo />,
-        state: "cobros.editar-equipo",
-      },
-      {
-        path: "/cobros/generar-preaviso/:departamento_id",
-        element: <GenerarPreAviso />,
-        state: "cobros.generar-pre-aviso",
-        
-      },
-      {
-        path:"/cobros/pagar-reserva/",
-        element:<PagoAreaComun/>,
-        state: "cobros.pago-areacomun",
-        sidebarProps: {
-          displayText: "Pagar reserva",
-        },
-      },
-      {
-        path: "/cobros/pagar-reserva/:id",
-        element: <TablaReservas/>,
-        state: "cobros.tabla.reservas",
-        
-        
-      },
-      {
-        path: "/cobros/pagar-reserva-area/:id",
-        element: <FormularioPagoArea/>,
-        state: "cobros.formulario.pago",
-        
-        
-      },
-    ],
+    ]
   },
   {
     path: "/areas-comunes",

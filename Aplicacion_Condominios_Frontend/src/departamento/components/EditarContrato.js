@@ -11,26 +11,30 @@ import ModalConfirm from "./ModalConfirm";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import "./customs.css";
+import moment from 'moment';
 
 const endpoint = "http://localhost:8000/api";
 const endpointImg = 'http://localhost:8000';
 const cookies = new Cookies();
-class CrearContrato extends Component {
+class EditarContrato extends Component {
 
     async componentDidMount() {
-        const idDep = cookies.get('idDepa');
-        this.setState({ departamento_id: idDep });
-        console.log("id dep",idDep);
-
+        const idContrato = cookies.get('idContrato');
+        const response = await axios.post(`${endpoint}/residentes/actualizar-estado-contrato`);
+        console.log("id del contrato",idContrato);
         try {
-            //const response = await axios.post(`${endpoint}/residentes/actualizar-estado-contrato`);
-            const departamento = await axios.get(`${endpoint}/departamento/${idDep}`);
-            const depa = departamento.data
+            const contrato = await axios.get(`${endpoint}/contrato/${idContrato}`);
+            const contr = contrato.data
+            const res = await axios.get(`${endpoint}/residentes-by-contrato/${idContrato}`);
+            const residentes = res.data;
             this.setState({
-                departamento_id: idDep,
-                ofertado_venta: depa.ofertado_venta === 1 ? true : false,
-                ofertado_alquiler: depa.ofertado_alquiler === 1 ? true : false,
-                ofertado_anticretico: depa.ofertado_anticretico === 1 ? true : false,
+                fecha_inicio_contrato: moment(contr.fecha_inicio_contrato).format('YYYY-MM-DD'),
+                fecha_fin_contrato: moment(contr.fecha_fin_contrato).format('YYYY-MM-DD'),
+                precio_contrato: contr.precio_contrato,
+                tipo_contrato: contr.tipo_contrato,
+                vigente_contrato: contr.vigente_contrato,
+                departamento_id: contr.departamento_id,
+                residentesSeleccionados: residentes,
              })
 
         } catch (error) {
@@ -74,6 +78,7 @@ class CrearContrato extends Component {
     }
 
     agregarResidente = async (residente) => {
+        residente.tipo_residente = '';
         this.setState((prevState) => ({
             residentesSeleccionados: [...prevState.residentesSeleccionados, residente],
         }));
@@ -87,27 +92,6 @@ class CrearContrato extends Component {
             // Manejar el error según sea necesario
         }
 
-    };
-
-
-    handleInput = (e) => {
-        if (e.target.name === 'tipo_contrato') {
-            const isVenta = e.target.value === 'Venta';
-            this.setState({
-                [e.target.name]: e.target.value,
-                fecha_fin_contrato_disabled: isVenta,
-            });
-        } 
-        else if (e.target.name === 'fecha_fin_contrato' && e.target.value.trim() === '') {
-            this.setState({
-                [e.target.name]: null,
-            });
-        }else {
-            this.setState({
-                [e.target.name]: e.target.value,
-            });
-        }
-        
     };
 
     handleInputTipo = (e, index) => {
@@ -130,64 +114,14 @@ class CrearContrato extends Component {
             });
         } catch (error) {
             console.error('Error al actualizar el atributo:', error);
-            // Manejar el error según sea necesario
         }
         const nuevosResidentes = this.state.residentesSeleccionados.filter(residente => residente.id !== idResidente);
-
-        // Actualiza el estado con el nuevo array de residentes
         this.setState({ residentesSeleccionados: nuevosResidentes });
     }
 
     storeResident = async (e) => {
         e.preventDefault();
         const validationErrors = {};
-
-        if (!this.state.fecha_inicio_contrato) {
-            validationErrors.fecha_inicio_contrato = "Este campo es obligatorio";
-        } else {
-            let d2 = new Date(this.state.fecha_inicio_contrato);
-            d2.setDate(d2.getDate() + 1);
-            d2.setUTCHours(0, 0, 0, 0);
-
-            let date_Actual1 = new Date();
-            date_Actual1.setDate(date_Actual1.getDate() + 1);
-            date_Actual1.setUTCHours(0, 0, 0, 0);
-
-            let fecha1 = d2.getTime();
-            let fecha2 = date_Actual1.getTime();
-            if (fecha1 < fecha2) {
-                validationErrors.fecha_inicio_contrato = "Esta fecha no es válida";
-            }
-        }
-
-        if (!this.state.fecha_fin_contrato && !this.state.fecha_fin_contrato_disabled) {
-            validationErrors.fecha_fin_contrato = "Este campo es obligatorio";
-        } else if(!this.state.fecha_fin_contrato_disabled){
-            let d2 = new Date(this.state.fecha_fin_contrato);
-            d2.setDate(d2.getDate() + 1);
-            d2.setUTCHours(0, 0, 0, 0);
-
-            let date_Actual1 = new Date();
-            date_Actual1.setDate(date_Actual1.getDate() + 1);
-            date_Actual1.setUTCHours(0, 0, 0, 0);
-
-            let fecha1 = d2.getTime();
-            let fecha2 = date_Actual1.getTime();
-            if (fecha1 < fecha2) {
-                validationErrors.fecha_fin_contrato = "Esta fecha no es válida";
-            }
-        }
-        if (!this.state.precio_contrato) {
-            validationErrors.precio_contrato = "Este campo es obligatorio";
-        } else {
-            if (!/^(?!-)(?:[1-9]\d{2,5})$/.test(this.state.precio_contrato)) {
-                validationErrors.precio_contrato =
-                    "Ingrese un precio válido";
-            }
-        }
-        if (!this.state.tipo_contrato) {
-            validationErrors.tipo_contrato = "Debe seleccionar tipo de contrato";
-        }
 
         if (this.state.residentesSeleccionados.length === 0) {
             validationErrors.residentesSeleccionados = "Debe seleccionar al menos un residente";
@@ -204,43 +138,8 @@ class CrearContrato extends Component {
         this.setState({ errors: validationErrors });
 
         if (Object.keys(validationErrors).length === 0) {
-            const idDep = cookies.get('idDepa');
-
-            const contratoVentaExis = await axios.get(`${endpoint}/contratoDepS/${idDep}`);
-            const cve = contratoVentaExis.data;
-            if(cve && cve.contratos.length > 0 && this.state.tipo_contrato === "Venta"){
-                const residentesAntiguos = await axios.get(`${endpoint}/residentes-by-contrato/${cve.contratos[0].id}`);
-                const ra = residentesAntiguos.data;
-                for (const residente of ra) {
-                    await axios.put(`${endpoint}/residentes/${residente.id}/actualizarContrato`, {
-                        contrato_id: null,
-                        tipo_residente: "Ninguno",
-                    });
-                }
-                await axios.put(`${endpoint}/contratoNoVig/${cve.contratos[0].id}/anularContrato`,{
-                    vigente_contrato: false,
-                });
-            }
-            
-
-            const url = `${endpoint}/contrato`;
-            const data = new FormData();
-
-            data.append("fecha_inicio_contrato", this.state.fecha_inicio_contrato);
-            data.append("fecha_fin_contrato", this.state.fecha_fin_contrato);
-            data.append("precio_contrato", this.state.precio_contrato);
-            data.append("tipo_contrato", this.state.tipo_contrato);
-            data.append("vigente_contrato", this.state.vigente_contrato ? '1' : '0');
-            data.append("departamento_id", this.state.departamento_id);
-
-            const res = await axios.post(url, data);
-            const contratoId = res.data.contrato_id;
-        
-                await axios.put(`${endpoint}/departamentos/${idDep}/actualizarDisp`, {
-                    disponibilidad: 0,
-                });
-                cookies.remove('idDepa');
-        
+            const contratoId = cookies.get('idContrato');
+       
                 const residentes = this.state.residentesSeleccionados;
                 
                 console.log("lista de residentes",residentes);
@@ -272,7 +171,7 @@ class CrearContrato extends Component {
                 <Container className="custom-form">
                     <Row>
                         <Col sm={12}>
-                            <h2 className="text-center mb-5 titulosForms">Crear contrato</h2>
+                            <h2 className="text-center mb-5 titulosForms">Editar contrato</h2>
                             <form onSubmit={this.storeResident}>
                                 <FormGroup className="mb-4">
                                     <Row>
@@ -287,11 +186,10 @@ class CrearContrato extends Component {
                                                 className="customInput"
                                                 type="text"
                                                 name="precio_contrato"
-                                                placeholder="N° en $ entre 100 y 999999"
-                                                onChange={this.handleInput}
-                                                invalid={this.state.errors.precio_contrato ? true : false}
+                                                value={this.state.precio_contrato}
+                                                readOnly
+                                                disabled
                                             />
-                                            <FormFeedback>{this.state.errors.precio_contrato}</FormFeedback>
                                         </Col>
                                         <Col sm={6}>
 
@@ -301,20 +199,15 @@ class CrearContrato extends Component {
                                                 Tipo de contrato
                                             </Label>
                                             <Input
-                                                type="select"
+                                                type="text"
                                                 className="customInput"
                                                 name="tipo_contrato"
                                                 id="tipo_contrato"
-                                                onChange={this.handleInput}
-                                                invalid={this.state.errors.tipo_contrato ? true : false}
+                                                value={this.state.tipo_contrato}
+                                                readOnly
+                                                disabled
                                             >
-                                                <option disabled selected>{" "} Seleccione un tipo de contrato</option>
-                                                {this.state.ofertado_venta && <option value="Venta">Venta</option>}
-                                                {this.state.ofertado_alquiler && <option value="Alquiler">Alquiler</option>}
-                                                {this.state.ofertado_anticretico && <option value="Anticretico">Anticretico</option>}
-
                                             </Input>
-                                            <FormFeedback>{this.state.errors.tipo_contrato}</FormFeedback>
 
                                         </Col>
                                     </Row>
@@ -332,11 +225,10 @@ class CrearContrato extends Component {
                                                 className="customInput"
                                                 type="date"
                                                 name="fecha_inicio_contrato"
-                                                onChange={this.handleInput}
-                                                invalid={this.state.errors.fecha_inicio_contrato ? true : false}
-
+                                                value={this.state.fecha_inicio_contrato}
+                                                readOnly
+                                                disabled
                                             />
-                                            <FormFeedback>{this.state.errors.fecha_inicio_contrato}</FormFeedback>
                                         </Col>
                                         <Col sm={6}>
                                             <Label
@@ -349,11 +241,10 @@ class CrearContrato extends Component {
                                                 className="customInput"
                                                 type="date"
                                                 name="fecha_fin_contrato"
-                                                onChange={this.handleInput}
-                                                invalid={this.state.errors.fecha_fin_contrato && !this.state.fecha_fin_contrato_disabled ? true : false}
-                                                disabled={this.state.fecha_fin_contrato_disabled}
+                                                value={this.state.fecha_fin_contrato}
+                                                readOnly
+                                                disabled
                                             />
-                                            <FormFeedback>{this.state.errors.fecha_fin_contrato }</FormFeedback>
                                         </Col>
                                     </Row>
 
@@ -375,14 +266,17 @@ class CrearContrato extends Component {
                                                 </li>
                                             </Col>
                                             <Col sm={3}>
+                                                {console.log("residente",residente)}
+                                                {console.log("residente",residente.tipo_residente)}
                                                 <Input
                                                     type="select"
                                                     className="customInput"
                                                     name="tipo_residente"
                                                     id="tipo_residente"
+                                                    value={residente.tipo_residente}
                                                     onChange={(e) => this.handleInputTipo(e, index)}
                                                 >
-                                                    <option disabled selected>{" "}Tipo de residente</option>
+                                                    <option value="">Tipo de residente</option>
                                                     {this.state.tipo_contrato === "Venta" && <option value="Propietario">Propietario</option>}
                                                     {(this.state.tipo_contrato === "Alquiler" || this.state.tipo_contrato === "Anticretico") && <option value="Titular">Titular</option>}
                                                     <option value="Residente">Residente</option>
@@ -425,7 +319,7 @@ class CrearContrato extends Component {
                                     style={{ fontWeight: 'bold' }}
                                     onClick={this.toggleModalConfirm}
                                 >
-                                    Registrar
+                                    Guardar
                                 </Button>
                             </form>
                         </Col>
@@ -436,4 +330,4 @@ class CrearContrato extends Component {
         );
     }
 }
-export default CrearContrato;
+export default EditarContrato;

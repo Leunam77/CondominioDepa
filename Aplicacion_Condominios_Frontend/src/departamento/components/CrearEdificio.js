@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Form, FormGroup, Label, Input, CardImg, Container, Row } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, CardImg, Container, Row, Col } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
@@ -172,6 +172,41 @@ class CrearEdificio extends Component {
                         />
                         <span style={{ color: "red" }}>{this.state.errors.descripcion_edificio}</span>
                     </FormGroup>
+                    <Row className="mb-3 mt-1">
+                        <Col sm={6}>
+                        <FormGroup>
+                            <Label className="label-custom" for="cantidad_pisos">Cantidad de Pisos</Label>
+                            <Input 
+                                className="customInput" 
+                                type="number" 
+                                name="cantidad_pisos" 
+                                placeholder="Ingrese la cantidad de pisos"
+                                id="cantidad_pisos" 
+                                onChange={this.handleInput} 
+                            />
+                            <span style={{ color: "red" }}>{this.state.errors.cantidad_pisos}</span>
+                        </FormGroup>
+                        </Col>
+                        <Col sm={6}>
+                        <FormGroup>
+                            <Label className="label-custom" for="bloque_seleccionado">Bloque</Label>
+                            <Input 
+                                className="customInput" 
+                                type="select" 
+                                name="bloque_seleccionado" 
+                                placeholder="Selecione un bloque"
+                                id="bloque_seleccionado" 
+                                onChange={this.handleSelect}
+                            >
+                                <option value="">Seleccione un bloque</option>
+                                {this.state.bloques.map((bloque) => (
+                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                ))}
+                            </Input>
+                            <span style={{ color: "red" }}>{this.state.errors.bloque_seleccionado}</span>
+                        </FormGroup>
+                        </Col>
+                    </Row>
                     <FormGroup>
                         <Label className="label-custom" for="imagen_edificio">Imagen del Edificio</Label>
                         <Input 
@@ -196,35 +231,6 @@ class CrearEdificio extends Component {
                         {this.state.errors.imagen_edif && (
                             <div style={{ color: 'red', fontSize: '0.875rem' }}>{this.state.errors.imagen_edif}</div>
                         )}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label className="label-custom" for="cantidad_pisos">Cantidad de Pisos</Label>
-                        <Input 
-                            className="customInput" 
-                            type="number" 
-                            name="cantidad_pisos" 
-                            placeholder="Ingrese la cantidad de pisos"
-                            id="cantidad_pisos" 
-                            onChange={this.handleInput} 
-                        />
-                        <span style={{ color: "red" }}>{this.state.errors.cantidad_pisos}</span>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label className="label-custom" for="bloque_seleccionado">Bloque</Label>
-                        <Input 
-                            className="customInput" 
-                            type="select" 
-                            name="bloque_seleccionado" 
-                            placeholder="Selecione un bloque"
-                            id="bloque_seleccionado" 
-                            onChange={this.handleSelect}
-                        >
-                            <option value="">Seleccione un bloque</option>
-                            {this.state.bloques.map((bloque) => (
-                                <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
-                            ))}
-                        </Input>
-                        <span style={{ color: "red" }}>{this.state.errors.bloque_seleccionado}</span>
                     </FormGroup>
                     <Button className="custom-button mx-auto d-block" onClick={this.toggleModal}>Crear Edificio</Button>
                 </Form>

@@ -145,10 +145,12 @@ Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::c
 Route::get('/solicitudes-by-encargado/{id}', [RegistroSolicitudController::class,'getSolicitudByPersonalExterno']);
 
 Route::get('/insumo', [InsumoController::class,'getInsumo']);
+Route::get('/insumo/solicitud', [InsumoController::class,'getInsumoBySolicitud']);
 Route::get('/insumo/{id}', [InsumoController::class,'getInsumoId']);
 Route::post('/insumo/insert', [InsumoController::class,'insertInsumo']);
 Route::put('/insumo/update/{id}', [InsumoController::class,'updateInsumo']);
 Route::delete('/insumo/delete/{id}', [InsumoController::class,'deleteInsumo']);
+Route::delete('/insumo/delete/solicitud/{id}', [InsumoController::class,'deleteInsumoBySolicitud']);
 
 Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
 Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);

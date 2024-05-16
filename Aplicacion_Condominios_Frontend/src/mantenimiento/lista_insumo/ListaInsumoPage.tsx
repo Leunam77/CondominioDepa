@@ -19,7 +19,7 @@ const ListaInsumo: React.FC = () => {
         console.log("🚀 ~ cargarDatos ~ datosObtenidos:", datosObtenidos)
 
         const datosFiltered = datosObtenidos.filter(element => {
-            if(element.solicitud.encargado !== null){
+            if(element.encargado !== null){
                 return element;
             }
         })
@@ -69,13 +69,13 @@ const ListaInsumo: React.FC = () => {
                     {datos?.map((insumos) => (
                         <tr key={insumos.idInsumo}>
                             <td>{insumos.idSolicitud}</td>
-                            <td>{insumos.solicitud?.categoria.catnombre}</td>
-                            <td>{insumos.solicitud?.encargado}</td>
+                            <td>{insumos.catnombre}</td>
+                            <td>{insumos.encargado}</td>
                             <td className="ajustar__insu">
                                 <button type="button">
                                     <CreateOutlinedIcon fontSize="large" />
                                 </button>
-                                <button onClick={()=>handleDelete(insumos.idInsumo)} type="button">
+                                <button onClick={()=>handleDelete(insumos.idSolicitud)} type="button">
                                     <DeleteOutlinedIcon fontSize="large" />
                                 </button>
                             </td>

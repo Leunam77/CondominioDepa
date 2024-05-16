@@ -10,6 +10,8 @@ import api from "../api";
     created_at: any
     updated_at: any
     solicitud: Solicitud
+    catnombre: string
+    encargado: string
   }
 
   interface InsumoResponse {
@@ -65,7 +67,7 @@ import api from "../api";
 export const getAllInsumos = async (): Promise<Insumo[]>=>{
     try{
         const response = await api.get(
-                "/insumo"
+                "/insumo/solicitud"
         );
         return response.data;
     }catch(error){
@@ -79,7 +81,7 @@ export const getAllInsumos = async (): Promise<Insumo[]>=>{
 
 export const deleteInsumo = async(insumoId: number): Promise<boolean>=>{
   try {
-    await api.delete(`/insumo/delete/${insumoId}`);
+    await api.delete(`/insumo/delete/solicitud/${insumoId}`);
     return true;
   } catch (error) {
     return false;

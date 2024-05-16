@@ -8,10 +8,26 @@ use App\Models\Mantenimiento\Insumo;
 
 class InsumoController extends Controller
 {
+    public function getInsumoBySolicitud() {
+        $insumo = Insumo::with('solicitud.categoria')->get();
+        $groupedInsumos = $insumo->groupBy('idSolicitud');
+        $uniqueInsumos = $groupedInsumos->map(function ($group) {
+            $firstItem = $group->first(); 
+            return [
+                'idSolicitud' => $firstItem->idSolicitud,
+                'catnombre' => $firstItem->solicitud->categoria->catnombre,
+                'encargado' => $firstItem->solicitud->encargado,
+            ];
+        })->values();
+        
+        return response()->json($uniqueInsumos, 200);
+    }
+    
     public function getInsumo() {
         $insumo = Insumo::with('solicitud.categoria')->get();
         return response()->json($insumo, 200);
     }
+    
     
     public function getInsumoId($id) {
         $insumo = Insumo::find($id);
@@ -56,6 +72,7 @@ class InsumoController extends Controller
         return response()->json($response, $status);
     }
     
+    // Elimina por idInsumo
     public function deleteInsumo($id) {
         $insumo = Insumo::find($id); 
         
@@ -65,6 +82,22 @@ class InsumoController extends Controller
         } else {
             $insumo->delete();
             $response = ["message"=>"Registro eliminado"];
+            $status = 200;
+        }
+        
+        return response()->json($response, $status);
+    }
+
+    // Elimina por idSolicitud de la tabla insumo
+    public function deleteInsumobySolicitud($id) {
+        $deletedRows = Insumo::where('idSolicitud', $id);
+        
+        if ($deletedRows === 0) {
+            $response = ["message" => "Registro(s) no encontrado(s)"];
+            $status = 404;
+        } else {
+            $deletedRows->delete();
+            $response = ["message" => "Registro(s) eliminado(s)"];
             $status = 200;
         }
         

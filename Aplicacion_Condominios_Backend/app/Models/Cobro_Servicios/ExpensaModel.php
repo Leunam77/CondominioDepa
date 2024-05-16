@@ -10,7 +10,7 @@ class ExpensaModel extends Model
     use HasFactory;
     protected $table = 'expensas';
 
-    protected $fillable = [ 'departamento_id','propietario_pagar','fecha','descripcion_servicios','servicio_pagar','monto'];
+    protected $fillable = [ 'departamento_id','propietario_pagar','fecha','descripcion_servicios','servicio_pagar','monto','id_propietarioPagar'];
     public function departamento()
     {
         return $this->belongsTo(departamento::class, 'departamento_id');

@@ -22,6 +22,7 @@ class CreateExpensasTable extends Migration
             $table->text('descripcion_servicios'); 
             $table->text('servicio_pagar'); 
             $table->decimal('monto', 10, 2);
+            $table->unsignedInteger('id_propietarioPagar');
             $table->timestamps();
         });
     }

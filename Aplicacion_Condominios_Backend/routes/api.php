@@ -14,7 +14,6 @@ use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
 use App\Http\Controllers\Notificaciones\AvisosController;
-use App\Http\Controllers\Notificaciones\CorreoController;
 use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
@@ -195,8 +194,6 @@ Route::group(['prefix' =>  'v1'], function () {
     Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 });
 
-Route::post('/cobrar-servicio', [CorreoController::class, 'enviarCorreo']);
-
 Route::controller(TelegramNotificationController::class)->group(function() {
     Route::post('/telegram/notification', 'sendNoticeToOne');
     Route::post('/telegram/notifications', 'sendNoticeToMany');
@@ -211,4 +208,6 @@ Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]);
 Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
+
+
 

@@ -77,6 +77,7 @@ export default function RegistroInsumo() {
   }
 
   const allPersonalList = async (categoryId: string) => {
+    setSolicitudActual(0);
     const categoryIdNumber: number = parseInt(categoryId);
     const response = await getPersonalByCategory(categoryIdNumber);
     setPersonalList(response);
@@ -87,6 +88,7 @@ export default function RegistroInsumo() {
     const response = await getSolicitudByEncargadoId(encargadoIdInt);
     console.log("🚀 ~ allSolicitudList ~ response:", response)
     setSolicitudList(response);
+    setSolicitudActual(0);
   }
 
 
@@ -198,6 +200,7 @@ export default function RegistroInsumo() {
             <div className="col-8">
               <TextField
                 id="outlined-select-currency"
+                value={solicitudActual}
                 onChange={(event)=>handleChangeSolicitud(event.target.value)}
                 select                    
               >

@@ -25,6 +25,7 @@ interface SolicitudServicio {
 interface SolicitudServicioResponse {
   idRegistroSolicitud: number;
   idCategoria: number;
+  idPersonalExterno:number;
   idEstado: number;
   descripcion: string;
   nombrePropietario: string;
@@ -87,6 +88,7 @@ export const getSolicitudServicioById = async (
 export const getSolicitudByEncargadoId = async(encargadoId: number): Promise<SolicitudServicioResponse[]> =>{
   try {
     const response: AxiosResponse<SolicitudServicioResponse[]> = await api.get(`/solicitudes-by-encargado/${encargadoId}`);
+    console.log("🚀 ~ getSolicitudByEncargadoId ~ response.data:", response.data)
     return response.data;
   } catch (error) {
     return [];

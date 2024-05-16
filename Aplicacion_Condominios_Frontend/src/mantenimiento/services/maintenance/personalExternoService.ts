@@ -62,6 +62,7 @@ export const getPersonalById = async (
 export const getPersonalByCategory = async (categoryId : number): Promise<PersonalExternoResponse []> => {
   try {
     const response:AxiosResponse<PersonalExternoResponse[]> = await api.get(`/personal-externo-by-categoria/${categoryId}`);
+    //console.log("🚀 ~ getPersonalByCategory ~ response.data:", response.data)
     return response.data;
   } catch (error) {
     return [];

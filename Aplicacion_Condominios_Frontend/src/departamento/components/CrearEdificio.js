@@ -73,7 +73,7 @@ class CrearEdificio extends Component {
             validationErrors.descripcion_edificio = "La descripcion del edificio debe contener solo letras y numeros.";
         }
         
-        if (!cantidad_pisos.trim()) {
+        if (!cantidad_pisos) {
             isValid = false;
             validationErrors.cantidad_pisos = "Por favor ingrese la cantidad de pisos del edificio.";
         }else if( !/^[0-9]{1,2}$/.test(cantidad_pisos) ){

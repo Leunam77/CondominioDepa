@@ -26,6 +26,8 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
 
+use App\Http\Controllers\CorreoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -193,6 +195,9 @@ Route::group(['prefix' =>  'v1'], function () {
     Route::post('send', [AuthController::class, 'send']);
     Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 });
+
+//emails de preavisso
+Route::post('/cobrar-servicio', [CorreoController::class, 'enviarCorreo']);
 
 Route::controller(TelegramNotificationController::class)->group(function() {
     Route::post('/telegram/notification', 'sendNoticeToOne');

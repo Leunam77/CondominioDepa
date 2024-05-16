@@ -9,7 +9,6 @@ import { getPersonalByCategory } from "../services/maintenance/personalExternoSe
 import { getSolicitudByEncargadoId } from "../services/maintenance/solicitudMantenimientoService";
 import { createInsumo } from "../services/maintenance/insumosService";
 
- 
 interface Category {
   id: number;
   catnombre: string;
@@ -68,17 +67,17 @@ export default function RegistroInsumo() {
   const [nombreInsumo, setNombreInsumo] = useState<string>("");
   const [insumosList, setInsumosList] = useState<Insumo[]>([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     allCategories();
-  },[])
+  }, [])
 
   const allCategories = async () => {
     const response = await getAllCategories();
     setCategoryList(response);
   }
 
-  const allPersonalList = async(categoryId:string)=>{
-    const categoryIdNumber:number = parseInt(categoryId);
+  const allPersonalList = async (categoryId: string) => {
+    const categoryIdNumber: number = parseInt(categoryId);
     const response = await getPersonalByCategory(categoryIdNumber);
     setPersonalList(response);
   }
@@ -100,9 +99,9 @@ export default function RegistroInsumo() {
     }
   }
 
-  const handleDeleteItemInsumo = (idInsumo:number)=>{
+  const handleDeleteItemInsumo = (idInsumo: number) => {
     const newInsumosList = insumosList.filter(element => {
-      if(element.id !== idInsumo){
+      if (element.id !== idInsumo) {
         return element
       }
     })
@@ -145,12 +144,13 @@ export default function RegistroInsumo() {
 
   return (
     <>
+    <div className="content__insu">
       <div className="content__regisInsu">
         <h2 className="">Registrar Insumo</h2>
         <Box
           component="form"
           sx={{
-          "& .MuiTextField-root": { m: 0.8, width: "40ch", display: "flex" },
+            "& .MuiTextField-root": { m: 0.8, width: "42ch", display: "flex" },
           }}
           noValidate
         >
@@ -161,17 +161,17 @@ export default function RegistroInsumo() {
             <div className="col-8">
               <TextField
                 id="outlined-select-currency"
-                onChange={(event)=>allPersonalList(event.target.value)}
-                select                    
+                onChange={(event) => allPersonalList(event.target.value)}
+                select
               >
-                {categoryList.map((option)=>(
-                   <MenuItem key={option.id} value={option.id}>
-                   {option.catnombre}
-                 </MenuItem>
+                {categoryList.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.catnombre}
+                  </MenuItem>
                 ))}
 
-              </TextField> 
-            </div> 
+              </TextField>
+            </div>
           </div>
           <div className="row">
             <div className="col-4 align-right-inputss">
@@ -188,8 +188,8 @@ export default function RegistroInsumo() {
                    {option.nombre}
                   </MenuItem>
                 ))}
-                </TextField> 
-            </div> 
+              </TextField>
+            </div>
           </div>
           <div className="row">
             <div className="col-4 align-right-inputss">
@@ -209,62 +209,76 @@ export default function RegistroInsumo() {
                 </TextField> 
             </div> 
           </div>
-          
-          <div className="row my-3">             
-            <div className="col">
-              <TextField
-                required
-                id="outlined"
-                value={nombreInsumo}
-                onChange={(event) => setNombreInsumo(event.target.value)}
-                placeholder="Ingrese Nombre del Insumo"
-              /> 
-            </div>            
-            
 
-            <button 
-              className="col-2 btn btn-success m_personalizado"
-              type="button"
-              onClick={agregarInsumo}
-            >
-              <AddOutlinedIcon
-                fontSize="large"
-              />
-              <span className="aumentar__fontsize">Añadir</span>
-            </button>              
+          <div className="example">
+            <div></div>
+            <div className="subtitule">Agregar Insumo</div>
+            <div></div>
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Borrar</th>
-                <th>Insumo</th>
-              </tr>
-            </thead>
-            {insumosList.map(element => (
-              <tbody>        
-              <tr>
-                <td>
-                  <ClearOutlinedIcon
-                    className="c-dark-blue"
-                    fontSize="large"
-                    onClick={()=>handleDeleteItemInsumo(element.id)}
-                  />
-                </td>
-                <td>{element.nombreInsumo}</td>
-              </tr>        
-          </tbody>
-            ))}
-          </table>
-                      
-          <button 
-            className="block margin-x-auto"
-            onClick={handleRegisterInsumos}
-            type="button"
-          >
-          Guardar
-          </button>        
+          <div className="row__group2">
+
+
+
+            <div className="row__group">
+
+              <div className="row__input">
+                <TextField
+                  required
+                  id="outlined"
+                  value={nombreInsumo}
+                  onChange={(event) => setNombreInsumo(event.target.value)}
+                  placeholder="Ingrese Nombre del Insumo"
+                />
+              </div>
+
+
+              <button
+                className="col-2 btn btn-success m_personalizado"
+                type="button"
+                onClick={agregarInsumo}
+              >
+                <span className="aumentar__fontsize">Agregar</span>
+              </button>
+            </div>
+
+            <div className="table__container">
+              <table className="table table__space">
+                <thead>
+                  <tr >
+                    <th className="der">Insumo</th>
+                    <th className="izq">Borrar</th>
+
+                  </tr>
+                </thead>
+                {insumosList.map(element => (
+                  <tbody className="tbody__space">
+                    <tr className="tr__color">
+                      <td className="der">{element.nombreInsumo}</td>
+                      <td className="izq">
+                        <ClearOutlinedIcon
+                          className="c-dark-blue"
+                          fontSize="large"
+                          onClick={() => handleDeleteItemInsumo(element.id)}
+                        />
+                      </td>
+
+                    </tr>
+                  </tbody>
+                ))}
+              </table>
+              <button
+                className="block margin-x-auto"
+                type="button"
+                onClick={handleRegisterInsumos}
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+          
         </Box>
+      </div>
       </div>
     </>
   )

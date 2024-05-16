@@ -51,9 +51,8 @@ const ListaInsumo: React.FC = () => {
                     </div>
                     <div className="col button__insu">
                        
-                        <Link to="/changelog/registrar_insumo" className="block">
-                        Registrar
-
+                        <Link to="/changelog/registrar_insumo" className="block block__texto">                 
+                            Registrar
                         </Link>
                     </div>
                 </div>

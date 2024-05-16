@@ -55,11 +55,15 @@ import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
 import NotificationEmail from "../notificaciones/pages/NotificationEmail";
+
 import PersonalPage from "../mantenimiento/personal/PersonalPage";
 import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
+import RegistrarInsumoPage from "../mantenimiento/registro_insumo/RegistrarInsumoPage";
+import ListaInsumoPage from "../mantenimiento/lista_insumo/ListaInsumoPage";
+
 import TablaReservas from "../cobro_servicios/components/TablaReservas";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
@@ -240,7 +244,7 @@ const appRoutes: RouteType[] = [
         element: <Changelog />,
         state: "changelog.servicio",
         sidebarProps: {
-          displayText: "Registrar servicio",
+          displayText: "Administrar categoria ",
         },
       },
       {
@@ -248,7 +252,7 @@ const appRoutes: RouteType[] = [
         element: <PersonalPage />,
         state: "changelog.personal",
         sidebarProps: {
-          displayText: "Personal",
+          displayText: "Administrar personal",
         },
       },
       {
@@ -256,7 +260,7 @@ const appRoutes: RouteType[] = [
         element: <RegistroServicioPage />,
         state: "changelog.registro",
         sidebarProps: {
-          displayText: "Registro",
+          displayText: "Registrar solicitud ",
         },
       },
       {
@@ -264,7 +268,26 @@ const appRoutes: RouteType[] = [
         element: <ListaSolicitudServicioPage />,
         state: "changelog.solicitud",
         sidebarProps: {
-          displayText: "Solicitud",
+          displayText: "Solicitudes ",
+        },
+      },
+      //Registro insumo
+
+      {
+        path: "/changelog/registrar_insumo",
+        element: <RegistrarInsumoPage />,
+        state: "changelog.solicitud",
+        // sidebarProps: {
+        //   displayText: "Registrar insumo",
+        // },
+      },
+      //Lista Insumo
+      {
+        path: "/changelog/lista_insumo",
+        element: <ListaInsumoPage />,
+        state: "changelog.solicitud",
+        sidebarProps: {
+          displayText: "Insumos",
         },
       },
     ],

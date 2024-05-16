@@ -68,7 +68,7 @@ const ListaInsumo: React.FC = () => {
                     <tbody>
                     {datos?.map((insumos) => (
                         <tr key={insumos.idInsumo}>
-                            <td>{insumos.idSolicitud}</td>
+                            <td> Solicitud {insumos.idSolicitud}</td>
                             <td>{insumos.catnombre}</td>
                             <td>{insumos.encargado}</td>
                             <td className="ajustar__insu">

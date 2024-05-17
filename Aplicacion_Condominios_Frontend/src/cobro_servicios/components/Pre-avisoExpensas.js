@@ -156,7 +156,7 @@ const GestionCobro = () => {
                 correo,
                 monto,
                 mensaje,
-                multa: selectedPreaviso.montoMulta, // Añadir el monto de la multa aquí
+                multa: selectedPreaviso.montoMulta || 'Sin multas', // Añadir el monto de la multa aquí
                 selectedPreaviso
             });
             if (response.status === 200) {

@@ -3,7 +3,6 @@ import {
   CreateReservationDTO,
   Reservation,
 } from "../interfaces/reservations";
-import { Resident } from "../interfaces/residents";
 
 const API_URL = "http://localhost:8000/api/";
 

@@ -1,44 +1,65 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import "./report-Page.css";
 import { getResidents } from "../../../shared/services/resident.service";
+import { getEdificiosByBloqueId } from "../../../../../mantenimiento/services/departamento/edificioService";
+import { getEquipments } from "../../../equipment/services/equipment.service";
+import { Equipment } from "../../../equipment/interfaces/equipment";
 
 interface FormData {
   nombreUsuario: string;
   nombreArea: string;
   nombreProducto: string;
-  costo: string;
-  costoReponer: string;
-  cantidadActual: string;
-  cantidadReponer: string;
+  costo: number;
+  costoReponer: number;
+  cantidadActual: number;
+  cantidadReponer: number;
   situacion: string;
   informacionAdicional: string;
 }
-
-const equipmentData = [
-  {
-    id: "1",
-    nombre: "Mesa de Ping Pong",
-    cantidad: "4",
-    descripcion: "Mesa profesional para jugar ping pong.",
-    costo: 1600,
-    area_comun_id: 101,
-    area_comun_nombre: "Sala de Juegos",
-  },
-];
 
 function ReportPage() {
   const [formData, setFormData] = useState<FormData>({
     nombreUsuario: "",
     nombreArea: "",
     nombreProducto: "",
-    costo: "",
-    costoReponer: "",
-    cantidadActual: "",
-    cantidadReponer: "",
+    costo: 0,
+    costoReponer: 0,
+    cantidadActual: 0,
+    cantidadReponer: 0,
     situacion: "",
     informacionAdicional: "",
   });
   const [commonAreas, setCommonAreas] = useState<string[]>([]);
+  const [residents, setResidents] = useState<
+    {
+      id: number;
+      name: string;
+    }[]
+  >([]);
+  const [equipments, setEquipments] = useState<Equipment[]>([]);
+  const [currentEquipments, setCurrentEquipments] = useState<Equipment[]>([]);
+  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(
+    null
+  );
+
+  useEffect(() => {
+    const get = async () => {
+      const data = await getEquipments();
+      setEquipments(data);
+    };
+
+    get();
+  }, []);
+
+  useEffect(() => {
+    getResidents().then((data) => {
+      const res = data.map((resident) => ({
+        id: resident.id,
+        name: `${resident.nombre_residente} ${resident.apellidos_residente}`,
+      }));
+      setResidents(res);
+    });
+  }, []);
 
   useEffect(() => {
     const getCommonAreas = async () => {
@@ -66,27 +87,27 @@ function ReportPage() {
     }));
 
     if (name === "nombreProducto") {
-      const selectedEquipment = equipmentData.find(
-        (item) => item.nombre === value
-      );
-      if (selectedEquipment) {
+      const equipment = equipments.find((item) => item.nombre === value);
+
+      if (equipment) {
+        setSelectedEquipment(equipment);
         setFormData((prevState) => ({
           ...prevState,
-          costo: selectedEquipment.costo.toString(),
-          cantidadActual: selectedEquipment.cantidad,
+          costo: equipment.costo,
+          cantidadActual: equipment.cantidad,
         }));
       }
+    } else if (name === "nombreArea") {
+      const currentEquipments = equipments.filter(
+        (equipment) => equipment.area_comun_nombre === value
+      );
+      setCurrentEquipments(currentEquipments);
     }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formData);
   };
-
-  const selectedEquipment = equipmentData.find(
-    (item) => item.nombre === formData.nombreProducto
-  );
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
@@ -98,65 +119,105 @@ function ReportPage() {
           value={formData.nombreUsuario}
           onChange={handleChange}
         >
-          <option value="">Seleccione un residente</option>
-          {/* Agrega las opciones de residentes aquí */}
+          <option value="" disabled>
+            Seleccione un residente
+          </option>
+          {residents.map((resident) => {
+            return (
+              <option key={resident.id} value={resident.name}>
+                {resident.name}
+              </option>
+            );
+          })}
         </select>
       </div>
-      <div className="form-group">
-        <label>Nombre Área Común:</label>
-        <select
-          name="nombreArea"
-          value={formData.nombreArea}
-          onChange={handleChange}
-        >
-          <option value="">Seleccione un área común</option>
-          {commonAreas.map((area, index) => (
-            <option key={index} value={area}>
-              {area}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "1rem",
+        }}
+      >
+        <div className="form-group">
+          <label>Nombre Área Común:</label>
+          <select
+            name="nombreArea"
+            value={formData.nombreArea}
+            onChange={handleChange}
+          >
+            <option value="" disabled>
+              Seleccione un área común
             </option>
-          ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <label>Nombre Producto:</label>
-        <select
-          name="nombreProducto"
-          value={formData.nombreProducto}
-          onChange={handleChange}
-        >
-          <option value="">Seleccione un producto</option>
-          {equipmentData.map((item) => (
-            <option key={item.id} value={item.nombre}>
-              {item.nombre}
+            {commonAreas.map((area, index) => (
+              <option key={index} value={area}>
+                {area}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Nombre Producto:</label>
+          <select
+            name="nombreProducto"
+            value={formData.nombreProducto}
+            onChange={handleChange}
+          >
+            <option value="" disabled>
+              Seleccione un producto
             </option>
-          ))}
-        </select>
+            {currentEquipments.map((item) => (
+              <option key={item.id} value={item.nombre}>
+                {item.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      <div className="form-group">
-        <label>Costo:</label>
-        <p>{selectedEquipment ? selectedEquipment.costo : ""}</p>
+      <div className="form-group-in-line">
+        <label
+          style={{
+            fontWeight: "bold",
+          }}
+        >
+          Costo:
+        </label>
+        <span>{selectedEquipment ? selectedEquipment.costo : ""}</span>
       </div>
-      <div className="form-group">
-        <label>Costo a Reponer:</label>
-        <input
-          type="number"
-          name="costoReponer"
-          value={formData.costoReponer}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Cantidad Actual:</label>
+      <div className="form-group-in-line">
+        <label
+          style={{
+            fontWeight: "bold",
+          }}
+        >
+          Cantidad Actual:
+        </label>
         <p>{selectedEquipment ? selectedEquipment.cantidad : ""}</p>
       </div>
-      <div className="form-group">
-        <label>Cantidad a Reponer:</label>
-        <input
-          type="number"
-          name="cantidadReponer"
-          value={formData.cantidadReponer}
-          onChange={handleChange}
-        />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "1rem",
+        }}
+      >
+        <div className="form-group">
+          <label>Costo a Reponer:</label>
+          <input
+            type="number"
+            name="costoReponer"
+            value={formData.costoReponer}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Cantidad a Reponer:</label>
+          <input
+            type="number"
+            name="cantidadReponer"
+            value={formData.cantidadReponer}
+            onChange={handleChange}
+          />
+        </div>
       </div>
       <div className="form-group">
         <label>Situación:</label>

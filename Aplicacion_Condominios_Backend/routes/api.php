@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommonArea\CommonAreaController;
+use App\Http\Controllers\CommonArea\EquipmentController;
 use App\Http\Controllers\CommonArea\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
 use App\Http\Controllers\Cobro_Servicios\PreAvisoController;
+use App\Http\Controllers\Cobro_Servicios\ExpensasController;
+use App\Http\Controllers\Cobro_Servicios\MultasController;
 use App\Models\Mantenimiento\CategoriaServicio;
 use App\Http\Controllers\Mantenimiento\PersonalExternoController;
 use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
@@ -182,12 +185,13 @@ Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
+Route::apiResource('/equipments', EquipmentController::class);
 
-Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
-Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
-Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
-Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
-Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
+// Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
+// Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
+// Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
+// Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
+// Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
 
 Route::post('/report', [CommonAreaController::class, 'createReport']);
 
@@ -210,8 +214,26 @@ Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
     Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
+    Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
+    Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
+    Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
 
+});
+Route::controller(ExpensasController::class)->group(function(){
+    
+    Route::post('/generar-expensa', [ExpensasController::class, 'store']);
+    Route::get('/obtener-expensas', [ExpensasController::class, 'index']);
+    Route::get('/obtener-expensas/{id}', [ExpensasController::class, 'show']);
+    Route::put('/editar-expensas/{id}', [ExpensasController::class, 'update']);
+    Route::delete('/eliminar-expensas/{id}', [ExpensasController::class, 'destroy']);
+});
 
+Route::controller(MultasController::class)->group(function(){
+    Route::post('/agregar-multa', [MultasController::class, 'store']);
+    Route::get('/obtener-expensas', [MultasController::class, 'index']);
+    Route::get('/obtener-multa/{id}', [MultasController::class, 'show']);
+    Route::put('/editar-multa/{id}', [MultasController::class, 'update']);
+    Route::delete('/eliminar-multa/{id}', [MultasController::class, 'destroy']);
 });
 
 // Notificaciones

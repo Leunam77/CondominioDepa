@@ -1,3 +1,18 @@
+export interface ReportsResponseAPI {
+  data: ReportReadDTO[];
+}
+
+export interface ReportReadDTO {
+  id: number;
+  residentName: string;
+  CommonAreaName: string;
+  equipmentName: string;
+  cossToReplace: number;
+  countToReplace: number;
+  situation: string;
+  information: string;
+}
+
 export interface ReportFormData {
   idUsuario: number;
   idAreaComun: number;

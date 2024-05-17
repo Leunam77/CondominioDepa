@@ -10,6 +10,7 @@
     <ul>
         <li><strong>Titulo:</strong> {{ $titulo }}</li>
         <li><strong>Monto:</strong> ${{ $monto }}</li>
+        <li><strong>Multa:</strong> ${{ $multa }}</li>
         <p><strong>Mensaje adicional:</strong> {{ $mensajeAdicional }}</p>
     </ul>
     <p>Gracias por su atención.</p>

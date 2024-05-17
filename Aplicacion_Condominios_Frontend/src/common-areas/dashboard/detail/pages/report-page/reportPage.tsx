@@ -14,10 +14,17 @@ interface FormData {
     informacionAdicional: string;
 }
 
-interface Resident {
-    id: number;
-    name: string;
-}
+const equipmentData = [
+    {
+        id: "1",
+        nombre: "Mesa de Ping Pong",
+        cantidad: "4",
+        descripcion: "Mesa profesional para jugar ping pong.",
+        costo: 1600,
+        area_comun_id: 101,
+        area_comun_nombre: "Sala de Juegos"
+    }
+];
 
 function ReportPage() {
     const [formData, setFormData] = useState<FormData>({
@@ -32,6 +39,7 @@ function ReportPage() {
         informacionAdicional: ''
     });
     const [commonAreas, setCommonAreas] = useState<string[]>([]);
+
     useEffect(() => {
         const getCommonAreas = async () => {
             const response = await fetch("http://localhost:8000/api/common-areas");
@@ -45,17 +53,6 @@ function ReportPage() {
             setCommonAreas(commonAreasFormatted);
         });
     }, []);
-    const [residents, setResidents] = useState<Resident[]>([]);
-
-    useEffect(() => {
-        getResidents().then((data) => {
-            const res = data.map((resident: any) => ({
-                id: resident.id,
-                name: `${resident.nombre_residente}`,
-            }));
-            setResidents(res);
-        });
-    }, []);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
@@ -63,13 +60,25 @@ function ReportPage() {
             ...prevState,
             [name]: value
         }));
+
+        if (name === 'nombreProducto') {
+            const selectedEquipment = equipmentData.find(item => item.nombre === value);
+            if (selectedEquipment) {
+                setFormData(prevState => ({
+                    ...prevState,
+                    costo: selectedEquipment.costo.toString(),
+                    cantidadActual: selectedEquipment.cantidad
+                }));
+            }
+        }
     };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formData);
-
     };
+
+    const selectedEquipment = equipmentData.find(item => item.nombre === formData.nombreProducto);
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
@@ -78,33 +87,34 @@ function ReportPage() {
                 <label>Nombre Residente:</label>
                 <select name="nombreUsuario" value={formData.nombreUsuario} onChange={handleChange}>
                     <option value="">Seleccione un residente</option>
-                    {residents.map((residents) => (
-                        return(
-                    <option key={residents.id} value={residents.name}>
-                        {residents.name}
-                    </option>
-                    );
-                    ))}
+                    {/* Agrega las opciones de residentes aquí */}
+                </select>
             </div>
             <div className="form-group">
                 <label>Nombre Área Común:</label>
-                <select name="nombreArea" value={formData.nombreArea} onChange={handleChange} />
-                <option value="">Seleccione un área común</option>
-                {commonAreas.map((area, index) => {
-                    return (
+                <select name="nombreArea" value={formData.nombreArea} onChange={handleChange}>
+                    <option value="">Seleccione un área común</option>
+                    {commonAreas.map((area, index) => (
                         <option key={index} value={area}>
                             {area}
                         </option>
-                    );
-                })}
+                    ))}
+                </select>
             </div>
             <div className="form-group">
                 <label>Nombre Producto:</label>
-                <input type="text" name="nombreProducto" value={formData.nombreProducto} onChange={handleChange} />
+                <select name="nombreProducto" value={formData.nombreProducto} onChange={handleChange}>
+                    <option value="">Seleccione un producto</option>
+                    {equipmentData.map((item) => (
+                        <option key={item.id} value={item.nombre}>
+                            {item.nombre}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div className="form-group">
                 <label>Costo:</label>
-                <input type="number" name="costo" value={formData.costo} onChange={handleChange} />
+                <p>{selectedEquipment ? selectedEquipment.costo : ''}</p>
             </div>
             <div className="form-group">
                 <label>Costo a Reponer:</label>
@@ -112,7 +122,7 @@ function ReportPage() {
             </div>
             <div className="form-group">
                 <label>Cantidad Actual:</label>
-                <input type="number" name="cantidadActual" value={formData.cantidadActual} onChange={handleChange} />
+                <p>{selectedEquipment ? selectedEquipment.cantidad : ''}</p>
             </div>
             <div className="form-group">
                 <label>Cantidad a Reponer:</label>

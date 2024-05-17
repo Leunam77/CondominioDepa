@@ -50,6 +50,7 @@ import UpdatePage from "../common-areas/dashboard/common-area/pages/update-page/
 import CalendarPage from "../common-areas/dashboard/common-area/pages/calendar-page/CalendarPage";
 import ReservationPage from "../common-areas/dashboard/reservation/pages/create-page/CreatePage";
 import InventoryPage from "../common-areas/dashboard/equipment/pages/inventory-page/InventoryPage";
+import ReportPage from "../common-areas/dashboard/detail/pages/report-page/reportPage";
 import FormularioPagoArea from "../cobro_servicios/components/FormularioPagoArea";
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
@@ -225,6 +226,14 @@ const appRoutes: RouteType[] = [
         state: "areas-comunes.inventario",
         sidebarProps: {
           displayText: "Inventario",
+        },
+      },
+      {
+        path: "/areas-comunes/reporte",
+        element: <ReportPage />,
+        state: "areas-comunes.reporte",
+        sidebarProps: {
+          displayText: "Reporte",
         },
       },
     ],
@@ -445,7 +454,7 @@ const appRoutes: RouteType[] = [
         element: <EditarTurno />,
         state: "employee.analytics",
       },
-      
+
     ],
   },
 ];

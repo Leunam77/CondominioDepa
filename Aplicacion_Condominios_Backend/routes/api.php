@@ -183,12 +183,13 @@ Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'res
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
 
-
 Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
 Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
 Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
 Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
 Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
+
+Route::post('/report', [CommonAreaController::class, 'createReport']);
 
 
 //Cobro_Servicios

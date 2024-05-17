@@ -3,11 +3,13 @@ import "./report-Page.css";
 import { getResidents } from "../../../shared/services/resident.service";
 import { getEquipments } from "../../../equipment/services/equipment.service";
 import { Equipment } from "../../../equipment/interfaces/equipment";
+import Swal from "sweetalert2";
+import { CommonArea } from "../../../common-area/interfaces/common-areas";
 
 interface FormData {
-  nombreUsuario: string;
-  nombreArea: string;
-  nombreProducto: string;
+  idUsuario: number;
+  idAreaComun: number;
+  idProducto: number;
   costo: number;
   costoReponer: number;
   cantidadActual: number;
@@ -18,9 +20,9 @@ interface FormData {
 
 function ReportPage() {
   const [formData, setFormData] = useState<FormData>({
-    nombreUsuario: "",
-    nombreArea: "",
-    nombreProducto: "",
+    idUsuario: 0,
+    idAreaComun: 0,
+    idProducto: 0,
     costo: 0,
     costoReponer: 0,
     cantidadActual: 0,
@@ -28,7 +30,9 @@ function ReportPage() {
     situacion: "",
     informacionAdicional: "",
   });
-  const [commonAreas, setCommonAreas] = useState<string[]>([]);
+  const [commonAreas, setCommonAreas] = useState<
+    { id: number; name: string }[]
+  >([]);
   const [residents, setResidents] = useState<
     {
       id: number;
@@ -69,7 +73,10 @@ function ReportPage() {
     getCommonAreas().then((response) => {
       const { data } = response;
       const { commonAreas } = data;
-      const commonAreasFormatted = commonAreas.map((area: any) => area.name);
+      const commonAreasFormatted = commonAreas.map((area: CommonArea) => ({
+        id: area.id,
+        name: area.name,
+      }));
       setCommonAreas(commonAreasFormatted);
     });
   }, []);
@@ -86,7 +93,9 @@ function ReportPage() {
     }));
 
     if (name === "nombreProducto") {
-      const equipment = equipments.find((item) => item.nombre === value);
+      const equipment = equipments.find(
+        (item) => item.id === parseInt(value, 10)
+      );
 
       if (equipment) {
         setSelectedEquipment(equipment);
@@ -97,15 +106,40 @@ function ReportPage() {
         }));
       }
     } else if (name === "nombreArea") {
+      const nameCommonArea = commonAreas.find(
+        (commonArea) => commonArea.id === parseInt(value, 10)
+      )?.name;
       const currentEquipments = equipments.filter(
-        (equipment) => equipment.area_comun_nombre === value
+        (equipment) => equipment.area_comun_nombre === nameCommonArea
       );
+      setSelectedEquipment(null);
       setCurrentEquipments(currentEquipments);
     }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    const element = Object.fromEntries(formData.entries());
+    console.log(element);
+    if (
+      !(
+        element.cantidadReponer ||
+        element.costoReponer ||
+        element.informacionAdicional ||
+        element.idAreaComun ||
+        element.idProducto ||
+        element.idUsuario ||
+        element.situacion
+      )
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Todos los datos son requeridos",
+      });
+      return;
+    }
   };
 
   return (
@@ -115,15 +149,15 @@ function ReportPage() {
         <label>Nombre Residente:</label>
         <select
           name="nombreUsuario"
-          value={formData.nombreUsuario}
+          value={formData.idUsuario}
           onChange={handleChange}
         >
-          <option value="" disabled>
+          <option value={-1} disabled>
             Seleccione un residente
           </option>
           {residents.map((resident) => {
             return (
-              <option key={resident.id} value={resident.name}>
+              <option key={resident.id} value={resident.id}>
                 {resident.name}
               </option>
             );
@@ -141,15 +175,15 @@ function ReportPage() {
           <label>Nombre Área Común:</label>
           <select
             name="nombreArea"
-            value={formData.nombreArea}
+            value={formData.idAreaComun}
             onChange={handleChange}
           >
-            <option value="" disabled>
+            <option value={-1} disabled>
               Seleccione un área común
             </option>
             {commonAreas.map((area, index) => (
-              <option key={index} value={area}>
-                {area}
+              <option key={index} value={area.id}>
+                {area.name}
               </option>
             ))}
           </select>
@@ -158,14 +192,14 @@ function ReportPage() {
           <label>Nombre Producto:</label>
           <select
             name="nombreProducto"
-            value={formData.nombreProducto}
+            value={formData.idProducto}
             onChange={handleChange}
           >
-            <option value="" disabled>
+            <option value={-1} disabled>
               Seleccione un producto
             </option>
             {currentEquipments.map((item) => (
-              <option key={item.id} value={item.nombre}>
+              <option key={item.id} value={item.id}>
                 {item.nombre}
               </option>
             ))}

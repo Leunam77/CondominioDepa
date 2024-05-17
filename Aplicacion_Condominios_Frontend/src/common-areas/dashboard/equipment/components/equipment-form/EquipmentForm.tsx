@@ -99,7 +99,6 @@ export const EquipmentForm: React.FC<FormElementProps> = ({
           console.log("Error", error);
         });
     } else {
-      console.log(element);
       fetch("http://localhost:8000/api/equipments", {
         method: "POST",
         headers: {

@@ -14,6 +14,7 @@ class ContactanosMailable extends Mailable
 
     public $titulo;
     public $monto;
+    public $multa;
     public $mensajeAdicional;
 
     /**
@@ -21,10 +22,11 @@ class ContactanosMailable extends Mailable
      *
      * @return void
      */
-    public function __construct($titulo, $monto, $mensajeAdicional) // Modify the constructor to accept the new parameter
+    public function __construct($titulo, $monto, $multa , $mensajeAdicional) // Modify the constructor to accept the new parameter
     {
         $this->titulo = $titulo;
         $this->monto = $monto;
+        $this->multa = $multa;
         $this->mensajeAdicional = $mensajeAdicional; // Assign the new parameter
     }
 

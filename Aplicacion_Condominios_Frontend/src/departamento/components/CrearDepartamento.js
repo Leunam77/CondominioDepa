@@ -6,7 +6,6 @@ import {
 } from "reactstrap";
 import ModalConfirm from "./ModalConfirm";
 import "./customs.css";
-import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";
 class CrearDepartamento extends Component {
@@ -253,7 +252,7 @@ class CrearDepartamento extends Component {
     };
 
     render() {
-        const { numeroPisos, pisoSeleccionado } = this.state;
+        const { numeroPisos,} = this.state;
         const pisosOptions = [];
 
         for (let i = 1; i <= numeroPisos; i++) {

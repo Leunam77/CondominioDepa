@@ -4,7 +4,7 @@ import './customs.css';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, CardImg, CardBody, Row, Col, Container, Label, CardText, Input, InputGroup, InputGroupText, Button } from 'reactstrap';
+import { Card, CardImg, CardBody, Row, Col, Container, Label, CardText, Input, InputGroup } from 'reactstrap';
 
 
 const endpoint = 'http://localhost:8000/api';
@@ -82,6 +82,7 @@ const MostrarResidentes = () => {
                         } else if (residente.nombre_residente.toLowerCase().includes(busqueda.toLowerCase()) || residente.apellidos_residente.toLowerCase().includes(busqueda.toLowerCase()) || residente.cedula_residente.toLowerCase().includes(busqueda.toLowerCase())) {
                             return residente;
                         }
+                        return false;
                     }).map((residente) => {
                             let contrato = contratos[residente.contrato_id];
                             let departamento = "Niguno";

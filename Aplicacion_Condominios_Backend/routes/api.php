@@ -9,6 +9,9 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Departamento\ResidenteController;
 use App\Http\Controllers\Departamento\ContratoController;
+use App\Http\Controllers\Departamento\VisitaController;
+use App\Http\Controllers\Departamento\ParqueoController;
+
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
@@ -19,6 +22,8 @@ use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
 use App\Http\Controllers\Cobro_Servicios\PreAvisoController;
+use App\Http\Controllers\Cobro_Servicios\ExpensasController;
+use App\Http\Controllers\Cobro_Servicios\MultasController;
 use App\Models\Mantenimiento\CategoriaServicio;
 use App\Http\Controllers\Mantenimiento\PersonalExternoController;
 use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
@@ -26,6 +31,7 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
+use App\Http\Controllers\Mantenimiento\InsumoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +61,7 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
 
-
+    Route::get('/depart-disponible','getDepDisponible')->name('departamento.getDepDisponible');
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -111,6 +117,23 @@ Route::controller(ContratoController::class)->group(function(){
     Route::put('/contratoNoVig/{id}/anularContrato','anularContrato')->name('contrato.anularContrato');
 });
 
+Route::controller(VisitaController::class)->group(function(){
+    Route::get('/visitas','index')->name('visita.index');
+    Route::get('/visita/{id}','show')->name('visita.show');
+    Route::post('/visita','store')->name('visita.store');
+    Route::put('/visitaDes/{id}/desactivar','desactivarVisita')->name('visita.desactivarVisita');
+    Route::delete('/visita/{id}','destroy')->name('visita.destroy');
+});
+
+Route::controller(ParqueoController::class)->group(function(){
+    Route::get('/parqueos','index')->name('parqueo.index');
+    Route::post('/parqueo','store')->name('parqueo.store');
+    Route::get('/parqueo/{id}','show')->name('parqueo.show');
+    Route::put('/parqueoupd/{id}','update')->name('parqueo.update');
+    Route::delete('/parqueo/{id}','destroy')->name('parqueo.destroy');
+    Route::get('/parqueo-by-departamento/{id}', 'getParqueosByDepartamento')->name('parqueo.getParqueosByDepartamento');
+});
+
 // EMPLEADOS
 Route::post('/add_employee', [EmployeeController::class, 'store']);
 Route::get('/get_all_employees', [EmployeeController::class, 'getAll']);
@@ -138,12 +161,22 @@ Route::get('/personal-externo/{id}', [PersonalExternoController::class,'getPerso
 Route::post('/personal-externo/insert', [PersonalExternoController::class,'insertPersonalExterno']);
 Route::put('/personal-externo/update/{id}', [PersonalExternoController::class,'updatePersonalExterno']);
 Route::delete('/personal-externo/delete/{id}', [PersonalExternoController::class,'deletePersonalExterno']);
+Route::get('/personal-externo-by-categoria/{id}', [PersonalExternoController::class,'getPersonalExternoByCategoria']);
 
 Route::get('/registro-solicitud', [RegistroSolicitudController::class,'getRegistroSolicitud']);
 Route::get('/registro-solicitud/{id}', [RegistroSolicitudController::class,'getRegistroSolicitudId']);
 Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'insertRegistroSolicitud']);
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
+Route::get('/solicitudes-by-encargado/{id}', [RegistroSolicitudController::class,'getSolicitudByPersonalExterno']);
+
+Route::get('/insumo', [InsumoController::class,'getInsumo']);
+Route::get('/insumo/solicitud', [InsumoController::class,'getInsumoBySolicitud']);
+Route::get('/insumo/{id}', [InsumoController::class,'getInsumoId']);
+Route::post('/insumo/insert', [InsumoController::class,'insertInsumo']);
+Route::put('/insumo/update/{id}', [InsumoController::class,'updateInsumo']);
+Route::delete('/insumo/delete/{id}', [InsumoController::class,'deleteInsumo']);
+Route::delete('/insumo/delete/solicitud/{id}', [InsumoController::class,'deleteInsumoBySolicitud']);
 
 Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
 Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);
@@ -179,7 +212,31 @@ Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-departamentos', [PreAvisoController::class, 'obtenerNombresDepartamentos']);
     Route::post('/generar-preaviso', [PreAvisoController::class, 'store']);
     Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
+    //Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
+    //Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
+    //Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
 
+});
+Route::controller(ExpensasController::class)->group(function(){
+    Route::put('/expensas/{id}/pagarExpensa', [ExpensasController::class, 'pagar']);
+
+    Route::post('/generar-expensa', [ExpensasController::class, 'store']);
+    Route::get('/obtener-expensas', [ExpensasController::class, 'index']);
+    Route::get('/obtener-expensas/{id}', [ExpensasController::class, 'show']);
+    Route::put('/editar-expensas/{id}', [ExpensasController::class, 'update']);
+    Route::delete('/eliminar-expensas/{id}', [ExpensasController::class, 'destroy']);
+});
+
+Route::controller(MultasController::class)->group(function(){
+    Route::post('/agregar-multita', [MultasController::class, 'guardoMulta']);
+    Route::get('/obtener-multa', [MultasController::class, 'index']);
+    Route::get('/PreAvisoMulta/{id}', [MultasController::class, 'show']);
+    Route::put('/editar-multa/{id}', [MultasController::class, 'update']);
+    Route::delete('/eliminar-multa/{id}', [MultasController::class, 'destroy']);
+    Route::put('/actualizar-monto-preaviso/{id}',[MultasController::class,'actualizarMonto']);
+    Route::get('/PreAvisoMulta', [MultasController::class, 'obtenerPreAvisosConMultas']);
+    Route::get('/PreAvisoSinMulta', [MultasController::class, 'obtenerPreAvisosSinMultas']);
+    Route::get('/obtener-multas-preaviso/{id}', [MultasController::class, 'obtenerMultasPorPreaviso']);
 
 });
 

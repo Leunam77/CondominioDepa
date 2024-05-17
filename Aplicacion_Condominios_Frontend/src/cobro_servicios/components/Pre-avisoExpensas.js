@@ -1,105 +1,147 @@
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import { FaEye, FaPen } from 'react-icons/fa';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 const GestionCobro = () => {
     const endpoint = "http://localhost:8000/api";
-    const [preavisos, setPreavisos] = useState([]);
-    const [residentes, setResidentes] = useState({});
-    const [titulo, setTitulo] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [monto, setMonto] = useState('');
-    const [mensaje, setMensaje] = useState('');
-    const [error, setError] = useState(null);
-    const [residents, setResidents] = useState([]);
-    const [selectedResident, setSelectedResident] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [serverResponse, setServerResponse] = useState('');
+    const [preavisosConMultas, setPreavisosConMultas] = useState([]);
+    const [preavisosSinMultas, setPreavisosSinMultas] = useState([]);
+    const [generarExpensaHabilitado, setGenerarExpensaHabilitado] = useState(true); // Estado para controlar la habilitación del botón
 
     useEffect(() => {
-        fetch(`${endpoint}/obtener-preavisos`)
-            .then(response => response.json())
-            .then(data => {
-                setPreavisos(data.preAvisos);
-            })
-            .catch(error => {
-                console.error('Error fetching preavisos:', error);
-            });
+        const obtenerPreavisosConMultas = async () => {
+            try {
+                const response = await fetch(`${endpoint}/PreAvisoMulta`);
+                const data = await response.json();
+                setPreavisosConMultas(data.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-        fetch(`${endpoint}/residentes`)
-            .then(response => response.json())
-            .then(data => {
-                const residentesData = {};
-                data.forEach(residente => {
-                    residentesData[residente.id] = residente;
-                });
-                setResidentes(residentesData);
-            })
-            .catch(error => {
-                console.error('Error fetching residentes:', error);
-            });
-
-        fetchResidents();
+        obtenerPreavisosConMultas();
     }, []);
 
-    const fetchResidents = async () => {
+    useEffect(() => {
+        const obtenerPreavisosSinMultas = async () => {
+            try {
+                const response = await fetch(`${endpoint}/PreAvisoSinMulta`);
+                const data = await response.json();
+                setPreavisosSinMultas(data.data);
+                console.log(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        obtenerPreavisosSinMultas(); 
+    }, []);
+
+    const handleVerMultas = (idPreaviso) => {
+            window.location.href = `/cobros/multas/${idPreaviso}`;
+      
+    };
+
+    const calcularMontoTotal = (montoOriginal, multas) => {
+        const montoMultaTotal = multas.reduce((total, multa) => total + parseFloat(multa.monto), 0);
+        return parseFloat(montoOriginal) - montoMultaTotal;
+    };
+
+    const handleGenerarExpensa = async (preaviso_id) => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/residentes');
-            setResidents(response.data);
+            setGenerarExpensaHabilitado(false); // Deshabilitar el botón antes de enviar la solicitud
+
+            const response = await axios.post(`${endpoint}/generar-expensa`, { preaviso_id });
+            
+            if (response.status === 200) {
+                console.log('Expensa generada con éxito');
+                console.log(response);
+                // Mostrar la alerta de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Expensa generada con éxito',
+                    text: 'La expensa ha sido generada exitosamente.',
+                }).then(() => {
+                    setGenerarExpensaHabilitado(true); // Habilitar el botón después de cerrar la alerta
+                });
+            } else {
+                console.error('Error al generar la expensa:', response.statusText);
+                // Mostrar una alerta de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al generar la expensa',
+                    text: response.statusText,
+                }).then(() => {
+                    setGenerarExpensaHabilitado(true); 
+                    window.location.href = `/cobros/expensas`;
+                    // Habilitar el botón después de cerrar la alerta
+                });
+            }
         } catch (error) {
-            console.error(error);
-            alert('Failed to fetch residents.');
-        }
-    };
-
-    const getEmailFromResidenteId = (residenteId) => {
-        const residente = residentes[residenteId];
-        return residente ? residente.email_residente : '';
-    };
-
-    const handleGenerarExpensa = () => {
-        // Lógica para generar la expensa
-    };
-
-    const handleToggleCobroModal = (preaviso) => {
-        setTitulo(`Servicio a pagar: ${preaviso.servicio_pagar}`);
-        setCorreo(getEmailFromResidenteId(preaviso.id_propietarioPagar));
-        setMonto(preaviso.monto);
-        setMensaje(`Descripción de Servicios: ${preaviso.descripcion_servicios}`);
-        setIsModalOpen(!isModalOpen);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        try {
-            const response = await axios.post('http://127.0.0.1:8000/api/cobrar-servicio', {
-                titulo,
-                correo,
-                monto,
-                mensaje,
-                selectedResident
+            console.error('Error al generar la expensa:', error);
+            // Mostrar una alerta de error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al generar la expensa',
+                text: 'Hubo un error al generar la expensa. Por favor, inténtalo de nuevo más tarde.',
+            }).then(() => {
+                setGenerarExpensaHabilitado(true); // Habilitar el botón después de cerrar la alerta
             });
-            setServerResponse(response.data.message);
-            setError(null);
-            setMensaje('');
-            setIsModalOpen(false);
-            toast.success('Email enviado correctamente');
-        } catch (error) {
-            setError('Ocurrió un error al procesar el pago.');
         }
     };
 
     return (
         <div className="container">
-            <h2>Pre-Aviso de Expensas</h2>
+            <style>
+                {`.monto-rojo {
+                    color: red;
+                }`}
+            </style>
+            <h2>Pre-aviso de expensas con multas</h2>
             <table className="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Id pre aviso</th>
+                        <th>Departamento</th>
+                        <th>Propietario a Pagar</th>
+                        <th>Fecha</th>
+                        <th>Descripción de Servicios</th>
+                        <th>Servicio a Pagar</th>
+                        <th>Monto Total</th>
+                        <th>Monto Multa</th>
+                        <th>Monto Original</th>
+                        <th>Multas</th>
+                        <th>Generar expensa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {preavisosConMultas.map(preaviso => (
+                        <tr key={preaviso.id}>
+                            <td>{preaviso.id}</td>
+                            <td>{preaviso.departamento_id}</td>
+                            <td>{preaviso.propietario_pagar}</td>
+                            <td>{preaviso.fecha}</td>
+                            <td>{preaviso.descripcion_servicios}</td>
+                            <td>{preaviso.servicio_pagar}</td>
+                            <td>{preaviso.monto}</td>
+                            <td>{preaviso.multas.map(multa => parseFloat(multa.monto)).reduce((total, monto) => total + monto, 0)}</td>
+                            <td>{calcularMontoTotal(preaviso.monto, preaviso.multas)}</td>
+                            <td style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => handleVerMultas(preaviso.id)}>
+                                <FaEye />
+                            </td>
+                            <td style={{ textAlign: 'center', cursor: 'pointer' }}>
+                                <FaPen onClick={() => handleGenerarExpensa(preaviso.id)} disabled={!generarExpensaHabilitado} />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <h2> Pre-aviso de expensas sin multas</h2>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>id preaviso</th>
                         <th>Departamento</th>
                         <th>Propietario a Pagar</th>
                         <th>Fecha</th>
@@ -107,23 +149,20 @@ const GestionCobro = () => {
                         <th>Servicio a Pagar</th>
                         <th>Monto</th>
                         <th>Generar Expensa</th>
-                        <th>Enviar Correo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {preavisos.map(preaviso => (
+                    {preavisosSinMultas.map(preaviso => (
                         <tr key={preaviso.id}>
                             <td>{preaviso.id}</td>
-                            <td>{preaviso.departamento.nombre_departamento}</td>
+                            <td>{preaviso.departamento_id}</td>
                             <td>{preaviso.propietario_pagar}</td>
                             <td>{preaviso.fecha}</td>
                             <td>{preaviso.descripcion_servicios}</td>
                             <td>{preaviso.servicio_pagar}</td>
                             <td>{preaviso.monto}</td>
-                            <td>
-                                <button className="btn btn-primary" onClick={handleGenerarExpensa}>
-                                    Generar Expensa
-                                </button>
+                            <td style={{ textAlign: 'center', cursor: 'pointer' }}>
+                                <FaPen onClick={() => handleGenerarExpensa(preaviso.id)} disabled={!generarExpensaHabilitado} />
                             </td>
                             <td>
                                 <button className="btn btn-secondary" onClick={() => handleToggleCobroModal(preaviso)}>

@@ -10,9 +10,9 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
-import Depa from "../departamento/components/MostrarDep.js"
-import EditarDep from "../departamento/components/EditarDep.js"
-import RegistrarResidente from "../departamento/components/CrearResidente"
+import Depa from "../departamento/components/MostrarDep.js";
+import EditarDep from "../departamento/components/EditarDep.js";
+import RegistrarResidente from "../departamento/components/CrearResidente";
 import CrearContrato from "../departamento/components/CrearContrato";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
 import InfoDepartamento from "../departamento/components/InfoDepartamento";
@@ -70,6 +70,7 @@ import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
+import ReportListPage from "../common-areas/dashboard/detail/pages/list-page/ReportListPage";
 
 const appRoutes: RouteType[] = [
   {
@@ -84,20 +85,20 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />
+      icon: <ApartmentIcon />,
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index"
+        state: "dashboard.index",
       },
       {
         path: "/dashboard/crearEdificio",
         element: <CrearEdificio />,
         state: "dashboard.crearEdificio",
         sidebarProps: {
-          displayText: "Crear Edificio"
+          displayText: "Crear Edificio",
         },
       },
       {
@@ -105,7 +106,7 @@ const appRoutes: RouteType[] = [
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento"
+          displayText: "Crear Departamento",
         },
       },
       {
@@ -113,7 +114,7 @@ const appRoutes: RouteType[] = [
         element: <MostrarEdificio />,
         state: "dashboard.edificios",
         sidebarProps: {
-          displayText: "GestionarDepartamento"
+          displayText: "GestionarDepartamento",
         },
       },
       {
@@ -126,7 +127,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.regResidente",
         sidebarProps: {
-          displayText: "Registrar Residente"
+          displayText: "Registrar Residente",
         },
       },
       {
@@ -154,7 +155,7 @@ const appRoutes: RouteType[] = [
         element: <MostrarResidentes />,
         state: "dashboard.residentes",
         sidebarProps: {
-          displayText: "Residentes"
+          displayText: "Residentes",
         },
       },
       {
@@ -162,7 +163,7 @@ const appRoutes: RouteType[] = [
         element: <GestionVisitas />,
         state: "dashboard.visitas",
         sidebarProps: {
-          displayText: "Visitas"
+          displayText: "Visitas",
         },
       },
       {
@@ -175,10 +176,10 @@ const appRoutes: RouteType[] = [
         element: <RegistrarParqueo />,
         state: "dashboard.parqueo",
         sidebarProps: {
-          displayText: "Parqueo"
+          displayText: "Parqueo",
         },
       },
-    ]
+    ],
   },
   {
     path: "/areas-comunes",
@@ -229,11 +230,19 @@ const appRoutes: RouteType[] = [
         },
       },
       {
-        path: "/areas-comunes/reporte",
-        element: <ReportPage />,
-        state: "areas-comunes.reporte",
+        path: "/areas-comunes/reportes",
+        element: <ReportListPage />,
+        state: "areas-comunes.reportes",
         sidebarProps: {
-          displayText: "Reporte",
+          displayText: "Reportes",
+        },
+      },
+      {
+        path: "/areas-comunes/crear-reporte",
+        element: <ReportPage />,
+        state: "areas-comunes.crear-reporte",
+        sidebarProps: {
+          displayText: "Crear Reporte",
         },
       },
     ],
@@ -454,7 +463,6 @@ const appRoutes: RouteType[] = [
         element: <EditarTurno />,
         state: "employee.analytics",
       },
-
     ],
   },
 ];

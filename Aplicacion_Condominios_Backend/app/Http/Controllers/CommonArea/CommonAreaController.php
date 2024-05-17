@@ -310,9 +310,9 @@ class CommonAreaController extends Controller
             return [
                 'id' => $report->id,
                 'residentName' => $nameResidente,
-                'CommonAreaName' => $nameCommonArea,
+                'commonAreaName' => $nameCommonArea,
                 'equipmentName' => $nameEquipment,
-                'cossToReplace' => $report->costo_reponer,
+                'cosToReplace' => $report->costo_reponer,
                 'countToReplace' => $report->cantidad_reponer,
                 'situation' => $report->situacion,
                 'information' => $report->info,

@@ -5,9 +5,9 @@ export interface ReportsResponseAPI {
 export interface ReportReadDTO {
   id: number;
   residentName: string;
-  CommonAreaName: string;
+  commonAreaName: string;
   equipmentName: string;
-  cossToReplace: number;
+  cosToReplace: number;
   countToReplace: number;
   situation: string;
   information: string;

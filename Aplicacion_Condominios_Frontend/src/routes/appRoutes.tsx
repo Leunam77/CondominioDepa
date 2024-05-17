@@ -10,12 +10,18 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
-import Depa from "../departamento/components/MostrarDep.js";
-import EditarDep from "../departamento/components/EditarDep.js";
-import RegistrarResidente from "../departamento/components/CrearResidente";
+import Depa from "../departamento/components/MostrarDep.js"
+import EditarDep from "../departamento/components/EditarDep.js"
+import RegistrarResidente from "../departamento/components/CrearResidente"
 import CrearContrato from "../departamento/components/CrearContrato";
-import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
+import InfoDepartamento from "../departamento/components/InfoDepartamento";
+import GestionVisitas from "../departamento/components/GestionVisitas";
+import RegistrarVisita from "../departamento/components/RegistrarVisita";
+import EditarContrato from "../departamento/components/EditarContrato";
+import MostrarEdificio from "../departamento/components/MostrarEdificios";
+import RegistrarParqueo from "../departamento/components/RegistrarParqueo";
+import CrearEdificio from "../departamento/components/CrearEdificio";
 
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
 import PagoAreaComun from "../cobro_servicios/components/PagoAreaComun";
@@ -30,8 +36,12 @@ import ContractRegister from "../empleados/pages/contract_register";
 import AssignContract from "../empleados/pages/assign_contract";
 import AssignTurn from "../empleados/pages/assign_turn";
 import TurnRegister from "../empleados/pages/turn_register";
-import TurnRegisterCleaning from "../empleados/pages/turn_register_cleaning";
 import MarcarHora from "../empleados/pages/marcar_hora";
+import ControlRetrasos from "../empleados/pages/retrasos/control_retrasos";
+import ControlFaltas from "../empleados/pages/faltas/control_faltas";
+import InformacionFalta from "../empleados/pages/faltas/informacion_falta";
+import InformacionRetraso from "../empleados/pages/retrasos/informacion_retraso";
+import EditarTurno from "../empleados/pages/turnos/editar_turno";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/dashboard/common-area/pages/create-page/CreatePage";
@@ -45,11 +55,15 @@ import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
 import NotificationEmail from "../notificaciones/pages/NotificationEmail";
+
 import PersonalPage from "../mantenimiento/personal/PersonalPage";
 import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
+import RegistrarInsumoPage from "../mantenimiento/registro_insumo/RegistrarInsumoPage";
+import ListaInsumoPage from "../mantenimiento/lista_insumo/ListaInsumoPage";
+
 import TablaReservas from "../cobro_servicios/components/TablaReservas";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
@@ -71,116 +85,96 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />,
+      icon: <ApartmentIcon />
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index",
+        state: "dashboard.index"
+      },
+      {
+        path: "/dashboard/crearEdificio",
+        element: <CrearEdificio />,
+        state: "dashboard.crearEdificio",
+        sidebarProps: {
+          displayText: "Crear Edificio"
+        },
       },
       {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento",
+          displayText: "Crear Departamento"
+        },
+      },
+      {
+        path: "/dashboard/edificios",
+        element: <MostrarEdificio />,
+        state: "dashboard.edificios",
+        sidebarProps: {
+          displayText: "GestionarDepartamento"
         },
       },
       {
         path: "/dashboard/departamentos",
         element: <Depa />,
-        state: "dashboard.depa",
-        sidebarProps: {
-          displayText: "Gestionar Departamento",
-        },
+        state: "dashboard.departamentos",
       },
       {
         path: "/dashboard/RegResidente",
         element: <RegistrarResidente />,
-        state: "dashboard.depa",
+        state: "dashboard.regResidente",
         sidebarProps: {
-          displayText: "Registrar Residente",
+          displayText: "Registrar Residente"
         },
       },
       {
         path: "/dashboard/editarDepa",
         element: <EditarDep />,
-        state: "dashboard.depa",
+        state: "dashboard.editDepa",
       },
       {
         path: "/dashboard/crearContrato",
         element: <CrearContrato />,
-        state: "dashboard.depa",
+        state: "dashboard.crearContrato",
+      },
+      {
+        path: "/dashboard/editContrato",
+        element: <EditarContrato />,
+        state: "dashboard.editContrato",
       },
       {
         path: "/dashboard/infoDepartamento",
         element: <InfoDepartamento />,
-        state: "dashboard.depa",
+        state: "dashboard.infoDepartamento",
       },
       {
         path: "/dashboard/residentes",
         element: <MostrarResidentes />,
-        state: "dashboard.depa",
+        state: "dashboard.residentes",
         sidebarProps: {
-          displayText: "Residentes",
-        },
-      },
-      // {
-      //   path: "/dashboard/analytics",
-      //   element: <AnalyticsPage />,
-      //   state: "dashboard.analytics",
-      //   sidebarProps: {
-      //     displayText: "Habitaciones"
-      //   }
-      // },
-      // {
-      //   path: "/dashboard/saas",
-      //   element: <SaasPage />,
-      //   state: "dashboard.saas",
-      //   sidebarProps: {
-      //     displayText: "Parqueos"
-      //   }
-      // }
-    ],
-  },
-  {
-    path: "/cobros",
-    element: <CobrosLayout />,
-    state: "component",
-    sidebarProps: {
-      displayText: "Cobro por Servicios",
-      icon: <MonetizationOnIcon />,
-    },
-    child: [
-      {
-        path: "/cobros/pre-aviso",
-        element: <Cobros />,
-        state: "cobros.alert",
-        sidebarProps: {
-          displayText: "Generar pre-aviso",
+          displayText: "Residentes"
         },
       },
       {
-        path: "/cobros/pre-avisoExpensas",
-        element: <PreAvisoExpensas />,
-        state: "cobros.alertita",
+        path: "/dashboard/visitas",
+        element: <GestionVisitas />,
+        state: "dashboard.visitas",
         sidebarProps: {
-          displayText: "Pre-aviso de expensas",
+          displayText: "Visitas"
         },
       },
       {
-        path: "/cobros/agregar-equipo",
-        element: <AgregarEquipo />,
-        state: "component.button",
-        sidebarProps: {
-          displayText: "Agregar equipo dañado",
-        },
+        path: "/dashboard/registrarVisita",
+        element: <RegistrarVisita />,
+        state: "dashboard.registrarVisita",
       },
       {
-        path: "/cobros/gestion-equipo",
-        element: <GestionEquipos />,
-        state: "cobros.alerta",
+        path: "/dashboard/parqueo",
+        element: <RegistrarParqueo />,
+        state: "dashboard.parqueo",
         sidebarProps: {
           displayText: "Gestion de equipos dañados",
         },
@@ -239,7 +233,7 @@ const appRoutes: RouteType[] = [
         
         
       },
-    ],
+    ]
   },
   {
     path: "/areas-comunes",
@@ -306,7 +300,7 @@ const appRoutes: RouteType[] = [
         element: <Changelog />,
         state: "changelog.servicio",
         sidebarProps: {
-          displayText: "Registrar servicio",
+          displayText: "Administrar categoria ",
         },
       },
       {
@@ -314,7 +308,7 @@ const appRoutes: RouteType[] = [
         element: <PersonalPage />,
         state: "changelog.personal",
         sidebarProps: {
-          displayText: "Personal",
+          displayText: "Administrar personal",
         },
       },
       {
@@ -322,7 +316,7 @@ const appRoutes: RouteType[] = [
         element: <RegistroServicioPage />,
         state: "changelog.registro",
         sidebarProps: {
-          displayText: "Registro",
+          displayText: "Registrar solicitud ",
         },
       },
       {
@@ -330,7 +324,26 @@ const appRoutes: RouteType[] = [
         element: <ListaSolicitudServicioPage />,
         state: "changelog.solicitud",
         sidebarProps: {
-          displayText: "Solicitud",
+          displayText: "Solicitudes ",
+        },
+      },
+      //Registro insumo
+
+      {
+        path: "/changelog/registrar_insumo",
+        element: <RegistrarInsumoPage />,
+        state: "changelog.solicitud",
+        // sidebarProps: {
+        //   displayText: "Registrar insumo",
+        // },
+      },
+      //Lista Insumo
+      {
+        path: "/changelog/lista_insumo",
+        element: <ListaInsumoPage />,
+        state: "changelog.solicitud",
+        sidebarProps: {
+          displayText: "Insumos",
         },
       },
     ],
@@ -436,6 +449,24 @@ const appRoutes: RouteType[] = [
       },
 
       {
+        path: "/employees/control_retrasos",
+        element: <ControlRetrasos />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Control de retrasos",
+        },
+      },
+
+      {
+        path: "/employees/control_faltas",
+        element: <ControlFaltas />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Control de faltas",
+        },
+      },
+
+      {
         path: "/employees/employeeEdit",
         element: <EmployeeEdit />,
         state: "employee.analytics",
@@ -454,11 +485,23 @@ const appRoutes: RouteType[] = [
       },
 
       {
-        path: "/employees/turnRegisterCleaning",
-        element: <TurnRegisterCleaning/>,
+        path: "/employees/informacionFalta",
+        element: <InformacionFalta />,
         state: "employee.analytics",
       },
 
+      {
+        path: "/employees/informacionRetraso",
+        element: <InformacionRetraso />,
+        state: "employee.analytics",
+      },
+
+      {
+        path: "/employees/editarTurno",
+        element: <EditarTurno />,
+        state: "employee.analytics",
+      },
+      
     ],
   },
 ];

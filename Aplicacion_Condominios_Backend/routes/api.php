@@ -9,6 +9,9 @@ use App\Http\Controllers\Departamento\DepartamentoCotroller;
 use App\Http\Controllers\Departamento\EdificioController;
 use App\Http\Controllers\Departamento\ResidenteController;
 use App\Http\Controllers\Departamento\ContratoController;
+use App\Http\Controllers\Departamento\VisitaController;
+use App\Http\Controllers\Departamento\ParqueoController;
+
 use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
@@ -26,6 +29,7 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
+use App\Http\Controllers\Mantenimiento\InsumoController;
 
 
 /*
@@ -56,7 +60,7 @@ Route::controller(DepartamentoCotroller::class)->group(function(){
     //ruta para mantenimiento
     Route::get('/departamentos-by-edificios/{id}', 'getDepartamentosByEdificios')->name('departamento.getDepartamentosByEdificios');
 
-
+    Route::get('/depart-disponible','getDepDisponible')->name('departamento.getDepDisponible');
 });
 
 Route::controller(BloqueController::class)->group(function(){
@@ -112,6 +116,23 @@ Route::controller(ContratoController::class)->group(function(){
     Route::put('/contratoNoVig/{id}/anularContrato','anularContrato')->name('contrato.anularContrato');
 });
 
+Route::controller(VisitaController::class)->group(function(){
+    Route::get('/visitas','index')->name('visita.index');
+    Route::get('/visita/{id}','show')->name('visita.show');
+    Route::post('/visita','store')->name('visita.store');
+    Route::put('/visitaDes/{id}/desactivar','desactivarVisita')->name('visita.desactivarVisita');
+    Route::delete('/visita/{id}','destroy')->name('visita.destroy');
+});
+
+Route::controller(ParqueoController::class)->group(function(){
+    Route::get('/parqueos','index')->name('parqueo.index');
+    Route::post('/parqueo','store')->name('parqueo.store');
+    Route::get('/parqueo/{id}','show')->name('parqueo.show');
+    Route::put('/parqueoupd/{id}','update')->name('parqueo.update');
+    Route::delete('/parqueo/{id}','destroy')->name('parqueo.destroy');
+    Route::get('/parqueo-by-departamento/{id}', 'getParqueosByDepartamento')->name('parqueo.getParqueosByDepartamento');
+});
+
 // EMPLEADOS
 Route::post('/add_employee', [EmployeeController::class, 'store']);
 Route::get('/get_all_employees', [EmployeeController::class, 'getAll']);
@@ -139,12 +160,22 @@ Route::get('/personal-externo/{id}', [PersonalExternoController::class,'getPerso
 Route::post('/personal-externo/insert', [PersonalExternoController::class,'insertPersonalExterno']);
 Route::put('/personal-externo/update/{id}', [PersonalExternoController::class,'updatePersonalExterno']);
 Route::delete('/personal-externo/delete/{id}', [PersonalExternoController::class,'deletePersonalExterno']);
+Route::get('/personal-externo-by-categoria/{id}', [PersonalExternoController::class,'getPersonalExternoByCategoria']);
 
 Route::get('/registro-solicitud', [RegistroSolicitudController::class,'getRegistroSolicitud']);
 Route::get('/registro-solicitud/{id}', [RegistroSolicitudController::class,'getRegistroSolicitudId']);
 Route::post('/registro-solicitud/insert', [RegistroSolicitudController::class,'insertRegistroSolicitud']);
 Route::put('/registro-solicitud/update/{id}', [RegistroSolicitudController::class,'updateRegistroSolicitud']);
 Route::delete('/registro-solicitud/delete/{id}', [RegistroSolicitudController::class,'deleteRegistroSolicitud']);
+Route::get('/solicitudes-by-encargado/{id}', [RegistroSolicitudController::class,'getSolicitudByPersonalExterno']);
+
+Route::get('/insumo', [InsumoController::class,'getInsumo']);
+Route::get('/insumo/solicitud', [InsumoController::class,'getInsumoBySolicitud']);
+Route::get('/insumo/{id}', [InsumoController::class,'getInsumoId']);
+Route::post('/insumo/insert', [InsumoController::class,'insertInsumo']);
+Route::put('/insumo/update/{id}', [InsumoController::class,'updateInsumo']);
+Route::delete('/insumo/delete/{id}', [InsumoController::class,'deleteInsumo']);
+Route::delete('/insumo/delete/solicitud/{id}', [InsumoController::class,'deleteInsumoBySolicitud']);
 
 Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
 Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);

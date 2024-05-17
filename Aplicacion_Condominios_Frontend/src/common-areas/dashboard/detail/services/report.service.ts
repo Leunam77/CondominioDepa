@@ -1,8 +1,8 @@
-import { DetailCreateDTO } from "../interfaces/deatil";
+import { ReportCreateDTO } from "../interfaces/deatil";
 
 const API_URL = "http://localhost:8000/api/";
 
-export async function createReport(report: DetailCreateDTO) {
+export async function createReport(report: ReportCreateDTO) {
   const response = await fetch(`${API_URL}reports`, {
     method: "POST",
     headers: {

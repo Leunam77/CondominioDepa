@@ -5,21 +5,11 @@ import { getEquipments } from "../../../equipment/services/equipment.service";
 import { Equipment } from "../../../equipment/interfaces/equipment";
 import Swal from "sweetalert2";
 import { CommonArea } from "../../../common-area/interfaces/common-areas";
-
-interface FormData {
-  idUsuario: number;
-  idAreaComun: number;
-  idProducto: number;
-  costo: number;
-  costoReponer: number;
-  cantidadActual: number;
-  cantidadReponer: number;
-  situacion: string;
-  informacionAdicional: string;
-}
+import { ReportCreateDTO, ReportFormData } from "../../interfaces/deatil";
+import { createReport } from "../../services/report.service";
 
 function ReportPage() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<ReportFormData>({
     idUsuario: 0,
     idAreaComun: 0,
     idProducto: 0,
@@ -92,7 +82,7 @@ function ReportPage() {
       [name]: value,
     }));
 
-    if (name === "nombreProducto") {
+    if (name === "idProducto") {
       const equipment = equipments.find(
         (item) => item.id === parseInt(value, 10)
       );
@@ -105,40 +95,68 @@ function ReportPage() {
           cantidadActual: equipment.cantidad,
         }));
       }
-    } else if (name === "nombreArea") {
+    } else if (name === "idAreaComun") {
       const nameCommonArea = commonAreas.find(
         (commonArea) => commonArea.id === parseInt(value, 10)
       )?.name;
+
       const currentEquipments = equipments.filter(
         (equipment) => equipment.area_comun_nombre === nameCommonArea
       );
+
       setSelectedEquipment(null);
       setCurrentEquipments(currentEquipments);
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
     const element = Object.fromEntries(formData.entries());
-    console.log(element);
+
     if (
-      !(
-        element.cantidadReponer ||
-        element.costoReponer ||
-        element.informacionAdicional ||
-        element.idAreaComun ||
-        element.idProducto ||
-        element.idUsuario ||
-        element.situacion
-      )
+      !element.idUsuario ||
+      !element.idAreaComun ||
+      !element.idProducto ||
+      element.costoReponer === "0" ||
+      element.cantidadReponer === "0" ||
+      element.situacion === "" ||
+      element.informacionAdicional === ""
     ) {
       Swal.fire({
         icon: "error",
         title: "Todos los datos son requeridos",
       });
       return;
+    }
+
+    const report: ReportCreateDTO = {
+      Id_residente: parseInt(element.idUsuario.valueOf() as string, 10),
+      Id_areaComun: parseInt(element.idAreaComun.valueOf() as string, 10),
+      Id_equipment: parseInt(element.idProducto.valueOf() as string, 10),
+      Costo_reponer: parseInt(element.costoReponer.valueOf() as string, 10),
+      Cantidad_reponer: parseInt(
+        element.cantidadReponer.valueOf() as string,
+        10
+      ),
+      Situacion: element.situacion as string,
+      Info: element.informacionAdicional as string,
+    };
+
+    try {
+      const response = await createReport(report);
+      console.log(response);
+      Swal.fire({
+        icon: "success",
+        title: "Reporte creado",
+      });
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Ha ocurrido un error",
+        text: error.message,
+      });
     }
   };
 
@@ -148,11 +166,11 @@ function ReportPage() {
       <div className="form-group">
         <label>Nombre Residente:</label>
         <select
-          name="nombreUsuario"
+          name="idUsuario"
           value={formData.idUsuario}
           onChange={handleChange}
         >
-          <option value={-1} disabled>
+          <option value={0} disabled>
             Seleccione un residente
           </option>
           {residents.map((resident) => {
@@ -174,11 +192,11 @@ function ReportPage() {
         <div className="form-group">
           <label>Nombre Área Común:</label>
           <select
-            name="nombreArea"
+            name="idAreaComun"
             value={formData.idAreaComun}
             onChange={handleChange}
           >
-            <option value={-1} disabled>
+            <option value={0} disabled>
               Seleccione un área común
             </option>
             {commonAreas.map((area, index) => (
@@ -191,11 +209,11 @@ function ReportPage() {
         <div className="form-group">
           <label>Nombre Producto:</label>
           <select
-            name="nombreProducto"
+            name="idProducto"
             value={formData.idProducto}
             onChange={handleChange}
           >
-            <option value={-1} disabled>
+            <option value={0} disabled>
               Seleccione un producto
             </option>
             {currentEquipments.map((item) => (

@@ -193,7 +193,7 @@ Route::apiResource('/equipments', EquipmentController::class);
 // Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
 // Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
 
-Route::post('/report', [CommonAreaController::class, 'createReport']);
+Route::post('/reports', [CommonAreaController::class, 'createReport']);
 
 
 //Cobro_Servicios

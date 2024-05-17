@@ -1,15 +1,16 @@
-export interface Detail {
-  nombreUsuario: string;
-  nombreArea: string;
-  nombreProducto: string;
-  costo: string;
-  costoReponer: string;
-  cantidadActual: string;
-  cantidadReponer: string;
+export interface ReportFormData {
+  idUsuario: number;
+  idAreaComun: number;
+  idProducto: number;
+  costo: number;
+  costoReponer: number;
+  cantidadActual: number;
+  cantidadReponer: number;
   situacion: string;
+  informacionAdicional: string;
 }
 
-export interface DetailCreateDTO {
+export interface ReportCreateDTO {
   Id_residente: number;
   Id_areaComun: number;
   Id_equipment: number;

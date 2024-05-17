@@ -21,7 +21,7 @@ class CreateReportesTable extends Migration
             $table->unsignedBigInteger('id_common_area');
             $table->foreign('id_common_area')->references('id_common_area')->on('common_areas');
             $table->unsignedBigInteger('id_equipment');
-            $table->foreign('id_equipment')->references('id_equipment')->on('equipment');
+            $table->foreign('id_equipment')->references('id')->on('equipamientos');
             $table->integer('costo_reponer');
             $table->integer('cantidad_reponer');
             $table->string('situacion');

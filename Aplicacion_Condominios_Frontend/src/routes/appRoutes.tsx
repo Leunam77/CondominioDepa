@@ -176,6 +176,53 @@ const appRoutes: RouteType[] = [
         element: <RegistrarParqueo />,
         state: "dashboard.parqueo",
         sidebarProps: {
+          displayText: "Parqueos",
+        },
+      },
+      
+    ]
+  },
+
+
+
+ {
+    path: "/cobros",
+    element: <CobrosLayout />,
+    state: "component",
+    sidebarProps: {
+      displayText: "Cobro por Servicios",
+      icon: <MonetizationOnIcon />,
+    },
+    child: [
+      {
+        path: "/cobros/pre-aviso",
+        element: <Cobros />,
+        state: "cobros.alert",
+        sidebarProps: {
+          displayText: "Generar pre-aviso",
+        },
+      },
+      {
+        path: "/cobros/pre-avisoExpensas",
+        element: <PreAvisoExpensas />,
+        state: "cobros.alertita",
+        sidebarProps: {
+          displayText: "Pre-aviso de expensas",
+        },
+      },
+      {
+        path: "/cobros/agregar-equipo",
+        element: <AgregarEquipo />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Agregar equipo dañado",
+        },
+      },
+      {
+        path: "/cobros/gestion-equipo",
+        element: <GestionEquipos />,
+        state: "cobros.alerta",
+        sidebarProps: {
           displayText: "Gestion de equipos dañados",
         },
       },
@@ -233,8 +280,21 @@ const appRoutes: RouteType[] = [
         
         
       },
-    ]
+    ],
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
     path: "/areas-comunes",
     element: <CommonAreasLayout />,

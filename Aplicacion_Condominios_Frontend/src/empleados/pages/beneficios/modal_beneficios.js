@@ -78,7 +78,7 @@ function ModalBeneficios({ onGuardar, beneficioToEdit }) {
       costEmpr: costo === "Empleado" ? "S/C" : costoEmpresa,
       costEmpl: costo === "Empresa" ? "S/C" : costoEmpleado,
     };
-    
+
     onGuardar(nuevoBeneficio); 
     setBeneficio("");
     setCosto("Mixto");
@@ -104,7 +104,7 @@ function ModalBeneficios({ onGuardar, beneficioToEdit }) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button onClick={handleShow} style={{ backgroundColor: '#65B8A6', borderColor: '#65B8A6' }}>
         Agregar
       </Button>
 

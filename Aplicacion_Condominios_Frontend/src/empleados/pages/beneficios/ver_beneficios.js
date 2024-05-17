@@ -9,7 +9,19 @@ import Col from "react-bootstrap/Col";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import ModalBeneficios from "./modal_beneficios";
-
+import {
+    MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBSelect,
+  MDBRadio
+  }
+  from 'mdb-react-ui-kit';
+  
 function VerBeneficios() {
   const [beneficios, setBeneficios] = useState([]);
   const [beneficioEditado, setBeneficioEditado] = useState(null);
@@ -125,10 +137,7 @@ function VerBeneficios() {
                 <option value="Empleado">Empleado</option>
               </select>
             </div>
-            <ModalBeneficios 
-              onGuardar={(value) => addBeneficios(value)}
-              beneficioToEdit={beneficioEditado} 
-            />
+            
           </div>
         </Col>
       </Row>
@@ -176,6 +185,15 @@ function VerBeneficios() {
           </tbody>
         </Table>
       </Container>
+
+      <MDBRow>
+        <MDBCol className="d-flex align-items-center justify-content-center">
+        <ModalBeneficios 
+              onGuardar={(value) => addBeneficios(value)}
+              beneficioToEdit={beneficioEditado} 
+            />
+        </MDBCol>
+      </MDBRow>
     </>
   );
 }

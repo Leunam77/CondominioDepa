@@ -17,6 +17,8 @@ import {
   MDBRow,
   MDBTypography,
 } from "mdb-react-ui-kit";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function VerAreas() {
   
@@ -221,6 +223,37 @@ function VerAreas() {
         </Modal.Footer>
       </Modal>
 
+      <Row className="d-flex align-items-center justify-content-center">
+        <Col className="d-flex align-items-center justify-content-center">
+          <h2>Areas de trabajo</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className="filtrarElementos-admin ">
+            <div className="entradaBuscador-admin">
+              <input
+                type="text"
+                name="buscador"
+                id="buscador-admin"
+                placeholder="Buscar por nombre..."
+              />
+            </div>
+            <div className="capsulaDesplegable-admin">
+              <select
+                id="desplegable-tipo_contrato"
+              > 
+                <option value="Todos">Todos</option>
+                <option value="Mixto">Mixto</option>
+                <option value="Empresa">Empresa</option>
+                <option value="Empleado">Empleado</option>
+              </select>
+            </div>
+          </div>
+        </Col>
+      </Row>
+
+
       <section>
         <MDBContainer className="py-5">
           <MDBRow className="my-4">
@@ -239,18 +272,16 @@ function VerAreas() {
                           <strong>Cargos</strong>
                         </MDBTypography>
                         {area.positions.map((cargo) => {
-              return (
-                <>
-                <MDBListGroup numbered>
-                          <MDBListGroupItem className="border-0 px-0 pb-0">
-                            {cargo.nombre}
-                          </MDBListGroupItem>
-                        </MDBListGroup>
-
-                </>
-            );
-        })}
-
+                          return (
+                            <>
+                              <MDBListGroup>
+                                <MDBListGroupItem className="border-0 px-0 pb-0">
+                                  {cargo.nombre}
+                                </MDBListGroupItem>
+                              </MDBListGroup>
+                            </>
+                          );
+                        })}
                       </MDBCardBody>
                     </MDBCard>
                   </MDBCol>

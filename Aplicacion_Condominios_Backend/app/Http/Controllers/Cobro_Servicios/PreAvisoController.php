@@ -28,20 +28,22 @@ class PreAvisoController extends Controller
 
     public function store(Request $request)
     {
-        $expensa = new PreAvisoModel();
-        $expensa->departamento_id = $request->departamento_id;
-        $expensa->fecha = $request->fecha;
-        $expensa->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
-        $expensa->descripcion_servicios = $request->descripcion_servicios;
-        $expensa->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
-        $expensa->monto = $request->monto;
-        $expensa->id_propietarioPagar = $request ->id_propietarioPagar;
-        $expensa->save();
+        $preavisos = new PreAvisoModel();
+        $preavisos->departamento_id = $request->departamento_id;
+        $preavisos->fecha = $request->fecha;
+        $preavisos->propietario_pagar = $request->propietario_pagar; // Agregar punto y coma aquí
+        $preavisos->descripcion_servicios = $request->descripcion_servicios;
+        $preavisos->servicio_pagar = $request->servicio_pagar; // Agregar punto y coma aquí
+        $preavisos->monto = $request->monto;
+        $preavisos->id_propietarioPagar = $request ->id_propietarioPagar;
+        $preavisos->save();
         
         return response()->json([
             'status' => 200,
-            'message' => 'Pre aviso de Expensa generado existosamente',
+            'message' => 'Preaviso de Expensa generado exitosamente',
+            'id' => $preavisos->id,
         ]);
+    
     }
 
 
@@ -54,9 +56,11 @@ class PreAvisoController extends Controller
         ]);
     }*/
 
+
+
     public function obtenerTodosPreAvisos()
 {
-    $preAvisos = ExpensaModel::with('departamento:id,nombre_departamento')->get()->toArray();
+    $preAvisos = PreAvisoModel::with('departamento:id,nombre_departamento')->get()->toArray();
     return response()->json([
         'status' => 200,
         'preAvisos' => $preAvisos,

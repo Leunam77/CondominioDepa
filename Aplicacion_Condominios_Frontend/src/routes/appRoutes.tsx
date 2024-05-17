@@ -70,7 +70,13 @@ import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
+
 import ReportListPage from "../common-areas/dashboard/detail/pages/list-page/ReportListPage";
+import Expensas from "../cobro_servicios/components/Expensas";
+
+import Imprimir from "../notificaciones/pages/Imprimir";
+import Multas from "../cobro_servicios/components/Multas";
+import FormularioPagoExpensa from "../cobro_servicios/components/FormularioPagoExpensa";
 
 const appRoutes: RouteType[] = [
   {
@@ -176,11 +182,102 @@ const appRoutes: RouteType[] = [
         element: <RegistrarParqueo />,
         state: "dashboard.parqueo",
         sidebarProps: {
-          displayText: "Parqueo",
+          displayText: "Parqueos",
         },
       },
     ],
   },
+
+  {
+    path: "/cobros",
+    element: <CobrosLayout />,
+    state: "component",
+    sidebarProps: {
+      displayText: "Cobro por Servicios",
+      icon: <MonetizationOnIcon />,
+    },
+    child: [
+      {
+        path: "/cobros/pre-aviso",
+        element: <Cobros />,
+        state: "cobros.alert",
+        sidebarProps: {
+          displayText: "Generar pre-aviso",
+        },
+      },
+      {
+        path: "/cobros/pre-avisoExpensas",
+        element: <PreAvisoExpensas />,
+        state: "cobros.alertita",
+        sidebarProps: {
+          displayText: "Pre-aviso de expensas",
+        },
+      },
+      {
+        path: "/cobros/agregar-equipo",
+        element: <AgregarEquipo />,
+        state: "component.button",
+        sidebarProps: {
+          displayText: "Agregar equipo dañado",
+        },
+      },
+      {
+        path: "/cobros/gestion-equipo",
+        element: <GestionEquipos />,
+        state: "cobros.alerta",
+        sidebarProps: {
+          displayText: "Gestion de equipos dañados",
+        },
+      },
+      {
+        path: "/cobros/expensas",
+        element: <Expensas />,
+        state: "cobros.expensas",
+        sidebarProps: {
+          displayText: "Expensas",
+        },
+      },
+      {
+        path: "/cobros/edicion-equipo/:id",
+        element: <EditarEquipo />,
+        state: "cobros.editar-equipo",
+      },
+      {
+        path: "/cobros/generar-preaviso/:departamento_id",
+        element: <GenerarPreAviso />,
+        state: "cobros.generar-pre-aviso",
+      },
+      {
+        path: "/cobros/multas/:idPreaviso",
+        element: <Multas />,
+        state: "cobros.generar-pre-aviso",
+      },
+      {
+        path: "/cobros/pagar-reserva/",
+        element: <PagoAreaComun />,
+        state: "cobros.pago-areacomun",
+        sidebarProps: {
+          displayText: "Pagar reserva",
+        },
+      },
+      {
+        path: "/cobros/pagar-reserva/:id",
+        element: <TablaReservas />,
+        state: "cobros.tabla.reservas",
+      },
+      {
+        path: "/cobros/pagar-expensa/:id",
+        element: <FormularioPagoExpensa />,
+        state: "cobros.formulario.expensa",
+      },
+      {
+        path: "/cobros/pagar-reserva-area/:id",
+        element: <FormularioPagoArea />,
+        state: "cobros.formulario.pago",
+      },
+    ],
+  },
+
   {
     path: "/areas-comunes",
     element: <CommonAreasLayout />,

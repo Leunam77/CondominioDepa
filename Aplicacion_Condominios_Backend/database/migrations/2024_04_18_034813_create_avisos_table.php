@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnuncioEmailsTable extends Migration
+class CreateAvisosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateAnuncioEmailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('anuncio_emails', function (Blueprint $table) {
+        Schema::create('avisos', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->longText('anuncio');
-            $table->string('email')->unique(false);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
+            $table->text('descripcion');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateAnuncioEmailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anuncio_emails');
+        Schema::dropIfExists('avisos');
     }
 }

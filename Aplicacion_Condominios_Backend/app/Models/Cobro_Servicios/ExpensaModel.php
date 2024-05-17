@@ -14,12 +14,13 @@ class ExpensaModel extends Model
     protected $table = 'expensas';
 
     protected $fillable = [
-        'departamento_id',
+        'preaviso_id',
         'propietario_pagar',
         'fecha',
         'descripcion_servicios',
         'servicio_pagar',
         'monto',
+        'pagado',
         'id_propietarioPagar'
     ];
 

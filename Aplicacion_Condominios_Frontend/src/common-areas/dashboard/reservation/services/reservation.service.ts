@@ -35,10 +35,3 @@ export async function createReservation(reservation: CreateReservationDTO) {
     throw data;
   }
 }
-
-export async function getResidents(): Promise<Resident[]> {
-  const response = await fetch(`${API_URL}residentes`);
-  const data: Resident[] = await response.json();
-
-  return data;
-}

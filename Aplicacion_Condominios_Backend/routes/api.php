@@ -14,6 +14,7 @@ use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
 use App\Http\Controllers\Notificaciones\AvisosController;
+use App\Http\Controllers\Notificaciones\CorreoController;
 use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
@@ -25,7 +26,6 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -194,6 +194,9 @@ Route::group(['prefix' =>  'v1'], function () {
     Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 });
 
+//emails de preavisso
+Route::post('/cobrar-servicio', [CorreoController::class, 'enviarCorreo']);
+
 Route::controller(TelegramNotificationController::class)->group(function() {
     Route::post('/telegram/notification', 'sendNoticeToOne');
     Route::post('/telegram/notifications', 'sendNoticeToMany');
@@ -203,7 +206,7 @@ Route::get("/avisos",[AvisosController::class,"index"]);
 Route::post("/avisos",[AvisosController::class,"store"]);
 Route::get("/avisos/{id}",[AvisosController::class,"show"]);
 Route::put("/avisos/{id}",[AvisosController::class,"update"]);
-Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]); 
+Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]);
 
 Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);

@@ -39,12 +39,12 @@ function EmployeHomePage() {
   const eliminarEmpleado = (id) => {
     console.log(id);
 
-    const url = `http://127.0.0.1:8000/api/delete_employee/${id}`; 
-      axios.delete(url).then(respuesta => {
-        if(respuesta.data.status === 200){
-          window.location.reload();
-        }
-    })
+    const url = `http://127.0.0.1:8000/api/delete_employee/${id}`;
+    axios.delete(url).then((respuesta) => {
+      if (respuesta.data.status === 200) {
+        window.location.reload();
+      }
+    });
   }
 
   const manejarBuscador = (e) => {

@@ -23,9 +23,12 @@ function ContractRegister() {
     const empleado = cookies.get('id_empleado_seleccionado');
 
     const [errors, setErrors] = useState({});
+    const [areas, setAreas] = useState([]);
+    const [beneficios, setBeneficios] = useState([]);
 
     useEffect(()=>{
-
+      obtenerAreas()
+      obtenerBeneficios()
     }, []);
   
     const [values, setValues] = useState({
@@ -36,7 +39,7 @@ function ContractRegister() {
         cargo : "",
         beneficios : "",
         salario : "",
-      });
+    });
     
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -56,6 +59,8 @@ function ContractRegister() {
     
     const handleSubmit =  async (e) => {
         e.preventDefault(); 
+
+        console.log(values.area)
         const validationErrors = {};
 
         if(!values.fecha_inicio.trim()){
@@ -128,16 +133,25 @@ function ContractRegister() {
             cargo:document.getElementById("select_cargo").value,
         });
     };
+
+    const obtenerAreas = async ()  => {
+      const respuesta = await axios.get(`http://127.0.0.1:8000/api/get_all_areas`);
+      setAreas(respuesta.data.areas)
+    };
+
+    const obtenerBeneficios = async ()  => {
+      const respuesta = await axios.get(`http://127.0.0.1:8000/api/get_all_benefits`);
+      setBeneficios(respuesta.data.beneficios)
+    };
     
     return (
       <>
         <MDBContainer fluid>
           <MDBRow className="d-flex justify-content-center align-items-center">
             <MDBCol lg="9" className="my-5">
-              <MDBRow >
+              <MDBRow>
                 <MDBCol className="d-flex align-items-center justify-content-center">
-                <h1 class="mb-4">Registro de contrato</h1>
-
+                  <h1 className="mb-4">Registro de contrato</h1>
                 </MDBCol>
               </MDBRow>
 
@@ -243,8 +257,13 @@ function ContractRegister() {
                           {" "}
                           Seleccione una area
                         </option>
-                        <option value="Seguridad">Seguridad</option>
-                        <option value="Limpieza">Limpieza</option>
+                        {areas.map((area) => {
+                          return (
+                            <>
+                              <option value={area.nombre}>{area.nombre}</option>
+                            </>
+                          );
+                        })}
                       </Form.Select>
                       {errors.area && (
                         <span className="advertencia-creEve">
@@ -289,20 +308,19 @@ function ContractRegister() {
 
                     <MDBCol md="9" className="pe-5">
                       <MDBCol md="9" className="pe-5">
-                        <MDBCheckbox
-                          name="beneficios"
-                          value="Seguro Medico"
-                          id="flexCheckDefault"
-                          label="Seguro Medico"
-                          onChange={handleInput}
-                        />
-                        <MDBCheckbox
-                          name="beneficios"
-                          value="Guarderia"
-                          id="flexCheckChecked"
-                          label="Guarderia"
-                          onChange={handleInput}
-                        />
+                        {beneficios.map((beneficio) => {
+                          return (
+                            <>
+                              <MDBCheckbox
+                                name="beneficios"
+                                value={beneficio.id}
+                                id="flexCheckDefault"
+                                label={beneficio.nombre}
+                                onChange={handleInput}
+                              />
+                            </>
+                          );
+                        })}
                       </MDBCol>
                     </MDBCol>
                   </MDBRow>

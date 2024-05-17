@@ -189,6 +189,7 @@ function ControlFaltas() {
     })
     document.querySelector("#primera_fecha").value = '';
     document.querySelector("#segunda_fecha").value = '';
+    setErrors({});
   }
 
   const redirigirInformacionFalta = (empleado)  => {

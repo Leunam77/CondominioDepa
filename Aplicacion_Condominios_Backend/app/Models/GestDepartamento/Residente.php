@@ -20,7 +20,8 @@ class Residente extends Model
         'genero_residente',
         'estado_residente',
         'imagen_residente',
-        'contrato_id'
+        'contrato_id',
+        'monto_pagar'
     ];
     public function contrato(){
         return $this->belongsTo(Contrato::class);

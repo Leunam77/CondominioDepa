@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import "./report-Page.css";
 import { getResidents } from "../../../shared/services/resident.service";
-import { getEdificiosByBloqueId } from "../../../../../mantenimiento/services/departamento/edificioService";
 import { getEquipments } from "../../../equipment/services/equipment.service";
 import { Equipment } from "../../../equipment/interfaces/equipment";
 

@@ -31,7 +31,6 @@ class AvisosController extends Controller
     {
         $request->validate([
             'titulo' => 'required|string',
-            'estado' => 'required|string|in:pendiente,aceptado,rechazado',
             'descripcion' => 'required|string',
         ]);
 
@@ -74,7 +73,6 @@ class AvisosController extends Controller
 
         $request->validate([
             'titulo' => 'string',
-            'estado' => 'string|in:pendiente,aceptado,rechazado',
             'descripcion' => 'string',
         ]);
 

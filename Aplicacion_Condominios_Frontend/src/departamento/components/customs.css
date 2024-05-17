@@ -27,14 +27,38 @@ body {
 ul {
 	list-style-type: none;
 }
+li {
+	list-style-type: none;
+}
 .custom-button {
 	background-color: rgb(25, 118, 162);
 	border-color: rgb(25, 118, 162);
 	font-size: 1rem;
+	font-weight: bold;
 }
 .custom-button:hover {
 	background-color: rgb(11, 79, 110);
 	border-color: rgb(22, 101, 138);
+}
+.custom-buttonVisita {
+	background-color: rgb(25, 118, 162);
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+.custom-buttonVisita:hover {
+	background-color: rgb(11, 79, 110);
+}
+
+.iconVisita {
+	color: rgb(25, 118, 162);
+	font-size: 1.6rem;
+}
+
+.iconVisita:hover {
+	color: rgb(11, 79, 110);
+}
+.iconVisita:active {
+	color: rgb(22, 101, 138);
 }
 .custom-form {
 	background-color: #FFFEF6;
@@ -48,12 +72,12 @@ ul {
 }
 @media (max-width: 2560px) {
 	.custom-form {
-		width: 35vw;
+		width: 45vw;
 	}
 }
 @media (max-width: 1920px) {
 	.custom-form {
-		width: 45w;
+		width: 50vw;
 	}
 }
 @media (max-width: 1366px) {
@@ -73,6 +97,7 @@ ul {
 	margin-bottom: 0 !important;
 	font-size: 0.8rem !important;
 }
+
 .modalTitle .modal-title{
 	font-size: 1.3rem !important;
 	font-weight: bold !important;
@@ -133,6 +158,7 @@ input[type='number'] {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 10px;
 	margin: 15px;
+	padding: 5px;
 }
 
 .customInput:focus, .customInput:active{
@@ -155,3 +181,49 @@ input[type="date"].customInput{
 .roundedImage {
 	border-radius: 20px;
 }
+.customCheckbox.form-check-input {
+	font-size: 1rem;
+	margin-top: 0;
+	border: 1px solid rgb(63, 63, 63);
+	margin-left: 6px;
+	box-shadow: none;
+}
+.cardImgResidente{
+	width: 100%;
+	height: 14em;
+	object-fit: cover;
+}
+.labelResidente.form-label{
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+.labelResidenteDep.form-label {
+	font-size: 0.8rem;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+.labelResidenteTel.form-label {
+	font-size: 0.8rem;
+	font-weight: bold;
+	margin-top: 0.5rem;
+}
+.cardRes{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.cardlistaResidente{
+	height: 4em;
+	width: 4em;
+	object-fit: fill;
+	margin: 6px;
+	border-radius: 5px ;
+}
+.visitasTabla{
+	font-size: 0.95rem;
+}
+td.celdaVisita{
+	vertical-align: middle;
+	text-align: center;
+}
+
+
+

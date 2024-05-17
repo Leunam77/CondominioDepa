@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Departamento;
 use App\Http\Controllers\Controller;
 use App\Models\GestDepartamento\Residente;
 use Illuminate\Http\Request;
-use League\Csv\Reader;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
@@ -57,6 +57,7 @@ class ResidenteController extends Controller
             'estado_residente' => 'required',
             'imagen_residente' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
             'contrato_id' => 'nullable',
+            'monto_pagar' => 'nullable'
         ]);
         //Residente::create($validate);
         $residente = new Residente($validate);
@@ -132,13 +133,21 @@ class ResidenteController extends Controller
 
     public function actualizarEstadoResidente(Request $request, $id)
     {
-        $usuario = Residente::findOrFail($id);
+        $residente = Residente::findOrFail($id);
 
-        // Actualiza el atributo específico
-        $usuario->estado_residente = $request->input('estado_residente');
-        $usuario->save();
+        // Verifica si el residente tiene contrato_id null antes de modificar los atributos
+        if ($residente->contrato_id === null) {
+            $usuario->estado_residente = $request->input('estado_residente');
+            
+        }else{
+            $residente->contrato_id = null;
+            $residente->estado_residente = $request->input('estado_residente');
+            $residente->tipo_residente = "ninguno";
+        }
 
-        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+        $residente->save();
+
+        return response()->json(['mensaje' => 'Atributos actualizados correctamente']);
     }
 
     /**
@@ -221,12 +230,13 @@ class ResidenteController extends Controller
 
         // Actualiza el atributo específico
         $residente->contrato_id = $request->input('contrato_id');
+        $residente->tipo_residente = $request->input('tipo_residente');
         $residente->save();
 
         return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
     }
 
-    public function import(Request $request){
+    /* public function import(Request $request){
         $file = $request->file('file');
         //leer el archivo csv
         $csv = Reader::createFromPath($file->getPathname(), 'r');
@@ -262,10 +272,10 @@ class ResidenteController extends Controller
                 continue; //continuar con el siguiente registro
             }
             //crear un nuevo residente
-            /* $residente = new Residente();
-            $residente->nombre_residente = $record['nombre_residente'];
-            $residente->apellido_residente = $record['apellido_residente'];
-            $residente->cedula_residente = $record['cedula_residente']; */
+            //$residente = new Residente();
+            //$residente->nombre_residente = $record['nombre_residente'];
+            //$residente->apellido_residente = $record['apellido_residente'];
+            //$residente->cedula_residente = $record['cedula_residente']; 
             //si la validación es exitosa, crear un nuevo residente
             $residente = Residente::create([
                 'nombre_residente' => $record['nombre_residente'],
@@ -288,7 +298,7 @@ class ResidenteController extends Controller
             'status' => 200,
             'message' => 'Residentes importados exitosamente'
         ]);
-    }
+    } */
     
     public function getResidentesByContrato($id)
     {
@@ -303,8 +313,9 @@ class ResidenteController extends Controller
             if ($residente === null) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'No tiene propietario'
-                ], 404);
+                    'message' => 'No tiene propietario',
+                    'residente' => []
+                ]);
             }
             return response()->json([
                 'status' => 200,
@@ -319,6 +330,28 @@ class ResidenteController extends Controller
         }
     }
 
+    public function getPropietByContratShort($valorContrato){
+        try {
+            $residente = Residente::select('nombre_residente', 'apellidos_residente')
+                                    ->where('contrato_id', $valorContrato)
+                                    ->where('tipo_residente', "Propietario")
+                                    ->first();
+            if ($residente === null) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No tiene propietario',
+                    'residente' => null
+                ]);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Propietario encontrado',
+                'residente' => $residente
+            ]);
+        } catch (\Exception $e) {
+
+        }
+    }
     public function getTitularByContrato($valorContrato)
     {
         try {
@@ -326,8 +359,9 @@ class ResidenteController extends Controller
             if ($residente === null) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'No tiene titular'
-                ], 404);
+                    'message' => 'No tiene titular',
+                    'residente' => []
+                ]);
             }
             return response()->json([
                 'status' => 200,
@@ -341,6 +375,28 @@ class ResidenteController extends Controller
             ], 500);
         }
     }
+    public function getTituByContratShort($valorContrato){
+        try {
+            $residente = Residente::select('nombre_residente', 'apellidos_residente')
+                                    ->where('contrato_id', $valorContrato)
+                                    ->where('tipo_residente', "Titular")
+                                    ->first();
+            if ($residente === null) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No tiene titular',
+                    'residente' => null
+                ]);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Titular encontrado',
+                'residente' => $residente
+            ]);
+        } catch (\Exception $e) {
+
+        }
+    }
     public function notificacionesGenerales()
     {
         try {
@@ -351,8 +407,9 @@ class ResidenteController extends Controller
             if ($residentes->isEmpty()) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'No se encontraron residentes con tipo "Propietario" o "Titular"'
-                ], 404);
+                    'message' => 'No se encontraron residentes con tipo "Propietario" o "Titular"',
+                    'residente' => []
+                ]);
             }
             return response()->json([
                 'status' => 200,
@@ -365,6 +422,14 @@ class ResidenteController extends Controller
                 'message' => 'Error al buscar residentes'
             ], 500);
         }
+    }
+    public function getResidenteByDepartamento($id)
+    {
+        $residente = Residente::whereHas('contrato', function ($query) use ($id) {
+            $query->where('id', $id);
+        })->get()->first(); 
+        
+	return $residente;
     }
 
 }

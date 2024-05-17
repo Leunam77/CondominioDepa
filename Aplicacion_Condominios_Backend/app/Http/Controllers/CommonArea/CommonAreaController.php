@@ -301,4 +301,23 @@ class CommonAreaController extends Controller
 
         return response()->json($reporte, 201);
     }
+
+    public function getReports() {
+        $reports = collect(Reporte::all())->map(function ($report) {
+            $nameResidente = DB::table('residentes')->where('id', $report->id_residente)->value('nombre_residente');
+            $nameCommonArea = DB::table('common_areas')->where('id_common_area', $report->id_common_area)->value('common_area_name');
+            $nameEquipment = DB::table('equipamientos')->where('id', $report->id_equipment)->value('nombre');
+            return [
+                'id' => $report->id,
+                'nombre_residente' => $nameResidente,
+                'nombre_area_comun' => $nameCommonArea,
+                'nombre_equipo' => $nameEquipment,
+                'costo_reponer' => $report->costo_reponer,
+                'cantidad_reponer' => $report->cantidad_reponer,
+                'situacion' => $report->situacion,
+                'info' => $report->info,
+            ];
+        });
+        return response()->json(['data' => $reports], 200);
+    }
 }

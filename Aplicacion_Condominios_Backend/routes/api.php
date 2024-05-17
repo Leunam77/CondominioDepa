@@ -194,6 +194,7 @@ Route::apiResource('/equipments', EquipmentController::class);
 // Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
 
 Route::post('/reports', [CommonAreaController::class, 'createReport']);
+Route::get('/reports', [CommonAreaController::class, 'getReports']);
 
 
 //Cobro_Servicios

@@ -151,6 +151,7 @@ function ReportPage() {
         icon: "success",
         title: "Reporte creado",
       });
+      resetForm();
     } catch (error: any) {
       Swal.fire({
         icon: "error",
@@ -158,6 +159,20 @@ function ReportPage() {
         text: error.message,
       });
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      idUsuario: 0,
+      idAreaComun: 0,
+      idProducto: 0,
+      costo: 0,
+      costoReponer: 0,
+      cantidadActual: 0,
+      cantidadReponer: 0,
+      situacion: "",
+      informacionAdicional: "",
+    });
   };
 
   return (

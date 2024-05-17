@@ -73,7 +73,9 @@ const GestionCobro = () => {
                     title: 'Error al generar la expensa',
                     text: response.statusText,
                 }).then(() => {
-                    setGenerarExpensaHabilitado(true); // Habilitar el botón después de cerrar la alerta
+                    setGenerarExpensaHabilitado(true); 
+                    window.location.href = `/cobros/expensas`;
+                    // Habilitar el botón después de cerrar la alerta
                 });
             }
         } catch (error) {

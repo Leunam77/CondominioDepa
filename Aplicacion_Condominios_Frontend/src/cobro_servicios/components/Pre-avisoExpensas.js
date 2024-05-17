@@ -164,44 +164,10 @@ const GestionCobro = () => {
                             <td style={{ textAlign: 'center', cursor: 'pointer' }}>
                                 <FaPen onClick={() => handleGenerarExpensa(preaviso.id)} disabled={!generarExpensaHabilitado} />
                             </td>
-                            <td>
-                                <button className="btn btn-secondary" onClick={() => handleToggleCobroModal(preaviso)}>
-                                    Enviar Correo
-                                </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-
-            <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Notificar pre aviso</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <form onSubmit={handleSubmit} style={{ marginTop: '-1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                        <div style={{ width: '100%', maxWidth: '400px', display: 'grid', gap: '10px' }}>
-                            <label htmlFor="titulo">Título:</label>
-                            {/* Modifica el campo "Título" para que sea editable */}
-                            <input id="titulo" type="text" className="form-control" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
-                        </div>
-                        <div style={{ width: '100%', maxWidth: '400px', display: 'grid', gap: '10px' }}>
-                            <label htmlFor="monto">Monto a cobrar:</label>
-                            {/* Modifica el campo "Monto" para que sea editable */}
-                            <input id="monto" type="number" className="form-control" value={monto} onChange={(e) => setMonto(e.target.value)} />
-                        </div>
-                        <div style={{ width: '100%', maxWidth: '400px', display: 'grid', gap: '10px', marginBottom: '2rem' }}>
-                            <label htmlFor="mensaje">Detalle:</label>
-                            {/* Modifica el campo "Detalle" para que sea editable */}
-                            <textarea id="mensaje" className="form-control" value={mensaje} onChange={(e) => setMensaje(e.target.value)} />
-                        </div>
-                        <button type="submit" className="btn btn-primary" style={{ width: '100%', maxWidth: '400px' }}>Notificar</button>
-                    </form>
-
-
-                </Modal.Body>
-            </Modal>
-            <ToastContainer />
         </div>
     );
 }

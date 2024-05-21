@@ -7,6 +7,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import "./customs.css";
 import ModalCon from "./ModalConfirm";
 import ModalPar from "./ModalParqueo";
+import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 
 const endpoint = "http://localhost:8000/api";
 
@@ -78,7 +79,7 @@ class RegistrarParqueo extends Component {
     };
 
     handleEdificioSeleccionado = (e) => {
-        const edificio = e.target.value; // Obtener el número de pisos del edificio seleccionado
+        const edificio = e.target.value;
         this.setState({ edificioSeleccionado: edificio });
         this.cargarDepartamentos(edificio);
     };
@@ -106,6 +107,8 @@ class RegistrarParqueo extends Component {
         let nombre_parqueo = this.state.nombre_parqueo;
         let direccion_parqueo = this.state.direccion_parqueo;
         let departamento_seleccionado = this.state.departamento_seleccionado;
+        let bloque_seleccionado = this.state.bloqueSeleccionado;
+        let edificio_seleccionado = this.state.edificioSeleccionado;
         let validationErrors = {};
 
         if (!nombre_parqueo.trim()) {
@@ -117,6 +120,12 @@ class RegistrarParqueo extends Component {
             validationErrors.nombre_parqueo = "Este campo es obligatorio";
         } else if (!/^[a-zA-ZÑñáéíóú][a-zA-ZÑñáéíóú0-9\s-]{1,60}[A-Za-zÑñáéíóú0-9]$/.test(nombre_parqueo)) {
             validationErrors.nombre_parqueo = "El nombre del parqueo debe contener solo letras y numeros.";
+        }
+        if (!bloque_seleccionado.trim()) {
+            validationErrors.departamento_seleccionado = "Este campo es obligatorio";
+        }
+        if (!edificio_seleccionado.trim()) {
+            validationErrors.departamento_seleccionado = "Este campo es obligatorio";
         }
         if (!departamento_seleccionado.trim()) {
             validationErrors.departamento_seleccionado = "Este campo es obligatorio";

@@ -12,10 +12,11 @@ class RegistrarVisita extends Component {
 
     async componentDidMount() {
         try {
-            const url = `${endpoint}/departamentos`;
-            const response = await axios.get(url);
-
-            this.setState({ departamentos: response.data });
+            const bloques = await axios.get(`${endpoint}/bloques`);
+            this.setState({ bloques: bloques.data });
+            //const url = `${endpoint}/departamentos`;
+            //const response = await axios.get(url);
+            //this.setState({ departamentos: response.data });
         } catch (error) {
             console.error('Error al obtener los bloques:', error);
         }
@@ -30,7 +31,11 @@ class RegistrarVisita extends Component {
             telefono_visita: "",
             activo_visita: true,
             departamentos: [],
-            departamentoSeleccionado: 0,
+            departamentoSeleccionado: '',
+            bloques: [],
+            bloqueSeleccionado: '',
+            edificioSeleccionado: '',
+            edificios: [],
             errors: {},
             modalOpen: false,
         };
@@ -53,6 +58,38 @@ class RegistrarVisita extends Component {
             [e.target.name]: e.target.value,
         });
     };
+
+    handleBloqueSeleccionado = (event) => {
+        const idBloque = event.target.value;
+        this.setState({ bloqueSeleccionado: idBloque });
+
+        this.cargarOpcionesDependientes(idBloque);
+    };
+
+    handleEdificioSeleccionado = (e) => {
+        const edificio = e.target.value;
+        this.setState({ edificioSeleccionado: edificio });
+        this.cargarDepartamentos(edificio);
+    };
+
+    cargarOpcionesDependientes = async (idBloque) => {
+        try {
+            const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
+
+            this.setState({ edificios: response.data });
+        } catch (error) {
+            console.error('Error al obtener las opciones dependientes:', error);
+        }
+    };
+
+    cargarDepartamentos = async (idEdificio) => {
+        try {
+            const response = await axios.get(`${endpoint}/departamentos-by-edificios/${idEdificio}`);
+            this.setState({ departamentos: response.data });
+        } catch (error) {
+            console.error('Error al obtener los pisos:', error);
+        }
+    }
 
     handleDepartamentoSeleccionado = (event) => {
         const idDepartamento = event.target.value;
@@ -102,6 +139,12 @@ class RegistrarVisita extends Component {
             }
         }
 
+        if (!this.state.bloqueSeleccionado) {
+            validationErrors.departamentoSeleccionado = "Debe seleccionar un piso";
+        }
+        if (!this.state.edificioSeleccionado) {
+            validationErrors.departamentoSeleccionado = "Debe seleccionar un piso";
+        }
         if (!this.state.departamentoSeleccionado) {
             validationErrors.departamentoSeleccionado = "Debe seleccionar un piso";
         }
@@ -225,6 +268,50 @@ class RegistrarVisita extends Component {
 
                                 <FormGroup className="mb-4">
                                     <Row>
+                                        <Col sm={6}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Bloque
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="bloque_id"
+                                                id="bloque_id"
+                                                onChange={this.handleBloqueSeleccionado}
+                                                invalid={this.state.errors.bloqueSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected >
+                                                    {" "}Seleccionar bloque</option>
+                                                {this.state.bloques.map(bloque => (
+                                                    <option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>
+                                                ))}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.bloqueSeleccionado}</FormFeedback>
+                                        </Col>
+                                        <Col sm={6}>
+                                            <Label
+                                                className="label-custom"
+                                            >
+                                                Edificio
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                className="customInput"
+                                                name="edificio_id"
+                                                id="edificio_id"
+                                                onChange={this.handleEdificioSeleccionado}
+                                                invalid={this.state.errors.edificioSeleccionado ? true : false}
+                                            >
+                                                <option disabled selected>
+                                                    {" "}Seleccionar edificio</option>
+                                                {this.state.edificios.map(edificio => (
+                                                    <option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>
+                                                ))}
+                                            </Input>
+                                            <FormFeedback>{this.state.errors.edificioSeleccionado}</FormFeedback>
+                                        </Col>
                                         <Col sm={6}>
                                             <Label
                                                 className="label-custom"

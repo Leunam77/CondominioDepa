@@ -122,7 +122,7 @@ const GestionVisitas = () => {
                                 <tr>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Cédula</th>
+                                    <th>DNI</th>
                                     <th>Celular</th>
                                     <th>Departamento</th>
                                     <th>Ingreso</th>

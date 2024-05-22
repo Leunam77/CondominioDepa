@@ -68,7 +68,7 @@ const MostrarResidentes = () => {
                 <Row >
                     <Label className="text-center mb-4 titulosForms">Residentes</Label>
                     <InputGroup className="mb-4">
-                        <Input placeholder="Buscar residente..." onChange={manejarCambio}
+                        <Input placeholder="Buscar residente..." className="buscadorDepa" onChange={manejarCambio}
                             style={{
                                 borderRadius: "15px",
                                 border: "1px solid rgba(0, 0, 0, 0.3)",

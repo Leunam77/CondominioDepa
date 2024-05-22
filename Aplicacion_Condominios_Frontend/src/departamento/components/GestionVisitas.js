@@ -104,7 +104,7 @@ const GestionVisitas = () => {
                         <Row >
                             <Col sm={7}>
                                 <InputGroup >
-                                    <Input placeholder="Buscar visitante..." onChange={manejarBusqueda}
+                                    <Input placeholder="Buscar visitante..." className="buscadorDepa" onChange={manejarBusqueda}
                                         style={{
                                             borderRadius: "15px",
                                             border: "1px solid rgba(0, 0, 0, 0.3)",

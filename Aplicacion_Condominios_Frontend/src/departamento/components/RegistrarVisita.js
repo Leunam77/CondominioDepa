@@ -140,13 +140,13 @@ class RegistrarVisita extends Component {
         }
 
         if (!this.state.bloqueSeleccionado) {
-            validationErrors.departamentoSeleccionado = "Debe seleccionar un piso";
+            validationErrors.bloqueSeleccionado = "Debe seleccionar un bloque";
         }
         if (!this.state.edificioSeleccionado) {
-            validationErrors.departamentoSeleccionado = "Debe seleccionar un piso";
+            validationErrors.edificioSeleccionado = "Debe seleccionar un edificio";
         }
         if (!this.state.departamentoSeleccionado) {
-            validationErrors.departamentoSeleccionado = "Debe seleccionar un piso";
+            validationErrors.departamentoSeleccionado = "Debe seleccionar un departamento";
         }
 
         this.setState({ errors: validationErrors });
@@ -311,31 +311,36 @@ class RegistrarVisita extends Component {
                                                 ))}
                                             </Input>
                                             <FormFeedback>{this.state.errors.edificioSeleccionado}</FormFeedback>
-                                        </Col>
-                                        <Col sm={6}>
-                                            <Label
-                                                className="label-custom"
-                                            >
-                                                Departamento
-                                            </Label>
-                                            <Input
-                                                type="select"
-                                                className="customInput"
-                                                name="departamento_id"
-                                                id="departamento_id"
-                                                onChange={this.handleDepartamentoSeleccionado}
-                                                invalid={this.state.errors.departamentoSeleccionado ? true : false}
-                                            >
-                                                <option disabled selected >
-                                                    {" "}Seleccionar departamento</option>
-                                                {this.state.departamentos.map(departamento => (
-                                                    <option key={departamento.id} value={departamento.id}>{departamento.nombre_departamento}</option>
-                                                ))}
-                                            </Input>
-                                            <FormFeedback>{this.state.errors.departamentoSeleccionado}</FormFeedback>
-                                        </Col>
+                                        </Col>      
                                     </Row>
-
+                                </FormGroup>
+                                <FormGroup>
+                                    <Row>
+                                        
+                                            <Col sm={6}>
+                                                <Label
+                                                    className="label-custom"
+                                                >
+                                                    Departamento
+                                                </Label>
+                                                <Input
+                                                    type="select"
+                                                    className="customInput"
+                                                    name="departamento_id"
+                                                    id="departamento_id"
+                                                    onChange={this.handleDepartamentoSeleccionado}
+                                                    invalid={this.state.errors.departamentoSeleccionado ? true : false}
+                                                >
+                                                    <option disabled selected >
+                                                        {" "}Seleccionar departamento</option>
+                                                    {this.state.departamentos.map(departamento => (
+                                                        <option key={departamento.id} value={departamento.id}>{departamento.nombre_departamento}</option>
+                                                    ))}
+                                                </Input>
+                                                <FormFeedback>{this.state.errors.departamentoSeleccionado}</FormFeedback>
+                                            </Col>
+                                    
+                                    </Row>
                                 </FormGroup>
                                 <Button size="lg" type="button" className="mt-5 custom-button mx-auto d-block"
                                     style={{ fontWeight: 'bold' }}

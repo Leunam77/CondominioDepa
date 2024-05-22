@@ -192,7 +192,7 @@ class RegistrarParqueo extends Component {
                 <ModalCon isOpen={this.state.estadoModal} toggle={this.handleModal} confirm={this.handleConfirm} message="¿Está seguro que desea crear un parqueo?" />
                 <ModalCon isOpen={this.state.estadoModalPar} toggle={this.handleModalConfPar} confirm={this.confirmDelete} message="¿Está seguro que desea eliminar el parqueo?" />
                 
-                <ModalPar isOpen={this.state.modal_open} onSubmit={this.manejoEnvio} toggle={this.handleModalPar} idParqueo={this.state.idParqueo} parqueos={this.state.parqueos} departamentos={this.state.departamentos} />
+                <ModalPar isOpen={this.state.modal_open} onSubmit={this.manejoEnvio} toggle={this.handleModalPar} idParqueo={this.state.idParqueo} parqueos={this.state.parqueos} departamentos={this.state.departamentosAll} />
                 <Row>
                     <Label className="text-center mb-4 titulosForms">Registrar Parqueo</Label>
                 </Row>

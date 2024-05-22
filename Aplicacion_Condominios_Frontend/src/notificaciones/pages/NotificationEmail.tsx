@@ -6,7 +6,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Define una interfaz para el tipo de datos que esperas recibir de la API
 interface Resident {
@@ -67,7 +68,7 @@ function NotificationEmail() {
             setSelectedResidents(initialSelectedResidents);
         } catch (error) {
             console.error(error);
-            alert('Failed to fetch residents.');
+            toast.error('Failed to fetch residents.');
         }
     };
 
@@ -136,11 +137,20 @@ function NotificationEmail() {
 
         try {
             // Esperar a que todas las solicitudes se completen
-            await Promise.all(promises);
-            alert('Emails sent successfully!');
+            const responses = await Promise.all(promises);
+            const allSuccessful = responses.every(response => response.status === 200);
+
+            if (allSuccessful) {
+                toast.success('Email enviado correctamente');
+                setFormData({ titulo: '', anuncio: '' });
+                setSelectedResidents({});
+                setEmailList([]);
+            } else {
+                toast.error('Error al enviar algunos de los emails');
+            }
         } catch (error) {
             console.error(error);
-            alert('An unexpected error occurred.');
+            toast.error('Error al enviar el email');
         }
     };
 
@@ -251,6 +261,9 @@ function NotificationEmail() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Contenedor de Toast */}
+            <ToastContainer />
         </form>
     );
 }

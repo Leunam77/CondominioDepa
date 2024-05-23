@@ -77,21 +77,16 @@ const HistorialVisitas = () => {
             if (!filtrar) {
                 return true;
             }
-
-            const createdAt = moment.tz(visita.created_at, timezone);
-            const updatedAt = moment.tz(visita.updated_at, timezone);
-            const startDate = moment.tz(fechaInicio, timezone).startOf('day');
-            const endDate = moment.tz(fechaFin, timezone).endOf('day');
             
+            const createdAt = new Date(visita.created_at);
             console.log("ingreso",createdAt);
+            const updatedAt = new Date(visita.updated_at);
             console.log("salida",updatedAt);
             console.log("filtroPrimero",new Date(filtroDesde));
             console.log("filtroSegundo",new Date(filtroHasta));
             console.log("1cond",createdAt >= new Date(filtroDesde));
             console.log("2cond",updatedAt <= new Date(filtroHasta));
-
-            return createdAt.isSameOrAfter(startDate) && updatedAt.isSameOrBefore(endDate);
-            
+            return createdAt >= new Date(filtroDesde) && updatedAt <= new Date(filtroHasta);
         });
 
     return (

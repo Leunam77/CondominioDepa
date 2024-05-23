@@ -14,8 +14,14 @@ import Depa from "../departamento/components/MostrarDep.js";
 import EditarDep from "../departamento/components/EditarDep.js";
 import RegistrarResidente from "../departamento/components/CrearResidente";
 import CrearContrato from "../departamento/components/CrearContrato";
-import InfoDepartamento from "../departamento/components/InfoDepartamento";
 import MostrarResidentes from "../departamento/components/MostrarResidentes";
+import InfoDepartamento from "../departamento/components/InfoDepartamento";
+import GestionVisitas from "../departamento/components/GestionVisitas";
+import RegistrarVisita from "../departamento/components/RegistrarVisita";
+import EditarContrato from "../departamento/components/EditarContrato";
+import MostrarEdificio from "../departamento/components/MostrarEdificios";
+import RegistrarParqueo from "../departamento/components/RegistrarParqueo";
+import CrearEdificio from "../departamento/components/CrearEdificio";
 
 import AgregarEquipo from "../cobro_servicios/components/AgregarEquipo.js";
 import PagoAreaComun from "../cobro_servicios/components/PagoAreaComun";
@@ -46,21 +52,33 @@ import UpdatePage from "../common-areas/dashboard/common-area/pages/update-page/
 import CalendarPage from "../common-areas/dashboard/common-area/pages/calendar-page/CalendarPage";
 import ReservationPage from "../common-areas/dashboard/reservation/pages/create-page/CreatePage";
 import InventoryPage from "../common-areas/dashboard/equipment/pages/inventory-page/InventoryPage";
+import ReportPage from "../common-areas/dashboard/detail/pages/report-page/reportPage";
 import FormularioPagoArea from "../cobro_servicios/components/FormularioPagoArea";
 import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
 import NotificationEmail from "../notificaciones/pages/NotificationEmail";
+
 import PersonalPage from "../mantenimiento/personal/PersonalPage";
 import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
 import ListaSolicitudServicioPage from "../mantenimiento/lista_solicitud/ListaSolicitudServicioPage";
 import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
+import RegistrarInsumoPage from "../mantenimiento/registro_insumo/RegistrarInsumoPage";
+import ListaInsumoPage from "../mantenimiento/lista_insumo/ListaInsumoPage";
+
 import TablaReservas from "../cobro_servicios/components/TablaReservas";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
+
+import ReportListPage from "../common-areas/dashboard/detail/pages/list-page/ReportListPage";
+import Expensas from "../cobro_servicios/components/Expensas";
+
+import Imprimir from "../notificaciones/pages/Imprimir";
+import Multas from "../cobro_servicios/components/Multas";
+import FormularioPagoExpensa from "../cobro_servicios/components/FormularioPagoExpensa";
 
 const appRoutes: RouteType[] = [
   {
@@ -84,6 +102,14 @@ const appRoutes: RouteType[] = [
         state: "dashboard.index",
       },
       {
+        path: "/dashboard/crearEdificio",
+        element: <CrearEdificio />,
+        state: "dashboard.crearEdificio",
+        sidebarProps: {
+          displayText: "Crear Edificio",
+        },
+      },
+      {
         path: "/dashboard/crearDepa",
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
@@ -92,17 +118,22 @@ const appRoutes: RouteType[] = [
         },
       },
       {
+        path: "/dashboard/edificios",
+        element: <MostrarEdificio />,
+        state: "dashboard.edificios",
+        sidebarProps: {
+          displayText: "GestionarDepartamento",
+        },
+      },
+      {
         path: "/dashboard/departamentos",
         element: <Depa />,
-        state: "dashboard.depa",
-        sidebarProps: {
-          displayText: "Gestionar Departamento",
-        },
+        state: "dashboard.departamentos",
       },
       {
         path: "/dashboard/RegResidente",
         element: <RegistrarResidente />,
-        state: "dashboard.depa",
+        state: "dashboard.regResidente",
         sidebarProps: {
           displayText: "Registrar Residente",
         },
@@ -110,44 +141,55 @@ const appRoutes: RouteType[] = [
       {
         path: "/dashboard/editarDepa",
         element: <EditarDep />,
-        state: "dashboard.depa",
+        state: "dashboard.editDepa",
       },
       {
         path: "/dashboard/crearContrato",
         element: <CrearContrato />,
-        state: "dashboard.depa",
+        state: "dashboard.crearContrato",
+      },
+      {
+        path: "/dashboard/editContrato",
+        element: <EditarContrato />,
+        state: "dashboard.editContrato",
       },
       {
         path: "/dashboard/infoDepartamento",
         element: <InfoDepartamento />,
-        state: "dashboard.depa",
+        state: "dashboard.infoDepartamento",
       },
       {
         path: "/dashboard/residentes",
         element: <MostrarResidentes />,
-        state: "dashboard.depa",
+        state: "dashboard.residentes",
         sidebarProps: {
           displayText: "Residentes",
         },
       },
-      // {
-      //   path: "/dashboard/analytics",
-      //   element: <AnalyticsPage />,
-      //   state: "dashboard.analytics",
-      //   sidebarProps: {
-      //     displayText: "Habitaciones"
-      //   }
-      // },
-      // {
-      //   path: "/dashboard/saas",
-      //   element: <SaasPage />,
-      //   state: "dashboard.saas",
-      //   sidebarProps: {
-      //     displayText: "Parqueos"
-      //   }
-      // }
+      {
+        path: "/dashboard/visitas",
+        element: <GestionVisitas />,
+        state: "dashboard.visitas",
+        sidebarProps: {
+          displayText: "Visitas",
+        },
+      },
+      {
+        path: "/dashboard/registrarVisita",
+        element: <RegistrarVisita />,
+        state: "dashboard.registrarVisita",
+      },
+      {
+        path: "/dashboard/parqueo",
+        element: <RegistrarParqueo />,
+        state: "dashboard.parqueo",
+        sidebarProps: {
+          displayText: "Parqueos",
+        },
+      },
     ],
   },
+
   {
     path: "/cobros",
     element: <CobrosLayout />,
@@ -190,6 +232,14 @@ const appRoutes: RouteType[] = [
         },
       },
       {
+        path: "/cobros/expensas",
+        element: <Expensas />,
+        state: "cobros.expensas",
+        sidebarProps: {
+          displayText: "Expensas",
+        },
+      },
+      {
         path: "/cobros/edicion-equipo/:id",
         element: <EditarEquipo />,
         state: "cobros.editar-equipo",
@@ -198,11 +248,15 @@ const appRoutes: RouteType[] = [
         path: "/cobros/generar-preaviso/:departamento_id",
         element: <GenerarPreAviso />,
         state: "cobros.generar-pre-aviso",
-        
       },
       {
-        path:"/cobros/pagar-reserva/",
-        element:<PagoAreaComun/>,
+        path: "/cobros/multas/:idPreaviso",
+        element: <Multas />,
+        state: "cobros.generar-pre-aviso",
+      },
+      {
+        path: "/cobros/pagar-reserva/",
+        element: <PagoAreaComun />,
         state: "cobros.pago-areacomun",
         sidebarProps: {
           displayText: "Pagar reserva",
@@ -210,20 +264,22 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/cobros/pagar-reserva/:id",
-        element: <TablaReservas/>,
+        element: <TablaReservas />,
         state: "cobros.tabla.reservas",
-        
-        
+      },
+      {
+        path: "/cobros/pagar-expensa/:id",
+        element: <FormularioPagoExpensa />,
+        state: "cobros.formulario.expensa",
       },
       {
         path: "/cobros/pagar-reserva-area/:id",
-        element: <FormularioPagoArea/>,
+        element: <FormularioPagoArea />,
         state: "cobros.formulario.pago",
-        
-        
       },
     ],
   },
+
   {
     path: "/areas-comunes",
     element: <CommonAreasLayout />,
@@ -272,6 +328,22 @@ const appRoutes: RouteType[] = [
           displayText: "Inventario",
         },
       },
+      {
+        path: "/areas-comunes/reportes",
+        element: <ReportListPage />,
+        state: "areas-comunes.reportes",
+        sidebarProps: {
+          displayText: "Reportes",
+        },
+      },
+      {
+        path: "/areas-comunes/crear-reporte",
+        element: <ReportPage />,
+        state: "areas-comunes.crear-reporte",
+        sidebarProps: {
+          displayText: "Crear Reporte",
+        },
+      },
     ],
   },
 
@@ -289,7 +361,7 @@ const appRoutes: RouteType[] = [
         element: <Changelog />,
         state: "changelog.servicio",
         sidebarProps: {
-          displayText: "Registrar servicio",
+          displayText: "Administrar categoria ",
         },
       },
       {
@@ -297,7 +369,7 @@ const appRoutes: RouteType[] = [
         element: <PersonalPage />,
         state: "changelog.personal",
         sidebarProps: {
-          displayText: "Personal",
+          displayText: "Administrar personal",
         },
       },
       {
@@ -305,7 +377,7 @@ const appRoutes: RouteType[] = [
         element: <RegistroServicioPage />,
         state: "changelog.registro",
         sidebarProps: {
-          displayText: "Registro",
+          displayText: "Registrar solicitud ",
         },
       },
       {
@@ -313,7 +385,26 @@ const appRoutes: RouteType[] = [
         element: <ListaSolicitudServicioPage />,
         state: "changelog.solicitud",
         sidebarProps: {
-          displayText: "Solicitud",
+          displayText: "Solicitudes ",
+        },
+      },
+      //Registro insumo
+
+      {
+        path: "/changelog/registrar_insumo",
+        element: <RegistrarInsumoPage />,
+        state: "changelog.solicitud",
+        // sidebarProps: {
+        //   displayText: "Registrar insumo",
+        // },
+      },
+      //Lista Insumo
+      {
+        path: "/changelog/lista_insumo",
+        element: <ListaInsumoPage />,
+        state: "changelog.solicitud",
+        sidebarProps: {
+          displayText: "Insumos",
         },
       },
     ],
@@ -482,7 +573,6 @@ const appRoutes: RouteType[] = [
         element: <EditarTurno />,
         state: "employee.analytics",
       },
-      
     ],
   },
 ];

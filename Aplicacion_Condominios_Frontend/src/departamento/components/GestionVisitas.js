@@ -102,7 +102,7 @@ const GestionVisitas = () => {
                             <Label className="text-center mb-4 titulosForms">Gestión de visitas</Label>
                         </Row>
                         <Row >
-                            <Col sm={7}>
+                            <Col md={7}>
                                 <InputGroup >
                                     <Input placeholder="Buscar visitante..." className="buscadorDepa" onChange={manejarBusqueda}
                                         style={{
@@ -113,7 +113,7 @@ const GestionVisitas = () => {
                                     />
                                 </InputGroup>
                             </Col>
-                            <Col className="d-flex justify-content-end" sm={5}>
+                            <Col className="d-flex justify-content-end" md={5}>
                                 <Button type="button" className="custom-button" onClick={registrarVisita}>Marcar Ingreso</Button>
                             </Col>
                         </Row>

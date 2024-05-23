@@ -201,12 +201,12 @@ class RegistrarParqueo extends Component {
                         <Col>
                             <FormGroup>
                                 <Row>
-                                    <Col sm={4}>
+                                    <Col md={4}>
                                         <Label className="label-custom" for="nombre_parqueo">Nombre</Label>
                                         <Input className="customInput" type="text" name="nombre_parqueo" id="nombre_parqueo" placeholder="Ingrese el nombre del parqueo" onChange={this.handleInput} invalid={this.state.errors.nombre_parqueo ? true : false} />
                                         <FormFeedback>{this.state.errors.nombre_parqueo}</FormFeedback>
                                     </Col>
-                                    <Col sm={8}>
+                                    <Col md={8}>
                                         <Label className="label-custom" for="nombre_parqueo">Dirección</Label>
                                         <Input className="customInput" type="text" name="direccion_parqueo" id="direccion_parqueo" placeholder="Ingrese la direccion del parqueo" onChange={this.handleInput} invalid={this.state.errors.direccion_parqueo ? true : false} />
                                         <FormFeedback>{this.state.errors.direccion_parqueo}</FormFeedback>
@@ -216,7 +216,7 @@ class RegistrarParqueo extends Component {
 
                             <FormGroup>
                                 <Row>
-                                    <Col sm={4}>
+                                    <Col md={4}>
                                         <Label
                                             className="label-custom"
                                         >
@@ -238,7 +238,7 @@ class RegistrarParqueo extends Component {
                                         </Input>
                                         <FormFeedback>{this.state.errors.bloque_seleccionado}</FormFeedback>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col md={4}>
                                         <Label
                                             className="label-custom"
                                         >
@@ -260,7 +260,7 @@ class RegistrarParqueo extends Component {
                                         </Input>
                                         <FormFeedback>{this.state.errors.edificio_seleccionado}</FormFeedback>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col md={4}>
                                         <Label className="label-custom" for="departamento_seleccionado">Departamento</Label>
                                         <Input
                                             className="customInput"

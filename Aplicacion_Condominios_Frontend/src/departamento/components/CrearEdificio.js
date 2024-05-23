@@ -173,7 +173,7 @@ class CrearEdificio extends Component {
                         <span style={{ color: "red" }}>{this.state.errors.descripcion_edificio}</span>
                     </FormGroup>
                     <Row className="mb-3 mt-1">
-                        <Col sm={6}>
+                        <Col md={6}>
                         <FormGroup>
                             <Label className="label-custom" for="cantidad_pisos">Cantidad de Pisos</Label>
                             <Input 
@@ -187,7 +187,7 @@ class CrearEdificio extends Component {
                             <span style={{ color: "red" }}>{this.state.errors.cantidad_pisos}</span>
                         </FormGroup>
                         </Col>
-                        <Col sm={6}>
+                        <Col md={6}>
                         <FormGroup>
                             <Label className="label-custom" for="bloque_seleccionado">Bloque</Label>
                             <Input 

@@ -67,15 +67,20 @@ const MostrarResidentes = () => {
             <Container>
                 <Row >
                     <Label className="text-center mb-4 titulosForms">Residentes</Label>
-                    <InputGroup className="mb-4">
-                        <Input placeholder="Buscar residente..." className="buscadorDepa" onChange={manejarCambio}
-                            style={{
-                                borderRadius: "15px",
-                                border: "1px solid rgba(0, 0, 0, 0.3)",
-                                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
-                            }}
-                        />
-                    </InputGroup>
+                    <Row className="d-flex align-items-center justify-content-center">
+                        <Col md={8}>
+                            <InputGroup className="mb-4">
+                                <Input placeholder="Buscar residente..." className="buscadorDepa" onChange={manejarCambio}
+                                    style={{
+                                        borderRadius: "15px",
+                                        border: "1px solid rgba(0, 0, 0, 0.3)",
+                                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+                                    }}
+                                />
+                            </InputGroup>
+                        </Col>
+                    </Row>
+                    
                     {residentes.filter(residente => {
                         if (busqueda === "") {
                             return residente;

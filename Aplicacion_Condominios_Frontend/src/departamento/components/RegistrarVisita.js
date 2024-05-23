@@ -189,12 +189,12 @@ class RegistrarVisita extends Component {
                 
                 <Container className="custom-form">
                     <Row>
-                        <Col sm={12}>
+                        <Col md={12}>
                             <h2 className="text-center mb-5 titulosForms">Registrar visita</h2>
                             <form onSubmit={this.storeVisita}>
                                 <FormGroup className="mb-4">
                                     <Row>
-                                        <Col sm={6}>
+                                        <Col md={6}>
                                             <Label
                                                 className="label-custom"
                                             >
@@ -211,7 +211,7 @@ class RegistrarVisita extends Component {
                                             />
                                             <FormFeedback>{this.state.errors.nombre_visita}</FormFeedback>
                                         </Col>
-                                        <Col sm={6}>
+                                        <Col md={6}>
                                             <Label
                                                 className="label-custom"
                                             >
@@ -233,7 +233,7 @@ class RegistrarVisita extends Component {
 
                                 <FormGroup className="mb-4">
                                     <Row>
-                                        <Col sm={6}>
+                                        <Col md={6}>
                                             <Label className="label-custom">
                                                 Cédula de identidad
                                             </Label>
@@ -248,7 +248,7 @@ class RegistrarVisita extends Component {
                                             />
                                             <FormFeedback>{this.state.errors.cedula_visita}</FormFeedback>
                                         </Col>
-                                        <Col sm={6}>
+                                        <Col md={6}>
                                             <Label className="label-custom">
                                                 Celular
                                             </Label>
@@ -268,7 +268,7 @@ class RegistrarVisita extends Component {
 
                                 <FormGroup className="mb-4">
                                     <Row>
-                                        <Col sm={6}>
+                                        <Col md={6}>
                                             <Label
                                                 className="label-custom"
                                             >
@@ -290,7 +290,7 @@ class RegistrarVisita extends Component {
                                             </Input>
                                             <FormFeedback>{this.state.errors.bloqueSeleccionado}</FormFeedback>
                                         </Col>
-                                        <Col sm={6}>
+                                        <Col md={6}>
                                             <Label
                                                 className="label-custom"
                                             >
@@ -317,7 +317,7 @@ class RegistrarVisita extends Component {
                                 <FormGroup>
                                     <Row>
                                         
-                                            <Col sm={6}>
+                                            <Col md={6}>
                                                 <Label
                                                     className="label-custom"
                                                 >

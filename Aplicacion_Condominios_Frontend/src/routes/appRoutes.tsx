@@ -61,7 +61,7 @@ const appRoutes: RouteType[] = [
         element: <CrearEdificio />,
         state: "dashboard.crearEdificio",
         sidebarProps: {
-          displayText: "Crear Edificio"
+          displayText: "Registrar Edificio"
         },
       },
       {
@@ -69,7 +69,7 @@ const appRoutes: RouteType[] = [
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Crear Departamento"
+          displayText: "Registrar Departamento"
         },
       },
       {
@@ -126,7 +126,7 @@ const appRoutes: RouteType[] = [
         element: <GestionVisitas />,
         state: "dashboard.visitas",
         sidebarProps: {
-          displayText: "Visitas"
+          displayText: "Gestionar Visitas"
         },
       },
       {
@@ -147,7 +147,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarParqueo />,
         state: "dashboard.parqueo",
         sidebarProps: {
-          displayText: "Parqueo"
+          displayText: "Gestionar Parqueos"
         },
       },
       {

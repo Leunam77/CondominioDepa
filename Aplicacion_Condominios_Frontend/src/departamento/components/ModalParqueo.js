@@ -18,6 +18,7 @@ const ModalParqueo = (props) => {
             if (idParqueo) {
                 const parqueo = parqueos.find(parqueo => parqueo.id === idParqueo);
                 const departamento = departamentos.find(departamento => departamento.id === parqueo.departamento_id);
+                //const edificio = de
                 setNombre(parqueo.nombre_parqueo);
                 setDepartamentoSelec(departamento.id);
             }

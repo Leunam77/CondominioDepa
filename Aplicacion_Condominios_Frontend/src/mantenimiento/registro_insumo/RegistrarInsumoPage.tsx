@@ -42,14 +42,14 @@ interface SolicitudServicioResponse {
   };
 }
 
-interface Insumo{
-  id:number;
+interface Insumo {
+  id: number;
   idSolicitud: number;
   nombreInsumo: string;
   precioInsumo: number;
 }
 
-interface InsumoRequest{
+interface InsumoRequest {
   idSolicitud: number;
   nombreInsumo: string;
   precioInsumo: number;
@@ -83,8 +83,8 @@ export default function RegistroInsumo() {
     setPersonalList(response);
   }
 
-  const allSolicitudList = async (encargadoId: string)=>{
-    const encargadoIdInt:number = parseInt(encargadoId);
+  const allSolicitudList = async (encargadoId: string) => {
+    const encargadoIdInt: number = parseInt(encargadoId);
     const response = await getSolicitudByEncargadoId(encargadoIdInt);
     console.log("🚀 ~ allSolicitudList ~ response:", response)
     setSolicitudList(response);
@@ -92,9 +92,9 @@ export default function RegistroInsumo() {
   }
 
 
-  const agregarInsumo = () =>{
-    if(nombreInsumo.slice()!==""){
-      const newInsumo = {id: insumosList.length+1,idSolicitud:0, nombreInsumo:nombreInsumo, precioInsumo: 0 }
+  const agregarInsumo = () => {
+    if (nombreInsumo.slice() !== "") {
+      const newInsumo = { id: insumosList.length + 1, idSolicitud: 0, nombreInsumo: nombreInsumo, precioInsumo: 0 }
       const newInsumosList = [...insumosList, newInsumo];
       setInsumosList(newInsumosList);
       setNombreInsumo("");
@@ -111,177 +111,193 @@ export default function RegistroInsumo() {
     setInsumosList(newInsumosList);
   }
 
-  const registerInsumo = async (insumoData:InsumoRequest) =>{
+  const registerInsumo = async (insumoData: InsumoRequest) => {
     const response = await createInsumo(insumoData);
-    if(response === null){
+    if (response === null) {
       alert("Error al guardar")
     }
   }
 
-  const handleRegisterInsumos = ()=>{
-    if(insumosList.length !== 0 && solicitudActual != 0){
+  const handleRegisterInsumos = () => {
+    if (insumosList.length !== 0 && solicitudActual != 0) {
       insumosList.map(element => {
-        const {nombreInsumo, precioInsumo} = element;
-        const insumoData = {idSolicitud: solicitudActual, nombreInsumo:nombreInsumo, precioInsumo:precioInsumo};
+        const { nombreInsumo, precioInsumo } = element;
+        const insumoData = { idSolicitud: solicitudActual, nombreInsumo: nombreInsumo, precioInsumo: precioInsumo };
         registerInsumo(insumoData)
         console.log("Insumo", insumoData);
-        
+
       })
       alert("Se ha registrado los insumos");
       window.location.reload();
-    }else{
-     if(solicitudActual === 0){
-      alert("Seleccione una solicitud")
-     }else{
-      alert("Deben existir insumos")
-     }
+    } else {
+      if (solicitudActual === 0) {
+        alert("Seleccione una solicitud")
+      } else {
+        alert("Deben existir insumos")
+      }
     }
   }
 
   const handleChangeSolicitud = (solicitudId: string) => {
-    const  solicitudIdInt:number = parseInt(solicitudId);
+    const solicitudIdInt: number = parseInt(solicitudId);
     console.log("🚀 ~ handleChangeSolicitud ~ solicitudIdInt:", solicitudIdInt)
     setSolicitudActual(solicitudIdInt);
   }
 
   return (
     <>
-    <div className="content__insu">
-      <div className="content__regisInsu">
-        <h2 className="">Registrar Insumo</h2>
-        <Box
-          component="form"
-          sx={{
-            "& .MuiTextField-root": { m: 0.8, width: "42ch", display: "flex" },
-          }}
-          noValidate
-        >
-          <div className="row">
-            <div className="col-4 align-right-inputss">
-              <label htmlFor="outlined-select-currency">Categoría</label>
-            </div>
-            <div className="col-8">
-              <TextField
-                id="outlined-select-currency"
-                onChange={(event) => allPersonalList(event.target.value)}
-                select
-              >
-                {categoryList.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.catnombre}
-                  </MenuItem>
-                ))}
-
-              </TextField>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 align-right-inputss">
-              <label htmlFor="outlined-select-currency">Encargado</label>
-            </div>
-            <div className="col-8">
-              <TextField
-                id="outlined-select-currency"
-                onChange={(event)=>allSolicitudList(event.target.value)}
-                select                    
-              >
-                {personalList.map((option)=>(
-                  <MenuItem key={option.idPersonalExterno} value={option.idPersonalExterno}>
-                   {option.nombre}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 align-right-inputss">
-              <label htmlFor="outlined-select-currency">Solicitud</label>
-            </div>
-            <div className="col-8">
-              <TextField
-                id="outlined-select-currency"
-                value={solicitudActual}
-                onChange={(event)=>handleChangeSolicitud(event.target.value)}
-                select                    
-              >
-                {solicitudList.map((option)=>(
-                  <MenuItem key={option.idRegistroSolicitud} value={option.idRegistroSolicitud}>
-                   {option.descripcion}
-                  </MenuItem>
-                ))}
-                </TextField> 
-            </div> 
-          </div>
-
-          <div className="example">
-            <div></div>
-            <div className="subtitule">Agregar Insumo</div>
-            <div></div>
-          </div>
-
-          <div className="row__group2">
-
-
-
-            <div className="row__group">
-
-              <div className="row__input">
+      <div className="content__insu">
+        <div className="content__regisInsu">
+          <h2 className="">Registrar Insumo</h2>
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 0.8, width: "42ch", display: "flex" },
+            }}
+            noValidate
+          >
+            <div className="row">
+              <div className="col-4 align-right-inputss">
+                <label htmlFor="outlined-select-currency">Categoría</label>
+              </div>
+              <div className="col-8">
                 <TextField
-                  required
-                  id="outlined"
-                  value={nombreInsumo}
-                  onChange={(event) => setNombreInsumo(event.target.value)}
-                  placeholder="Ingrese Nombre del Insumo"
-                />
+                  id="outlined-select-currency"
+                  onChange={(event) => allPersonalList(event.target.value)}
+                  select
+                >
+                  {categoryList.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.catnombre}
+                    </MenuItem>
+                  ))}
+
+                </TextField>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-4 align-right-inputss">
+                <label htmlFor="outlined-select-currency">Encargado</label>
+              </div>
+              <div className="col-8">
+                <TextField
+                  id="outlined-select-currency"
+                  onChange={(event) => allSolicitudList(event.target.value)}
+                  select
+                >
+                  {personalList.map((option) => (
+                    <MenuItem key={option.idPersonalExterno} value={option.idPersonalExterno}>
+                      {option.nombre}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-4 align-right-inputss">
+                <label htmlFor="outlined-select-currency">Solicitud</label>
+              </div>
+              <div className="col-8">
+                <TextField
+                  id="outlined-select-currency"
+                  value={solicitudActual}
+                  onChange={(event) => handleChangeSolicitud(event.target.value)}
+                  select
+                >
+                  {solicitudList.map((option) => (
+                    <MenuItem key={option.idRegistroSolicitud} value={option.idRegistroSolicitud}>
+                      {option.descripcion}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+
+            <div className="example">
+              <div></div>
+              <div className="subtitule">Agregar Insumo</div>
+              <div></div>
+            </div>
+
+            <div className="row__group2">
+
+
+
+              <div className="row__group">
+
+                <div className="row__input d-flex ">
+
+                  <TextField className="tam_texField"
+                    required
+                    id="outlined"
+                    placeholder="Cantidad"
+                  />
+
+
+                  <TextField
+                    required
+                    id="outlined"
+                    value={nombreInsumo}
+                    onChange={(event) => setNombreInsumo(event.target.value)}
+                    placeholder="Ingrese Nombre del Insumo"
+                  />
+
+
+                </div>
+
+
+                <button
+                  className="col-2 btn btn-success m_personalizado"
+                  type="button"
+                  onClick={agregarInsumo}
+                >
+                  <span className="aumentar__fontsize">Agregar</span>
+                </button>
               </div>
 
-
-              <button
-                className="col-2 btn btn-success m_personalizado"
-                type="button"
-                onClick={agregarInsumo}
-              >
-                <span className="aumentar__fontsize">Agregar</span>
-              </button>
-            </div>
-
-            <div className="table__container">
-              <table className="table table__space">
-                <thead>
-                  <tr >
-                    <th className="der">Insumo</th>
-                    <th className="izq">Borrar</th>
-
-                  </tr>
-                </thead>
-                {insumosList.map(element => (
-                  <tbody className="tbody__space">
-                    <tr className="tr__color">
-                      <td className="der">{element.nombreInsumo}</td>
-                      <td className="izq">
-                        <ClearOutlinedIcon
-                          className="c-dark-blue"
-                          fontSize="large"
-                          onClick={() => handleDeleteItemInsumo(element.id)}
-                        />
-                      </td>
+              <div className="table__container">
+                <table className="table table__space">
+                  <thead>
+                    <tr >
+                      <th className="der">Cantidad</th>
+                      <th className="der">Insumo</th>
+                      <th className="izq">Borrar</th>
 
                     </tr>
-                  </tbody>
-                ))}
-              </table>
-              <button
-                className="block margin-x-auto"
-                type="button"
-                onClick={handleRegisterInsumos}
-              >
-                Guardar
-              </button>
+                  </thead>
+                  {insumosList.map(element => (
+                    <tbody className="tbody__space">
+
+                      <tr className="tr__color">
+                        <td>5</td>
+                        <td className="der">{element.nombreInsumo}</td>
+                        <td className="izq">
+
+                          <button className="button_delete1">
+                            <ClearOutlinedIcon 
+                              className="c-dark-blue"
+                              fontSize="small"
+                              onClick={() => handleDeleteItemInsumo(element.id)}
+                            />
+                          </button>
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  ))}
+                </table>
+                <button
+                  className=" d-flex justify-content-center block_butt margin-x-auto w-40"
+                  type="button"
+                  onClick={handleRegisterInsumos}
+                >
+                  Guardar
+                </button>
+              </div>
             </div>
-          </div>
-          
-        </Box>
-      </div>
+
+          </Box>
+        </div>
       </div>
     </>
   )

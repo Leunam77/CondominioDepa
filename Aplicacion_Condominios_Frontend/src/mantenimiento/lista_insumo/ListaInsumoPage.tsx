@@ -4,7 +4,8 @@ import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import "./style.css";
 import {Insumo, deleteInsumo, getAllInsumos} from "../services/maintenance/insumosService"
-
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 
 
 
@@ -51,7 +52,7 @@ const ListaInsumo: React.FC = () => {
                     </div>
                     <div className="col button__insu">
                        
-                        <Link to="/changelog/registrar_insumo" className="block block__texto">                 
+                        <Link to="/changelog/registrar_insumo" className="block block__texto1">                 
                             Registrar
                         </Link>
                     </div>
@@ -72,11 +73,11 @@ const ListaInsumo: React.FC = () => {
                             <td>{insumos.catnombre}</td>
                             <td>{insumos.encargado}</td>
                             <td className="ajustar__insu">
-                                <button type="button">
-                                    <CreateOutlinedIcon fontSize="large" />
+                                <button type="button" className="button_edit mr-5" >
+                                    <CreateOutlinedIcon className='tamIcon1'   />
                                 </button>
-                                <button onClick={()=>handleDelete(insumos.idSolicitud)} type="button">
-                                    <DeleteOutlinedIcon fontSize="large" />
+                                <button onClick={()=>handleDelete(insumos.idSolicitud)} type="button" className="button_delete">
+                                    <DeleteOutlinedIcon  className='tamIcon1'  />
                                 </button>
                             </td>
                         </tr>

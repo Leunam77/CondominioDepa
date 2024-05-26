@@ -29,6 +29,12 @@ class ListaCompraController extends Controller
     public function insertRegistroCompra(Request $request) {
         DB::beginTransaction();
         try {
+            $existeCompra = ListaCompra::where('idSolicitud', $request->input('idSolicitud'))->first();
+            
+            if ($existeCompra) {
+                return response()->json(['message' => 'La compra ya fué registrada anteriormente'], 400);
+            }
+            
             $insumos = $request->input('insumos');
             foreach ($insumos as $insumoData) {
                 $insumo = Insumo::find($insumoData['idInsumo']);

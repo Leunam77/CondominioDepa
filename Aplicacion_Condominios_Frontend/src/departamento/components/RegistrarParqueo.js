@@ -37,18 +37,25 @@ class RegistrarParqueo extends Component {
 
     async componentDidMount() {
         try {
-            const bloques = await axios.get(`${endpoint}/bloques`);
-            this.setState({ bloques: bloques.data });
-            const response = await axios.get(`${endpoint}/departamentos`);
-            this.setState({ departamentosAll: response.data });
-            const responseParqueos = await axios.get(`${endpoint}/parqueos`);
-            let parqueos = responseParqueos.data;
+            const [bloquesResponse, departamentosResponse, parqueosResponse] = await Promise.all([
+                axios.get(`${endpoint}/bloques`),
+                axios.get(`${endpoint}/departamentos`),
+                axios.get(`${endpoint}/parqueos`)
+            ]);
+
+            const bloques = bloquesResponse.data;
+            const departamentosAll = departamentosResponse.data;
+            let parqueos = parqueosResponse.data;
+
+            const departamentosMap = Object.fromEntries(departamentosAll.map(departamento => [departamento.id, departamento]));
+
             parqueos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
             parqueos = parqueos.map(parqueo => {
-                const departamento = this.state.departamentosAll.find(departamento => departamento.id === parqueo.departamento_id);
-                return { ...parqueo, nombreDepa: departamento.id ? departamento.nombre_departamento : 'N/A' };
+                const departamento = departamentosMap[parqueo.departamento_id];
+                return { ...parqueo, nombreDepa: departamento ? departamento.nombre_departamento : 'N/A' };
             });
-            this.setState({ parqueos: parqueos });
+
+            this.setState({ bloques, departamentosAll, parqueos });
         } catch (error) {
             console.error(error);
         }

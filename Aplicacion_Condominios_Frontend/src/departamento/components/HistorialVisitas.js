@@ -125,6 +125,7 @@ const HistorialVisitas = () => {
                                     type="date"
                                     name="filtroDesde"
                                     id="filtroDesde"
+                                    value={filtroDesde}
                                     />
                                 </InputGroup>
                             </Col>
@@ -141,7 +142,7 @@ const HistorialVisitas = () => {
                                     type="date"
                                     name="filtroHasta"
                                     id="filtroHasta"
-                                    
+                                    value={filtroHasta}
                                     />
                                 </InputGroup>
                             </Col>

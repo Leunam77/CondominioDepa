@@ -143,7 +143,7 @@ class CrearEdificio extends Component {
                     isOpen={this.state.modal_open}
                     toggle={this.toggleModal}
                     confirm={this.handleConfirm}
-                    message="¿Está seguro de que deseas crear el edificio?"
+                    message="¿Está seguro de que desea crear el edificio?"
                 />
                 <Container className="custom-form">
                     <h2 className="text-center mb-5 titulosForms">Crear Edificio</h2>

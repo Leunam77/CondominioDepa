@@ -96,11 +96,11 @@ const HistorialVisitas = () => {
                 <Row>
                     <Col>
                         <Row>
-                            <Label className="text-center mb-4 titulosForms">Gestión de visitas</Label>
+                            <Label className="text-center mb-4 titulosForms">Historial de visitas</Label>
                         </Row>
                         <Row >
-                            <Col sm={7}>
-                                <InputGroup >
+                            <Col md={8} className="mx-auto">
+                                <InputGroup className="mb-5">
                                     <Input placeholder="Buscar visitante..." className="buscadorDepa" onChange={manejarBusqueda}
                                         style={{
                                             borderRadius: "15px",
@@ -111,56 +111,48 @@ const HistorialVisitas = () => {
                                 </InputGroup>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col sm={3}>
-                                <InputGroup >
-                                <Label
-                                className="label-custom"
-                                >
+                        
+                        <Row className="justify-content-center align-items-end">
+                            <Col md={2}>
+                                <Label className="label-custom" for="filtroDesde">
                                     Desde
                                 </Label>
-                                    <Input
-                                    className="buscadorDepa"
+                                <Input
+                                    className="customInput"
                                     onChange={handleInput}
                                     type="date"
                                     name="filtroDesde"
                                     id="filtroDesde"
-                                    />
-                                </InputGroup>
+                                />
                             </Col>
-                            <Col sm={3}>
-                                <InputGroup >
-                                <Label
-                                className="label-custom"
-                                >
+                            <Col md={2}>
+                                <Label className="label-custom" for="filtroHasta">
                                     Hasta
                                 </Label>
-                                    <Input
-                                    className="buscadorDepa"
+                                <Input
+                                    className="customInput"
                                     onChange={handleInput}
                                     type="date"
                                     name="filtroHasta"
                                     id="filtroHasta"
-                                    
-                                    />
-                                </InputGroup>
+                                />
                             </Col>
-                            <Col sm={2}>
-                                <Button size="md" type="button" className="custom-button "
+                            
+                            <Col md={3} className="d-flex justify-content-end">
+                                <Button size="md" type="button" className="custom-button me-4"
                                     style={{ fontWeight: 'bold' }}
                                     onClick={filtrarFechas}>
                                     Aplicar Filtro
                                 </Button>
-                            </Col>
-                            <Col sm={2}>
+                            
                                 <Button size="md" type="button" className="custom-button "
                                     style={{ fontWeight: 'bold' }}
                                     onClick={olvidarFechas}>
                                     Quitar Filtro
                                 </Button>
                             </Col>
-                            
                         </Row>
+                        
                         <Table striped responsive bordered className="mt-5">
                             <thead className="text-center" >
                                 <tr>

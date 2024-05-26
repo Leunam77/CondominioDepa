@@ -155,7 +155,7 @@ const appRoutes: RouteType[] = [
         element: <VisualizarParqueos />,
         state: "dashboard.visualizarParqueo",
         sidebarProps: {
-          displayText: "Visualizar parqueos"
+          displayText: "Visualizar Parqueos"
         },
       },
     ]

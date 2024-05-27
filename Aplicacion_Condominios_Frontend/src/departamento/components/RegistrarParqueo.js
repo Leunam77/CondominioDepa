@@ -22,6 +22,7 @@ import { Form } from "react-router-dom";
 const endpoint = "http://localhost:8000/api";
 
 class RegistrarParqueo extends Component {
+<<<<<<< HEAD
   constructor(props) {
     super(props);
     this.state = {
@@ -41,6 +42,79 @@ class RegistrarParqueo extends Component {
       estadoModal: false,
       estadoModalPar: false,
       idParqueo: "",
+=======
+    constructor(props) {
+        super(props);
+        this.state = {
+            nombre_parqueo: "",
+            direccion_parqueo: "",
+            departamentos: [],
+            departamentosAll: [],
+            departamento_seleccionado: '',
+            bloques: [],
+            bloqueSeleccionado: '',
+            edificioSeleccionado: '',
+            edificios: [],
+            modal_open: false,
+            errors: {},
+            validationErrors: {},
+            parqueos: [],
+            estadoModal: false,
+            estadoModalPar: false,
+            idParqueo: '',
+
+        }
+    }
+
+    async componentDidMount() {
+        try {
+            const [bloquesResponse, departamentosResponse, parqueosResponse] = await Promise.all([
+                axios.get(`${endpoint}/bloques`),
+                axios.get(`${endpoint}/departamentos`),
+                axios.get(`${endpoint}/parqueos`)
+            ]);
+
+            const bloques = bloquesResponse.data;
+            const departamentosAll = departamentosResponse.data;
+            let parqueos = parqueosResponse.data;
+
+            const departamentosMap = Object.fromEntries(departamentosAll.map(departamento => [departamento.id, departamento]));
+
+            parqueos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            parqueos = parqueos.map(parqueo => {
+                const departamento = departamentosMap[parqueo.departamento_id];
+                return { ...parqueo, nombreDepa: departamento ? departamento.nombre_departamento : 'N/A' };
+            });
+
+            this.setState({ bloques, departamentosAll, parqueos });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    handleInput = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+    handleSelect = (event) => {
+        this.setState({ departamento_seleccionado: event.target.value });
+    }
+
+    handleConfirm = (e) => {
+        this.validacion();
+        if (Object.keys(this.state.validationErrors).length === 0) {
+            this.handleModal();
+            this.storeParqueo(e);
+        } else {
+            console.log("Formulario invalido");
+            this.handleModal();
+        }
+    }
+
+    handleBloqueSeleccionado = (event) => {
+        const idBloque = event.target.value;
+        this.setState({ bloqueSeleccionado: idBloque });
+
+        this.cargarOpcionesDependientes(idBloque);
+>>>>>>> 964536047dd3f9a9504b54224d4cef813a3683cd
     };
   }
 

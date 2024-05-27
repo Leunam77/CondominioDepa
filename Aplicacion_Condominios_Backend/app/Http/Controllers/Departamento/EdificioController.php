@@ -76,7 +76,7 @@ class EdificioController extends Controller
     
     public function getEdificiosShort()
     {
-        $edificios = edificio::select('id', 'nombre_edificio')->get();
+        $edificios = edificio::select('id', 'nombre_edificio', 'bloque_id')->get();
         return $edificios;
     }
     

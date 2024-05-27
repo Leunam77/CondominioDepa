@@ -10,9 +10,10 @@ const ModalParqueo = (props) => {
     const [edificios, setEdificios] = useState([]);
     const [bloques, setBloques] = useState([]);
     const [nombre, setNombre] = useState('');
+    const [grupEdificios, setGrupEdificios] = useState([]); // [edificio, [bloque1, bloque2, ...]
+    const [grupDepartamentos, setGrupDepartamentos] = useState([]); // [departamento, [edificio1, edificio2, ...]]
     const [departamentoSelec, setDepartamentoSelec] = useState('');
     const [edificioSelec, setEdificioSelec] = useState('');
-    const [pisoSelec, setPisoSelec] = useState('');
     const [bloqueSelec, setBloqueSelec] = useState('');
     const [errors, setErrors] = useState({});
 
@@ -20,33 +21,41 @@ const ModalParqueo = (props) => {
         if (!isOpen) {
             setNombre('');
             setDepartamentoSelec("");
+            setEdificioSelec('');
+            setBloqueSelec('');
             setErrors({});
         } else {
             if (idParqueo) {
                 const parqueo = parqueos.find(parqueo => parqueo.id === idParqueo);
                 const departamento = departamentos.find(departamento => departamento.id === parqueo.departamento_id);
-                try {
-                    const edificios = async () => {
-                        const response = await axios.get(`${endpoint}/edificios-short`);
-                        const data = await response.json();
-                        console.log(data);
-                        const edificio = data.find(edificio => departamento.edificio_id === edificio.id);
-                        setEdificios(data);
-                        setEdificioSelec(edificio);
+                
+                const fetchEdificios = async () => {
+                    try{
+                    const response = await axios.get(`${endpoint}/edificios-short`);
+                    const data = response.data;
+                    console.log(data);
+                    const edificio = data.find(edificio => departamento.edificio_id === edificio.id);
+                    setEdificios(data);
+                    setEdificioSelec(edificio);
+                    }catch(error){
+                        console.log(error);
                     }
-                } catch (error) {
-                    console.log(error);
                 }
                 
-                try {
-                    const bloques = async () => {
-                        const response = await axios.get(`${endpoint}/bloques-short`);
-                        const data = await response.json();
-                        const bloque = data.find(bloque => departamento.bloque_id === bloque.id);
-                        setBloques(data);
-                        setBloqueSelec(bloque);
+                const fetchBloques = async () => {
+                    try{
+                    const response = await axios.get(`${endpoint}/bloques-short`);
+                    const data = response.data;
+                    const bloque = data.find(bloque => departamento.bloque_id === bloque.id);
+                    setBloques(data);
+                    setBloqueSelec(bloque);
+                    } catch(error){
+                        console.log(error);
                     }
-                } catch (error){}
+                }
+
+                fetchEdificios();
+                fetchBloques();
                 setNombre(parqueo.nombre_parqueo);
                 setDepartamentoSelec(departamento.id);
                 
@@ -76,13 +85,26 @@ const ModalParqueo = (props) => {
         if (!departamentoSelec) {
             validationErrors.departamento = "Debe seleccionar un departamento";
         }
-
+        if(!edificioSelec){
+            validationErrors.edificio = "Debe seleccionar un edificio";
+        }
+        if(!bloqueSelec){
+            validationErrors.bloque = "Debe seleccionar un bloque";
+        }
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length === 0) {
             onSubmit({ id: idParqueo,nombre_parqueo: nombre, departamento_id: departamentoSelec });
         }
     };
 
+    const getEdificios = async () => {
+        try {
+            //obtener los edificios asociados al bloque seleccionado desde el useState
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Modal className="modalContainer" isOpen={isOpen} toggle={toggle} >
@@ -114,11 +136,12 @@ const ModalParqueo = (props) => {
                                     name="Bloque_id"
                                     id="Bloque_id"
                                     value={bloqueSelec}
-                                    
+                                    invalid = {errors.bloqueSelec ? true : false}
                                 >
-                                    <option value={bloqueSelec.id}>{bloqueSelec.nombre_bloque}</option>
+                                    <option disabled value=''>{" "}Seleccionar edificio</option>
                                     {bloques.map(bloque => (<option key={bloque.id} value={bloque.id}>{bloque.nombre_bloque}</option>))}
                                 </Input>
+                                <FormFeedback>{errors.bloqueSelec}</FormFeedback>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -132,11 +155,12 @@ const ModalParqueo = (props) => {
                                     name="edificio_id"
                                     id="edificio_id"
                                     value={edificioSelec}
-                                    
+                                    invalid = {errors.edificioSelec ? true : false}
                                 >
-                                    <option value={edificioSelec.id}>{edificioSelec.nombre_edificio}</option>
+                                    <option disabled value=''>{" "}Seleccionar edificio</option>
                                     {edificios.map(edificio => (<option key={edificio.id} value={edificio.id}>{edificio.nombre_edificio}</option>))}
                                 </Input>
+                                <FormFeedback>{errors.edificioSelec}</FormFeedback>
                             </FormGroup>
                         </Col>
                         <Col md={6}>

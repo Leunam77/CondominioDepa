@@ -12,13 +12,21 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 
-  
+
 export default function ListaCompras() {
   return (
     <>
       <div className="content__list">
-        <div className="">
-          <h2>Lista de Compras</h2>
+        <div className="row">
+          <div className="col">
+            <h2>Lista de Compras</h2>
+          </div>
+          <div className="col button__insu">
+
+            <Link to="/changelog/registro_compras" className="block block__texto1">
+              Registrar
+            </Link>
+          </div>
         </div>
         <table className="table table-striped">
           <thead>
@@ -43,19 +51,19 @@ export default function ListaCompras() {
               <td></td>
               <td></td>
               <td >
-              <Accordion className='tamanio_acordion'>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                      >
-                        Compras solicitud 1  
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                        malesuada lacus ex, sit amet blandit leo lobortis eget.
-                      </AccordionDetails>
-                    </Accordion>
+                <Accordion className='tamanio_acordion'>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                  >
+                    Compras solicitud 1
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                    malesuada lacus ex, sit amet blandit leo lobortis eget.
+                  </AccordionDetails>
+                </Accordion>
               </td>
               <td className="">
                 <div className="button-container">

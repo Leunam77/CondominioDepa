@@ -39,50 +39,10 @@ const ModalParqueo = (props) => {
         const departamento = departamentosA.find( (departamento) => departamento.id === parqueo.departamento_id);
         console.log(departamento);
         //const departamento = parqueo.departamento;
-        const fetchEdificios = async () => {
-          try {
-            const response = await axios.get(`${endpoint}/edificio-short/${departamento.edificio_id}`);
-            const data = response.data;
-            const edificio = data;
-            console.log(edificio);
-            setEdificioSelec(edificio?.id || '');
-            return edificio;
-          } catch (error) {
-            console.log(error);
-          }
-        };
-
-        const fetchBloques = async (edificio) => {
-          try {
-            const response = await axios.get(`${endpoint}/bloques-short`);
-            const data = response.data;
-            setBloques(data);
-            const bloque = data.find(
-              (bloque) => bloque.id === edificio.bloque_id
-            );
-            console.log(bloque);
-            setBloqueSelec(bloque?.id || '');
-            getEdificios(bloque.id);
-          } catch (error) {
-            console.log(error);
-          }
-        };
-
-        const loadData = async () => {
-            const edificio = await fetchEdificios();
-            if(edificio) {
-              fetchBloques(edificio);
-                //getDepartamentos(edificio.id);
-
-                /* if(bloque) {
-                    getEdificios(bloque.id);
-                } */
-            }
-            
-        };
-        loadData();
+        
         setNombre(parqueo.nombre_parqueo);
         setDepartamentoSelec(departamento?.id || '');
+        loadData(departamento);
         //setDepartamentos(departamento);
       }
     }
@@ -95,6 +55,48 @@ const ModalParqueo = (props) => {
       setBloqueSelec("");
       setErrors({});
   };
+  const loadData = async (departamento) => {
+    if (departamento) {
+        try {
+            const edificio = await fetchEdificios(departamento.edificio_id);
+            if(edificio){
+                await fetchBloques(edificio.bloque_id);
+                await getDepartamentos(edificio.id);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+  };
+  const fetchEdificios = async (id) => {
+    try {
+      const response = await axios.get(`${endpoint}/edificio-short/${id}`);
+      const data = response.data;
+      const edificio = data;
+      console.log(edificio);
+      setEdificioSelec(edificio?.id || '');
+      return edificio;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchBloques = async (idBloque) => {
+    try {
+      const response = await axios.get(`${endpoint}/bloques-short`);
+      const data = response.data;
+      setBloques(data);
+      const bloque = data.find(
+        (bloque) => bloque.id === idBloque
+      );
+      console.log(bloque);
+      setBloqueSelec(bloque?.id || '');
+      getEdificios(bloque.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleNombreChange = (e) => {
     setNombre(e.target.value);
     setErrors({ ...errors, nombre: "" });

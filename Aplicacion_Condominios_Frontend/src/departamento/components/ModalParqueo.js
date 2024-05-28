@@ -32,11 +32,7 @@ const ModalParqueo = (props) => {
 
   useEffect(() => {
     if (!isOpen) {
-      setNombre("");
-      setDepartamentoSelec("");
-      setEdificioSelec("");
-      setBloqueSelec("");
-      setErrors({});
+        resetForm();
     } else {
       if (idParqueo) {
         const parqueo = parqueos.find((parqueo) => parqueo.id === idParqueo);
@@ -87,10 +83,18 @@ const ModalParqueo = (props) => {
         loadData();
         setNombre(parqueo.nombre_parqueo);
         setDepartamentoSelec(departamento?.id || '');
+        //setDepartamentos(departamento);
       }
     }
-  }, [isOpen, departamentos, idParqueo, parqueos]);
+  }, [isOpen, departamentosA , idParqueo, parqueos]);
 
+  const resetForm = () => {
+      setNombre("");
+      setDepartamentoSelec("");
+      setEdificioSelec("");
+      setBloqueSelec("");
+      setErrors({});
+  };
   const handleNombreChange = (e) => {
     setNombre(e.target.value);
     setErrors({ ...errors, nombre: "" });

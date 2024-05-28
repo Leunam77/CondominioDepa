@@ -71,7 +71,7 @@ const ModalParqueo = (props) => {
               (bloque) => bloque.id === edificio.bloque_id
             );
             console.log(bloque);
-            setBloqueSelec(bloque);
+            setBloqueSelec(bloque?.id || '');
           } catch (error) {
             console.log(error);
           }
@@ -100,7 +100,9 @@ const ModalParqueo = (props) => {
     setErrors({ ...errors, departamentoSelec: "" });
   };
   const handleBloqueSeleccionado = (e) => {
+    const idBloque = e.target.value;
     setBloqueSelec(e.target.value);
+    getEdificios(idBloque);
     setErrors({ ...errors, bloqueSelec: "" });
   };
   const handleEdificioSeleccionado = (e) => {
@@ -139,13 +141,15 @@ const ModalParqueo = (props) => {
     }
   };
 
-  /* const getEdificios = async () => {
-    try {
-      //obtener los edificios asociados al bloque seleccionado desde el useState
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
+    const getEdificios = async (idBloque) => {
+        try {
+            const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
+            setEdificios(response.data);
+        } catch (error) {
+        console.log(error);
+        }
+    }; 
+
 
   return (
     <Modal className="modalContainer" isOpen={isOpen} toggle={toggle}>
@@ -178,7 +182,7 @@ const ModalParqueo = (props) => {
                   className="customInput"
                   name="bloque_id"
                   id="bloque_id"
-                  onAbort={handleBloqueSeleccionado}
+                  onChange={handleBloqueSeleccionado}
                   value={bloqueSelec}
                   invalid={errors.bloqueSelec ? true : false}
                 >

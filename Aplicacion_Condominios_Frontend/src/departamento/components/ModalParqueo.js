@@ -99,7 +99,14 @@ const ModalParqueo = (props) => {
     setDepartamentoSelec(e.target.value);
     setErrors({ ...errors, departamentoSelec: "" });
   };
-
+  const handleBloqueSeleccionado = (e) => {
+    setBloqueSelec(e.target.value);
+    setErrors({ ...errors, bloqueSelec: "" });
+  };
+  const handleEdificioSeleccionado = (e) => {
+    setEdificioSelec(e.target.value);
+    setErrors({ ...errors, edificioSelec: "" });
+    };
   const handleSubmit = () => {
     const validationErrors = {};
 
@@ -171,6 +178,7 @@ const ModalParqueo = (props) => {
                   className="customInput"
                   name="bloque_id"
                   id="bloque_id"
+                  onAbort={handleBloqueSeleccionado}
                   value={bloqueSelec}
                   invalid={errors.bloqueSelec ? true : false}
                 >
@@ -196,6 +204,7 @@ const ModalParqueo = (props) => {
                   className="customInput"
                   name="edificio_id"
                   id="edificio_id"
+                  onChange={handleEdificioSeleccionado}
                   value={edificioSelec}
                   invalid={errors.edificioSelec ? true : false}
                 >

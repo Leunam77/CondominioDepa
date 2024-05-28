@@ -66,7 +66,7 @@ const ModalParqueo = (props) => {
             );
             console.log(bloque);
             setBloqueSelec(bloque?.id || '');
-            return bloque;
+            getEdificios(bloque.id);
           } catch (error) {
             console.log(error);
           }
@@ -75,10 +75,10 @@ const ModalParqueo = (props) => {
         const loadData = async () => {
             const edificio = await fetchEdificios();
             if(edificio) {
-              const bloque = fetchBloques(edificio);
-                if(bloque) {
+              fetchBloques(edificio);
+                /* if(bloque) {
                     getEdificios(bloque.id);
-                }
+                } */
             }
             
         };
@@ -102,11 +102,10 @@ const ModalParqueo = (props) => {
     const idBloque = e.target.value;
     setBloqueSelec(e.target.value);
     getEdificios(idBloque);
-    setEdificioSelec("");
+    //setEdificioSelec("");
     setErrors({ ...errors, bloqueSelec: "" });
   };
   const handleEdificioSeleccionado = (e) => {
-    const idEdificio = e.target.value;
     setEdificioSelec(e.target.value);
     setDepartamentoSelec("");
     //getDepartamentos(idEdificio);

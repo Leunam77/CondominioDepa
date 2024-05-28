@@ -56,6 +56,7 @@ Route::controller(EdificioController::class)->group(function(){
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
     Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificio.getEdificiosByBloques');
     Route::get('/edificios-short','getEdificiosShort')->name('edificio.getEdificiosShort');
+    Route::get('/edificio-short/{id}','getEdificioShort')->name('edificio.getEdificioShort');
 });
 Route::controller(ResidenteController::class)->group(function(){
     Route::get('/residentes','index')->name('residente.index');

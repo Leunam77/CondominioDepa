@@ -80,4 +80,8 @@ class EdificioController extends Controller
         return $edificios;
     }
     
+    public function getEdificioShort($idEdif){
+        $edificio = edificio::select('id', 'nombre_edificio', 'bloque_id')->where('id', $idEdif)->get()->first();
+        return $edificio;
+    }
 }

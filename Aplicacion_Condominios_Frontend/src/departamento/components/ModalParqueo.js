@@ -24,9 +24,6 @@ const ModalParqueo = (props) => {
   const [edificios, setEdificios] = useState([]);
   const [bloques, setBloques] = useState([]);
   const [nombre, setNombre] = useState("");
-  /* const [grupEdificios, setGrupEdificios] = useState([]); // [edificio, [bloque1, bloque2, ...]
-  const [grupDepartamentos, setGrupDepartamentos] = useState([]); // [departamento, [edificio1, edificio2, ...]]
-   */
   const [departamentoSelec, setDepartamentoSelec] = useState("");
   const [edificioSelec, setEdificioSelec] = useState("");
   const [bloqueSelec, setBloqueSelec] = useState("");
@@ -48,12 +45,9 @@ const ModalParqueo = (props) => {
 
         const fetchEdificios = async () => {
           try {
-            const response = await axios.get(`${endpoint}/edificios-short`);
+            const response = await axios.get(`${endpoint}/edificio-short/${departamento.edificio_id}`);
             const data = response.data;
-            setEdificios(data);
-            const edificio = data.find(
-              (edificio) => departamento.edificio_id === edificio.id
-            );
+            const edificio = data;
             console.log(edificio);
             setEdificioSelec(edificio?.id || '');
             return edificio;
@@ -72,6 +66,7 @@ const ModalParqueo = (props) => {
             );
             console.log(bloque);
             setBloqueSelec(bloque?.id || '');
+            return bloque;
           } catch (error) {
             console.log(error);
           }
@@ -80,8 +75,12 @@ const ModalParqueo = (props) => {
         const loadData = async () => {
             const edificio = await fetchEdificios();
             if(edificio) {
-              fetchBloques(edificio);
+              const bloque = fetchBloques(edificio);
+                if(bloque) {
+                    getEdificios(bloque.id);
+                }
             }
+            
         };
         loadData();
         setNombre(parqueo.nombre_parqueo);
@@ -103,12 +102,17 @@ const ModalParqueo = (props) => {
     const idBloque = e.target.value;
     setBloqueSelec(e.target.value);
     getEdificios(idBloque);
+    setEdificioSelec("");
     setErrors({ ...errors, bloqueSelec: "" });
   };
   const handleEdificioSeleccionado = (e) => {
+    const idEdificio = e.target.value;
     setEdificioSelec(e.target.value);
+    setDepartamentoSelec("");
+    //getDepartamentos(idEdificio);
     setErrors({ ...errors, edificioSelec: "" });
     };
+
   const handleSubmit = () => {
     const validationErrors = {};
 
@@ -149,6 +153,14 @@ const ModalParqueo = (props) => {
         console.log(error);
         }
     }; 
+    /* const getDepartamentos = async (idEdificio) => {
+        try {
+            const response = await axios.get(`${endpoint}/departamentos-by-edificio/${idEdificio}`);
+            //setDepartamentos(response.data);
+        } catch (error) {
+        console.log(error);
+        }
+    }; */
 
 
   return (

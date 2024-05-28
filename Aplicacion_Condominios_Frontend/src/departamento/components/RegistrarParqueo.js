@@ -237,7 +237,7 @@ class RegistrarParqueo extends Component {
           toggle={this.handleModalPar}
           idParqueo={this.state.idParqueo}
           parqueos={this.state.parqueos}
-          departamentos={this.state.departamentosAll}
+          departamentosA={this.state.departamentosAll}
         />
         <Row>
           <Label className="text-center mb-4 titulosForms">

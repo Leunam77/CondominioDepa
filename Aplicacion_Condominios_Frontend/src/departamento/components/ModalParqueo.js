@@ -19,10 +19,11 @@ import "./customs.css";
 const endpoint = "http://localhost:8000/api";
 
 const ModalParqueo = (props) => {
-  const { isOpen, onSubmit, toggle, idParqueo, parqueos, departamentos } =
+  const { isOpen, onSubmit, toggle, idParqueo, parqueos, departamentosA } =
     props;
   const [edificios, setEdificios] = useState([]);
   const [bloques, setBloques] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
   const [nombre, setNombre] = useState("");
   const [departamentoSelec, setDepartamentoSelec] = useState("");
   const [edificioSelec, setEdificioSelec] = useState("");
@@ -39,10 +40,9 @@ const ModalParqueo = (props) => {
     } else {
       if (idParqueo) {
         const parqueo = parqueos.find((parqueo) => parqueo.id === idParqueo);
-        const departamento = departamentos.find(
-          (departamento) => departamento.id === parqueo.departamento_id
-        );
-
+        const departamento = departamentosA.find( (departamento) => departamento.id === parqueo.departamento_id);
+        console.log(departamento);
+        //const departamento = parqueo.departamento;
         const fetchEdificios = async () => {
           try {
             const response = await axios.get(`${endpoint}/edificio-short/${departamento.edificio_id}`);
@@ -76,6 +76,8 @@ const ModalParqueo = (props) => {
             const edificio = await fetchEdificios();
             if(edificio) {
               fetchBloques(edificio);
+                //getDepartamentos(edificio.id);
+
                 /* if(bloque) {
                     getEdificios(bloque.id);
                 } */
@@ -84,7 +86,7 @@ const ModalParqueo = (props) => {
         };
         loadData();
         setNombre(parqueo.nombre_parqueo);
-        setDepartamentoSelec(departamento.id);
+        setDepartamentoSelec(departamento?.id || '');
       }
     }
   }, [isOpen, departamentos, idParqueo, parqueos]);
@@ -152,14 +154,15 @@ const ModalParqueo = (props) => {
         console.log(error);
         }
     }; 
-    /* const getDepartamentos = async (idEdificio) => {
+    const getDepartamentos = async (idEdificio) => {
         try {
-            const response = await axios.get(`${endpoint}/departamentos-by-edificio/${idEdificio}`);
-            //setDepartamentos(response.data);
+            const response = await axios.get(`${endpoint}/departamentos-by-edificios/${idEdificio}`);
+            console.log(response.data);
+            setDepartamentos(response.data);
         } catch (error) {
         console.log(error);
         }
-    }; */
+    };
 
 
   return (

@@ -202,6 +202,7 @@ class RegistrarParqueo extends Component {
     try {
       await axios.put(`${endpoint}/parqueoupd/${parqueo.id}`, {
         nombre_parqueo: parqueo.nombre_parqueo,
+        direccion_parqueo: parqueo.direccion_parqueo,
         departamento_id: parqueo.departamento_id,
       });
       window.location.reload();

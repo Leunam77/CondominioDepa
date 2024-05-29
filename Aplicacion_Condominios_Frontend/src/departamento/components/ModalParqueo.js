@@ -28,6 +28,7 @@ const ModalParqueo = (props) => {
   const [departamentoSelec, setDepartamentoSelec] = useState("");
   const [edificioSelec, setEdificioSelec] = useState("");
   const [bloqueSelec, setBloqueSelec] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const ModalParqueo = (props) => {
         console.log(departamento);
         
         setNombre(parqueo.nombre_parqueo);
+        setDireccion(parqueo.direccion_parqueo);
         setDepartamentoSelec(departamento?.id || '');
         loadData(departamento);
         //setDepartamentos(departamento);
@@ -139,6 +141,11 @@ const ModalParqueo = (props) => {
     setErrors({ ...errors, edificioSelec: "" });
   };
 
+  const handleDireccionChange = (e) => {
+    setDireccion(e.target.value);
+    setErrors({ ...errors, direccion: "" });
+  };
+
   const handleSubmit = () => {
     const validationErrors = {};
 
@@ -161,11 +168,18 @@ const ModalParqueo = (props) => {
     if (!bloqueSelec) {
       validationErrors.bloque = "Debe seleccionar un bloque";
     }
+    if (!direccion.trim()) {
+      validationErrors.direccion = "Este campo es obligatorio";
+    } 
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
+      /* console.log("idParqueo: ", idParqueo);
+      console.log("nombre: ", nombre);
+      console.log("departamento: ", departamentoSelec); */
       onSubmit({
         id: idParqueo,
         nombre_parqueo: nombre,
+        direccion_parqueo: direccion,
         departamento_id: departamentoSelec,
       });
     }
@@ -268,6 +282,23 @@ const ModalParqueo = (props) => {
                   ))}
                 </Input>
                 <FormFeedback>{errors.departamentoSelec}</FormFeedback>
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <FormGroup>
+                <Label className="label-custom">Dirección</Label>
+                <Input
+                  id="direccion"
+                  className="customInput"
+                  name="direccion"
+                  type="text"
+                  value={direccion}
+                  onChange={handleDireccionChange}
+                  invalid={errors.direccion ? true : false}
+                />
+                <FormFeedback>{errors.direccion}</FormFeedback>
               </FormGroup>
             </Col>
           </Row>

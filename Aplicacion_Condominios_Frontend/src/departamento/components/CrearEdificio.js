@@ -103,12 +103,13 @@ class CrearEdificio extends Component {
             );
             if (!extensiones.includes(extension)) {
                 document.getElementsByClassName("imagen_input").value = "";
-
+                
                 this.setState({ imagen_edif: "" });
                 validationErrors.imagen_edif =
                     "La imagen debe tener formato PNG, JPG o JPEG";
             }
         }
+        
         this.setState({ errors: validationErrors });
         return isValid;
     }

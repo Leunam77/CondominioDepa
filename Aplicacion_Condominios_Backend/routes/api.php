@@ -45,6 +45,7 @@ Route::controller(BloqueController::class)->group(function(){
     Route::get('/bloque/{id}','show')->name('bloque.show');
     Route::post('/bloqueupd/{id}','update')->name('bloque.update');
     Route::delete('/bloque/{id}','destroy')->name('bloque.destroy');
+    Route::get('/bloques-short','getBloquesShort')->name('bloque.getBloquesShort');
 });
 
 Route::controller(EdificioController::class)->group(function(){
@@ -54,6 +55,8 @@ Route::controller(EdificioController::class)->group(function(){
     Route::post('/edificioupd/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
     Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificio.getEdificiosByBloques');
+    Route::get('/edificios-short','getEdificiosShort')->name('edificio.getEdificiosShort');
+    Route::get('/edificio-short/{id}','getEdificioShort')->name('edificio.getEdificioShort');
 });
 Route::controller(ResidenteController::class)->group(function(){
     Route::get('/residentes','index')->name('residente.index');

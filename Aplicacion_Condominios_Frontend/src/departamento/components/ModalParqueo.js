@@ -38,8 +38,7 @@ const ModalParqueo = (props) => {
       if (idParqueo) {
         const parqueo = parqueos.find((parqueo) => parqueo.id === idParqueo);
         const departamento = departamentosA.find( (departamento) => departamento.id === parqueo.departamento_id);
-        console.log(departamento);
-        
+        // console.log(departamento);
         setNombre(parqueo.nombre_parqueo);
         setDireccion(parqueo.direccion_parqueo);
         setDepartamentoSelec(departamento?.id || '');
@@ -74,7 +73,7 @@ const ModalParqueo = (props) => {
       const response = await axios.get(`${endpoint}/edificio-short/${id}`);
       const data = response.data;
       const edificio = data;
-      console.log(edificio);
+      // console.log(edificio);
       setEdificioSelec(edificio?.id || '');
       return edificio;
     } catch (error) {
@@ -90,7 +89,7 @@ const ModalParqueo = (props) => {
       const bloque = data.find(
         (bloque) => bloque.id === idBloque
       );
-      console.log(bloque);
+      // console.log(bloque);
       setBloqueSelec(bloque?.id || '');
       getEdificios(bloque.id);
       return bloque;
@@ -109,7 +108,7 @@ const ModalParqueo = (props) => {
   const getDepartamentos = async (idEdificio) => {
       try {
           const response = await axios.get(`${endpoint}/departamentos-by-edificios/${idEdificio}`);
-          console.log(response.data);
+          // console.log(response.data);
           setDepartamentos(response.data);
       } catch (error) {
           console.log(error);

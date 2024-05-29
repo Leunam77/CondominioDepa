@@ -38,7 +38,6 @@ const ModalParqueo = (props) => {
         const parqueo = parqueos.find((parqueo) => parqueo.id === idParqueo);
         const departamento = departamentosA.find( (departamento) => departamento.id === parqueo.departamento_id);
         console.log(departamento);
-        //const departamento = parqueo.departamento;
         
         setNombre(parqueo.nombre_parqueo);
         setDepartamentoSelec(departamento?.id || '');
@@ -46,7 +45,7 @@ const ModalParqueo = (props) => {
         //setDepartamentos(departamento);
       }
     }
-  }, [isOpen, departamentosA , idParqueo, parqueos]);
+  }, [isOpen, idParqueo, parqueos, departamentosA]);
 
   const resetForm = () => {
       setNombre("");
@@ -92,9 +91,27 @@ const ModalParqueo = (props) => {
       console.log(bloque);
       setBloqueSelec(bloque?.id || '');
       getEdificios(bloque.id);
+      return bloque;
     } catch (error) {
       console.log(error);
     }
+  };
+  const getEdificios = async (idBloque) => {
+      try {
+          const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
+          setEdificios(response.data);
+      } catch (error) {
+      console.log(error);
+      }
+  }; 
+  const getDepartamentos = async (idEdificio) => {
+      try {
+          const response = await axios.get(`${endpoint}/departamentos-by-edificios/${idEdificio}`);
+          console.log(response.data);
+          setDepartamentos(response.data);
+      } catch (error) {
+          console.log(error);
+      }
   };
 
   const handleNombreChange = (e) => {
@@ -112,13 +129,14 @@ const ModalParqueo = (props) => {
     getEdificios(idBloque);
     //setEdificioSelec("");
     setErrors({ ...errors, bloqueSelec: "" });
-  };
+};
   const handleEdificioSeleccionado = (e) => {
-    setEdificioSelec(e.target.value);
+    const idEdificio = e.target.value;
+    setEdificioSelec(idEdificio);
     setDepartamentoSelec("");
-    //getDepartamentos(idEdificio);
+    getDepartamentos(idEdificio);
     setErrors({ ...errors, edificioSelec: "" });
-    };
+  };
 
   const handleSubmit = () => {
     const validationErrors = {};
@@ -152,23 +170,6 @@ const ModalParqueo = (props) => {
     }
   };
 
-    const getEdificios = async (idBloque) => {
-        try {
-            const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
-            setEdificios(response.data);
-        } catch (error) {
-        console.log(error);
-        }
-    }; 
-    const getDepartamentos = async (idEdificio) => {
-        try {
-            const response = await axios.get(`${endpoint}/departamentos-by-edificios/${idEdificio}`);
-            console.log(response.data);
-            setDepartamentos(response.data);
-        } catch (error) {
-        console.log(error);
-        }
-    };
 
 
   return (

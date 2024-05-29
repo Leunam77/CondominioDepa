@@ -47,13 +47,6 @@ const ModalParqueo = (props) => {
     }
   }, [isOpen, idParqueo, parqueos, departamentosA]);
 
-  const resetForm = () => {
-      setNombre("");
-      setDepartamentoSelec("");
-      setEdificioSelec("");
-      setBloqueSelec("");
-      setErrors({});
-  };
   const loadData = async (departamento) => {
     if (departamento) {
         try {
@@ -66,6 +59,13 @@ const ModalParqueo = (props) => {
             console.log(error);
         }
     }
+  };
+  const resetForm = () => {
+      setNombre("");
+      setDepartamentoSelec("");
+      setEdificioSelec("");
+      setBloqueSelec("");
+      setErrors({});
   };
   const fetchEdificios = async (id) => {
     try {
@@ -126,8 +126,9 @@ const ModalParqueo = (props) => {
   const handleBloqueSeleccionado = (e) => {
     const idBloque = e.target.value;
     setBloqueSelec(e.target.value);
+    setEdificioSelec("");
+    setDepartamentoSelec("");
     getEdificios(idBloque);
-    //setEdificioSelec("");
     setErrors({ ...errors, bloqueSelec: "" });
 };
   const handleEdificioSeleccionado = (e) => {

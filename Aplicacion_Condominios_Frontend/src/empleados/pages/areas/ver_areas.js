@@ -23,7 +23,6 @@ import Col from 'react-bootstrap/Col';
 function VerAreas() {
   
   const [errors, setErrors] = useState({});
-  const [hora, setHora] = useState('');
   const [areas, setAreas] = useState([]);
 
   const [nombre, setNombre] = useState([]);

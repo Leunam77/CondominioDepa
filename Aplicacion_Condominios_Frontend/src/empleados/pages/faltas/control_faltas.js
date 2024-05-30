@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Cookies from 'universal-cookie';
 import '../../css/contract_register_style.css'
-import AddIcon from '@mui/icons-material/Add';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import DeleteIcon from '@mui/icons-material/Delete';

@@ -124,15 +124,15 @@ function NotificationEmail() {
         e.preventDefault();
 
         // Mapear a cada dirección de correo seleccionada para enviar un correo a cada una
-        const promises = emailList.map(email => {
+        const promises = emailList.map(correo => {
             const data = {
                 titulo: formData.titulo,
                 anuncio: formData.anuncio,
-                email: email,
+                correo: correo,
             };
 
             // Enviar el correo a través de la API
-            return axios.post('http://127.0.0.1:8000/api/v1/send', data);
+            return axios.post('http://127.0.0.1:8000/api/email', data);
         });
 
         try {

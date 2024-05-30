@@ -250,11 +250,8 @@ Route::controller(PersonaController::class)->group(function() {
     Route::get('/persons', 'index');
 });
 
-Route::group(['prefix' =>  'v1'], function () {
-    Route::post('send', [AuthController::class, 'send']);
-    Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
-});
 
+Route::post('/email', [AuthController::class, 'enviarCorreo']);
 //emails de preavisso
 Route::post('/cobrar-servicio', [CorreoController::class, 'enviarCorreo']);
 

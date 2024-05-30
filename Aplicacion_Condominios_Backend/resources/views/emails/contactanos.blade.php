@@ -67,7 +67,7 @@
         </ul>
         <p>Gracias por su atención.</p>
         <div class="footer">
-            <p>Condominio Gerencia - Contacto: contacto@condominio.com - Tel: (123) 456-7890</p>
+            <p>Condominio Gerencia - Contacto: gerenciaa65@gmail.com - Tel: (123) 456-7890</p>
         </div>
     </div>
 </body>

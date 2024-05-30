@@ -63,12 +63,12 @@
             <h3>Anuncio General</h3>
         </div>
         <ul>
-            <li><h3><b class="highlight">Asunto:</b> {{ $anuncioEmail->titulo }}</h3></li>
-            <li><p><b class="highlight">Asunto:</b> {{ $anuncioEmail->anuncio }}</p></li>
+            <li><strong>Título:</strong> {{ $titulo }}</li>
+            <li><strong>Anuncio:</strong> {{ $anuncio }}</li> <!-- Aquí estaba $Anuncio en lugar de $anuncio -->
         </ul>
         <p>Gracias por su atención.</p>
         <div class="footer">
-            <p>Condominio Gerencia - Contacto: contacto@condominio.com - Tel: (123) 456-7890</p>
+            <p>Condominio Gerencia - Contacto: gerenciaa65@gmail.com - Tel: (123) 456-7890</p>
         </div>
     </div>
 </body>

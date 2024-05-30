@@ -69,7 +69,7 @@ export default function ListaCompras() {
             listaComprasList.map((element: any) => (
               <tbody key={element.idSolicitud}>
                 <tr>
-                  <td>SOL{element.idSolicitud}</td>
+                  <td>Solicitud{element.idSolicitud}</td>
                   <td>{element.solicitud.categoria.catnombre}</td>
                   <td>{element.totalCompra} Bs</td>
                   <td>{element.fechaCompra}</td>
@@ -92,7 +92,7 @@ export default function ListaCompras() {
                         <table className="table table-striped">
                           <thead>
                             <tr>
-                              <th className="fixed-width">Cantidad</th>
+                              <th className="fixed-width">Cant.</th>
                               <th className="fixed-width">Insumo</th>
                               <th className="fixed-width">Precio U.</th>
                               <th className="fixed-width">Total</th>

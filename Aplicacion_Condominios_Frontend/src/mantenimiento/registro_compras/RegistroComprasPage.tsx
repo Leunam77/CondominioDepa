@@ -14,7 +14,7 @@ export default function RegistroCompras() {
   const [totalCompra, setTotalCompra] = useState(0);
   const [idSolicitud, setIdSolicitud] = useState(0);
 
-  const [encargadoList, setEncargadoList] = useState<any>([
+  const [categoryList, setCategoryList] = useState<any>([
     {
       idPersonalExterno: 0,
       nombre: "",
@@ -22,16 +22,16 @@ export default function RegistroCompras() {
   ]);
 
   const [solicitudList, setSolicitudList] = useState<any>([
-    {
-      idRegistroSolicitud: 0,
-      descripcion: "",
-    },
+    // {
+    //   idRegistroSolicitud: 0,
+    //   descripcion: "",
+    // },
   ]);
 
   const [insumosList, setInsumosList] = useState<any>("");
 
   useEffect(() => {
-    allEncargados();
+    allCategories();
   }, []);
 
   useEffect(() => {
@@ -46,10 +46,10 @@ export default function RegistroCompras() {
     }
   }, [insumosList]);
 
-  const allEncargados = async () => {
-    const response = await getAllPersonal();
+  const allCategories = async () => {
+    const response = await getAllCategories();
     //console.log("🚀 ~ allEncargados ~ response:", response);
-    setEncargadoList(response);
+    setCategoryList(response);
   };
 
   const getSolicitudes = async (encagadoId: number) => {
@@ -58,9 +58,12 @@ export default function RegistroCompras() {
     setSolicitudList(response);
   };
 
-  const handleChangeEncargado = (idEncargado: string) => {
+  const handleChangeCategoria = (idEncargado: string) => {
     const encargadoId: number = parseInt(idEncargado);
     getSolicitudes(encargadoId);
+    setInsumosList("");
+    setSolicitudList([]);
+    setTotalCompra(0);
   };
 
   const allInsumos = async (solicitudId: number) => {
@@ -115,15 +118,17 @@ export default function RegistroCompras() {
   };
 
   const handleRegister = async () => {
-    if (totalCompra > 0) {
+    console.log("total ", totalCompra, " list ", solicitudList);
+
+    if (totalCompra > 0 && solicitudList.length > 0) {
       const dataToSend = {
         ...insumosList,
         idSolicitud: idSolicitud,
         totalCompra: totalCompra,
       };
-      const response: any = await newListaCompra(dataToSend);
+      //const response: any = await newListaCompra(dataToSend);
       // console.log("🚀 ~ handleRegister ~ response:", response);
-      window.location.reload();
+      // window.location.reload();
     } else {
       alert("Existen campos vacios");
     }
@@ -139,18 +144,15 @@ export default function RegistroCompras() {
         <Box component="form" className="form-container" noValidate>
           <div className="form-row">
             <div className="form-item">
-              <label htmlFor="outlined-select-currency1">Encargado</label>
+              <label htmlFor="outlined-select-currency1">Categoría</label>
               <TextField
                 id="outlined-select-currency1"
-                onChange={(event) => handleChangeEncargado(event.target.value)}
+                onChange={(event) => handleChangeCategoria(event.target.value)}
                 select
               >
-                {encargadoList.map((element: any) => (
-                  <MenuItem
-                    key={element.idPersonalExterno}
-                    value={element.idPersonalExterno}
-                  >
-                    {element.nombre}
+                {categoryList.map((element: any) => (
+                  <MenuItem key={element.id} value={element.id}>
+                    {element.catnombre}
                   </MenuItem>
                 ))}
               </TextField>
@@ -162,6 +164,7 @@ export default function RegistroCompras() {
                 onChange={(event) => {
                   allInsumos(parseInt(event.target.value));
                   setIdSolicitud(parseInt(event.target.value));
+                  setTotalCompra(0);
                 }}
                 select
               >
@@ -170,7 +173,7 @@ export default function RegistroCompras() {
                     key={element.idRegistroSolicitud}
                     value={element.idRegistroSolicitud}
                   >
-                    {element.descripcion}
+                    Solicitud {element.idRegistroSolicitud}
                   </MenuItem>
                 ))}
               </TextField>
@@ -203,7 +206,10 @@ export default function RegistroCompras() {
                       id="outlined"
                       type="number"
                       placeholder=" Bs."
-                      onBlur={(event) =>
+                      value={
+                        element.precioInsumo === 0 ? null : element.precioInsumo
+                      }
+                      onChange={(event) =>
                         precioBlur(
                           element.idInsumo,
                           parseInt(event.target.value)

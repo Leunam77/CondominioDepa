@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommonArea\CommonAreaController;
+use App\Http\Controllers\CommonArea\EquipmentController;
 use App\Http\Controllers\CommonArea\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Empleados\EmployeeController;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
+use App\Http\Controllers\Notificaciones\AvisosController;
+use App\Http\Controllers\Notificaciones\CorreoController;
 use App\Http\Controllers\Notificaciones\TelegramNotificationController;
 use App\Http\Controllers\Notificaciones\VerificationController;
 use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
@@ -32,7 +35,6 @@ use App\Http\Controllers\Empleados\WorkingHourController;
 use App\Http\Controllers\Empleados\ContractController;
 use App\Http\Controllers\Mantenimiento\EstadoController;
 use App\Http\Controllers\Mantenimiento\InsumoController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +73,7 @@ Route::controller(BloqueController::class)->group(function(){
     Route::get('/bloque/{id}','show')->name('bloque.show');
     Route::post('/bloqueupd/{id}','update')->name('bloque.update');
     Route::delete('/bloque/{id}','destroy')->name('bloque.destroy');
+    Route::get('/bloques-short','getBloquesShort')->name('bloque.getBloquesShort');
 });
 
 Route::controller(EdificioController::class)->group(function(){
@@ -80,6 +83,8 @@ Route::controller(EdificioController::class)->group(function(){
     Route::post('/edificioupd/{id}','update')->name('edificio.update');
     Route::delete('/edificio/{id}','destroy')->name('edificio.destroy');
     Route::get('/edificios-by-bloques/{id}', 'getEdificiosByBloques')->name('edificio.getEdificiosByBloques');
+    Route::get('/edificios-short','getEdificiosShort')->name('edificio.getEdificiosShort');
+    Route::get('/edificio-short/{id}','getEdificioShort')->name('edificio.getEdificioShort');
 });
 Route::controller(ResidenteController::class)->group(function(){
     Route::get('/residentes','index')->name('residente.index');
@@ -186,13 +191,16 @@ Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
+Route::apiResource('/equipments', EquipmentController::class);
 
+// Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
+// Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
+// Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
+// Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
+// Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
 
-Route::get('/equipments', [CommonAreaController::class, 'indexEquipment']);
-Route::post('/equipments', [CommonAreaController::class, 'storeEquipment']);
-Route::patch('/equipments/{id}', [CommonAreaController::class, 'updateEquipment']);
-Route::delete('/equipments/{id}', [CommonAreaController::class, 'destroyEquipment']);
-Route::get('/equipments/{id}', [CommonAreaController::class, 'showEquipment']);
+Route::post('/reports', [CommonAreaController::class, 'createReport']);
+Route::get('/reports', [CommonAreaController::class, 'getReports']);
 
 
 //Cobro_Servicios
@@ -252,11 +260,23 @@ Route::group(['prefix' =>  'v1'], function () {
     Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
 });
 
+//emails de preavisso
+Route::post('/cobrar-servicio', [CorreoController::class, 'enviarCorreo']);
+
 Route::controller(TelegramNotificationController::class)->group(function() {
     Route::post('/telegram/notification', 'sendNoticeToOne');
     Route::post('/telegram/notifications', 'sendNoticeToMany');
 });Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
 
+Route::get("/avisos",[AvisosController::class,"index"]);
+Route::post("/avisos",[AvisosController::class,"store"]);
+Route::get("/avisos/{id}",[AvisosController::class,"show"]);
+Route::put("/avisos/{id}",[AvisosController::class,"update"]);
+Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]);
+
 Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
+
+
+

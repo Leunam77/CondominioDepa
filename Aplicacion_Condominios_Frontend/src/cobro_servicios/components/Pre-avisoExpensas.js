@@ -63,7 +63,9 @@ const GestionCobro = () => {
                     title: 'Expensa generada con éxito',
                     text: 'La expensa ha sido generada exitosamente.',
                 }).then(() => {
-                    setGenerarExpensaHabilitado(true); // Habilitar el botón después de cerrar la alerta
+                    setGenerarExpensaHabilitado(true);
+                    window.location.href = `/cobros/expensas`;
+                    // Habilitar el botón después de cerrar la alerta
                 });
             } else {
                 console.error('Error al generar la expensa:', response.statusText);
@@ -74,7 +76,6 @@ const GestionCobro = () => {
                     text: response.statusText,
                 }).then(() => {
                     setGenerarExpensaHabilitado(true); 
-                    window.location.href = `/cobros/expensas`;
                     // Habilitar el botón después de cerrar la alerta
                 });
             }
@@ -102,11 +103,11 @@ const GestionCobro = () => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Id pre aviso</th>
+                       
                         <th>Departamento</th>
-                        <th>Propietario a Pagar</th>
+                        <th>Propietario</th>
                         <th>Fecha</th>
-                        <th>Descripción de Servicios</th>
+                        <th>Servicio</th>
                         <th>Servicio a Pagar</th>
                         <th>Monto Total</th>
                         <th>Monto Multa</th>
@@ -118,7 +119,7 @@ const GestionCobro = () => {
                 <tbody>
                     {preavisosConMultas.map(preaviso => (
                         <tr key={preaviso.id}>
-                            <td>{preaviso.id}</td>
+                            
                             <td>{preaviso.departamento_id}</td>
                             <td>{preaviso.propietario_pagar}</td>
                             <td>{preaviso.fecha}</td>
@@ -141,11 +142,11 @@ const GestionCobro = () => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>id preaviso</th>
+                       
                         <th>Departamento</th>
-                        <th>Propietario a Pagar</th>
+                        <th>Propietario</th>
                         <th>Fecha</th>
-                        <th>Descripción de Servicios</th>
+                        <th>Servicios</th>
                         <th>Servicio a Pagar</th>
                         <th>Monto</th>
                         <th>Generar Expensa</th>
@@ -154,7 +155,7 @@ const GestionCobro = () => {
                 <tbody>
                     {preavisosSinMultas.map(preaviso => (
                         <tr key={preaviso.id}>
-                            <td>{preaviso.id}</td>
+                           
                             <td>{preaviso.departamento_id}</td>
                             <td>{preaviso.propietario_pagar}</td>
                             <td>{preaviso.fecha}</td>

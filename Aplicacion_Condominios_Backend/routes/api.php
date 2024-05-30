@@ -22,6 +22,8 @@ use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
 use App\Http\Controllers\Cobro_Servicios\PreAvisoController;
 use App\Http\Controllers\Cobro_Servicios\ExpensasController;
 use App\Http\Controllers\Cobro_Servicios\MultasController;
+use App\Http\Controllers\Cobro_Servicios\PagoExpensasController;
+
 use App\Models\Mantenimiento\CategoriaServicio;
 use App\Http\Controllers\Mantenimiento\PersonalExternoController;
 use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
@@ -218,7 +220,7 @@ Route::controller(PreAvisoController::class)->group(function(){
 });
 Route::controller(ExpensasController::class)->group(function(){
     Route::put('/expensas/{id}/pagarExpensa', [ExpensasController::class, 'pagar']);
-
+    Route::post('/pago-expensas', [PagoExpensasController::class, 'store']);
     Route::post('/generar-expensa', [ExpensasController::class, 'store']);
     Route::get('/obtener-expensas', [ExpensasController::class, 'index']);
     Route::get('/obtener-expensas/{id}', [ExpensasController::class, 'show']);

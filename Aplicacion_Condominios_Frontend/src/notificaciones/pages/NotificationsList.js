@@ -123,7 +123,7 @@ export const NotificationsList = () => {
 
   return (
     <div>
-      <h3>Lista de Notificaciones</h3>
+      <h3>Lista de avisos</h3>
       <button className="btn btn-primary" onClick={handleOpenModal}>
         Agregar aviso
       </button>

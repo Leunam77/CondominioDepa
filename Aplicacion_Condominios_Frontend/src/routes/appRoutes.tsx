@@ -8,6 +8,7 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationPage from "../pages/notifications/NotificationPage";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import EngineeringIcon from "@mui/icons-material/Engineering";
+import Aviso from "../notificaciones/pages/Aviso";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
 import Depa from "../departamento/components/MostrarDep.js";
@@ -427,6 +428,15 @@ const appRoutes: RouteType[] = [
         },
       },*/
       {
+        path: "/notifications/generarAviso",
+        element: <Aviso/>,
+        state: "notificacion.email",
+        sidebarProps: {
+          displayText: "Generar Aviso",
+        },
+      },
+
+      {
         path: "/notifications/list",
         element: <NotificationsList />,
         state: "notificacion.lista",
@@ -434,6 +444,7 @@ const appRoutes: RouteType[] = [
           displayText: "Lista de Avisos",
         },
       },
+      
       {
         path: "/notifications/review-list",
         element: <NotificationsListPendingReview />,

@@ -1,7 +1,7 @@
 import { MenuItem, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../services/maintenance/categoryService";
@@ -46,103 +46,118 @@ interface Insumo {
   id: number;
   idSolicitud: number;
   nombreInsumo: string;
+  cantidadInsumo: number;
   precioInsumo: number;
 }
 
 interface InsumoRequest {
   idSolicitud: number;
   nombreInsumo: string;
+  cantidadInsumo: number;
   precioInsumo: number;
 }
 
-
 export default function RegistroInsumo() {
-
   const [categoryList, setCategoryList] = useState<Category[]>([]);
-  const [personalList, setPersonalList] = useState<PersonalExternoResponse[]>([]);
-  const [solicitudList, setSolicitudList] = useState<SolicitudServicioResponse[]>([]);
+  const [personalList, setPersonalList] = useState<PersonalExternoResponse[]>(
+    []
+  );
+  const [solicitudList, setSolicitudList] = useState<
+    SolicitudServicioResponse[]
+  >([]);
 
   const [solicitudActual, setSolicitudActual] = useState<number>(0);
 
+  const [cantidadInsumo, setCantidadInsumo] = useState<number>(1);
   const [nombreInsumo, setNombreInsumo] = useState<string>("");
   const [insumosList, setInsumosList] = useState<Insumo[]>([]);
 
   useEffect(() => {
     allCategories();
-  }, [])
+  }, []);
 
   const allCategories = async () => {
     const response = await getAllCategories();
     setCategoryList(response);
-  }
+  };
 
   const allPersonalList = async (categoryId: string) => {
     setSolicitudActual(0);
     const categoryIdNumber: number = parseInt(categoryId);
     const response = await getPersonalByCategory(categoryIdNumber);
     setPersonalList(response);
-  }
+  };
 
   const allSolicitudList = async (encargadoId: string) => {
     const encargadoIdInt: number = parseInt(encargadoId);
     const response = await getSolicitudByEncargadoId(encargadoIdInt);
-    console.log("🚀 ~ allSolicitudList ~ response:", response)
+    console.log("🚀 ~ allSolicitudList ~ response:", response);
     setSolicitudList(response);
     setSolicitudActual(0);
-  }
-
+  };
 
   const agregarInsumo = () => {
-    if (nombreInsumo.slice() !== "") {
-      const newInsumo = { id: insumosList.length + 1, idSolicitud: 0, nombreInsumo: nombreInsumo, precioInsumo: 0 }
+    if (nombreInsumo.slice() !== "" && cantidadInsumo > 0) {
+      const newInsumo = {
+        id: insumosList.length + 1,
+        idSolicitud: 0,
+        nombreInsumo: nombreInsumo,
+        cantidadInsumo: cantidadInsumo,
+        precioInsumo: 0,
+      };
       const newInsumosList = [...insumosList, newInsumo];
       setInsumosList(newInsumosList);
+      setCantidadInsumo(1);
       setNombreInsumo("");
     }
-  }
+  };
 
   const handleDeleteItemInsumo = (idInsumo: number) => {
-    const newInsumosList = insumosList.filter(element => {
+    const newInsumosList = insumosList.filter((element) => {
       if (element.id !== idInsumo) {
-        return element
+        return element;
       }
-    })
+    });
 
     setInsumosList(newInsumosList);
-  }
+  };
 
   const registerInsumo = async (insumoData: InsumoRequest) => {
     const response = await createInsumo(insumoData);
     if (response === null) {
-      alert("Error al guardar")
+      alert("Error al guardar");
     }
-  }
+  };
 
   const handleRegisterInsumos = () => {
     if (insumosList.length !== 0 && solicitudActual != 0) {
-      insumosList.map(element => {
-        const { nombreInsumo, precioInsumo } = element;
-        const insumoData = { idSolicitud: solicitudActual, nombreInsumo: nombreInsumo, precioInsumo: precioInsumo };
-        registerInsumo(insumoData)
+      insumosList.map((element) => {
+        const { nombreInsumo, precioInsumo, cantidadInsumo } = element;
+        const insumoData = {
+          idSolicitud: solicitudActual,
+          nombreInsumo: nombreInsumo,
+          cantidadInsumo: cantidadInsumo,
+          precioInsumo: precioInsumo,
+        };
+        registerInsumo(insumoData);
         console.log("Insumo", insumoData);
-
-      })
+      });
       alert("Se ha registrado los insumos");
       window.location.reload();
     } else {
       if (solicitudActual === 0) {
-        alert("Seleccione una solicitud")
+        alert("Seleccione una solicitud");
       } else {
-        alert("Deben existir insumos")
+        alert("Deben existir insumos");
       }
     }
-  }
+  };
 
   const handleChangeSolicitud = (solicitudId: string) => {
     const solicitudIdInt: number = parseInt(solicitudId);
-    console.log("🚀 ~ handleChangeSolicitud ~ solicitudIdInt:", solicitudIdInt)
+    console.log("🚀 ~ handleChangeSolicitud ~ solicitudIdInt:", solicitudIdInt);
     setSolicitudActual(solicitudIdInt);
-  }
+  };
 
   return (
     <>
@@ -152,7 +167,11 @@ export default function RegistroInsumo() {
           <Box
             component="form"
             sx={{
-              "& .MuiTextField-root": { m: 0.8, width: "42ch", display: "flex" },
+              "& .MuiTextField-root": {
+                m: 0.8,
+                width: "42ch",
+                display: "flex",
+              },
             }}
             noValidate
           >
@@ -171,7 +190,6 @@ export default function RegistroInsumo() {
                       {option.catnombre}
                     </MenuItem>
                   ))}
-
                 </TextField>
               </div>
             </div>
@@ -186,7 +204,10 @@ export default function RegistroInsumo() {
                   select
                 >
                   {personalList.map((option) => (
-                    <MenuItem key={option.idPersonalExterno} value={option.idPersonalExterno}>
+                    <MenuItem
+                      key={option.idPersonalExterno}
+                      value={option.idPersonalExterno}
+                    >
                       {option.nombre}
                     </MenuItem>
                   ))}
@@ -201,11 +222,16 @@ export default function RegistroInsumo() {
                 <TextField
                   id="outlined-select-currency"
                   value={solicitudActual}
-                  onChange={(event) => handleChangeSolicitud(event.target.value)}
+                  onChange={(event) =>
+                    handleChangeSolicitud(event.target.value)
+                  }
                   select
                 >
                   {solicitudList.map((option) => (
-                    <MenuItem key={option.idRegistroSolicitud} value={option.idRegistroSolicitud}>
+                    <MenuItem
+                      key={option.idRegistroSolicitud}
+                      value={option.idRegistroSolicitud}
+                    >
                       {option.descripcion}
                     </MenuItem>
                   ))}
@@ -220,19 +246,19 @@ export default function RegistroInsumo() {
             </div>
 
             <div className="row__group2">
-
-
-
               <div className="row__group">
-
                 <div className="row__input d-flex ">
-
-                  <TextField className="tam_texField"
+                  <TextField
+                    className="tam_texField"
                     required
+                    type="number"
                     id="outlined"
+                    value={cantidadInsumo}
+                    onChange={(event) =>
+                      setCantidadInsumo(parseInt(event.target.value))
+                    }
                     placeholder="Cantidad"
                   />
-
 
                   <TextField
                     required
@@ -241,10 +267,7 @@ export default function RegistroInsumo() {
                     onChange={(event) => setNombreInsumo(event.target.value)}
                     placeholder="Ingrese Nombre del Insumo"
                   />
-
-
                 </div>
-
 
                 <button
                   className="col-2 btn btn-success m_personalizado"
@@ -258,30 +281,26 @@ export default function RegistroInsumo() {
               <div className="table__container">
                 <table className="table table__space">
                   <thead>
-                    <tr >
+                    <tr>
                       <th className="der">Cantidad</th>
                       <th className="der">Insumo</th>
                       <th className="izq">Borrar</th>
-
                     </tr>
                   </thead>
-                  {insumosList.map(element => (
+                  {insumosList.map((element) => (
                     <tbody className="tbody__space">
-
                       <tr className="tr__color">
-                        <td>5</td>
+                        <td>{element.cantidadInsumo}</td>
                         <td className="der">{element.nombreInsumo}</td>
                         <td className="izq">
-
-                          <button className="button_delete1">
-                            <ClearOutlinedIcon 
+                          <button type="button" className="button_delete1">
+                            <ClearOutlinedIcon
                               className="c-dark-blue"
                               fontSize="small"
                               onClick={() => handleDeleteItemInsumo(element.id)}
                             />
                           </button>
                         </td>
-
                       </tr>
                     </tbody>
                   ))}
@@ -295,10 +314,9 @@ export default function RegistroInsumo() {
                 </button>
               </div>
             </div>
-
           </Box>
         </div>
       </div>
     </>
-  )
+  );
 }

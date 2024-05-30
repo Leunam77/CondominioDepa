@@ -14,6 +14,12 @@ use App\Http\Controllers\Departamento\VisitaController;
 use App\Http\Controllers\Departamento\ParqueoController;
 
 use App\Http\Controllers\Empleados\EmployeeController;
+use App\Http\Controllers\Empleados\ContractController;
+use App\Http\Controllers\Empleados\AreaController;
+use App\Http\Controllers\Empleados\BenefitController;
+use App\Http\Controllers\Empleados\PositionController;
+use App\Http\Controllers\Empleados\AtrasoController;
+
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
@@ -32,9 +38,10 @@ use App\Http\Controllers\Mantenimiento\PersonalExternoController;
 use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
 use App\Http\Controllers\Empleados\WorkingHourController;
 
-use App\Http\Controllers\Empleados\ContractController;
+
 use App\Http\Controllers\Mantenimiento\EstadoController;
 use App\Http\Controllers\Mantenimiento\InsumoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -149,11 +156,26 @@ Route::post('/update_employee/{id}', [EmployeeController::class, 'update']);
 Route::post('/updateContractStatus/{id}', [EmployeeController::class, 'updateContractStatus']);
 Route::get('/get_employee_with_contract', [EmployeeController::class, 'getEmployeeWithContract']);
 
+
 Route::post('/add_contract', [ContractController::class, 'store']);
 
 Route::post('/add_working_hour', [WorkingHourController::class, 'store']);
+Route::delete('/borrar_horarios_dado_empleado/{id}', [WorkingHourController::class, 'borrarTodosDadoEmpleado']);
 
 Route::post('marcar_hora_empleado',[EmployeeController::class, 'marcarHora']);
+Route::get('/obtener_atrasos',[AtrasoController::class, 'obtenerAtrasos']);
+Route::post('/actualizar_motivo/{id}',[AtrasoController::class, 'actualizarMotivo']);
+
+Route::post('/add_area', [AreaController::class, 'store']);
+Route::get('/get_all_areas', [AreaController::class, 'getAll']);
+
+Route::post('/add_benefit', [BenefitController::class, 'store']);
+Route::get('/get_all_benefits', [BenefitController::class, 'getAll']);
+
+Route::post('/add_position', [PositionController::class, 'store']);
+Route::get('/get_all_positions', [PositionController::class, 'getAll']);
+
+
 
 // MANTENIMIENTO
 Route::get('/CategoriaServicio', [CategoriaServicioController::class,'getCategoriaServicio']);

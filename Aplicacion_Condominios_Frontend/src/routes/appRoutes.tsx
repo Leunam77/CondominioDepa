@@ -44,6 +44,9 @@ import ControlFaltas from "../empleados/pages/faltas/control_faltas";
 import InformacionFalta from "../empleados/pages/faltas/informacion_falta";
 import InformacionRetraso from "../empleados/pages/retrasos/informacion_retraso";
 import EditarTurno from "../empleados/pages/turnos/editar_turno";
+import VerAreas from "../empleados/pages/areas/ver_areas";
+import VerBeneficios from "../empleados/pages/beneficios/ver_beneficios";
+import ControlReportes from "../empleados/pages/reportes/control_reportes";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/dashboard/common-area/pages/create-page/CreatePage";
@@ -545,6 +548,35 @@ const appRoutes: RouteType[] = [
         state: "employee.analytics",
         sidebarProps: {
           displayText: "Control de faltas",
+        },
+      },
+
+      
+
+      {
+        path: "/employees/ver_areas",
+        element: <VerAreas />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Areas",
+        },
+      },
+
+      {
+        path: "/employees/ver_beneficios",
+        element: <VerBeneficios />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Beneficios",
+        },
+      },
+
+      {
+        path: "/employees/control_reportes",
+        element: <ControlReportes />,
+        state: "employee.analytics",
+        sidebarProps: {
+          displayText: "Reportes",
         },
       },
 

@@ -57,6 +57,7 @@ import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
 import NotificationEmail from "../notificaciones/pages/NotificationEmail";
+import { NotificationsListPendingReview } from "../notificaciones/pages/NotificationsListPendingReview";
 
 import PersonalPage from "../mantenimiento/personal/PersonalPage";
 import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
@@ -434,7 +435,14 @@ const appRoutes: RouteType[] = [
           displayText: "Generar Aviso",
         },
       },
-
+      {
+        path: "/notifications/review-list",
+        element: <NotificationsListPendingReview />,
+        state: "notification.review-list",
+        sidebarProps: {
+          displayText: "Revisar Avisos",
+        },
+      },
       {
         path: "/notifications/list",
         element: <NotificationsList />,
@@ -443,7 +451,6 @@ const appRoutes: RouteType[] = [
           displayText: "Lista de Avisos",
         },
       },
-      
       {
         path: "/notifications/email",
         element: <NotificationEmail />,
@@ -452,12 +459,11 @@ const appRoutes: RouteType[] = [
           displayText: "Enviar email",
         },
       },
-      
-      {
+      /*{
         path: "/notifications/send/telegram",
         element: <SendTelegramNotification />,
         state: "telegram.enviar",
-      },
+      },*/
     ],
   },
 

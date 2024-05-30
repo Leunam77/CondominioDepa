@@ -264,14 +264,17 @@ Route::controller(TelegramNotificationController::class)->group(function() {
 });Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
 
 Route::get("/avisos",[AvisosController::class,"index"]);
+Route::get('/avisos/sin-revision', [AvisosController::class, 'getNoticesPendingReview']);
+Route::get('/avisos/aprobados', [AvisosController::class, 'getApprovedNotices']);
 Route::post("/avisos",[AvisosController::class,"store"]);
 Route::get("/avisos/{id}",[AvisosController::class,"show"]);
 Route::put("/avisos/{id}",[AvisosController::class,"update"]);
 Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]);
+Route::put('/avisos/aprobar/{id}', [AvisosController::class, 'approveNotice']);
+Route::put('/avisos/rechazar/{id}', [AvisosController::class, 'rejectNotice']);
 
 Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
-
 
 

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Modal } from 'react-bootstrap';
+import axios from 'axios';
 
 const Aviso = () => {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const url = "http://localhost:8000/api"
 
   const handleTituloChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitulo(event.target.value);
@@ -19,7 +21,8 @@ const Aviso = () => {
     setShowConfirmModal(true);
   };
 
-  const handleConfirmSave = () => {
+  const handleConfirmSave = async () => {
+    await axios.post(`${url}/avisos`, { titulo, descripcion });
     console.log('Aviso guardado:', { titulo, descripcion });
     setShowConfirmModal(false);
     setTitulo('');
@@ -62,8 +65,8 @@ const Aviso = () => {
                     rows={5}
                   />
                 </Form.Group>
-                <div className="form-buttons mt-4">
-                  <Button variant="primary" onClick={handleSaveNotice}>
+                <div className="form-buttons mt-4" style={{ display: "flex", justifyContent: "center" }}>
+                  <Button style={{ width: "auto" }} variant="primary" onClick={handleSaveNotice}>
                     Guardar Aviso
                   </Button>
                 </div>
@@ -81,10 +84,10 @@ const Aviso = () => {
           ¿Está seguro de que desea guardar este aviso?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseConfirmModal}>
+          <Button style={{ width: "auto" }} variant="secondary" onClick={handleCloseConfirmModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleConfirmSave}>
+          <Button style={{ width: "auto" }} variant="primary" onClick={handleConfirmSave}>
             Confirmar
           </Button>
         </Modal.Footer>

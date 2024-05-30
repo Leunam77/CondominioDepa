@@ -104,12 +104,6 @@ export const NotificationsList = () => {
       };
 
       return axios.post(`${url}/v1/send`, notificationData);
-        /*.then(response => {
-          console.log('notificacion enviada');
-        })
-        .catch(error => {
-          console.log('hubo un error');
-        });*/
     });
 
     try {
@@ -124,10 +118,7 @@ export const NotificationsList = () => {
   return (
     <div>
       <h3>Lista de Notificaciones</h3>
-      <button className="btn btn-primary" onClick={handleOpenModal}>
-        Agregar aviso
-      </button>
-
+      
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Agregar Aviso</Modal.Title>
@@ -135,21 +126,22 @@ export const NotificationsList = () => {
         <Modal.Body>
           <Form>
             <Form.Group controlId="formNoticeTitle">
-              <Form.Label>Título</Form.Label>
+              <Form.Label>Asunto</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Ingrese el título"
+                placeholder="Ingrese el aviso"
                 value={titulo}
                 onChange={handleTituloChange}
               />
             </Form.Group>
             <Form.Group controlId="formNoticeSubject">
-              <Form.Label>Asunto</Form.Label>
+              <Form.Label>Descripcion</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Ingrese el asunto"
+                as="textarea"
+                placeholder="Ingrese la descripcion"
                 value={descripcion}
                 onChange={handleDescripcionChange}
+                rows={3}
               />
             </Form.Group>
           </Form>
@@ -188,7 +180,7 @@ export const NotificationsList = () => {
       <table className=" mt-3 table table-striped text-center">
         <thead className="bg-primary text-white">
           <tr>
-            <th>Título</th>
+            <th>Aviso</th>
             <th>Descripción</th>
             <th>Acciones</th>
           </tr>
@@ -213,7 +205,7 @@ export const NotificationsList = () => {
         </tbody>
       </table>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}centered>
         <Modal.Header closeButton>
           <Modal.Title>Vista Previa</Modal.Title>
         </Modal.Header>

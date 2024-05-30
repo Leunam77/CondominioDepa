@@ -20,11 +20,19 @@ class DepartamentoFactory extends Factory
         if (!\File::isDirectory($directory)) {
             \File::makeDirectory($directory, 0755, true, true);
         }
+        $listaImagenes = ['departamento/images/departamentos/departamento_pred.jpeg','departamento/images/departamentos/departamento (1).jpg','departamento/images/departamentos/departamento (2).jpg','departamento/images/departamentos/departamento (3).jpg','departamento/images/departamentos/departamento (4).jpg','departamento/images/departamentos/departamento (5).jpg','departamento/images/departamentos/departamento (6).jpg','departamento/images/departamentos/departamento (7).jpg','departamento/images/departamentos/departamento (8).jpg'];
         // Generar la imagen y obtener el nombre del archivo
-        $imageName = $this->faker->image($directory, 512, 512, null, false);
-        
+        try {
+            $imageName = $this->faker->image($directory, 512, 512, null, false);
+        } catch (\Exception $e) {
+            //imprimir el error
+            echo $e->getMessage();
+            $imageName = null;
+        }
+        //$imageName = $this->faker->image($directory, 512, 512, null, false);
+        $obtenerImagen = $this->faker->randomElement($listaImagenes);
         // Concatenar el path al nombre del archivo para almacenar en la base de datos
-        $imagePath = $imageName ? $ruta . '/' . $imageName : 'departamento/images/departamentos/departamento_pred.jpeg';
+        $imagePath = $imageName ? $ruta . '/' . $imageName : $obtenerImagen;
         $nombreDepa = $this->faker->word;
         $nombreDepa = 'Dep '.$nombreDepa.' '.$this->faker->numberBetween(1,100);
         $nombreDepa = $nombreDepa.$this->faker->randomElement(range('A', 'Z'));

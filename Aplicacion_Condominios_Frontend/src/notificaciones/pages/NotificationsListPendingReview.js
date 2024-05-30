@@ -90,7 +90,11 @@ export const NotificationsListPendingReview = () => {
         </tbody>
       </Table>
 
-      <Modal show={show} onHide={handleCloseModal}>
+      <Modal 
+        show={show}
+        onHide={handleCloseModal}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Aviso</Modal.Title>
         </Modal.Header>

@@ -435,22 +435,20 @@ const appRoutes: RouteType[] = [
           displayText: "Generar Aviso",
         },
       },
-
-      {
-        path: "/notifications/list",
-        element: <NotificationsList />,
-        state: "notificacion.lista",
-        sidebarProps: {
-          displayText: "Lista de Avisos",
-        },
-      },
-      
       {
         path: "/notifications/review-list",
         element: <NotificationsListPendingReview />,
         state: "notification.review-list",
         sidebarProps: {
           displayText: "Revisar Avisos",
+        },
+      },
+      {
+        path: "/notifications/list",
+        element: <NotificationsList />,
+        state: "notificacion.lista",
+        sidebarProps: {
+          displayText: "Lista de Avisos",
         },
       },
       {

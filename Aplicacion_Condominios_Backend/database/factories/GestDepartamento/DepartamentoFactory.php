@@ -22,13 +22,13 @@ class DepartamentoFactory extends Factory
         }
         $listaImagenes = ['departamento/images/departamentos/departamento_pred.jpeg','departamento/images/departamentos/departamento (1).jpg','departamento/images/departamentos/departamento (2).jpg','departamento/images/departamentos/departamento (3).jpg','departamento/images/departamentos/departamento (4).jpg','departamento/images/departamentos/departamento (5).jpg','departamento/images/departamentos/departamento (6).jpg','departamento/images/departamentos/departamento (7).jpg','departamento/images/departamentos/departamento (8).jpg'];
         // Generar la imagen y obtener el nombre del archivo
-        try {
+        /* try {
             $imageName = $this->faker->image($directory, 512, 512, null, false);
         } catch (\Exception $e) {
             //imprimir el error
             echo $e->getMessage();
-            $imageName = null;
-        }
+        } */
+        $imageName = null;
         //$imageName = $this->faker->image($directory, 512, 512, null, false);
         $obtenerImagen = $this->faker->randomElement($listaImagenes);
         // Concatenar el path al nombre del archivo para almacenar en la base de datos

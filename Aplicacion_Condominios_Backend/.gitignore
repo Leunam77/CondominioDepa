@@ -19,7 +19,14 @@ yarn-error.log
 
 # Pero no ignores este archivo
 !/public/departamento/images/departamentos/departamento_pred.jpeg
-
+!/public/departamento/images/departamentos/departamento (1).jpg
+!/public/departamento/images/departamentos/departamento (2).jpg
+!/public/departamento/images/departamentos/departamento (3).jpg
+!/public/departamento/images/departamentos/departamento (4).jpg
+!/public/departamento/images/departamentos/departamento (5).jpg
+!/public/departamento/images/departamentos/departamento (6).jpg
+!/public/departamento/images/departamentos/departamento (7).jpg
+!/public/departamento/images/departamentos/departamento (8).jpg
 
 /public/departamento/images/residentes/*
 

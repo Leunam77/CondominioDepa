@@ -223,7 +223,7 @@ Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
     //Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
     //Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
-    //Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
+    Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
 
 });
 Route::controller(ExpensasController::class)->group(function(){
@@ -234,6 +234,9 @@ Route::controller(ExpensasController::class)->group(function(){
     Route::get('/obtener-expensas/{id}', [ExpensasController::class, 'show']);
     Route::put('/editar-expensas/{id}', [ExpensasController::class, 'update']);
     Route::delete('/eliminar-expensas/{id}', [ExpensasController::class, 'destroy']);
+    Route::post('anotarMonto/{residente_id}/{monto}',[ExpensasController::class,'acumularMonto']);
+    Route::post('disminuirMonto/{residente_id}/{monto}',[ExpensasController::class,'decrementarMonto']);
+    Route::get('/obtener-pagos-residente/{id}', [PagoExpensasController::class, 'obtenerPagosPorResidente']);
 });
 
 Route::controller(MultasController::class)->group(function(){

@@ -72,7 +72,7 @@ import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
 import EditarEquipo from "../cobro_servicios/components/editarEquipo";
 import GenerarPreAviso from "../cobro_servicios/components/Pre-aviso";
 import PreAvisoExpensas from "../cobro_servicios/components/Pre-avisoExpensas.js";
-
+import Pagos from "../cobro_servicios/components/Pagos";
 import ReportListPage from "../common-areas/dashboard/detail/pages/list-page/ReportListPage";
 import Expensas from "../cobro_servicios/components/Expensas";
 
@@ -292,6 +292,11 @@ const appRoutes: RouteType[] = [
         path: "/cobros/pagar-reserva-area/:id",
         element: <FormularioPagoArea />,
         state: "cobros.formulario.pago",
+      },
+      {
+        path: "/cobros/ver-pagos/:id",
+        element: <Pagos />,
+        state: "cobros.expensa.pagosrealizados",
       },
     ],
   },

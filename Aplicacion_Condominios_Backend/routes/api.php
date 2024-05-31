@@ -20,7 +20,6 @@ use App\Http\Controllers\Empleados\BenefitController;
 use App\Http\Controllers\Empleados\PositionController;
 use App\Http\Controllers\Empleados\AtrasoController;
 
-use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
 use App\Http\Controllers\Notificaciones\AvisosController;
@@ -34,13 +33,15 @@ use App\Http\Controllers\Cobro_Servicios\MultasController;
 use App\Http\Controllers\Cobro_Servicios\PagoExpensasController;
 
 use App\Models\Mantenimiento\CategoriaServicio;
+use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Mantenimiento\PersonalExternoController;
 use App\Http\Controllers\Mantenimiento\RegistroSolicitudController;
+use App\Http\Controllers\Mantenimiento\EstadoController;
+use App\Http\Controllers\Mantenimiento\InsumoController;
+use App\Http\Controllers\Mantenimiento\ListaCompraController;
 use App\Http\Controllers\Empleados\WorkingHourController;
 
 
-use App\Http\Controllers\Mantenimiento\EstadoController;
-use App\Http\Controllers\Mantenimiento\InsumoController;
 
 
 /*
@@ -200,6 +201,8 @@ Route::get('/solicitudes-by-encargado/{id}', [RegistroSolicitudController::class
 
 Route::get('/insumo', [InsumoController::class,'getInsumo']);
 Route::get('/insumo/solicitud', [InsumoController::class,'getInsumoBySolicitud']);
+Route::get('/insumo/solicitud-all/{id}', [InsumoController::class,'getInsumosBySolicitudAll']);
+Route::get('/insumo/categoria/{id}', [InsumoController::class,'getInsumosByCategoria']);
 Route::get('/insumo/{id}', [InsumoController::class,'getInsumoId']);
 Route::post('/insumo/insert', [InsumoController::class,'insertInsumo']);
 Route::put('/insumo/update/{id}', [InsumoController::class,'updateInsumo']);
@@ -208,6 +211,10 @@ Route::delete('/insumo/delete/solicitud/{id}', [InsumoController::class,'deleteI
 
 Route::get('/estado-solicitud', [EstadoController::class,'getEstado']);
 Route::get('/estado-solicitud/{id}', [EstadoController::class,'getEstadoId']);
+
+Route::get('/lista-compra', [ListaCompraController::class,'getListaCompra']);
+Route::post('/lista-compra/insert', [ListaCompraController::class,'insertRegistroCompra']);
+Route::put('/lista-compra/update/{id}', [ListaCompraController::class,'updateRegistroCompra']);
 
 // COMMON AREAS
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);

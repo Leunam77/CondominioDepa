@@ -5,17 +5,16 @@ namespace App\Models\Mantenimiento;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Insumo extends Model
+class ListaCompra extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = "insumo";
-    protected $primaryKey = "idInsumo";
+    protected $table = "lista_compra";
+    protected $primaryKey = "idListaCompra";
     protected $fillable = [
         'idSolicitud', 
-        'nombreInsumo', 
-        'precioInsumo',
-        'cantidadInsumo'
+        'totalCompra', 
+        'fechaCompra'
     ];
     
     public function solicitud() {

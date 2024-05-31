@@ -69,6 +69,8 @@ import ChangelogPageLayout from "../mantenimiento/ChangelogPageLayout";
 import Changelog from "../pages/changelog/ChangelogPage";
 import RegistrarInsumoPage from "../mantenimiento/registro_insumo/RegistrarInsumoPage";
 import ListaInsumoPage from "../mantenimiento/lista_insumo/ListaInsumoPage";
+import ListaComprasPage from "../mantenimiento/lista_compras/ListaComprasPage";
+import RegistroComprasPage from "../mantenimiento/registro_compras/RegistroComprasPage";
 
 import TablaReservas from "../cobro_servicios/components/TablaReservas";
 import GestionEquipos from "../cobro_servicios/components/gestionEquipos.js";
@@ -430,6 +432,24 @@ const appRoutes: RouteType[] = [
         sidebarProps: {
           displayText: "Insumos",
         },
+      },
+      //Lista compras
+      {
+        path: "/changelog/lista_compras",
+        element: <ListaComprasPage />,
+        state: "changelog.solicitud",
+        sidebarProps: {
+          displayText: "Lista de Compras",
+        },
+      },
+      //Registro compras
+      {
+        path: "/changelog/registro_compras",
+        element: <RegistroComprasPage />,
+        state: "changelog.solicitud",
+        // sidebarProps: {
+        //   displayText: "Lista de Compras",
+        // },
       },
     ],
   },

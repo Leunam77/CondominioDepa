@@ -304,7 +304,9 @@ function ReportPage() {
           onChange={handleChange}
         />
       </div>
-      <button type="submit">Reportar</button>
+      <button className="btn-submit__report-page" type="submit">
+        Reportar
+      </button>
     </form>
   );
 }

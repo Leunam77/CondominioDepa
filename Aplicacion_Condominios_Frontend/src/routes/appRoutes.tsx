@@ -45,6 +45,7 @@ import EditarTurno from "../empleados/pages/turnos/editar_turno";
 import VerAreas from "../empleados/pages/areas/ver_areas";
 import VerBeneficios from "../empleados/pages/beneficios/ver_beneficios";
 import ControlReportes from "../empleados/pages/reportes/control_reportes";
+import VerReporte from "../empleados/pages/reportes/ver_reporte";
 
 import CommonAreasLayout from "../common-areas/CommonAreasLayout";
 import CreatePage from "../common-areas/dashboard/common-area/pages/create-page/CreatePage";
@@ -528,8 +529,6 @@ const appRoutes: RouteType[] = [
         },
       },
 
-      
-
       {
         path: "/employees/ver_areas",
         element: <VerAreas />,
@@ -553,7 +552,7 @@ const appRoutes: RouteType[] = [
         element: <ControlReportes />,
         state: "employee.analytics",
         sidebarProps: {
-          displayText: "Reportes",
+          displayText: "Reportes de Empleados",
         },
       },
 
@@ -590,6 +589,12 @@ const appRoutes: RouteType[] = [
       {
         path: "/employees/editarTurno",
         element: <EditarTurno />,
+        state: "employee.analytics",
+      },
+
+      {
+        path: "/employees/ver_reporte",
+        element: <VerReporte />,
         state: "employee.analytics",
       },
     ],

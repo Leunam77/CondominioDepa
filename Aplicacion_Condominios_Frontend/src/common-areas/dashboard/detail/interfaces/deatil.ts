@@ -11,6 +11,7 @@ export interface ReportReadDTO {
   countToReplace: number;
   situation: string;
   information: string;
+  id_residente: number;
 }
 
 export interface ReportFormData {

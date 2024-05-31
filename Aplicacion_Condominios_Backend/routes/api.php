@@ -230,7 +230,7 @@ Route::apiResource('/equipments', EquipmentController::class);
 
 Route::post('/reports', [CommonAreaController::class, 'createReport']);
 Route::get('/reports', [CommonAreaController::class, 'getReports']);
-
+Route::get('/reports/{idReserva}', [CommonAreaController::class, 'getReportsByReservationId']);
 
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){

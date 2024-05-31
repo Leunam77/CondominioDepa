@@ -44,7 +44,7 @@ const Expensas = () => {
                         <th>Pagado</th>
                         <th>Monto</th>
                         <th>Pagar</th> {/* Columna para pagar */}
-                        <th>Ver Pagos</th> {/* Columna para ver pagos */}
+                     
                     </tr>
                 </thead>
                 <tbody>
@@ -67,14 +67,7 @@ const Expensas = () => {
                                     }}
                                 />
                             </td>
-                            <td>
-                                {expensa.pagado && (
-                                    <FaEye
-                                        onClick={() => handleVerPagosRealizados(expensa.id_propietarioPagar, expensa.id)}
-                                        style={{ cursor: "pointer" }}
-                                    />
-                                )}
-                            </td>
+                           
                         </tr>
                     ))}
                 </tbody>

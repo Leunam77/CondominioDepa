@@ -79,6 +79,7 @@ import Expensas from "../cobro_servicios/components/Expensas";
 import Imprimir from "../notificaciones/pages/Imprimir";
 import Multas from "../cobro_servicios/components/Multas";
 import FormularioPagoExpensa from "../cobro_servicios/components/FormularioPagoExpensa";
+import { NoticesSection } from "../notificaciones/pages/NoticesSection";
 
 const appRoutes: RouteType[] = [
   {
@@ -449,6 +450,14 @@ const appRoutes: RouteType[] = [
         state: "notificacion.lista",
         sidebarProps: {
           displayText: "Lista de Avisos",
+        },
+      },
+      {
+        path: "/notifications/section",
+        element: <NoticesSection />,
+        state: "notification.section",
+        sidebarProps: {
+          displayText: "Avisos",
         },
       },
       {

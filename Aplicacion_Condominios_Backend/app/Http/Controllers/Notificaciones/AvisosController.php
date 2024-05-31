@@ -147,7 +147,8 @@ class AvisosController extends Controller
     public function getApprovedNotices()
     {
         $avisos = Aviso::where('aprobado', '=', 1)
-            ->where('revisado', '=', 1)->get();
+            ->where('revisado', '=', 1)
+            ->orderBy('created_at')->get();
 
         return response()->json($avisos, 200);
     }

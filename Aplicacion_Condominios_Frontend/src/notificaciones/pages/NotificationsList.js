@@ -78,7 +78,7 @@ export const NotificationsList = () => {
         email: residente.email_residente,
       };
 
-      return axios.post(`${url}/v1/send`, notificationData);
+      return axios.post(`${url}/email`, notificationData);
     });
 
     try {

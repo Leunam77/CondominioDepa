@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Notificación de Pre Aviso</title>
+    <title>Notificación de Anuncio</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -46,6 +46,11 @@
         ul li strong {
             color: #343a40;
         }
+        p {
+            line-height: 1.6;
+            color: #333;
+            padding-left: 2rem;
+        }
         .bg-pattern {
             background-image: url('https://www.toptal.com/designers/subtlepatterns/patterns/symphony.png');
             background-size: cover;
@@ -55,15 +60,11 @@
 <body class="bg-pattern">
     <div class="container">
         <div class="header">
-            <h2>Notificación de Pre Aviso</h2>
+            <h3>Anuncio General</h3>
         </div>
-        <p>Estimado/a,</p>
-        <p>Se ha generado un pre aviso por un servicio con el siguiente detalle:</p>
         <ul>
             <li><strong>Título:</strong> {{ $titulo }}</li>
-            <li><strong>Monto:</strong> ${{ $monto }}</li>
-            <li><strong>Multa:</strong> ${{ $multa }}</li>
-            <li> {{ $mensajeAdicional }}</li>
+            <li><strong>Anuncio:</strong> {{ $anuncio }}</li> <!-- Aquí estaba $Anuncio en lugar de $anuncio -->
         </ul>
         <p>Gracias por su atención.</p>
         <div class="footer">

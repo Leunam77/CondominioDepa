@@ -50,7 +50,7 @@ const Imprimir = ({ titulo, descripcion }) => {
         <div className="d-grid gap-2 d-md-flex justify-content-md-end">
           <ReactToPrint
             trigger={() => (
-              <Button className="bg-primary text-white" color="light" variant="shadow">
+              <Button style={{ width: "auto" }} className="bg-primary text-white" color="light">
                 Imprimir
               </Button>
             )}

@@ -2,28 +2,25 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Imprimir from "./Imprimir";
-import { SiGmail } from "react-icons/si";
-import { IoIosPrint } from "react-icons/io";
-import { MdDeleteOutline } from "react-icons/md";
+import { MailOutlined, PrintOutlined } from "@mui/icons-material";
+import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 
 export const NotificationsList = () => {
   const [notices, setNotices] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [showPrintModal, setShowPrintModal] = useState(false);
-  const [titulo, setTitulo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+  const [fechaComunicacion, setFechaComunicacion] = useState("");
+  const [fechaRealizacion, setFechaRealizacion] = useState("");
   const [noticeToPrint, setNoticeToPrint] = useState(null);
   
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/avisos")
+      .get("http://127.0.0.1:8000/api/avisos/aprobados")
       .then((response) => {
-        if (Array.isArray(response.data.avisos)) {
-          setNotices(response.data.avisos);
+        if (Array.isArray(response.data)) {
+          setNotices(response.data);
         } else {
           console.error("Expected an array but got:", response.data);
         }
@@ -32,33 +29,6 @@ export const NotificationsList = () => {
         console.error("Error fetching notices:", error);
       });
   }, []);
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setTitulo("");
-    setDescripcion("");
-  };
-
-  const handleTituloChange = (e) => setTitulo(e.target.value);
-  const handleDescripcionChange = (e) => setDescripcion(e.target.value);
-
-  const handleSaveNotice = () => {
-    const newNotice = {
-      titulo: titulo,
-      descripcion: descripcion,
-    };
-
-    axios
-      .post("http://127.0.0.1:8000/api/avisos", newNotice)
-      .then((response) => {
-        setNotices([...notices, response.data]);
-        handleCloseModal();
-      })
-      .catch((error) => {
-        console.error("Error saving notice:", error);
-      });
-  };
 
   const handleDeleteNotice = (id) => {
     axios
@@ -109,12 +79,6 @@ export const NotificationsList = () => {
       };
 
       return axios.post(`${url}/v1/send`, notificationData);
-      /*.then(response => {
-          console.log('notificacion enviada');
-        })
-        .catch(error => {
-          console.log('hubo un error');
-        });*/
     });
 
     try {
@@ -129,51 +93,12 @@ export const NotificationsList = () => {
   return (
     <div>
       <h3>Lista de Notificaciones</h3>
-      <button className="btn btn-primary" onClick={handleOpenModal}>
-        Agregar aviso
-      </button>
-
-      <Modal show={showModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Agregar Aviso</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formNoticeTitle">
-              <Form.Label>Título</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Ingrese el título"
-                value={titulo}
-                onChange={handleTituloChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formNoticeSubject">
-              <Form.Label>Asunto</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Ingrese el asunto"
-                value={descripcion}
-                onChange={handleDescripcionChange}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Cerrar
-          </Button>
-          <Button variant="primary" onClick={handleSaveNotice}>
-            Guardar Aviso
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
+      
       <Modal
         show={showPrintModal}
         onHide={handlePrintModalClose}
         centered
-        size="lg"
+        className="bg-body-secondary"
       >
         <Modal.Body>
           {noticeToPrint && (
@@ -185,69 +110,64 @@ export const NotificationsList = () => {
         </Modal.Body>
       </Modal>
 
-      <table className=" mt-3 table table-striped text-center">
+      <table className="mt-3 table table-striped text-center">
         <thead className="bg-primary text-white">
           <tr>
-            <th>Título</th>
-            <th>Descripción</th>
+            <th>Aviso</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(notices) &&
-            notices.map((notice) => (
-              <tr key={notice.id}>
-                <td>{notice.titulo}</td>
-                <td>{notice.descripcion}</td>
-                <td className="d-flex justify-content-center align-items-center">
+          {Array.isArray(notices) && notices.map((notice) => (
+            <tr key={notice.id}>
+              <td>{notice.titulo}</td>
+              <td>
+                <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
                   <Button
+                    style={{ width: "auto" }}
                     variant="outline-dark"
                     onClick={() => handleSendEmail(notice)}
-                    className="p-2 m-2 border-0"
-                    style={{ width: "auto", height: "auto" }}
                   >
-                    <SiGmail size={25} color="danger" />
+                    <MailOutlined fontSize="small" />
                   </Button>
                   <Button
-                    variant="outline-dark"
+                    style={{ width: "auto", backgroundColor: "#1B325F", borderColor: "#1B325F" }}
                     onClick={() => handlePrintNotice(notice)}
-                    className="p-2 m-2 border-0"
-                    style={{ width: "auto", height: "auto" }}
                   >
-                    <IoIosPrint size={25} />
+                    <PrintOutlined fontSize="small" />
                   </Button>
-                  <Button
-                    variant="outline-dark"
+                  <Button 
+                    style={{ width: "auto" }}
+                    variant="danger" 
                     onClick={() => handleDeleteNotice(notice.id)}
-                    className="p-2 m-2 border-0"
-                    style={{ width: "auto", height: "auto" }}
                   >
-                    <MdDeleteOutline size={25} />
+                    <DeleteOutlined fontSize="small" />
                   </Button>
-                </td>
-              </tr>
-            ))}
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}centered>
         <Modal.Header closeButton>
           <Modal.Title>Vista Previa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {
-            <p>
-              <b>Titulo: </b> {selectedNotice.titulo} <br />
-              <b>Descripcion: </b> {selectedNotice.descripcion}
-            </p>
-          }
+        {selectedNotice && (
+          <p>
+            <b>Titulo:</b><br/>{selectedNotice.titulo} <br/>
+            <b>Descripcion:</b><br/>{selectedNotice.descripcion}
+          </p>
+        )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleClose}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={sendEmail}>
+          <Button style={{ width: "auto" }} variant='success' onClick={sendEmail}>
             Enviar
+          </Button>
+          <Button style={{ width: "auto" }} variant='danger' onClick={handleClose}>
+            Cancelar
           </Button>
         </Modal.Footer>
       </Modal>

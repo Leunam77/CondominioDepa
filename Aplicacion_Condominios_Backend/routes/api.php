@@ -20,7 +20,6 @@ use App\Http\Controllers\Empleados\BenefitController;
 use App\Http\Controllers\Empleados\PositionController;
 use App\Http\Controllers\Empleados\AtrasoController;
 
-use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Notificaciones\PersonaController;
 use App\Http\Controllers\Notificaciones\AuthController;
 use App\Http\Controllers\Notificaciones\AvisosController;
@@ -41,8 +40,6 @@ use App\Http\Controllers\Mantenimiento\ListaCompraController;
 use App\Http\Controllers\Empleados\WorkingHourController;
 
 
-use App\Http\Controllers\Mantenimiento\EstadoController;
-use App\Http\Controllers\Mantenimiento\InsumoController;
 
 
 /*

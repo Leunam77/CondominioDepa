@@ -47,6 +47,10 @@ export default function ListPageReservations() {
                   <td>
                     <Link
                       className="btn btn-primary"
+                      style={{
+                        backgroundColor: "#1976a2",
+                        border: "none",
+                      }}
                       to={`/areas-comunes/crear-reporte/${reservation.idReservation}`}
                     >
                       Crear Reporte

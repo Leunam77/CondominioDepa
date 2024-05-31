@@ -85,6 +85,7 @@ import Expensas from "../cobro_servicios/components/Expensas";
 import Imprimir from "../notificaciones/pages/Imprimir";
 import Multas from "../cobro_servicios/components/Multas";
 import FormularioPagoExpensa from "../cobro_servicios/components/FormularioPagoExpensa";
+import ListPageReservations from "../common-areas/dashboard/reservation/pages/list-page/ListPageReservations";
 
 const appRoutes: RouteType[] = [
   {
@@ -99,20 +100,20 @@ const appRoutes: RouteType[] = [
     state: "dashboard",
     sidebarProps: {
       displayText: "Departamentos",
-      icon: <ApartmentIcon />
+      icon: <ApartmentIcon />,
     },
     child: [
       {
         index: true,
         element: <DashboardIndex />,
-        state: "dashboard.index"
+        state: "dashboard.index",
       },
       {
         path: "/dashboard/crearEdificio",
         element: <CrearEdificio />,
         state: "dashboard.crearEdificio",
         sidebarProps: {
-          displayText: "Registrar Edificio"
+          displayText: "Registrar Edificio",
         },
       },
       {
@@ -120,7 +121,7 @@ const appRoutes: RouteType[] = [
         element: <CrearDepa />,
         state: "dashboard.crearDepa",
         sidebarProps: {
-          displayText: "Registrar Departamento"
+          displayText: "Registrar Departamento",
         },
       },
       {
@@ -128,7 +129,7 @@ const appRoutes: RouteType[] = [
         element: <MostrarEdificio />,
         state: "dashboard.edificios",
         sidebarProps: {
-          displayText: "GestionarDepartamento"
+          displayText: "GestionarDepartamento",
         },
       },
       {
@@ -141,7 +142,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarResidente />,
         state: "dashboard.regResidente",
         sidebarProps: {
-          displayText: "Registrar Residente"
+          displayText: "Registrar Residente",
         },
       },
       {
@@ -169,7 +170,7 @@ const appRoutes: RouteType[] = [
         element: <MostrarResidentes />,
         state: "dashboard.residentes",
         sidebarProps: {
-          displayText: "Residentes"
+          displayText: "Residentes",
         },
       },
       {
@@ -177,7 +178,7 @@ const appRoutes: RouteType[] = [
         element: <GestionVisitas />,
         state: "dashboard.visitas",
         sidebarProps: {
-          displayText: "Gestionar Visitas"
+          displayText: "Gestionar Visitas",
         },
       },
       {
@@ -190,7 +191,7 @@ const appRoutes: RouteType[] = [
         element: <HistorialVisitas />,
         state: "dashboard.historialVisitas",
         sidebarProps: {
-          displayText: "Historial de Visitas"
+          displayText: "Historial de Visitas",
         },
       },
       {
@@ -198,7 +199,7 @@ const appRoutes: RouteType[] = [
         element: <RegistrarParqueo />,
         state: "dashboard.parqueo",
         sidebarProps: {
-          displayText: "Gestionar Parqueos"
+          displayText: "Gestionar Parqueos",
         },
       },
       {
@@ -206,10 +207,10 @@ const appRoutes: RouteType[] = [
         element: <VisualizarParqueos />,
         state: "dashboard.visualizarParqueo",
         sidebarProps: {
-          displayText: "Visualizar Parqueos"
+          displayText: "Visualizar Parqueos",
         },
       },
-    ]
+    ],
   },
 
   {
@@ -343,6 +344,14 @@ const appRoutes: RouteType[] = [
         state: "areas-comunes.calendario",
       },
       {
+        path: "/areas-comunes/reservas",
+        element: <ListPageReservations />,
+        state: "areas-comunes.reservas",
+        sidebarProps: {
+          displayText: "Reservas",
+        },
+      },
+      {
         path: "/areas-comunes/reservar/:id",
         element: <ReservationPage />,
         state: "areas-comunes.reservar",
@@ -364,12 +373,9 @@ const appRoutes: RouteType[] = [
         },
       },
       {
-        path: "/areas-comunes/crear-reporte",
+        path: "/areas-comunes/crear-reporte/:id",
         element: <ReportPage />,
         state: "areas-comunes.crear-reporte",
-        sidebarProps: {
-          displayText: "Crear Reporte",
-        },
       },
     ],
   },

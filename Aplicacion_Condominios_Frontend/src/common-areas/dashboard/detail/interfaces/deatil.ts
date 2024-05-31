@@ -15,7 +15,6 @@ export interface ReportReadDTO {
 
 export interface ReportFormData {
   idUsuario: number;
-  idAreaComun: number;
   idProducto: number;
   costo: number;
   costoReponer: number;
@@ -33,4 +32,5 @@ export interface ReportCreateDTO {
   Cantidad_reponer: number;
   Situacion: string;
   Info: string;
+  Id_reservation: number;
 }

@@ -296,7 +296,7 @@ class CommonAreaController extends Controller
             'Cantidad_reponer' => 'required|integer',
             'Situacion' => 'required|string',
             'Info' => 'required|string',
-            'id_reservation' => 'required|integer',
+            'Id_reservation' => 'required|integer',
         ]);
 
         $reporte = Reporte::create([
@@ -349,5 +349,10 @@ class CommonAreaController extends Controller
         });
 
         return response()->json(['data' => $reportData], 200);
+    }
+
+    public function equipments($idCommonArea) {
+        $equipments = EquipamientosModel::where('area_comun_id', $idCommonArea)->select('id','nombre', 'descripcion', 'cantidad', 'costo', 'area_comun_nombre')->get();
+        return response()->json(['data' => $equipments], 200);
     }
 }

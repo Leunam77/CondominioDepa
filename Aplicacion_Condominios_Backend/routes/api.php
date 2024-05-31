@@ -218,6 +218,8 @@ Route::put('/lista-compra/update/{id}', [ListaCompraController::class,'updateReg
 
 // COMMON AREAS
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
+Route::get('/common-areas/reservations/{id}', [ReservationController::class, 'getReservationById']);
+Route::get('/common-areas/{id}/equipments', [CommonAreaController::class, 'equipments']);
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
 Route::apiResource('/equipments', EquipmentController::class);

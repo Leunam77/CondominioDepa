@@ -5,6 +5,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Imprimir from "./Imprimir";
+import { SiGmail } from "react-icons/si";
+import { IoIosPrint } from "react-icons/io";
+import { MdDeleteOutline } from "react-icons/md";
 
 export const NotificationsList = () => {
   const [notices, setNotices] = useState([]);
@@ -12,9 +15,8 @@ export const NotificationsList = () => {
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [fechaComunicacion, setFechaComunicacion] = useState("");
-  const [fechaRealizacion, setFechaRealizacion] = useState("");
   const [noticeToPrint, setNoticeToPrint] = useState(null);
+  
 
   useEffect(() => {
     axios
@@ -79,24 +81,27 @@ export const NotificationsList = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [selectedNotice, setSelectedNotice] = useState({ titulo: '', descripcion: '' });
+  const [selectedNotice, setSelectedNotice] = useState({
+    titulo: "",
+    descripcion: "",
+  });
 
   const handleSendEmail = (notice) => {
     setSelectedNotice(notice);
     handleShow();
-  }
+  };
 
   const sendEmail = async () => {
-    const url = 'http://127.0.0.1:8000/api';
+    const url = "http://127.0.0.1:8000/api";
     const data = await axios.get(`${url}/notificacion-general`);
     const residentes = data.data.residentes;
     sendNotificationsToResidents(residentes);
-  }
+  };
 
-  const sendNotificationsToResidents= async (residentes) => {
-    const url = 'http://127.0.0.1:8000/api';
+  const sendNotificationsToResidents = async (residentes) => {
+    const url = "http://127.0.0.1:8000/api";
 
-    const promises = residentes.map(residente => {
+    const promises = residentes.map((residente) => {
       const notificationData = {
         titulo: selectedNotice.titulo,
         anuncio: selectedNotice.descripcion,
@@ -104,7 +109,7 @@ export const NotificationsList = () => {
       };
 
       return axios.post(`${url}/v1/send`, notificationData);
-        /*.then(response => {
+      /*.then(response => {
           console.log('notificacion enviada');
         })
         .catch(error => {
@@ -114,12 +119,12 @@ export const NotificationsList = () => {
 
     try {
       await Promise.all(promises);
-      alert('Notificaciones enviadas exitosamente.');
+      alert("Notificaciones enviadas exitosamente.");
       handleClose();
     } catch (error) {
-      alert('Ocurrio un error al enviar los mensajes, intente nuevamente.');
+      alert("Ocurrio un error al enviar los mensajes, intente nuevamente.");
     }
-  }
+  };
 
   return (
     <div>
@@ -169,17 +174,12 @@ export const NotificationsList = () => {
         onHide={handlePrintModalClose}
         centered
         size="lg"
-        className="bg-body-secondary"
       >
         <Modal.Body>
           {noticeToPrint && (
             <Imprimir
               titulo={noticeToPrint.titulo}
               descripcion={noticeToPrint.descripcion}
-              fechaComunicacion={fechaComunicacion}
-              fechaRealizacion={fechaRealizacion}
-              setFechaComunicacion={setFechaComunicacion}
-              setFechaRealizacion={setFechaRealizacion}
             />
           )}
         </Modal.Body>
@@ -194,22 +194,39 @@ export const NotificationsList = () => {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(notices) && notices.map((notice) => (
-            <tr key={notice.id}>
-              <td>{notice.titulo}</td>
-              <td>{notice.descripcion}</td>
-              <td>
-                <Button variant='outline-dark' onClick={() => handleSendEmail(notice)}>Email</Button>
-                <Button
-                  variant="secondary"
-                  onClick={() => handlePrintNotice(notice)}
-                >
-                  Imprimir
-                </Button>
-                <Button variant="danger" onClick={() => handleDeleteNotice(notice.id)}>Eliminar</Button>
-              </td>
-            </tr>
-          ))}
+          {Array.isArray(notices) &&
+            notices.map((notice) => (
+              <tr key={notice.id}>
+                <td>{notice.titulo}</td>
+                <td>{notice.descripcion}</td>
+                <td className="d-flex justify-content-center align-items-center">
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => handleSendEmail(notice)}
+                    className="p-2 m-2 border-0"
+                    style={{ width: "auto", height: "auto" }}
+                  >
+                    <SiGmail size={25} color="danger" />
+                  </Button>
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => handlePrintNotice(notice)}
+                    className="p-2 m-2 border-0"
+                    style={{ width: "auto", height: "auto" }}
+                  >
+                    <IoIosPrint size={25} />
+                  </Button>
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => handleDeleteNotice(notice.id)}
+                    className="p-2 m-2 border-0"
+                    style={{ width: "auto", height: "auto" }}
+                  >
+                    <MdDeleteOutline size={25} />
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
@@ -218,18 +235,18 @@ export const NotificationsList = () => {
           <Modal.Title>Vista Previa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        {
-          <p>
-            <b>Titulo: </b> {selectedNotice.titulo} <br />
-            <b>Descripcion: </b> {selectedNotice.descripcion}
-          </p>
-        }
+          {
+            <p>
+              <b>Titulo: </b> {selectedNotice.titulo} <br />
+              <b>Descripcion: </b> {selectedNotice.descripcion}
+            </p>
+          }
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='danger' onClick={handleClose}>
+          <Button variant="danger" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant='primary' onClick={sendEmail}>
+          <Button variant="primary" onClick={sendEmail}>
             Enviar
           </Button>
         </Modal.Footer>

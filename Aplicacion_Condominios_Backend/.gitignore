@@ -32,8 +32,23 @@ yarn-error.log
 
 # Pero no ignores este archivo
 !/public/departamento/images/residentes/residente_default.png
+!/public/departamento/images/residentes/perfil (1).jpg
+!/public/departamento/images/residentes/perfil (2).jpg
+!/public/departamento/images/residentes/perfil (3).jpg
+!/public/departamento/images/residentes/perfil (4).jpg
+!/public/departamento/images/residentes/perfil (5).jpg
+!/public/departamento/images/residentes/perfil (6).jpg
+!/public/departamento/images/residentes/perfil (7).jpg
 # Ignora todos
 
 /public/departamento/images/edificios/*
 
-/public/departamento/images/edificios/edificio_default.jpg 
+# Pero no ignores este archivo
+!/public/departamento/images/edificios/edificio_default.jpg
+!/public/departamento/images/edificios/edificio (1).jpg
+!/public/departamento/images/edificios/edificio (2).jpg
+!/public/departamento/images/edificios/edificio (3).jpg
+!/public/departamento/images/edificios/edificio (4).jpg
+!/public/departamento/images/edificios/edificio (5).jpg
+!/public/departamento/images/edificios/edificio (6).jpg
+

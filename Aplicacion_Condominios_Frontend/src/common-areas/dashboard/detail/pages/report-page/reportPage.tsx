@@ -176,7 +176,7 @@ function ReportPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container">
+    <form onSubmit={handleSubmit} className="form-container-detail">
       <h2>Crear Reporte</h2>
       <div className="form-group">
         <label>Nombre Residente:</label>

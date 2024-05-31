@@ -8,6 +8,7 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationPage from "../pages/notifications/NotificationPage";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import EngineeringIcon from "@mui/icons-material/Engineering";
+import Aviso from "../notificaciones/pages/Aviso";
 
 import CrearDepa from "../departamento/components/CrearDepartamento.js";
 import Depa from "../departamento/components/MostrarDep.js";
@@ -62,6 +63,7 @@ import { RegistrarPersona } from "../notificaciones/pages/registrarPersona";
 import { SendTelegramNotification } from "../notificaciones/pages/sendTelegramNotification";
 import { NotificationsList } from "../notificaciones/pages/NotificationsList";
 import NotificationEmail from "../notificaciones/pages/NotificationEmail";
+import { NotificationsListPendingReview } from "../notificaciones/pages/NotificationsListPendingReview";
 
 import PersonalPage from "../mantenimiento/personal/PersonalPage";
 import RegistroServicioPage from "../mantenimiento/registro_servicio/RegistroServicioPage";
@@ -85,6 +87,7 @@ import Expensas from "../cobro_servicios/components/Expensas";
 import Imprimir from "../notificaciones/pages/Imprimir";
 import Multas from "../cobro_servicios/components/Multas";
 import FormularioPagoExpensa from "../cobro_servicios/components/FormularioPagoExpensa";
+import { NoticesSection } from "../notificaciones/pages/NoticesSection";
 
 const appRoutes: RouteType[] = [
   {
@@ -473,11 +476,35 @@ const appRoutes: RouteType[] = [
         },
       },*/
       {
+        path: "/notifications/generarAviso",
+        element: <Aviso/>,
+        state: "notificacion.email",
+        sidebarProps: {
+          displayText: "Generar Aviso",
+        },
+      },
+      {
+        path: "/notifications/review-list",
+        element: <NotificationsListPendingReview />,
+        state: "notification.review-list",
+        sidebarProps: {
+          displayText: "Revisar Avisos",
+        },
+      },
+      {
         path: "/notifications/list",
         element: <NotificationsList />,
         state: "notificacion.lista",
         sidebarProps: {
           displayText: "Lista de Avisos",
+        },
+      },
+      {
+        path: "/notifications/section",
+        element: <NoticesSection />,
+        state: "notification.section",
+        sidebarProps: {
+          displayText: "Avisos",
         },
       },
       {
@@ -488,11 +515,11 @@ const appRoutes: RouteType[] = [
           displayText: "Enviar email",
         },
       },
-      {
+      /*{
         path: "/notifications/send/telegram",
         element: <SendTelegramNotification />,
         state: "telegram.enviar",
-      },
+      },*/
     ],
   },
 

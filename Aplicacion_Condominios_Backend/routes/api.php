@@ -30,6 +30,8 @@ use App\Http\Controllers\Cobro_Servicios\EquipamientosController;
 use App\Http\Controllers\Cobro_Servicios\PreAvisoController;
 use App\Http\Controllers\Cobro_Servicios\ExpensasController;
 use App\Http\Controllers\Cobro_Servicios\MultasController;
+use App\Http\Controllers\Cobro_Servicios\PagoExpensasController;
+
 use App\Models\Mantenimiento\CategoriaServicio;
 use App\Http\Controllers\Mantenimiento\CategoriaServicioController;
 use App\Http\Controllers\Mantenimiento\PersonalExternoController;
@@ -250,17 +252,20 @@ Route::controller(PreAvisoController::class)->group(function(){
     Route::get('/obtener-preavisos', [PreAvisoController::class, 'obtenerTodosPreAvisos']);
     //Route::get('/obtener-preaviso/{id}', [PreAvisoController::class, 'show']);
     //Route::put('/editar-preaviso/{id}', [PreAvisoController::class, 'update']);
-    //Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
+    Route::delete('/eliminar-preaviso/{id}', [PreAvisoController::class, 'destroy']);
 
 });
 Route::controller(ExpensasController::class)->group(function(){
     Route::put('/expensas/{id}/pagarExpensa', [ExpensasController::class, 'pagar']);
-
+    Route::post('/pago-expensas', [PagoExpensasController::class, 'store']);
     Route::post('/generar-expensa', [ExpensasController::class, 'store']);
     Route::get('/obtener-expensas', [ExpensasController::class, 'index']);
     Route::get('/obtener-expensas/{id}', [ExpensasController::class, 'show']);
     Route::put('/editar-expensas/{id}', [ExpensasController::class, 'update']);
     Route::delete('/eliminar-expensas/{id}', [ExpensasController::class, 'destroy']);
+    Route::post('anotarMonto/{residente_id}/{monto}',[ExpensasController::class,'acumularMonto']);
+    Route::post('disminuirMonto/{residente_id}/{monto}',[ExpensasController::class,'decrementarMonto']);
+    Route::get('/obtener-pagos-residente/{id}', [PagoExpensasController::class, 'obtenerPagosPorResidente']);
 });
 
 Route::controller(MultasController::class)->group(function(){

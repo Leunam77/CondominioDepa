@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateAsistenciasTable extends Migration
 {
@@ -16,7 +17,7 @@ class CreateAsistenciasTable extends Migration
         Schema::create('asistencias', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_empleado');
-            $table->date('fecha');
+            $table->date('fecha')->default(DB::raw('CURDATE()'));
             $table->time('hora_entrada');
             $table->time('hora_salida')->nullable();
             $table->timestamps();

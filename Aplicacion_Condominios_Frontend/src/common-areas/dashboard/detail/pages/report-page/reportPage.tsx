@@ -176,138 +176,140 @@ function ReportPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container-detail">
+    <>
       <h2>Crear Reporte</h2>
-      <div className="form-group">
-        <label>Nombre Residente:</label>
-        <select
-          name="idUsuario"
-          value={formData.idUsuario}
-          onChange={handleChange}
-        >
-          <option value={0} disabled>
-            Seleccione un residente
-          </option>
-          {residents.map((resident) => {
-            return (
-              <option key={resident.id} value={resident.id}>
-                {resident.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
+      <form onSubmit={handleSubmit} className="form-container-detail">
         <div className="form-group">
-          <label>Nombre Área Común:</label>
+          <label>Nombre Residente:</label>
           <select
-            name="idAreaComun"
-            value={formData.idAreaComun}
+            name="idUsuario"
+            value={formData.idUsuario}
             onChange={handleChange}
           >
             <option value={0} disabled>
-              Seleccione un área común
+              Seleccione un residente
             </option>
-            {commonAreas.map((area, index) => (
-              <option key={index} value={area.id}>
-                {area.name}
-              </option>
-            ))}
+            {residents.map((resident) => {
+              return (
+                <option key={resident.id} value={resident.id}>
+                  {resident.name}
+                </option>
+              );
+            })}
           </select>
         </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "1rem",
+          }}
+        >
+          <div className="form-group">
+            <label>Nombre Área Común:</label>
+            <select
+              name="idAreaComun"
+              value={formData.idAreaComun}
+              onChange={handleChange}
+            >
+              <option value={0} disabled>
+                Seleccione un área común
+              </option>
+              {commonAreas.map((area, index) => (
+                <option key={index} value={area.id}>
+                  {area.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Nombre Producto:</label>
+            <select
+              name="idProducto"
+              value={formData.idProducto}
+              onChange={handleChange}
+            >
+              <option value={0} disabled>
+                Seleccione un producto
+              </option>
+              {currentEquipments.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="form-group-in-line">
+          <label
+            style={{
+              fontWeight: "bold",
+            }}
+          >
+            Costo:
+          </label>
+          <span>{selectedEquipment ? selectedEquipment.costo : ""}</span>
+        </div>
+        <div className="form-group-in-line">
+          <label
+            style={{
+              fontWeight: "bold",
+            }}
+          >
+            Cantidad Actual:
+          </label>
+          <p>{selectedEquipment ? selectedEquipment.cantidad : ""}</p>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "1rem",
+          }}
+        >
+          <div className="form-group">
+            <label>Costo a Reponer:</label>
+            <input
+              type="number"
+              name="costoReponer"
+              value={formData.costoReponer}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Cantidad a Reponer:</label>
+            <input
+              type="number"
+              name="cantidadReponer"
+              value={formData.cantidadReponer}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
         <div className="form-group">
-          <label>Nombre Producto:</label>
+          <label>Situación:</label>
           <select
-            name="idProducto"
-            value={formData.idProducto}
+            name="situacion"
+            value={formData.situacion}
             onChange={handleChange}
           >
-            <option value={0} disabled>
-              Seleccione un producto
-            </option>
-            {currentEquipments.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.nombre}
-              </option>
-            ))}
+            <option value="roto">Roto</option>
+            <option value="perdido">Perdido</option>
           </select>
         </div>
-      </div>
-      <div className="form-group-in-line">
-        <label
-          style={{
-            fontWeight: "bold",
-          }}
-        >
-          Costo:
-        </label>
-        <span>{selectedEquipment ? selectedEquipment.costo : ""}</span>
-      </div>
-      <div className="form-group-in-line">
-        <label
-          style={{
-            fontWeight: "bold",
-          }}
-        >
-          Cantidad Actual:
-        </label>
-        <p>{selectedEquipment ? selectedEquipment.cantidad : ""}</p>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
         <div className="form-group">
-          <label>Costo a Reponer:</label>
-          <input
-            type="number"
-            name="costoReponer"
-            value={formData.costoReponer}
+          <label>Información Adicional:</label>
+          <textarea
+            name="informacionAdicional"
+            value={formData.informacionAdicional}
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
-          <label>Cantidad a Reponer:</label>
-          <input
-            type="number"
-            name="cantidadReponer"
-            value={formData.cantidadReponer}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-      <div className="form-group">
-        <label>Situación:</label>
-        <select
-          name="situacion"
-          value={formData.situacion}
-          onChange={handleChange}
-        >
-          <option value="roto">Roto</option>
-          <option value="perdido">Perdido</option>
-        </select>
-      </div>
-      <div className="form-group">
-        <label>Información Adicional:</label>
-        <textarea
-          name="informacionAdicional"
-          value={formData.informacionAdicional}
-          onChange={handleChange}
-        />
-      </div>
-      <button className="btn-submit__report-page" type="submit">
-        Reportar
-      </button>
-    </form>
+        <button className="btn-submit__report-page" type="submit">
+          Reportar
+        </button>
+      </form>
+    </>
   );
 }
 

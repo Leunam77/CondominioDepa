@@ -40,7 +40,7 @@ export const ListEquipmentPage: React.FC<ListElementProps> = ({ showForm }) => {
       <button
         onClick={() => showForm()}
         type="button"
-        className="btn btn-crear me-2 mb-4"
+        className="btn-crear"
       >
         {" "}
         Crear{" "}
@@ -48,7 +48,7 @@ export const ListEquipmentPage: React.FC<ListElementProps> = ({ showForm }) => {
       <button
         onClick={fetchEquipment}
         type="button"
-        className="btn btn-outline-primary me-2 mb-4"
+        className="btn-refrescar"
       >
         {" "}
         Refrescar{" "}

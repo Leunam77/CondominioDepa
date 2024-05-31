@@ -218,6 +218,8 @@ Route::put('/lista-compra/update/{id}', [ListaCompraController::class,'updateReg
 
 // COMMON AREAS
 Route::get('/common-areas/{id}/reservations', [CommonAreaController::class, 'reservations']);
+Route::get('/common-areas/reservations/{id}', [ReservationController::class, 'getReservationById']);
+Route::get('/common-areas/{id}/equipments', [CommonAreaController::class, 'equipments']);
 Route::apiResource('/common-areas/reservations', ReservationController::class);
 Route::apiResource('/common-areas', CommonAreaController::class);
 Route::apiResource('/equipments', EquipmentController::class);
@@ -230,7 +232,7 @@ Route::apiResource('/equipments', EquipmentController::class);
 
 Route::post('/reports', [CommonAreaController::class, 'createReport']);
 Route::get('/reports', [CommonAreaController::class, 'getReports']);
-
+Route::get('/reports/{idReserva}', [CommonAreaController::class, 'getReportsByReservationId']);
 
 //Cobro_Servicios
 Route::controller(EquipamientosController::class)->group(function(){
@@ -287,11 +289,8 @@ Route::controller(PersonaController::class)->group(function() {
     Route::get('/persons', 'index');
 });
 
-Route::group(['prefix' =>  'v1'], function () {
-    Route::post('send', [AuthController::class, 'send']);
-    Route::post('email/verify/{id}', [VerificationController::class,'verify'])->name('verification.verify');
-});
 
+Route::post('/email', [AuthController::class, 'enviarCorreo']);
 //emails de preavisso
 Route::post('/cobrar-servicio', [CorreoController::class, 'enviarCorreo']);
 
@@ -301,14 +300,17 @@ Route::controller(TelegramNotificationController::class)->group(function() {
 });Route::get('/obtener-equipamientos', [EquipamientosController::class, 'getAllEquipamientos']);
 
 Route::get("/avisos",[AvisosController::class,"index"]);
+Route::get('/avisos/sin-revision', [AvisosController::class, 'getNoticesPendingReview']);
+Route::get('/avisos/aprobados', [AvisosController::class, 'getApprovedNotices']);
 Route::post("/avisos",[AvisosController::class,"store"]);
 Route::get("/avisos/{id}",[AvisosController::class,"show"]);
 Route::put("/avisos/{id}",[AvisosController::class,"update"]);
 Route::delete("/avisos/{id}",[AvisosController::class,"destroy"]);
+Route::put('/avisos/aprobar/{id}', [AvisosController::class, 'approveNotice']);
+Route::put('/avisos/rechazar/{id}', [AvisosController::class, 'rejectNotice']);
 
 Route::get('/obtener-equipamiento/{id}', [EquipamientosController::class, 'getEquipoById']);
     Route::delete('/eliminar-equipo/{id}', [EquipamientosController::class, 'delete']);
     Route::put('/editar-equipo/{id}', [EquipamientosController::class, 'edit']);
-
 
 

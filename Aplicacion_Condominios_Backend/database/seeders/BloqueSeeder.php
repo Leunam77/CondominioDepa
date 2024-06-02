@@ -14,7 +14,7 @@ class BloqueSeeder extends Seeder
     public function run()
     {
         //
-        Bloque::factory()->withoutTimestamps()->count(3)->create();
+        Bloque::factory()->withoutTimestamps()->count(2)->create();
 
         /* $bloqs=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
         foreach($bloqs as $bloq){

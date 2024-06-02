@@ -14,6 +14,6 @@ class EdificioSeeder extends Seeder
     public function run()
     {
         //
-        edificio::factory()->withoutTimestamps()->count(3)->create();
+        edificio::factory()->withoutTimestamps()->count(2)->create();
     }
 }

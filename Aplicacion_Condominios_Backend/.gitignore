@@ -52,3 +52,17 @@ yarn-error.log
 !/public/departamento/images/edificios/edificio (5).jpg
 !/public/departamento/images/edificios/edificio (6).jpg
 
+
+# Ingonra todos los elemento de esta carpeta
+/public/departamento/images/bloques/*
+
+# Pero no ignores este archivo
+!/public/departamento/images/bloques/bloque_defecto.jpg
+!/public/departamento/images/bloques/bloque (1).jpg
+!/public/departamento/images/bloques/bloque (2).jpg
+!/public/departamento/images/bloques/bloque (3).jpg
+!/public/departamento/images/bloques/bloque (4).jpg
+!/public/departamento/images/bloques/bloque (5).jpg
+!/public/departamento/images/bloques/bloque (6).jpg
+!/public/departamento/images/bloques/bloque (7).jpg
+!/public/departamento/images/bloques/bloque (8).jpg

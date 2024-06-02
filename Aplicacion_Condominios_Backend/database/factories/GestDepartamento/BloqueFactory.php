@@ -19,14 +19,17 @@ class BloqueFactory extends Factory
         if (!\File::isDirectory($directory)) {
             \File::makeDirectory($directory, 0755, true, true);
         }
-        $listaImagenes = ['departamento/images/bloques/bloque_pred.jpeg', 'departamento/images/bloques/bloque (1).jpg', 'departamento/images/bloques/bloque (2).jpg', 'departamento/images/bloques/bloque (3).jpg', 'departamento/images/bloques/bloque (4).jpg', 'departamento/images/bloques/bloque (5).jpg', 'departamento/images/bloques/bloque (6).jpg', 'departamento/images/bloques/bloque (7).jpg', 'departamento/images/bloques/bloque (8).jpg', 'bloque_defecto.jpg'];
+        $listaImagenes = ['departamento/images/bloques/bloque (1).jpg', 'departamento/images/bloques/bloque (2).jpg', 'departamento/images/bloques/bloque (3).jpg', 'departamento/images/bloques/bloque (4).jpg', 'departamento/images/bloques/bloque (5).jpg', 'departamento/images/bloques/bloque (6).jpg', 'departamento/images/bloques/bloque (7).jpg', 'departamento/images/bloques/bloque (8).jpg', 'bloque_defecto.jpg'];
+        $imageName = null;
+        $obtenerImagen = $this->faker->randomElement($listaImagenes);
+        $imagePath = $imageName ? $ruta . '/' . $imageName : $obtenerImagen;
         $nombres = ['Bloque A', 'Bloque B', 'Bloque C', 'Bloque D', 'Bloque E', 'Bloque F', 'Bloque G', 'Bloque H', 'Bloque I', 'Bloque J', 'Bloque K', 'Bloque L', 'Bloque M', 'Bloque N', 'Bloque O', 'Bloque P', 'Bloque Q', 'Bloque R', 'Bloque S', 'Bloque T', 'Bloque U', 'Bloque V', 'Bloque W', 'Bloque X', 'Bloque Y', 'Bloque Z'];
         return [
             //
             'nombre_bloque' => $this->faker->randomElement($nombres),
             'direccion_bloque' => $this->faker->address,
             'descripcion_bloque' => $this->faker->text(200),
-            'imagen_bloque' => $this->faker->imageUrl(640, 480, 'animals', true)
+            'imagen_bloque' => $imagePath,
         ];
     }
 

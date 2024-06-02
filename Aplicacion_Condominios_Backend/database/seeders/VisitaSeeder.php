@@ -14,6 +14,6 @@ class VisitaSeeder extends Seeder
     public function run()
     {
         //
-        Visita::factory()->count(5)->create();
+        Visita::factory()->count(7)->create();
     }
 }

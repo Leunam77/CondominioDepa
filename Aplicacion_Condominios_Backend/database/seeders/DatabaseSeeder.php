@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ContratoSeeder::class);
         $this->call(ResidenteSeeder::class);
         $this->call(ParqueoSeeder::class);
+        $this->call(VisitaSeeder::class);
     }
 }

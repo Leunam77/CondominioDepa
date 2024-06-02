@@ -20,7 +20,7 @@ class EdificioSeeder extends Seeder
         //crear departamentos para estos edificios
         $factoria = new Factory();
         $faker = $factoria::create();
-        $listaImagenes = ['departamento/images/depatamentos/departamento_pred.jpeg','departamento/images/depatamentos/departamento (1).jpg','departamento/images/depatamentos/departamento (2).jpg','departamento/images/depatamentos/departamento (3).jpg','departamento/images/depatamentos/departamento (4).jpg','departamento/images/depatamentos/departamento (5).jpg','departamento/images/depatamentos/departamento (6).jpg','departamento/images/depatamentos/departamento (7).jpg','departamento/images/depatamentos/departamento (8).jpg'];
+        $listaImagenes = ['departamento/images/departamentos/departamento_pred.jpeg','departamento/images/departamentos/departamento (1).jpg','departamento/images/departamentos/departamento (2).jpg','departamento/images/departamentos/departamento (3).jpg','departamento/images/departamentos/departamento (4).jpg','departamento/images/departamentos/departamento (5).jpg','departamento/images/departamentos/departamento (6).jpg','departamento/images/departamentos/departamento (7).jpg','departamento/images/departamentos/departamento (8).jpg'];
         // crear 3 departamentos para cada edificio
         $edif = new edificio();
         $edificios = $edif::all();

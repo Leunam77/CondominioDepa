@@ -24,9 +24,10 @@ class BloqueFactory extends Factory
         $obtenerImagen = $this->faker->randomElement($listaImagenes);
         $imagePath = $imageName ? $ruta . '/' . $imageName : $obtenerImagen;
         $nombres = ['Bloque A', 'Bloque B', 'Bloque C', 'Bloque D', 'Bloque E', 'Bloque F', 'Bloque G', 'Bloque H', 'Bloque I', 'Bloque J', 'Bloque K', 'Bloque L', 'Bloque M', 'Bloque N', 'Bloque O', 'Bloque P', 'Bloque Q', 'Bloque R', 'Bloque S', 'Bloque T', 'Bloque U', 'Bloque V', 'Bloque W', 'Bloque X', 'Bloque Y', 'Bloque Z'];
+        $nombre = $this->faker->randomElement($nombres).$this->faker->numberBetween(1, 100);
         return [
             //
-            'nombre_bloque' => $this->faker->randomElement($nombres),
+            'nombre_bloque' => $nombre,
             'direccion_bloque' => $this->faker->address,
             'descripcion_bloque' => $this->faker->text(200),
             'imagen_bloque' => $imagePath,

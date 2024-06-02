@@ -20,8 +20,25 @@ class BloqueController extends Controller
         $bloque-> nombre_bloque = $request -> nombre_bloque;
         $bloque-> direccion_bloque = $request -> direccion_bloque;
         $bloque-> descripcion_bloque = $request -> descripcion_bloque;
-        $bloque-> imagen_bloque = $request -> imagen_bloque;
 
+        if($request -> hasFile ('imagen_bloque')){
+            $image = $request->file('imagen_bloque');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move('departamento/images/bloques/', $name);
+
+            $bloque-> imagen_bloque = "departamento/images/bloques/${name}";
+            $bloque-> save();
+
+            return response()->json([
+                'status' => 200,
+                'message' =>'Bloque añadido exitosamente',
+            ]);
+
+        }
+        if(!$request->hasFile('imagen_bloque') || !$bloque->imagen_bloque){
+            $imagenPredeterminada = 'departamento/images/bloques/bloque_defecto.jpg';
+            $bloque->imagen_bloque = $imagenPredeterminada;
+        }
         $bloque->save();
     }
 
@@ -37,8 +54,25 @@ class BloqueController extends Controller
         $bloque-> nombre_bloque = $request -> nombre_bloque;
         $bloque-> direccion_bloque = $request -> direccion_bloque;
         $bloque-> descripcion_bloque = $request -> descripcion_bloque;
-        $bloque-> imagen_bloque = $request -> imagen_bloque;
 
+        if($request -> hasFile ('imagen_bloque')){
+            $image = $request->file('imagen_bloque');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $image->move('departamento/images/bloques/', $name);
+
+            $bloque-> imagen_bloque = "departamento/images/bloques/${name}";
+            $bloque-> save();
+
+            return response()->json([
+                'status' => 200,
+                'message' =>'Bloque actualizado exitosamente',
+            ]);
+
+        }
+        if(!$request->hasFile('imagen_bloque') || !$bloque->imagen_bloque){
+            $imagenPredeterminada = 'departamento/images/bloques/bloque_defecto.jpg';
+            $bloque->imagen_bloque = $imagenPredeterminada;
+        }
         $bloque->save();
     }
 

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use App\Models\GestDepartamento\Visita;
 class VisitaSeeder extends Seeder
 {
     /**
@@ -14,5 +14,6 @@ class VisitaSeeder extends Seeder
     public function run()
     {
         //
+        Visita::factory()->count(5)->create();
     }
 }

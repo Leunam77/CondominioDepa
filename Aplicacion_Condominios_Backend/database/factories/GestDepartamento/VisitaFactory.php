@@ -19,7 +19,7 @@ class VisitaFactory extends Factory
             'cedula_visita' => $this->faker->unique()->randomNumber(8),
             'telefono_visita' => $this->faker->phoneNumber,
             'activo_visita' => $this->faker->boolean,
-            'departamento_id' => departamento::factory()->create()->id
+            'departamento_id' => departamento::all()->random()->id
         ];
     }
 }

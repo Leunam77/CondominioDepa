@@ -15,7 +15,8 @@ class BloqueSeeder extends Seeder
     {
         //
         Bloque::factory()->withoutTimestamps()->count(2)->create();
-
+        //asociar estos dos bloques a 3 edificios
+        
         /* $bloqs=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
         foreach($bloqs as $bloq){
             Bloque::create([

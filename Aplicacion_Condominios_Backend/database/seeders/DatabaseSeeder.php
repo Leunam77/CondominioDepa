@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\GestDepartamento\Parqueo;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,11 +15,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(BloqueSeeder::class);
+        //no es necesario crear un bloques se crean al crear departamentos
+        //$this->call(BloqueSeeder::class);
         $this->call(EdificioSeeder::class);
         $this->call(DepartamentoSeeder::class);
         $this->call(ContratoSeeder::class);
         $this->call(ResidenteSeeder::class);
-        
+        $this->call(ParqueoSeeder::class);
     }
 }

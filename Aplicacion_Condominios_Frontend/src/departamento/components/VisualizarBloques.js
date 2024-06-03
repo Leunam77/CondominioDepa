@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ClipLoader } from 'react-spinners';
 import { Card, CardImg, CardBody, CardTitle , CardText} from 'reactstrap';
 import Cookies from 'universal-cookie';
 const endpoint = 'http://localhost:8000/api';
@@ -7,17 +8,20 @@ const endpointImg = 'http://localhost:8000';
 const cookies = new Cookies();
 const VisualizarBloques = () => {
     const [bloques, setBloques] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         getAllBloques();
         cookies.remove('idBloque');
     }, []);
     const getAllBloques = async () => {
         try {
-            const response = await axios.get(`${endpoint}/bloques-short`);
+            const response = await axios.get(`${endpoint}/bloques`);
             const bloques = response.data;
             setBloques(bloques);
         } catch (error) {
             console.error('Error al obtener bloques:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -28,6 +32,11 @@ const VisualizarBloques = () => {
     return (
         <>
             <h1 className="title">Bloques</h1>
+            {isLoading ? (
+                <div className="d-flex justify-content-center my-5">
+                    <ClipLoader color={'#5B9223'} loading={isLoading} size={50} />
+                </div>
+            ):(
             <div className="row">
                 {bloques.map((bloque) => (
                     <div className="col-sm-12 col-md-6 col-lg-4 col-xl-3" key={bloque.id}>
@@ -49,6 +58,7 @@ const VisualizarBloques = () => {
                     </div>
                 ))}
             </div>
+            )}
         </>
     );
 }

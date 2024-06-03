@@ -38,8 +38,12 @@ class BloqueController extends Controller
         if(!$request->hasFile('imagen_bloque') || !$bloque->imagen_bloque){
             $imagenPredeterminada = 'departamento/images/bloques/bloque_defecto.jpg';
             $bloque->imagen_bloque = $imagenPredeterminada;
+            $bloque->save();
+            return response()->json([
+                'status' => 200,
+                'message' =>'Bloque añadido exitosamente con imagen predeterminada',
+            ]);
         }
-        $bloque->save();
     }
 
     public function show($id)
@@ -72,8 +76,13 @@ class BloqueController extends Controller
         if(!$request->hasFile('imagen_bloque') || !$bloque->imagen_bloque){
             $imagenPredeterminada = 'departamento/images/bloques/bloque_defecto.jpg';
             $bloque->imagen_bloque = $imagenPredeterminada;
+
+            $bloque->save();
+            return response()->json([
+                'status' => 200,
+                'message' =>'Bloque actualizado exitosamente con imagen predeterminada',
+            ]);
         }
-        $bloque->save();
     }
 
     public function destroy($id)
@@ -87,5 +96,10 @@ class BloqueController extends Controller
     public function getBloquesShort(){
         $bloques = bloque::select('id', 'nombre_bloque')->get();
         return $bloques;
+    }
+
+    public function cantEdificiosByBloque($id){
+        $cantEdificios = bloque::find($id)->edificios->count();
+        return $cantEdificios;
     }
 }

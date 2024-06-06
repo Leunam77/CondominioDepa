@@ -34,6 +34,7 @@ import RegistrarParqueo from "../departamento/components/RegistrarParqueo";
 import CrearEdificio from "../departamento/components/CrearEdificio";
 import HistorialVisitas from "../departamento/components/HistorialVisitas";
 import VisualizarParqueos from "../departamento/components/VisualizarParqueos";
+import VisualizarBloques from "../departamento/components/VisualizarBloques";
 import CrearBloque from "../departamento/components/CrearBloque";
 
 const appRoutes: RouteType[] = [
@@ -165,6 +166,14 @@ const appRoutes: RouteType[] = [
         state: "dashboard.visualizarParqueo",
         sidebarProps: {
           displayText: "Visualizar Parqueos"
+        },
+      },
+      {
+        path: "/dashboard/visualizarBloques",
+        element: <VisualizarBloques />,
+        state: "dashboard.visualizarBloques",
+        sidebarProps: {
+          displayText: "Visualizar Bloques"
         },
       },
     ]

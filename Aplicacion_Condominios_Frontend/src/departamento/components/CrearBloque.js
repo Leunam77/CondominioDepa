@@ -107,10 +107,10 @@ class CrearBloque extends Component {
         }
         try {
             const response = await axios.post(`${endpoint}/bloque`, data).then((response) => {
-                window.location.href = "./bloques";
+                window.location.href = "./visualizarBloques";
             });
             console.log(response);
-            this.props.history.push("/bloques");
+            this.props.history.push("/visualizarBloques");
         } catch (error) {
             console.error(error);
         }

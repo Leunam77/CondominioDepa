@@ -4,12 +4,14 @@ import './DepartamentosCss.css';
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardImg, CardBody, CardText, Container } from 'reactstrap';
+import { ClipLoader } from 'react-spinners';
 
 const endpoint = 'http://localhost:8000/api';
 const endpointImg = 'http://localhost:8000';
 const cookies = new Cookies();
 const MostrarEdificios = () => {
     const [edificios, setEdificios] = useState ([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getAllEdificios();
@@ -24,6 +26,8 @@ const MostrarEdificios = () => {
             setEdificios(edificios);
         } catch (error) {
             console.error("Error al obtener edificios:", error);
+        }finally{
+            setIsLoading(false);
         }
     }
 
@@ -34,6 +38,11 @@ const MostrarEdificios = () => {
 
     return(
         <>
+        {isLoading ? (
+            <div className="d-flex justify-content-center my-5">
+                <ClipLoader color={'#5B9223'} loading={isLoading} size={50} />
+            </div>
+        ) : (
         <Container>
             <h1 className="title">Edificios</h1>
             <div className= "row">
@@ -59,6 +68,7 @@ const MostrarEdificios = () => {
                 ))}
             </div>
         </Container>
+        )}
         </>
     )
 }

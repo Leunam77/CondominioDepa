@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./customs.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ClipLoader } from 'react-spinners';
 import {
 	Row,
 	Col,
@@ -14,7 +15,7 @@ import {
 
 const VisualizarParqueos = () => {
 	const [parqueos, setParqueos] = useState([]);
-
+	const [isLoading, setIsLoading] = useState(true);
 	const [busqueda, setBusqueda] = useState("");
 
 	useEffect(() => {
@@ -61,6 +62,8 @@ const VisualizarParqueos = () => {
 			setParqueos(parqueos);
 		} catch (error) {
 			console.error("Error al obtener los parqueos:", error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 	const manejarBusqueda = async (e) => {
@@ -69,6 +72,11 @@ const VisualizarParqueos = () => {
 
 	return (
 		<>
+			{ isLoading ? (
+				<div className="d-flex justify-content-center my-5">
+					<ClipLoader color={'#5B9223'} loading={isLoading} size={50} />	
+				</div>
+			) : (
 			<Container>
 				<Row>
 					<Label className="text-center mb-4 titulosForms">
@@ -138,6 +146,7 @@ const VisualizarParqueos = () => {
 					</tbody>
 				</Table>
 			</Container>
+					)}
 		</>
 	);
 };

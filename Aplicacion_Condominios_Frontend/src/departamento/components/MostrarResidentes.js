@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ClipLoader } from 'react-spinners';
 import './customs.css';
 
 
@@ -18,7 +19,7 @@ const MostrarResidentes = () => {
     const [edificios, setEdificios] = useState({});
     const [bloques, setBloques] = useState({});
     const [busqueda, setBusqueda] = useState('');
-
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         getAllData();
     }, []);
@@ -66,6 +67,8 @@ const MostrarResidentes = () => {
             setResidentes(responseResidentes.data);
         } catch (error) {
             console.error('Error al obtener los datos:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
     const manejarCambio = (e) => {
@@ -74,6 +77,11 @@ const MostrarResidentes = () => {
 
     return (
         <>
+            {isLoading ? (
+                <div className="d-flex justify-content-center my-5">
+                    <ClipLoader color={'#5B9223'} loading={isLoading} size={50} />
+                </div>
+            ) : (
             <Container>
                 <Row >
                     <Label className="text-center mb-4 titulosForms">Residentes</Label>
@@ -152,6 +160,7 @@ const MostrarResidentes = () => {
                     })}
                 </Row>
             </Container>
+            )}
         </>
     )
 }

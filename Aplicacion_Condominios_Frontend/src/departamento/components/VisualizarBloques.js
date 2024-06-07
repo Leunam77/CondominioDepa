@@ -51,7 +51,7 @@ const VisualizarBloques = () => {
                                     <p id="infoEdifcio">Bloque: {bloque.nombre_bloque}</p>
                                 </CardTitle>
                                 <CardText>
-                                    <p id="infoEdifcio">Descripción: {bloque.descripcion_bloque}</p>
+                                    <p id="infoEdifcio">Dirección: {bloque.direccion_bloque}</p>
                                 </CardText>
                             </CardBody>
                         </Card>

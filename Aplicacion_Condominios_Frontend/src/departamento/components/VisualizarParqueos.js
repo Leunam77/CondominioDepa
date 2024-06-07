@@ -72,11 +72,6 @@ const VisualizarParqueos = () => {
 
 	return (
 		<>
-			{ isLoading ? (
-				<div className="d-flex justify-content-center my-5">
-					<ClipLoader color={'#5B9223'} loading={isLoading} size={50} />	
-				</div>
-			) : (
 			<Container>
 				<Row>
 					<Label className="text-center mb-4 titulosForms">
@@ -94,12 +89,18 @@ const VisualizarParqueos = () => {
 									borderRadius: "15px",
 									border: "1px solid rgba(0, 0, 0, 0.3)",
 									boxShadow:
-										"0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
-								}}
-							/>
+									"0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+									}}
+									/>
 						</InputGroup>
 					</Col>
 				</Row>
+										{ isLoading ? (
+											<div className="d-flex justify-content-center my-5">
+												<ClipLoader color={'#5B9223'} loading={isLoading} size={50} />	
+											</div>
+										) : (
+
 				<Table striped responsive bordered className="mt-5">
 					<thead className="text-center">
 						<tr>
@@ -145,8 +146,8 @@ const VisualizarParqueos = () => {
 							))}
 					</tbody>
 				</Table>
+				)}
 			</Container>
-					)}
 		</>
 	);
 };

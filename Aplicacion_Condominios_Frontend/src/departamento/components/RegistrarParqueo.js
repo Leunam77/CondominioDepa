@@ -18,6 +18,7 @@ import "./customs.css";
 import ModalCon from "./ModalConfirm";
 import ModalPar from "./ModalParqueo";
 //import { Form } from "react-router-dom";
+import { ClipLoader } from 'react-spinners';
 
 const endpoint = "http://localhost:8000/api";
 
@@ -41,6 +42,7 @@ class RegistrarParqueo extends Component {
       estadoModal: false,
       estadoModalPar: false,
       idParqueo: "",
+      isloading: true,
     };
   }
 
@@ -67,6 +69,8 @@ class RegistrarParqueo extends Component {
       this.setState({ parqueos: parqueos });
     } catch (error) {
       console.error(error);
+    }finally{
+      this.setState({ isloading: false });
     }
   }
   handleInput = (event) => {
@@ -405,6 +409,11 @@ class RegistrarParqueo extends Component {
                     <th>Acciones</th>
                   </tr>
                 </thead>
+                {this.state.isloading ? (
+                  <div className="d-flex justify-content-center ">
+                    <ClipLoader color={"#5B9223"} loading={this.state.isloading} size={50} />
+                  </div>
+                ) : (
                 <tbody className="visitasTabla">
                   {this.state.parqueos.map((parqueo) => (
                     <tr key={parqueo.id}>
@@ -450,6 +459,7 @@ class RegistrarParqueo extends Component {
                     </tr>
                   ))}
                 </tbody>
+                )}
               </Table>
             </Col>
           </Row>

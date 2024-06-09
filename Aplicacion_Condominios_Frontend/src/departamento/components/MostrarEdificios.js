@@ -14,14 +14,15 @@ const MostrarEdificios = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        getAllEdificios();
+        const idBloque = cookies.get('idBloque');
         cookies.remove('idEdif');
         cookies.remove('idDepa');
+        getAllEdificios(idBloque);
     }, []);
 
-    const getAllEdificios = async () => {
+    const getAllEdificios = async (idBloque) => {
         try {
-            const response = await axios.get(`${endpoint}/edificios`);
+            const response = await axios.get(`${endpoint}/edificios-by-bloques/${idBloque}`);
             const edificios = response.data;
             setEdificios(edificios);
         } catch (error) {

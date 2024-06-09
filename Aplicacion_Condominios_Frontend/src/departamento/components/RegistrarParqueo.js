@@ -59,11 +59,10 @@ class RegistrarParqueo extends Component {
         const departamento = this.state.departamentosAll.find(
           (departamento) => departamento.id === parqueo.departamento_id
         );
+        
         return {
           ...parqueo,
-          nombreDepa: departamento.id
-            ? departamento.nombre_departamento
-            : "N/A",
+          nombreDepa: departamento ? departamento.nombre_departamento : "N/A",
         };
       });
       this.setState({ parqueos: parqueos });
@@ -156,15 +155,6 @@ class RegistrarParqueo extends Component {
     ) {
       validationErrors.direccion_parqueo =
         "El nombre del parqueo debe contener solo letras y numeros.";
-    }
-    if (!bloque_seleccionado.trim()) {
-      validationErrors.bloque_seleccionado = "Este campo es obligatorio";
-    }
-    if (!edificio_seleccionado.trim()) {
-      validationErrors.edificio_seleccionado = "Este campo es obligatorio";
-    }
-    if (!departamento_seleccionado.trim()) {
-      validationErrors.departamento_seleccionado = "Este campo es obligatorio";
     }
     this.setState({ errors: validationErrors });
   };
@@ -320,9 +310,6 @@ class RegistrarParqueo extends Component {
                         </option>
                       ))}
                     </Input>
-                    <FormFeedback>
-                      {this.state.errors.bloque_seleccionado}
-                    </FormFeedback>
                   </Col>
                   <Col md={4}>
                     <Label className="label-custom">Edificio</Label>
@@ -347,9 +334,6 @@ class RegistrarParqueo extends Component {
                         </option>
                       ))}
                     </Input>
-                    <FormFeedback>
-                      {this.state.errors.edificio_seleccionado}
-                    </FormFeedback>
                   </Col>
                   <Col md={4}>
                     <Label
@@ -380,9 +364,6 @@ class RegistrarParqueo extends Component {
                         </option>
                       ))}
                     </Input>
-                    <FormFeedback>
-                      {this.state.errors.departamento_seleccionado}
-                    </FormFeedback>
                   </Col>
                 </Row>
               </FormGroup>
@@ -454,6 +435,7 @@ class RegistrarParqueo extends Component {
                               />{" "}
                             </div>
                           </Col>
+                          
                         </Row>
                       </td>
                     </tr>

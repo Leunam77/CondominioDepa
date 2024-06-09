@@ -99,5 +99,14 @@ class ParqueoController extends Controller
         $parqueos = Parqueo::where('departamento_id', $idDepartamento)->get();
         return $parqueos;
     }
+    public function desasignar($idParqueo)
+    {
+        //
+        $parqueo = Parqueo::find($idParqueo);
+        $parqueo->departamento_id = null;
+        $parqueo->save();
 
+        return response()->json(['mensaje' => 'Atributo actualizado correctamente']);
+        
+    }
 }

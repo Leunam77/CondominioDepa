@@ -41,6 +41,7 @@ class RegistrarParqueo extends Component {
       parqueos: [],
       estadoModal: false,
       estadoModalPar: false,
+      estadoModalUns: false,
       idParqueo: "",
       isloading: true,
     };
@@ -68,7 +69,7 @@ class RegistrarParqueo extends Component {
       this.setState({ parqueos: parqueos });
     } catch (error) {
       console.error(error);
-    }finally{
+    } finally {
       this.setState({ isloading: false });
     }
   }
@@ -184,12 +185,23 @@ class RegistrarParqueo extends Component {
     await axios.delete(`${endpoint}/parqueo/${id}`);
     window.location.reload();
   };
+  desasignarParqueo = async (id) => {
+    await axios.put(`${endpoint}/parqueo-unassign/${id}`);
+    window.location.reload();
+  };
   confirmDelete = () => {
     this.deleteParqueo(this.state.idParqueo);
     this.handleModalConfPar();
   };
+  confirmUnassign = () => {
+    this.desasignarParqueo(this.state.idParqueo);
+    this.handleModalConfUns();
+  };
   handleModalConfPar = () => {
     this.setState({ estadoModalPar: !this.state.estadoModalPar });
+  };
+  handleModalConfUns = () => {
+    this.setState({ estadoModalUns: !this.state.estadoModalUns });
   };
   setIdParqueo = (id) => {
     this.setState({ idParqueo: id });
@@ -226,6 +238,12 @@ class RegistrarParqueo extends Component {
           toggle={this.handleModalConfPar}
           confirm={this.confirmDelete}
           message="¿Está seguro que desea eliminar el parqueo?"
+        />
+        <ModalCon
+          isOpen={this.state.estadoModalUns}
+          toggle={this.handleModalConfUns}
+          confirm={this.confirmUnassign}
+          message="¿Está seguro que desea desasignar el parqueo?"
         />
 
         <ModalPar
@@ -295,7 +313,7 @@ class RegistrarParqueo extends Component {
                       name="bloque_id"
                       id="bloque_id"
                       onChange={this.handleBloqueSeleccionado}
-                      value = {this.state.bloqueSeleccionado}
+                      value={this.state.bloqueSeleccionado}
                       invalid={
                         this.state.errors.bloque_seleccionado ? true : false
                       }
@@ -319,7 +337,7 @@ class RegistrarParqueo extends Component {
                       name="edificio_id"
                       id="edificio_id"
                       onChange={this.handleEdificioSeleccionado}
-                      value = {this.state.edificioSeleccionado}
+                      value={this.state.edificioSeleccionado}
                       invalid={
                         this.state.errors.edificio_seleccionado ? true : false
                       }
@@ -380,69 +398,83 @@ class RegistrarParqueo extends Component {
                   </Button>
                 </Col>
               </Row>
-
-              <Table striped bordered responsive className="mt-4">
-                <thead className="text-center">
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Departamento</th>
-                    <th>Dirección</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                {this.state.isloading ? (
-                  <div className="d-flex justify-content-center ">
-                    <ClipLoader color={"#5B9223"} loading={this.state.isloading} size={50} />
-                  </div>
-                ) : (
-                <tbody className="visitasTabla">
-                  {this.state.parqueos.map((parqueo) => (
-                    <tr key={parqueo.id}>
-                      <td className="celdaVisita">{parqueo.nombre_parqueo}</td>
-                      <td className="celdaVisita">{parqueo.nombreDepa}</td>
-                      <td className="celdaVisita">
-                        {parqueo.direccion_parqueo}
-                      </td>
-                      <td>
-                        <Row className="w-100">
-                          <Col className="d-flex justify-content-end">
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                this.setIdParqueo(parqueo.id);
-                                this.handleModalPar();
-                              }}
-                            >
-                              {" "}
-                              <FontAwesomeIcon
-                                icon={faEdit}
-                                className="iconVisita"
-                              />{" "}
-                            </div>
-                          </Col>
-                          <Col>
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                this.setIdParqueo(parqueo.id);
-                                this.handleModalConfPar();
-                              }}
-                            >
-                              {" "}
-                              <FontAwesomeIcon
-                                icon={faTrashAlt}
-                                className="iconVisita"
-                              />{" "}
-                            </div>
-                          </Col>
-                          
-                        </Row>
-                      </td>
+              {this.state.isloading ? (
+                <div className="d-flex justify-content-center ">
+                  <ClipLoader color={"#5B9223"} loading={this.state.isloading} size={50} />
+                </div>
+              ) : (
+                <Table striped bordered responsive className="mt-4">
+                  <thead className="text-center">
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Departamento</th>
+                      <th>Dirección</th>
+                      <th>Acciones</th>
                     </tr>
-                  ))}
-                </tbody>
-                )}
-              </Table>
+                  </thead>
+
+                  <tbody className="visitasTabla">
+                    {this.state.parqueos.map((parqueo) => (
+                      <tr key={parqueo.id}>
+                        <td className="celdaVisita">{parqueo.nombre_parqueo}</td>
+                        <td className="celdaVisita">{parqueo.nombreDepa}</td>
+                        <td className="celdaVisita">
+                          {parqueo.direccion_parqueo}
+                        </td>
+                        <td>
+                          <Row className="w-100">
+                            <Col className="d-flex justify-content-end">
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  this.setIdParqueo(parqueo.id);
+                                  this.handleModalPar();
+                                }}
+                              >
+                                {" "}
+                                <FontAwesomeIcon
+                                  icon={faEdit}
+                                  className="iconVisita"
+                                />{" "}
+                              </div>
+                            </Col>
+                            <Col>
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  this.setIdParqueo(parqueo.id);
+                                  this.handleModalConfPar();
+                                }}
+                              >
+                                {" "}
+                                <FontAwesomeIcon
+                                  icon={faTrashAlt}
+                                  className="iconVisita"
+                                />{" "}
+                              </div>
+                            </Col>
+                            <Col>
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  this.setIdParqueo(parqueo.id);
+                                  this.handleModalConfUns();
+                                }}
+                              >
+                                {" "}
+                                <FontAwesomeIcon
+                                  icon={faTrashAlt}
+                                  className="iconVisita"
+                                />{" "}
+                              </div>
+                            </Col>
+                          </Row>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )}
             </Col>
           </Row>
         </Container>

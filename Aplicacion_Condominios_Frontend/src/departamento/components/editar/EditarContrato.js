@@ -5,8 +5,8 @@ import {
     Input, FormGroup, Label, Col, Row, Button, Container, CardImg, FormFeedback
 } from "reactstrap";
 import Cookies from 'universal-cookie';
-import ModalMostrarResidentes from "./ModalMostrarResidentes";
-import ModalConfirm from "./ModalConfirm";
+import ModalMostrarResidentes from "../modal/ModalMostrarResidentes";
+import ModalConfirm from "../modal/ModalConfirm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';

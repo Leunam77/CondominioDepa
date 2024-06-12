@@ -7,7 +7,7 @@ import {
 } from "reactstrap";
 import "./customs.css";
 import Cookies from 'universal-cookie';
-import ModalConfirm from "./ModalConfirm";
+import ModalConfirm from "../modal/ModalConfirm";
 import { Form } from "react-router-dom";
 
 const endpoint = "http://localhost:8000/api";

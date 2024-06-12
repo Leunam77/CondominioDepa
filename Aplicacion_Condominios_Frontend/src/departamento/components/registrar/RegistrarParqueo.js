@@ -15,8 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import "./customs.css";
-import ModalCon from "./ModalConfirm";
-import ModalPar from "./ModalParqueo";
+import ModalCon from "../modal/ModalConfirm";
+import ModalPar from "../modal/ModalParqueo";
 //import { Form } from "react-router-dom";
 import { ClipLoader } from 'react-spinners';
 

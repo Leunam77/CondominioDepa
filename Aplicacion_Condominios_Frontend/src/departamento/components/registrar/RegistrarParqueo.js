@@ -14,6 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import "../customs.css";
 import ModalCon from "../modal/ModalConfirm";
 import ModalPar from "../modal/ModalParqueo";
@@ -463,7 +464,7 @@ class RegistrarParqueo extends Component {
                               >
                                 {" "}
                                 <FontAwesomeIcon
-                                  icon={faTrashAlt}
+                                  icon={faXmark}
                                   className="iconVisita"
                                 />{" "}
                               </div>

@@ -6,7 +6,7 @@ import { Row, Col, Button, Container, Label, Table, InputGroup, Input } from 're
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import ModalCon from './ModalConfirm';
+import ModalCon from './modal/ModalConfirm';
 import { ClipLoader } from 'react-spinners';
 
 

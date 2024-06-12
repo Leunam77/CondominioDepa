@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ClipLoader } from 'react-spinners';
-import './customs.css';
+import '../customs.css';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';

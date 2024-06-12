@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './DepartamentosCss.css';
+import '../DepartamentosCss.css';
 
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardImg, CardBody, CardTitle , Button} from 'reactstrap';
-import ModalConfirm from "./ModalConfirm";
-import ModalDisponible from "./PopUPSelectOferta";
+import ModalConfirm from "../modal/ModalConfirm";
+import ModalDisponible from "../PopUPSelectOferta";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare , faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { ClipLoader } from 'react-spinners';

@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback, CardImg
 } from "reactstrap";
-import "./customs.css";
+import "../customs.css";
 import ModalConfirm from "../modal/ModalConfirm";
 
 

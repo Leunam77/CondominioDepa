@@ -5,7 +5,7 @@ import {
     Input, FormGroup, Label, Col, Row, Button, Container, FormFeedback
 } from "reactstrap";
 import ModalConfirm from "../modal/ModalConfirm";
-import "./customs.css";
+import "../customs.css";
 
 const endpoint = "http://localhost:8000/api";
 class RegistrarVisita extends Component {

@@ -10,7 +10,7 @@ import ModalConfirm from "../modal/ModalConfirm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import "./customs.css";
+import "../customs.css";
 import moment from 'moment';
 
 const endpoint = "http://localhost:8000/api";

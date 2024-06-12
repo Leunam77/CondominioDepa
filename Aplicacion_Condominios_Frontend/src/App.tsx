@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import { routes } from "./routes";
-import MostrarDep from "./departamento/components/MostrarDep.js";
-import CrearDep from "./departamento/components/CrearDepartamento.js";
-import EditarDep from "./departamento/components/editar/EditarDep.js/index.js";
+import MostrarDep from "./departamento/components/visualizar/MostrarDep.js";
+import CrearDep from "./departamento/components/registrar/CrearDepartamento.js";
+import EditarDep from "./departamento/components/editar/EditarDep.js";
 function App() {
   return (
     <BrowserRouter>

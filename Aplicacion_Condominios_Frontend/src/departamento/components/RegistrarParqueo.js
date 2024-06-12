@@ -60,7 +60,7 @@ class RegistrarParqueo extends Component {
         const departamento = this.state.departamentosAll.find(
           (departamento) => departamento.id === parqueo.departamento_id
         );
-        
+
         return {
           ...parqueo,
           nombreDepa: departamento ? departamento.nombre_departamento : "N/A",
@@ -421,9 +421,9 @@ class RegistrarParqueo extends Component {
                         <td className="celdaVisita">
                           {parqueo.direccion_parqueo}
                         </td>
-                        <td>
-                          <Row className="w-100">
-                            <Col className="d-flex justify-content-end">
+                        <td className="celdaVisita">
+                          <Row>
+                            <Col sm={4}>
                               <div
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -438,7 +438,7 @@ class RegistrarParqueo extends Component {
                                 />{" "}
                               </div>
                             </Col>
-                            <Col>
+                            <Col sm={4}>
                               <div
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -453,7 +453,7 @@ class RegistrarParqueo extends Component {
                                 />{" "}
                               </div>
                             </Col>
-                            <Col>
+                            <Col sm={4}>
                               <div
                                 onClick={(e) => {
                                   e.stopPropagation();

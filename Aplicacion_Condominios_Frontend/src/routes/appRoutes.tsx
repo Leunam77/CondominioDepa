@@ -86,8 +86,13 @@ const appRoutes: RouteType[] = [
         path: "/dashboard/edificios",
         element: <MostrarEdificio />,
         state: "dashboard.edificios",
+      },
+      {
+        path: "/dashboard/visualizarBloques",
+        element: <VisualizarBloques />,
+        state: "dashboard.visualizarBloques",
         sidebarProps: {
-          displayText: "GestionarDepartamento"
+          displayText: "Gestionar Departamentos"
         },
       },
       {
@@ -168,14 +173,7 @@ const appRoutes: RouteType[] = [
           displayText: "Visualizar Parqueos"
         },
       },
-      {
-        path: "/dashboard/visualizarBloques",
-        element: <VisualizarBloques />,
-        state: "dashboard.visualizarBloques",
-        sidebarProps: {
-          displayText: "Visualizar Bloques"
-        },
-      },
+      
     ]
   },
   {

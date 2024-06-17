@@ -13,7 +13,7 @@ class CrearBloque extends Component {
             nombre_bloque: "",
             direccion_bloque: "",
             descripcion_bloque: "",
-            imagen_block: "",
+            imagen_block: null,
             imagen_bloque: null,
             modal_open: false,
             errors: {},
@@ -37,6 +37,7 @@ class CrearBloque extends Component {
         }
     }
     handleConfirm = (e) => {
+        e.preventDefault();
         if (this.validacion()) {
             this.storeEdificio(e);
             this.toggleModal();
@@ -52,6 +53,7 @@ class CrearBloque extends Component {
         let imagen_block = this.state.imagen_block;
         let validationErrors = {};
         let isValid = true;
+        
         if (!nombre_bloque.trim()) {
             isValid = false;
             validationErrors.nombre_bloque = "Campo obligatorio.";
@@ -74,8 +76,7 @@ class CrearBloque extends Component {
             validationErrors.descripcion_bloque = "La descripcion debe contener solo letras y numeros.";
         }
 
-        if (imagen_block.name) {
-            isValid = true;
+        if (imagen_block) {
             const extensiones = ["png", "PNG", "jpg", "jpeg"];
             let nombre_imagen = imagen_block.name;
             const extension = nombre_imagen.substring(
@@ -83,11 +84,10 @@ class CrearBloque extends Component {
                 nombre_imagen.length
             );
             if (!extensiones.includes(extension)) {
-                document.getElementsByClassName("imagen_input").value = "";
-                
-                this.setState({ imagen_block: "" });
-                validationErrors.imagen_block =
-                    "La imagen debe tener formato PNG, JPG o JPEG";
+                //document.getElementsByClassName("imagen_input").value = "";
+                isValid = false;
+                //this.setState({ imagen_block: null, imagen_bloque: null });
+                validationErrors.imagen_block = "La imagen debe tener formato PNG, JPG o JPEG";
             }
         }
         
@@ -186,6 +186,7 @@ class CrearBloque extends Component {
                                 id="imagen_bloque"
                                 className="customImage"
                                 onChange={this.handleChange}
+                                invalid={!!this.state.errors.imagen_block}
                             />
                             {this.state.imagen_bloque && (
                                 <div className="d-flex justify-content-center">
